@@ -6,7 +6,7 @@ export class AppHome extends LitElement {
     }
     
     render() {
-        return html`TEST`
+        return html`APP HOME`
     }
 }
 

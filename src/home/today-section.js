@@ -3,9 +3,6 @@ import { commonHostStyles } from '../commonHostStyles.js'
 
 export class TodaySection extends LitElement {
     static styles = [commonHostStyles, css`
-        section {
-            border: 1px solid black;
-        }
         h1 {
             font-size: 1.2rem;
         }

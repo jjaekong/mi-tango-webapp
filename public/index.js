@@ -46,9 +46,6 @@ const commonHostStyles = i$2`
 
 class TodaySection extends s {
     static styles = [commonHostStyles, i$2`
-        section {
-            border: 1px solid black;
-        }
         h1 {
             font-size: 1.2rem;
         }

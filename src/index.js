@@ -1,5 +1,6 @@
 import { LitElement, html, css } from 'lit'
 import { commonHostStyles } from './commonHostStyles.js'
+import './home/today-section.js'
 
 export class HomePage extends LitElement {
     static styles = [
@@ -7,17 +8,13 @@ export class HomePage extends LitElement {
         css`
             :host {
                 display: block;
-                padding: 1rem;
-            }
-            :host * {
-                font-size: 1rem;
-                margin: 0;
-                padding: 0;
+                padding: 1rem !important;
             }
             header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
             }
         `
     ]
@@ -33,6 +30,7 @@ export class HomePage extends LitElement {
                 <h1>Mi Vida</h1>
                 <a href="login.html">로그인</a>
             </header>
+            <today-section></today-section>
         `
     }
 }

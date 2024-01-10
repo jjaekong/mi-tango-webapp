@@ -25,17 +25,50 @@ const t=globalThis,i=t.trustedTypes,s$1=i?i.createPolicy("lit-html",{createHTML:
  */class s extends b{constructor(){super(...arguments),this.renderOptions={host:this},this._$Do=void 0;}createRenderRoot(){const t=super.createRenderRoot();return this.renderOptions.renderBefore??=t.firstChild,t}update(t){const i=this.render();this.hasUpdated||(this.renderOptions.isConnected=this.isConnected),super.update(t),this._$Do=j(i,this.renderRoot,this.renderOptions);}connectedCallback(){super.connectedCallback(),this._$Do?.setConnected(!0);}disconnectedCallback(){super.disconnectedCallback(),this._$Do?.setConnected(!1);}render(){return w}}s._$litElement$=!0,s[("finalized")]=!0,globalThis.litElementHydrateSupport?.({LitElement:s});const r=globalThis.litElementPolyfillSupport;r?.({LitElement:s});(globalThis.litElementVersions??=[]).push("4.0.2");
 
 const commonHostStyles = i$2`
-    :host, :host * {
+    h1, h2, h3, h4, h5, h6 {
         margin: 0;
         padding: 0;
     }
-    a {
-        
-    }
+    a {}
     button {
-
+        font-size: .8rem;
+        padding: .5rem;
+        border-radius: .25rem;
+        border: 1px solid black;
+        font-size: 1rem;
+    }
+    ul {
+        list-style: none;
+        margin: 0;
+        padding: 0;
     }
 `;
+
+class TodaySection extends s {
+    static styles = [commonHostStyles, i$2`
+        section {
+            border: 1px solid black;
+        }
+        h1 {
+            font-size: 1.2rem;
+        }
+    `]
+    constructor() {
+        super();
+    }
+    
+    render() {
+        return x`
+            <section>
+                <header>
+                    <h1>Today</h1>
+                </header>
+            </section>
+        `
+    }
+}
+
+customElements.define('today-section', TodaySection);
 
 class HomePage extends s {
     static styles = [
@@ -43,17 +76,13 @@ class HomePage extends s {
         i$2`
             :host {
                 display: block;
-                padding: 1rem;
-            }
-            :host * {
-                font-size: 1rem;
-                margin: 0;
-                padding: 0;
+                padding: 1rem !important;
             }
             header {
                 display: flex;
                 justify-content: space-between;
                 align-items: center;
+
             }
         `
     ]
@@ -69,6 +98,7 @@ class HomePage extends s {
                 <h1>Mi Vida</h1>
                 <a href="login.html">로그인</a>
             </header>
+            <today-section></today-section>
         `
     }
 }

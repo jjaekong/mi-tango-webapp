@@ -12,6 +12,7 @@
     "@web/test-runner": "^0.18.0"
   },
   "dependencies": {
+    "firebase": "^10.7.1",
     "lit": "^3.1.0",
     "rollup-plugin-generate-html-template": "^1.7.0"
   }

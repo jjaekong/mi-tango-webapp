@@ -2,9 +2,9 @@ import { html, LitElement, css } from 'lit'
 import { commonHostStyles } from './commonHostStyles.js'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import { getAuth, signInWithPopup, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "firebase/auth";
 
-export class LoginPage extends LitElement {
+export class LoginMain extends LitElement {
     static styles = [commonHostStyles, css`
         :host {
             display: block;
@@ -44,12 +44,11 @@ export class LoginPage extends LitElement {
         const fbApp = initializeApp(firebaseConfig);
         const analytics = getAnalytics(fbApp);
 
-        const auth = getAuth()
-        const currentUser = auth.currentUser
-        
-        if (currentUser) {
-            location.replace('/')
-        }
+        onAuthStateChanged(getAuth(), user => {
+            if (user) {
+                location.replace('/')
+            }
+        })
     }
 
     signIn() {
@@ -81,4 +80,4 @@ export class LoginPage extends LitElement {
     }
 }
 
-customElements.define('login-page', LoginPage)
+customElements.define('login-main', LoginMain)

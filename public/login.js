@@ -8817,6 +8817,24 @@ function onIdTokenChanged(auth, nextOrObserver, error, completed) {
 function beforeAuthStateChanged(auth, callback, onAbort) {
     return getModularInstance(auth).beforeAuthStateChanged(callback, onAbort);
 }
+/**
+ * Adds an observer for changes to the user's sign-in state.
+ *
+ * @remarks
+ * To keep the old behavior, see {@link onIdTokenChanged}.
+ *
+ * @param auth - The {@link Auth} instance.
+ * @param nextOrObserver - callback triggered on change.
+ * @param error - Deprecated. This callback is never triggered. Errors
+ * on signing in/out can be caught in promises returned from
+ * sign-in/sign-out functions.
+ * @param completed - Deprecated. This callback is never triggered.
+ *
+ * @public
+ */
+function onAuthStateChanged(auth, nextOrObserver, error, completed) {
+    return getModularInstance(auth).onAuthStateChanged(nextOrObserver, error, completed);
+}
 
 const STORAGE_AVAILABLE_KEY = '__sak';
 
@@ -11212,7 +11230,7 @@ function getAuth(app = getApp()) {
 }
 registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
-class LoginPage extends s {
+class LoginMain extends s {
     static styles = [commonHostStyles, i$2`
         :host {
             display: block;
@@ -11252,12 +11270,11 @@ class LoginPage extends s {
         const fbApp = initializeApp(firebaseConfig);
         getAnalytics(fbApp);
 
-        const auth = getAuth();
-        const currentUser = auth.currentUser;
-        
-        if (currentUser) {
-            location.replace('/');
-        }
+        onAuthStateChanged(getAuth(), user => {
+            if (user) {
+                location.replace('/');
+            }
+        });
     }
 
     signIn() {
@@ -11289,6 +11306,6 @@ class LoginPage extends s {
     }
 }
 
-customElements.define('login-page', LoginPage);
+customElements.define('login-main', LoginMain);
 
-export { LoginPage };
+export { LoginMain };

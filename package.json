@@ -1,8 +1,10 @@
 {
   "scripts": {
-    "start": "wds --config web-dev-server.config.mjs"
+    "start": "wds",
+    "serve": "wds --watch"
   },
   "devDependencies": {
+    "@rollup/plugin-node-resolve": "^15.2.3",
     "@rollup/plugin-replace": "^5.0.5",
     "@web/dev-server": "^0.4.1",
     "@web/dev-server-hmr": "^0.4.0",
@@ -10,6 +12,7 @@
     "@web/test-runner": "^0.18.0"
   },
   "dependencies": {
-    "lit": "^3.1.0"
+    "lit": "^3.1.0",
+    "rollup-plugin-generate-html-template": "^1.7.0"
   }
 }

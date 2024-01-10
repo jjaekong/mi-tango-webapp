@@ -5,7 +5,7 @@ import './home/today-section.js'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 
-export class HomeMain extends LitElement {
+export class HomePage extends LitElement {
     static styles = [
         commonHostStyles,
         css`
@@ -70,8 +70,8 @@ export class HomeMain extends LitElement {
                         ? html`<span>loading</span>`
                         : this.userState == 'loaded'
                             ? this.user
-                                ? html`<a href="me.html">${this.user.displayName}</a>`
-                                : html`<a href="login.html">로그인</a>`
+                                ? html`<a href="#" @click=${ history.pushState({}, "", "/me") }>${this.user.displayName}</a>`
+                                : html`<a href="/login">로그인</a>`
                             : null
                 }
             </header>
@@ -80,4 +80,4 @@ export class HomeMain extends LitElement {
     }
 }
 
-customElements.define('home-main', HomeMain)    
+customElements.define('home-page', HomePage)

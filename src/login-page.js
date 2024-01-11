@@ -1,5 +1,5 @@
 import { html, LitElement, css } from 'lit'
-import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithPopup } from "firebase/auth";
 
 export class LoginPage extends LitElement {
 

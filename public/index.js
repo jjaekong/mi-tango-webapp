@@ -1,3 +1,5 @@
+import { readFileSync } from 'fs';
+
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -8973,7 +8975,6 @@ class TodaySection extends s {
     
     render() {
         return x`
-            <style>@import url(styles.css)</style>
             <section>
                 <header>
                     <h1>Today</h1>
@@ -8985,33 +8986,17 @@ class TodaySection extends s {
 
 customElements.define('today-section', TodaySection);
 
+var data = readFileSync('styles.css', "utf8");
+
+console.log(data);
+
+const styles = i$2`
+    ${r$3(data)}
+`;
+
 class HomePage extends s {
 
-    static styles = i$2`
-        :host {
-            display: block;
-            padding: 2rem 1rem;
-        }
-        :host > header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding: 0 1rem;
-            height: 2rem;
-        }
-        h1 {
-            margin: 0;
-            padding: 0;
-            font-size: 1rem;
-        }
-        .profile {
-            border-radius: 50%;
-            width: 2rem;
-            height: 2rem;
-            display: block;
-        }
-    `
+    static styles = [styles]
 
     static properties = {
         user: { type: Object },
@@ -9046,11 +9031,12 @@ class HomePage extends s {
                         ? x`<span>loading</span>`
                         : this.userState == 'loaded'
                             ? this.user
-                                ? x`<a href="#me"><img class="profile" src=${this.user.photoURL}></a>`
+                                ? x`<a href="#me"><img class="profile block p-5" src=${this.user.photoURL}></a>`
                                 : x`<a href="#login">로그인</a>`
                             : null
                 }
             </header>
+            <div></div>
             <today-section></today-section>
         `
     }

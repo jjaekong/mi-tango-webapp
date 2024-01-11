@@ -1,34 +1,11 @@
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
-import { LitElement, html, css } from 'lit'
+import { LitElement, css, html } from 'lit'
 import './home/today-section.js'
+import { styles } from './styles.js'
 
 export class HomePage extends LitElement {
 
-    static styles = css`
-        :host {
-            display: block;
-            padding: 2rem 1rem;
-        }
-        :host > header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 2rem;
-            padding: 0 1rem;
-            height: 2rem;
-        }
-        h1 {
-            margin: 0;
-            padding: 0;
-            font-size: 1rem;
-        }
-        .profile {
-            border-radius: 50%;
-            width: 2rem;
-            height: 2rem;
-            display: block;
-        }
-    `
+    static styles = [styles]
 
     static properties = {
         user: { type: Object },
@@ -63,11 +40,12 @@ export class HomePage extends LitElement {
                         ? html`<span>loading</span>`
                         : this.userState == 'loaded'
                             ? this.user
-                                ? html`<a href="#me"><img class="profile" src=${this.user.photoURL}></a>`
+                                ? html`<a href="#me"><img class="profile block p-5" src=${this.user.photoURL}></a>`
                                 : html`<a href="#login">로그인</a>`
                             : null
                 }
             </header>
+            <div></div>
             <today-section></today-section>
         `
     }

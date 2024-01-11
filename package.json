@@ -2,7 +2,8 @@
   "scripts": {
     "watch:wds": "wds --watch",
     "watch:rollup": "rollup --config=rollup.config.mjs --watch",
-    "dev": "start npm run watch:wds && start npm run watch:rollup"
+    "watch:tailwindcss": "npx tailwindcss -i src/default.css -o src/styles.css --watch",
+    "dev": "start npm run watch:wds && start npm run watch:rollup && start npm run watch:tailwindcss"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
@@ -11,6 +12,7 @@
   },
   "dependencies": {
     "firebase": "^10.7.1",
+    "fs": "^0.0.1-security",
     "lit": "^3.1.1",
     "lit-html": "^3.1.1"
   }

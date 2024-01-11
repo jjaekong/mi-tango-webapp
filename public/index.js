@@ -8990,17 +8990,26 @@ class HomePage extends s {
     static styles = i$2`
         :host {
             display: block;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
-        header {
+        :host > header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
+            padding: 0 1rem;
+            height: 2rem;
         }
         h1 {
             margin: 0;
             padding: 0;
             font-size: 1rem;
+        }
+        .profile {
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: block;
         }
     `
 
@@ -9021,6 +9030,7 @@ class HomePage extends s {
                     displayName: user.displayName,
                     email: user.email,
                     emailVerified: user.emailVerified,
+                    photoURL: user.photoURL
                 }
                 : null;
             this.userState = 'loaded';
@@ -9036,7 +9046,7 @@ class HomePage extends s {
                         ? x`<span>loading</span>`
                         : this.userState == 'loaded'
                             ? this.user
-                                ? x`<a href="#me">${this.user.displayName}</a>`
+                                ? x`<a href="#me"><img class="profile" src=${this.user.photoURL}></a>`
                                 : x`<a href="#login">로그인</a>`
                             : null
                 }

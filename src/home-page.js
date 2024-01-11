@@ -7,17 +7,26 @@ export class HomePage extends LitElement {
     static styles = css`
         :host {
             display: block;
-            padding: 2rem;
+            padding: 2rem 1rem;
         }
-        header {
+        :host > header {
             display: flex;
             justify-content: space-between;
+            align-items: center;
             margin-bottom: 2rem;
+            padding: 0 1rem;
+            height: 2rem;
         }
         h1 {
             margin: 0;
             padding: 0;
             font-size: 1rem;
+        }
+        .profile {
+            border-radius: 50%;
+            width: 2rem;
+            height: 2rem;
+            display: block;
         }
     `
 
@@ -38,6 +47,7 @@ export class HomePage extends LitElement {
                     displayName: user.displayName,
                     email: user.email,
                     emailVerified: user.emailVerified,
+                    photoURL: user.photoURL
                 }
                 : null
             this.userState = 'loaded'
@@ -53,7 +63,7 @@ export class HomePage extends LitElement {
                         ? html`<span>loading</span>`
                         : this.userState == 'loaded'
                             ? this.user
-                                ? html`<a href="#me">${this.user.displayName}</a>`
+                                ? html`<a href="#me"><img class="profile" src=${this.user.photoURL}></a>`
                                 : html`<a href="#login">로그인</a>`
                             : null
                 }

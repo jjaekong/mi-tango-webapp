@@ -1,9 +1,7 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
-console.log('process.env.NODE_ENV', process.env.NODE_ENV)
-
 export default [
-    'src/app.js'
+    'src/index.js'
 ].map(input => {
     return {
         input: input,

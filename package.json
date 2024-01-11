@@ -1,19 +1,18 @@
 {
   "scripts": {
-    "start": "wds",
-    "serve": "wds --watch"
+    "watch:wds": "wds --watch",
+    "watch:rollup": "rollup --config=rollup.config.mjs --watch",
+    "watch:tailwindcss": "npx tailwindcss -i src/styles.css -o public/styles.css --watch",
+    "dev": "start npm run watch:wds && start npm run watch:rollup && start npm run watch:tailwindcss"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",
-    "@rollup/plugin-replace": "^5.0.5",
     "@web/dev-server": "^0.4.1",
-    "@web/dev-server-hmr": "^0.4.0",
-    "@web/dev-server-rollup": "^0.6.1",
-    "@web/test-runner": "^0.18.0"
+    "tailwindcss": "^3.4.1"
   },
   "dependencies": {
     "firebase": "^10.7.1",
-    "lit": "^3.1.0",
-    "rollup-plugin-generate-html-template": "^1.7.0"
+    "lit": "^3.1.1",
+    "lit-html": "^3.1.1"
   }
 }

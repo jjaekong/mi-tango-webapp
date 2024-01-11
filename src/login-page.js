@@ -1,31 +1,9 @@
 import { html, LitElement, css } from 'lit'
-import { commonHostStyles } from './commonHostStyles.js'
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "firebase/auth";
 
 export class LoginMain extends LitElement {
-    static styles = [commonHostStyles, css`
-        :host {
-            display: block;
-            padding: 2rem;
-        }
-        h2 {
-            margin-bottom: 1rem;
-            font-size: 2rem;
-            text-align: center;
-        }
-        li {
-            width: 100%;
-        }
-        li + li {
-            margin-top: 1rem;
-        }
-        button {
-            display: block;
-            width: 100%;
-        }
-    `]  
 
     constructor() {
         super()

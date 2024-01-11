@@ -1,12 +1,7 @@
 import { LitElement, html, css } from "lit";
-import { commonHostStyles } from '../commonHostStyles.js'
 
 export class TodaySection extends LitElement {
-    static styles = [commonHostStyles, css`
-        h1 {
-            font-size: 1.2rem;
-        }
-    `]
+    
     constructor() {
         super()
     }

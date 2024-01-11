@@ -8,6 +8,7 @@ export class TodaySection extends LitElement {
     
     render() {
         return html`
+            <style>@import url(styles.css)</style>
             <section>
                 <header>
                     <h1>Today</h1>

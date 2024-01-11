@@ -43,6 +43,7 @@ export class LoginMain extends LitElement {
 
     render() {
         return html`
+            <style>@import url(styles.css)</style>
             <section>
                 <header>
                 </header>

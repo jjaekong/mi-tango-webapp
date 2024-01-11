@@ -24,6 +24,7 @@ export class MePage extends LitElement {
 
     render() {
         return html`
+            <style>@import url(styles.css)</style>
             <h1>me main</h1>
             <a href="#" @click=${e => { e.preventDefault(); this.logout() }}>로그아웃</a>
         `

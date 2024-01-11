@@ -28,6 +28,7 @@ export class HomePage extends LitElement {
 
     render() {
         return html`
+            <style>@import url(styles.css)</style>
             <header>
                 <h1>Mi Vida1</h1>
                 ${

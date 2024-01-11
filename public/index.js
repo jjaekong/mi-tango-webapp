@@ -8932,6 +8932,7 @@ class HomePage extends s {
 
     render() {
         return x`
+            <style>@import url(styles.css)</style>
             <header>
                 <h1>Mi Vida1</h1>
                 ${
@@ -8973,6 +8974,7 @@ class MePage extends s {
 
     render() {
         return x`
+            <style>@import url(styles.css)</style>
             <h1>me main</h1>
             <a href="#" @click=${e => { e.preventDefault(); this.logout(); }}>로그아웃</a>
         `
@@ -8987,7 +8989,10 @@ class NotFoundPage extends s {
     }
 
     render() {
-        return x`<div>404</div>`
+        return x`
+            <style>@import url(styles.css)</style>
+            <div>404</div>
+        `
     }
 }
 

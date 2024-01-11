@@ -6,7 +6,10 @@ export class NotFoundPage extends LitElement {
     }
 
     render() {
-        return html`<div>404</div>`
+        return html`
+            <style>@import url(styles.css)</style>
+            <div>404</div>
+        `
     }
 }
 

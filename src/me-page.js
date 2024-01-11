@@ -4,10 +4,18 @@ import { css, html, LitElement } from "lit";
 export class MePage extends LitElement {
     static styles = [css`
         :host { display: block; padding: 2rem; }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
     `]
 
     constructor() {
         super()
+        const auth = getAuth()
+        if (!auth.currentUser) {
+            location.replace('/')
+        }
     }
 
     logout() {
@@ -24,8 +32,6 @@ export class MePage extends LitElement {
 
     render() {
         return html`
-            <style>@import url(styles.css)</style>
-            <h1>me main</h1>
             <a href="#" @click=${e => { e.preventDefault(); this.logout() }}>로그아웃</a>
         `
     }

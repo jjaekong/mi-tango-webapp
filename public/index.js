@@ -2925,6 +2925,16 @@ function _errorWithCustomMessage(auth, code, message) {
         appName: auth.name
     });
 }
+function _assertInstanceOf(auth, object, instance) {
+    const constructorInstance = instance;
+    if (!(object instanceof constructorInstance)) {
+        if (constructorInstance.name !== object.constructor.name) {
+            _fail(auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+        }
+        throw _errorWithCustomMessage(auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */, `Type of ${object.constructor.name} does not match expected instance.` +
+            `Did you pass a reference from a different Auth SDK?`);
+    }
+}
 function createErrorInternal(authOrCode, ...rest) {
     if (typeof authOrCode !== 'string') {
         const code = rest[0];
@@ -7801,6 +7811,43 @@ class AbstractPopupRedirectOperation {
  */
 const _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2000, 10000);
 /**
+ * Authenticates a Firebase client using a popup-based OAuth authentication flow.
+ *
+ * @remarks
+ * If succeeds, returns the signed in user along with the provider's credential. If sign in was
+ * unsuccessful, returns an error object containing additional information about the error.
+ *
+ * This method does not work in a Node.js environment.
+ *
+ * @example
+ * ```javascript
+ * // Sign in using a popup.
+ * const provider = new FacebookAuthProvider();
+ * const result = await signInWithPopup(auth, provider);
+ *
+ * // The signed-in user info.
+ * const user = result.user;
+ * // This gives you a Facebook Access Token.
+ * const credential = provider.credentialFromResult(auth, result);
+ * const token = credential.accessToken;
+ * ```
+ *
+ * @param auth - The {@link Auth} instance.
+ * @param provider - The provider to authenticate. The provider has to be an {@link OAuthProvider}.
+ * Non-OAuth providers like {@link EmailAuthProvider} will throw an error.
+ * @param resolver - An instance of {@link PopupRedirectResolver}, optional
+ * if already supplied to {@link initializeAuth} or provided by {@link getAuth}.
+ *
+ * @public
+ */
+async function signInWithPopup(auth, provider, resolver) {
+    const authInternal = _castAuth(auth);
+    _assertInstanceOf(auth, provider, FederatedAuthProvider);
+    const resolverInternal = _withDefaultResolver(authInternal, resolver);
+    const action = new PopupOperation(authInternal, "signInViaPopup" /* AuthEventType.SIGN_IN_VIA_POPUP */, provider, resolverInternal);
+    return action.executeNotNull();
+}
+/**
  * Popup event manager. Handles the popup's entire lifecycle; listens to auth
  * events
  *
@@ -8905,7 +8952,57 @@ function getAuth(app = getApp()) {
 }
 registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
+class TodaySection extends s {
+
+    static styles = i$2`
+        :host {
+            display: block;
+            background: #fff;
+            padding: 1rem;
+            border-radius: 1rem;
+            box-shadow: 1px 1px 2rem rgba(0, 0, 0, .05)
+        }
+        h1 {
+            font-size: 1.2rem;
+        }
+    `
+    
+    constructor() {
+        super();
+    }
+    
+    render() {
+        return x`
+            <style>@import url(styles.css)</style>
+            <section>
+                <header>
+                    <h1>Today</h1>
+                </header>
+            </section>
+        `
+    }
+}
+
+customElements.define('today-section', TodaySection);
+
 class HomePage extends s {
+
+    static styles = i$2`
+        :host {
+            display: block;
+            padding: 2rem;
+        }
+        header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 2rem;
+        }
+        h1 {
+            margin: 0;
+            padding: 0;
+            font-size: 1rem;
+        }
+    `
 
     static properties = {
         user: { type: Object },
@@ -8932,9 +9029,8 @@ class HomePage extends s {
 
     render() {
         return x`
-            <style>@import url(styles.css)</style>
             <header>
-                <h1>Mi Vida1</h1>
+                <h1>Mi Vida</h1>
                 ${
                     this.userState == 'loading'
                         ? x`<span>loading</span>`
@@ -8945,6 +9041,7 @@ class HomePage extends s {
                             : null
                 }
             </header>
+            <today-section></today-section>
         `
     }
 }
@@ -8954,10 +9051,18 @@ customElements.define('home-page', HomePage);
 class MePage extends s {
     static styles = [i$2`
         :host { display: block; padding: 2rem; }
+        h1 {
+            margin: 0;
+            padding: 0;
+        }
     `]
 
     constructor() {
         super();
+        const auth = getAuth();
+        if (!auth.currentUser) {
+            location.replace('/');
+        }
     }
 
     logout() {
@@ -8974,8 +9079,6 @@ class MePage extends s {
 
     render() {
         return x`
-            <style>@import url(styles.css)</style>
-            <h1>me main</h1>
             <a href="#" @click=${e => { e.preventDefault(); this.logout(); }}>로그아웃</a>
         `
     }
@@ -8983,14 +9086,73 @@ class MePage extends s {
 
 customElements.define('me-page', MePage);
 
+class LoginPage extends s {
+
+    static styles = i$2`
+        :host {
+            display: block;
+            padding: 2rem;
+        }
+        h1 {
+            margin: 0 0 2rem;
+            padding: 0;
+            font-size: 2rem;
+            text-align: center;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    `
+
+    constructor() {
+        super();
+    }
+
+    signIn() {
+        const provider = new GoogleAuthProvider();
+        const auth = getAuth();
+        signInWithPopup(auth, provider)
+            .then(result => {
+                console.log(result);
+                location.replace('/');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    }
+
+    render() {
+        return x`
+            <header>
+                <h1>LOGIN</h1>
+            </header>
+            <ul>
+                <li><button type="button" @click="${() => this.signIn('google')}">Sign in with Google</button></li>
+                <li><button type="button">TEST</button></li>
+            </ul>
+        `
+    }
+}
+
+customElements.define('login-page', LoginPage);
+
 class NotFoundPage extends s {
+
+    static styles = i$2`
+        :host {
+            display: block;
+            padding: 2rem;
+        }
+    `
+
     constructor() {
         super();
     }
 
     render() {
         return x`
-            <style>@import url(styles.css)</style>
             <div>404</div>
         `
     }
@@ -11285,6 +11447,8 @@ class MiTango extends s {
             return x`<home-page></home-page>`
         else if (this.page == '#me')
             return x`<me-page></me-page>`
+        else if (this.page == '#login')
+            return x`<login-page></login-page>`
         else if (this.page == '#not-found')
             return x`<not-found-page></not-found-page>`
         else

@@ -1,40 +1,37 @@
 import { html, LitElement, css } from 'lit'
-import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
-import { getAuth, GoogleAuthProvider, signInWithRedirect, onAuthStateChanged } from "firebase/auth";
+import { getAuth, GoogleAuthProvider, signInWithRedirect, signInWithPopup } from "firebase/auth";
 
-export class LoginMain extends LitElement {
+export class LoginPage extends LitElement {
+
+    static styles = css`
+        :host {
+            display: block;
+            padding: 2rem;
+        }
+        h1 {
+            margin: 0 0 2rem;
+            padding: 0;
+            font-size: 2rem;
+            text-align: center;
+        }
+        ul {
+            margin: 0;
+            padding: 0;
+            list-style: none;
+        }
+    `
 
     constructor() {
         super()
-
-        const firebaseConfig = {
-            apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
-            authDomain: "mi-tango-365.firebaseapp.com",
-            databaseURL: "https://mi-tango-365-default-rtdb.firebaseio.com",
-            projectId: "mi-tango-365",
-            storageBucket: "mi-tango-365.appspot.com",
-            messagingSenderId: "956666689230",
-            appId: "1:956666689230:web:9857a6d2027b587fee829f",
-            measurementId: "G-Q9KPWCTZ9N"
-        };
-        
-        const fbApp = initializeApp(firebaseConfig);
-        const analytics = getAnalytics(fbApp);
-
-        onAuthStateChanged(getAuth(), user => {
-            if (user) {
-                location.replace('/')
-            }
-        })
     }
 
     signIn() {
         const provider = new GoogleAuthProvider()
         const auth = getAuth()
-        signInWithRedirect(auth, provider)
-            .then((result) => {
+        signInWithPopup(auth, provider)
+            .then(result => {
                 console.log(result)
+                location.replace('/')
             })
             .catch(error => {
                 console.log(error)
@@ -43,20 +40,15 @@ export class LoginMain extends LitElement {
 
     render() {
         return html`
-            <style>@import url(styles.css)</style>
-            <section>
-                <header>
-                </header>
-                <main>
-                    <h2>Login</h2>
-                    <ul>
-                        <li><button type="button" @click="${() => this.signIn('google')}">Sign in with Google</button></li>
-                        <li><button type="button">TEST</button></li>
-                    </ul>
-                </main>
-            </section>
+            <header>
+                <h1>LOGIN</h1>
+            </header>
+            <ul>
+                <li><button type="button" @click="${() => this.signIn('google')}">Sign in with Google</button></li>
+                <li><button type="button">TEST</button></li>
+            </ul>
         `
     }
 }
 
-customElements.define('login-main', LoginMain)
+customElements.define('login-page', LoginPage)

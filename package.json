@@ -2,8 +2,7 @@
   "scripts": {
     "watch:wds": "wds --watch",
     "watch:rollup": "rollup --config=rollup.config.mjs --watch",
-    "watch:tailwindcss": "npx tailwindcss -i src/styles.css -o public/styles.css --watch",
-    "dev": "start npm run watch:wds && start npm run watch:rollup && start npm run watch:tailwindcss"
+    "dev": "start npm run watch:wds && start npm run watch:rollup"
   },
   "devDependencies": {
     "@rollup/plugin-node-resolve": "^15.2.3",

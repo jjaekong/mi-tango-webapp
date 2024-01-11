@@ -1,6 +1,7 @@
 import { html, LitElement } from "lit";
 import "./home-page.js";
 import "./me-page.js";
+import "./login-page.js";
 import "./not-found-page.js";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -64,6 +65,8 @@ export class MiTango extends LitElement {
             return html`<home-page></home-page>`
         else if (this.page == '#me')
             return html`<me-page></me-page>`
+        else if (this.page == '#login')
+            return html`<login-page></login-page>`
         else if (this.page == '#not-found')
             return html`<not-found-page></not-found-page>`
         else

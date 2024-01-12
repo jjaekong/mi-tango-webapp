@@ -11,7 +11,7 @@ const milongaEventItem = () => html`
             </time>
         </div>
         <div class="mx-3 self-start">
-            <h6 class="text-md">루미노소</h6>
+            <h6 class="text-md font-extrabold">루미노소</h6>
             <div class="text-xs text-slate-400">@오나다</div>
         </div>
         <div class="ms-auto">
@@ -24,7 +24,7 @@ export const todaySection = () => {
     return html`
         <section class="rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
             <header>
-                <h2 class="text-xl font-extrabold">Today</h2>
+                <h2 class="text-2xl font-extrabold">오늘</h2>
             </header>
             <ul>
                 ${ milongaEventList.map(() => html`

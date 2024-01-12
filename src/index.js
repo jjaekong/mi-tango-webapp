@@ -26,4 +26,4 @@ onAuthStateChanged(getAuth(), user => {
     }
 })
 
-render(todaySection, document.getElementById("main"))
+render(todaySection(), document.getElementById("main"))

@@ -1,5 +1,3 @@
-import { readFileSync } from 'fs';
-
 /**
  * @license
  * Copyright 2019 Google LLC
@@ -8971,6 +8969,7 @@ class TodaySection extends s {
     
     constructor() {
         super();
+        console.log('LitElement.styles', document.styles);
     }
     
     render() {
@@ -8986,17 +8985,7 @@ class TodaySection extends s {
 
 customElements.define('today-section', TodaySection);
 
-var data = readFileSync('styles.css', "utf8");
-
-console.log(data);
-
-const styles = i$2`
-    ${r$3(data)}
-`;
-
 class HomePage extends s {
-
-    static styles = [styles]
 
     static properties = {
         user: { type: Object },
@@ -9005,6 +8994,8 @@ class HomePage extends s {
 
     constructor() {
         super();
+
+        console.log('LitElement.styles', s.styles);
 
         this.user = null;
         this.userState = 'loading';

@@ -1,7 +1,8 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
 
 export default [
-    'src/index.js'
+    'src/index.js',
+    'src/login.js'
 ].map(input => {
     return {
         input: input,

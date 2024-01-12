@@ -4,7 +4,7 @@ import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from
 document.getElementById('signin-with-google')?.addEventListener('click', () => {
     const auth = getAuth()
     const provider = new GoogleAuthProvider()
-    signInWithRedirect(auth, provider)
+    signInWithPopup(auth, provider)
         .then(result => {
             location.replace('/')
         })

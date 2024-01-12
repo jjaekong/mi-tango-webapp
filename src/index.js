@@ -1,6 +1,7 @@
 import { html, render } from 'lit-html'
 import { todaySection } from './home/today-section.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import { userCircleOutline } from './icons.js'
 
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
@@ -23,6 +24,10 @@ const analytics = getAnalytics(firebaseApp);
 onAuthStateChanged(getAuth(), user => {
     if (user) {
         console.log('user', user)
+    } else {
+        render(html`
+            <a href="login.html" class="text-2xl font-bold">${userCircleOutline()}</a>
+        `, document.getElementById("profile"))
     }
 })
 

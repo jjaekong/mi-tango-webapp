@@ -593,6 +593,11 @@ video {
   height: 4rem;
 }
 
+.size-14 {
+  width: 3.5rem;
+  height: 3.5rem;
+}
+
 .h-10 {
   height: 2.5rem;
 }

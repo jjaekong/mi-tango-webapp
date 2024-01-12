@@ -24,12 +24,12 @@ const milongaEventItem = (item) => {
 export const todaySection = () => {
     return html`
         <section class="rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
-            <header>
+            <header class="mb-4">
                 <h2 class="text-2xl font-black">오늘</h2>
             </header>
             <ul>
                 ${ milongaEventList.map((item) => html`
-                    <li class="mt-4">${milongaEventItem(item)}</li>
+                    <li class="mt-3">${milongaEventItem(item)}</li>
                 `) }
             </ul>
         </section>

@@ -2,7 +2,7 @@ import './firebase.js'
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 
 
-addEventListener("DOMContentLoaded", (event) => {
+// addEventListener("DOMContentLoaded", (event) => {
     document.getElementById('signin-with-google')?.addEventListener('click', () => {
         const auth = getAuth()
         const provider = new GoogleAuthProvider()
@@ -14,4 +14,4 @@ addEventListener("DOMContentLoaded", (event) => {
                 console.log(error)
             })
     })
-})
+// })

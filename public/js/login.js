@@ -10000,43 +10000,6 @@ class AbstractPopupRedirectOperation {
  */
 const _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2000, 10000);
 /**
- * Authenticates a Firebase client using a popup-based OAuth authentication flow.
- *
- * @remarks
- * If succeeds, returns the signed in user along with the provider's credential. If sign in was
- * unsuccessful, returns an error object containing additional information about the error.
- *
- * This method does not work in a Node.js environment.
- *
- * @example
- * ```javascript
- * // Sign in using a popup.
- * const provider = new FacebookAuthProvider();
- * const result = await signInWithPopup(auth, provider);
- *
- * // The signed-in user info.
- * const user = result.user;
- * // This gives you a Facebook Access Token.
- * const credential = provider.credentialFromResult(auth, result);
- * const token = credential.accessToken;
- * ```
- *
- * @param auth - The {@link Auth} instance.
- * @param provider - The provider to authenticate. The provider has to be an {@link OAuthProvider}.
- * Non-OAuth providers like {@link EmailAuthProvider} will throw an error.
- * @param resolver - An instance of {@link PopupRedirectResolver}, optional
- * if already supplied to {@link initializeAuth} or provided by {@link getAuth}.
- *
- * @public
- */
-async function signInWithPopup(auth, provider, resolver) {
-    const authInternal = _castAuth(auth);
-    _assertInstanceOf(auth, provider, FederatedAuthProvider);
-    const resolverInternal = _withDefaultResolver(authInternal, resolver);
-    const action = new PopupOperation(authInternal, "signInViaPopup" /* AuthEventType.SIGN_IN_VIA_POPUP */, provider, resolverInternal);
-    return action.executeNotNull();
-}
-/**
  * Popup event manager. Handles the popup's entire lifecycle; listens to auth
  * events
  *
@@ -10210,6 +10173,9 @@ async function _getAndClearPendingRedirectStatus(resolver, auth) {
     await persistence._remove(key);
     return hasPendingRedirect;
 }
+async function _setPendingRedirectStatus(resolver, auth) {
+    return resolverPersistence(resolver)._set(pendingRedirectKey(auth), 'true');
+}
 function _overrideRedirectResult(auth, result) {
     redirectOutcomeMap.set(auth._key(), result);
 }
@@ -10218,6 +10184,80 @@ function resolverPersistence(resolver) {
 }
 function pendingRedirectKey(auth) {
     return _persistenceKeyName(PENDING_REDIRECT_KEY, auth.config.apiKey, auth.name);
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Authenticates a Firebase client using a full-page redirect flow.
+ *
+ * @remarks
+ * To handle the results and errors for this operation, refer to {@link getRedirectResult}.
+ * Follow the {@link https://firebase.google.com/docs/auth/web/redirect-best-practices
+ * | best practices} when using {@link signInWithRedirect}.
+ *
+ * This method does not work in a Node.js environment.
+ *
+ * @example
+ * ```javascript
+ * // Sign in using a redirect.
+ * const provider = new FacebookAuthProvider();
+ * // You can add additional scopes to the provider:
+ * provider.addScope('user_birthday');
+ * // Start a sign in process for an unauthenticated user.
+ * await signInWithRedirect(auth, provider);
+ * // This will trigger a full page redirect away from your app
+ *
+ * // After returning from the redirect when your app initializes you can obtain the result
+ * const result = await getRedirectResult(auth);
+ * if (result) {
+ *   // This is the signed-in user
+ *   const user = result.user;
+ *   // This gives you a Facebook Access Token.
+ *   const credential = provider.credentialFromResult(auth, result);
+ *   const token = credential.accessToken;
+ * }
+ * // As this API can be used for sign-in, linking and reauthentication,
+ * // check the operationType to determine what triggered this redirect
+ * // operation.
+ * const operationType = result.operationType;
+ * ```
+ *
+ * @param auth - The {@link Auth} instance.
+ * @param provider - The provider to authenticate. The provider has to be an {@link OAuthProvider}.
+ * Non-OAuth providers like {@link EmailAuthProvider} will throw an error.
+ * @param resolver - An instance of {@link PopupRedirectResolver}, optional
+ * if already supplied to {@link initializeAuth} or provided by {@link getAuth}.
+ *
+ * @public
+ */
+function signInWithRedirect(auth, provider, resolver) {
+    return _signInWithRedirect(auth, provider, resolver);
+}
+async function _signInWithRedirect(auth, provider, resolver) {
+    const authInternal = _castAuth(auth);
+    _assertInstanceOf(auth, provider, FederatedAuthProvider);
+    // Wait for auth initialization to complete, this will process pending redirects and clear the
+    // PENDING_REDIRECT_KEY in persistence. This should be completed before starting a new
+    // redirect and creating a PENDING_REDIRECT_KEY entry.
+    await authInternal._initializationPromise;
+    const resolverInternal = _withDefaultResolver(authInternal, resolver);
+    await _setPendingRedirectStatus(resolverInternal, authInternal);
+    return resolverInternal._openRedirect(authInternal, provider, "signInViaRedirect" /* AuthEventType.SIGN_IN_VIA_REDIRECT */);
 }
 async function _getRedirectResult(auth, resolverExtern, bypassAuthState = false) {
     const authInternal = _castAuth(auth);
@@ -11141,16 +11181,14 @@ function getAuth(app = getApp()) {
 }
 registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
-// addEventListener("DOMContentLoaded", (event) => {
-    document.getElementById('signin-with-google')?.addEventListener('click', () => {
-        const auth = getAuth();
-        const provider = new GoogleAuthProvider();
-        signInWithPopup(auth, provider)
-            .then(result => {
-                location.href = '';
-            })
-            .catch(error => {
-                console.log(error);
-            });
-    });
-// })
+document.getElementById('signin-with-google')?.addEventListener('click', () => {
+    const auth = getAuth();
+    const provider = new GoogleAuthProvider();
+    signInWithRedirect(auth, provider)
+        .then(result => {
+            location.replace('/');
+        })
+        .catch(error => {
+            console.log(error);
+        });
+});

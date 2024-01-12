@@ -1,17 +1,14 @@
 import './firebase.js'
-import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
+import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 
-
-// addEventListener("DOMContentLoaded", (event) => {
-    document.getElementById('signin-with-google')?.addEventListener('click', () => {
-        const auth = getAuth()
-        const provider = new GoogleAuthProvider()
-        signInWithPopup(auth, provider)
-            .then(result => {
-                location.href = ''
-            })
-            .catch(error => {
-                console.log(error)
-            })
-    })
-// })
+document.getElementById('signin-with-google')?.addEventListener('click', () => {
+    const auth = getAuth()
+    const provider = new GoogleAuthProvider()
+    signInWithRedirect(auth, provider)
+        .then(result => {
+            location.replace('/')
+        })
+        .catch(error => {
+            console.log(error)
+        })
+})

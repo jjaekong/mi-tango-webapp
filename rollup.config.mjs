@@ -8,7 +8,7 @@ export default [
     return {
         input: input,
         output: {
-            dir: 'public',
+            dir: 'public/js',
             format: 'esm',
         },
         plugins: [

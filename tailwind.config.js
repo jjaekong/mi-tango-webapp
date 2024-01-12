@@ -1,7 +1,10 @@
 export default {
-    content: ["./src/**/*.{html,js}"],
+    content: [
+		"./src/**/*.{js}",
+		"./public/**/*.{html}"
+    ],
     theme: {
-      extend: {},
+      	extend: {},
     },
     plugins: [],
 }

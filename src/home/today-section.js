@@ -1,6 +1,6 @@
 import { html } from "lit-html";
 
-const milongaEventList = [10, 100, 1000]
+const milongaEventList = [10, 100, 1000, 1050, 550]
 
 const milongaEventItem = (item) => {
     return html`

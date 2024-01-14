@@ -585,6 +585,10 @@ video {
   margin-top: 1.25rem;
 }
 
+.me-3 {
+  margin-inline-end: 0.75rem;
+}
+
 .block {
   display: block;
 }
@@ -674,6 +678,10 @@ video {
 
 .rounded-xl {
   border-radius: 0.75rem;
+}
+
+.rounded {
+  border-radius: 0.25rem;
 }
 
 .border {

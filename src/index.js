@@ -1,9 +1,8 @@
 import './firebase.js'
 import { html, render } from 'lit-html'
-import { todaySection } from './home/today-section.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
-// render(todaySection(), document.getElementById("main"))
+render(html`1월 14일 일요일`, document.querySelector('#today-milongas > header > time'))
 
 onAuthStateChanged(getAuth(), user => {
     
@@ -27,7 +26,7 @@ const milongaEventList = [10, 100, 1000, 1050, 550]
 
 const milongaEventItem = (item) => {
     return html`
-        <a href="milonga.html" class="flex w-100 items-center">
+        <a href="milonga_event.html" class="flex w-100 items-center">
             <div class="self-start">
                 <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
                     <span class="font-bold">8</span>

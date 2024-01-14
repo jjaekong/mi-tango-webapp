@@ -4,6 +4,7 @@ export default [
     'src/index.js',
     'src/login.js',
     'src/me.js',
+    'src/milonga_event.js',
 ].map(input => {
     return {
         input: input,

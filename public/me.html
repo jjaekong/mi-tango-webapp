@@ -8,6 +8,18 @@
     <script type="module" src="js/me.js"></script>
 </head>
 <body class="p-5">
-    <button id="logout" type="button">로그아웃</button>
+    <header class="mb-4">
+        <h1 class="font-bold text-center">계정</h1>
+    </header>
+    <div class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" id="user-profile">
+        <div>
+            <div id="user-photo" class="size-12 empty:rounded-full empty:bg-slate-200"></div>
+        </div>
+        <div class="px-3 flex-1">
+            <h4 id="user-name" class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]"></h4>
+            <div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1"></div>
+        </div>
+    </div>
+    <button id="logout" class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl font-bold" type="button">로그아웃</button>
 </body>
 </html>

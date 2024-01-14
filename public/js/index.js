@@ -11158,11 +11158,11 @@ const milongaEventItem = (item) => {
                     </svg>
                     <span>오나다</span>
                 </div> -->
-                <div class="text-xs text-slate-400 flex">
+                <div class="flex items-center text-slate-400">
                     <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="h-4 w-4">
                         <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
                     </svg>
-                    <span>시스루</span>
+                    <span class="ms-1 text-sm">시스루</span>
                 </div>
             </div>
             <div class="ms-auto self-start">

@@ -1,7 +1,7 @@
 import { html, render } from "lit-html";
 
-export const header = (props) => {
-    document.getElementById('header').textContent = '';
+export const toolbar = (props) => {
+    document.getElementById('toolbar').textContent = '';
     render(html`
         <div class="min-w-[20%]">
             ${props.left}
@@ -12,5 +12,5 @@ export const header = (props) => {
         <div class="min-w-[20%] flex justify-end">
             ${props.right}
         </div>
-    `, document.getElementById('header'))
+    `, document.getElementById('toolbar'))
 }

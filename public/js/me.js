@@ -11129,8 +11129,8 @@ function getAuth(app = getApp()) {
 }
 registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
-const header = (props) => {
-    document.getElementById('header').textContent = '';
+const toolbar = (props) => {
+    document.getElementById('toolbar').textContent = '';
     j(x`
         <div class="min-w-[20%]">
             ${props.left}
@@ -11141,12 +11141,12 @@ const header = (props) => {
         <div class="min-w-[20%] flex justify-end">
             ${props.right}
         </div>
-    `, document.getElementById('header'));
+    `, document.getElementById('toolbar'));
 };
 
 const arrowLeft = (opt = {size: "w-6 h-6"}) => x`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${opt.size}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
 
-header({
+toolbar({
     left: x`<a href="#" @click="${(e) => {
             e.preventDefault();
             history.back();

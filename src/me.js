@@ -1,10 +1,10 @@
 import { html, render } from 'lit-html'
 import './firebase_init.js'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
-import { header } from './components/header.js';
+import { toolbar } from './components/toolbar.js';
 import { arrowLeft } from './icons.js';
 
-header({
+toolbar({
     left: html`<a href="#" @click="${(e) => {
             e.preventDefault();
             history.back();

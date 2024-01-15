@@ -1,4 +1,5 @@
 import { nodeResolve } from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
 
 export default [
     'src/index.js',
@@ -16,8 +17,8 @@ export default [
         },
         plugins: [
             nodeResolve({
-                extensions: ['js', 'mjs']
-            }),
+                extensions: ['js', 'mjs'],
+            })
         ],
     }
 })

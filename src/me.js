@@ -1,6 +1,9 @@
 import { html, render } from 'lit-html'
-import './firebase.js'
+import './firebase_init.js'
 import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth'
+import * as dotenv from "dotenv"
+
+console.log(dotenv.config())
 
 const setProfile = (user) => {
     if (!user) return

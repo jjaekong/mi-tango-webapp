@@ -1,4 +1,4 @@
-import './firebase.js'
+import './firebase_init.js'
 import { getAuth, GoogleAuthProvider, signInWithPopup, signInWithRedirect } from 'firebase/auth'
 
 document.getElementById('signin-with-google')?.addEventListener('click', () => {

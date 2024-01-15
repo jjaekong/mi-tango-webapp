@@ -1,4 +1,4 @@
-import './firebase.js'
+import './firebase_init.js'
 import { html, render } from 'lit-html'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 

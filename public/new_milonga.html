@@ -11,19 +11,19 @@
     <header class="mb-4">
         <h1 class="font-bold text-center">밀롱가 만들기</h1>
     </header>
-    <form action="#">
+    <form id="new-milonga-form" action="#" method="post">
         <div class="mb-3">
             <label>
-                <div class="mb-1">밀롱가명</div>
+                <div class="mb-1 text-sm">밀롱가명</div>
                 <input type="text" class="w-full rounded-lg border-slate-200" name="milonga-name" required>
             </label>
         </div>
         <div class="mb-3">
             <label>
-                <div class="mb-1">밀롱가 아이디</div>
-                <input type="text" class="w-full rounded-lg border-slate-200" name="milonga-id" pattern="[0-9a-zA-Z]" required>
+                <div class="mb-1 text-sm">밀롱가 아이디</div>
+                <input type="text" class="w-full rounded-lg border-slate-200" name="milonga-id" pattern="[0-9a-zA-Z_-]{6,}" required>
             </label>
-            <div class="mt-1 text-slate-400 text-xs">영문, 숫자, 언더바, 대시(-)의 조합으로 작성하세요.</div>
+            <div class="mt-1 text-slate-400 text-xs">영문, 숫자, 언더바, 대시(-)의 조합, 6자 이상으로 작성하세요.</div>
         </div>
         <div>
             <button type="submit" class="p-3 w-full rounded-xl bg-violet-500 text-white">만들기</button>

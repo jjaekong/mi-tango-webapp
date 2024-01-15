@@ -11152,3 +11152,7 @@ document.getElementById('signin-with-google')?.addEventListener('click', () => {
             console.log(error);
         });
 });
+
+window.addEventListener('load', function() {
+    document.getElementById('loading').classList.add('hidden');
+});

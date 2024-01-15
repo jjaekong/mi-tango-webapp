@@ -62,3 +62,7 @@ setTimeout(() => {
         `)
     }`, document.querySelector('#today-milongas ul'))
 }, 300)
+
+window.addEventListener('load', function() {
+    document.getElementById('loading').classList.add('hidden')
+})

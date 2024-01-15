@@ -11185,3 +11185,7 @@ document.querySelector('#logout')?.addEventListener('click', function() {
             });
     }
 });
+
+window.addEventListener('load', function() {
+    document.getElementById('loading').classList.add('hidden');
+});

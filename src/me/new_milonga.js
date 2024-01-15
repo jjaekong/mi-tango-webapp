@@ -4,6 +4,7 @@ import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { toolbar } from '../components/toolbar.js'
 import { arrowLeft } from '../icons.js'
 import { html } from 'lit-html'
+import { ENV } from '../config.js'
 
 const auth = getAuth()
 const db = getFirestore()
@@ -14,6 +15,10 @@ onAuthStateChanged(auth, user => {
     }
 })
 
+window.addEventListener('load', function() {
+    document.getElementById('loading').classList.add('hidden')
+})
+
 toolbar({
     left: html`<a href="#" @click="${(e) => {
             e.preventDefault();
@@ -22,13 +27,20 @@ toolbar({
     title: '밀롱가 만들기'
 })
 
-document.getElementById('new-milonga-form')?.addEventListener('submit', function(e) {
+document.getElementById('new-milonga-form')?.addEventListener('submit', async function(e) {
     e.preventDefault()
     if (!auth.currentUser) {
         alert('로그인이 필요합니다.')
         return
     }
-    const docRef = doc(db, `${ENV}.milongas`)
-    // 밀롱가 아이디 중복 체크
-    // const docRef = doc(db, `dev.milongas`, )
+    
+    const docRef = doc(db, `${ENV}.milongas`, document.getElementById('milonga-id').value)
+    const docSnap = await getDoc(docRef);
+
+    if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+    } else {
+        // docSnap.data() will be undefined in this case
+        console.log("No such document!");
+    }
 })

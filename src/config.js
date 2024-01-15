@@ -1,1 +1,1 @@
-export const ENV = { DEV: 'dev', PROD: 'prod' }
+export const ENV = 'dev'

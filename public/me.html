@@ -8,7 +8,7 @@
     <script type="module" src="/js/me.js"></script>
 </head>
 <body class="p-5">
-    <header class="mb-4 flex items-center" id="toolbar"></header>
+    <header class="mb-5 flex items-center" id="toolbar"></header>
     <a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" id="user-profile" href="/me/edit_profile.html">
         <div>
             <div id="user-photo" class="size-12 empty:rounded-full empty:bg-slate-200"></div>
@@ -22,6 +22,12 @@
         <a href="new_milonga.html">밀롱가 만들기</a>
     </div>
     <button id="logout" class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button">로그아웃</button>
+    <div id="loading" class="fixed flex inset-0 bg-white justify-center items-center">
+        <svg class="animate-spin h-5 w-5 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
 </body>
 
 </html>

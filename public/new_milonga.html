@@ -8,24 +8,30 @@
     <script type="module" src="/js/new_milonga.js"></script>
 </head>
 <body class="p-5">
-    <header class="mb-4 flex items-center" id="toolbar"></header>
+    <header class="mb-5 flex items-center" id="toolbar"></header>
     <form id="new-milonga-form" action="#" method="post">
         <div class="mb-3">
             <label>
                 <div class="mb-1 text-sm">밀롱가명</div>
-                <input type="text" class="w-full rounded-lg border-slate-200" name="milonga-name" required>
+                <input type="text" class="w-full rounded-lg border-slate-200" id="milonga-name" required>
             </label>
         </div>
         <div class="mb-3">
             <label>
                 <div class="mb-1 text-sm">밀롱가 아이디</div>
-                <input type="text" class="w-full rounded-lg border-slate-200" name="milonga-id" pattern="[0-9a-zA-Z_-]{6,}" required>
+                <input type="text" class="w-full rounded-lg border-slate-200" id="milonga-id" pattern="[0-9a-zA-Z\-_]{6,}" required>
             </label>
             <div class="mt-1 text-slate-400 text-xs">영문, 숫자, 언더바, 대시(-)의 조합, 6자 이상으로 작성하세요.</div>
         </div>
-        <div>
-            <button type="submit" class="p-3 w-full rounded-xl bg-violet-500 text-white">만들기</button>
+        <div class="mt-5">
+            <button type="submit" class="p-3 w-full rounded-xl bg-violet-700 text-white">만들기</button>
         </div>
     </form>
+    <div id="loading" class="fixed flex inset-0 bg-white justify-center items-center">
+        <svg class="animate-spin h-5 w-5 text-purple-700" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+            <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+            <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+        </svg>
+    </div>
 </body>
 </html>

@@ -9,7 +9,7 @@ toolbar({
             e.preventDefault();
             history.back();
         }}">${arrowLeft({size: "size-6"})}</a>`,
-    title: '내 프로필'
+    title: '계정'
 })
 
 const setProfile = (user) => {

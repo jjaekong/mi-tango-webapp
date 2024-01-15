@@ -1,6 +1,9 @@
-import './firebase_init.js'
+import '../firebase_init.js'
 import { getAuth, onAuthStateChanged } from 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
+import { toolbar } from '../components/toolbar.js'
+import { arrowLeft } from '../icons.js'
+import { html } from 'lit-html'
 
 const auth = getAuth()
 const db = getFirestore()
@@ -9,6 +12,14 @@ onAuthStateChanged(auth, user => {
     if (!user) {
         location.href = '/'
     }
+})
+
+toolbar({
+    left: html`<a href="#" @click="${(e) => {
+            e.preventDefault();
+            history.back();
+        }}">${arrowLeft({size: "size-6"})}</a>`,
+    title: '밀롱가 만들기'
 })
 
 document.getElementById('new-milonga-form')?.addEventListener('submit', function(e) {

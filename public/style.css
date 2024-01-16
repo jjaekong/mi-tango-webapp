@@ -613,6 +613,11 @@ video {
   height: 1rem;
 }
 
+.size-10 {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
 .h-10 {
   height: 2.5rem;
 }
@@ -643,6 +648,10 @@ video {
 
 .w-4 {
   width: 1rem;
+}
+
+.w-10 {
+  width: 2.5rem;
 }
 
 .min-w-\[20\%\] {

@@ -5016,20 +5016,6 @@ function registerAnalytics() {
 }
 registerAnalytics();
 
-const firebaseConfig = {
-  apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
-  authDomain: "mi-tango-365.firebaseapp.com",
-  databaseURL: "https://mi-tango-365-default-rtdb.firebaseio.com",
-  projectId: "mi-tango-365",
-  storageBucket: "mi-tango-365.appspot.com",
-  messagingSenderId: "956666689230",
-  appId: "1:956666689230:web:9857a6d2027b587fee829f",
-  measurementId: "G-Q9KPWCTZ9N"
-};
-
-const app = initializeApp(firebaseConfig);
-getAnalytics(app);
-
 /******************************************************************************
 Copyright (c) Microsoft Corporation.
 
@@ -8803,6 +8789,16 @@ function beforeAuthStateChanged(auth, callback, onAbort) {
 function onAuthStateChanged(auth, nextOrObserver, error, completed) {
     return getModularInstance(auth).onAuthStateChanged(nextOrObserver, error, completed);
 }
+/**
+ * Signs out the current user.
+ *
+ * @param auth - The {@link Auth} instance.
+ *
+ * @public
+ */
+function signOut(auth) {
+    return getModularInstance(auth).signOut();
+}
 
 const STORAGE_AVAILABLE_KEY = '__sak';
 
@@ -11170,7 +11166,7 @@ const UserCircleOutlineIcon = (payload = { classList: 'w-6 h-6'}) => x`<svg xmln
 </svg>`;
 
 const Home = () => {
-    console.log('home');
+    
     onAuthStateChanged(getAuth(), user => {
         if (user) {
             j(x`<a href="me.html"><img src="${user.photoURL}" class="size-8 rounded-full ring-2 ring-purple-700 ring-offset-2"></a>`, document.getElementById('user-profile'));
@@ -11178,6 +11174,47 @@ const Home = () => {
             j(x`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'));
         }
     });
+
+    const milongaEventList = [10, 100, 1000, 1050, 550];
+
+    const milongaEventItem = (item) => {
+        return x`
+            <a href="milonga_event.html" class="flex w-100 items-center">
+                <div class="self-start">
+                    <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+                        <span class="font-bold">8</span>
+                        <span class="text-slate-400 text-xs">PM</span>
+                    </time>
+                </div>
+                <div class="mx-3">
+                    <h6 class="font-extrabold">루미노소</h6>
+                    <!-- <div class="text-xs text-slate-400 flex">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="h-4 w-4">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" />
+                        </svg>
+                        <span>오나다</span>
+                    </div> -->
+                    <div class="flex items-center text-slate-400">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="h-4 w-4">
+                            <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
+                        </svg>
+                        <span class="ms-1 text-sm">시스루</span>
+                    </div>
+                </div>
+                <div class="ms-auto self-start">
+                    <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
+                </div>
+            </a>
+    `};
+
+    setTimeout(() => {
+        document.querySelector('#today-milongas ul').innerHTML = '';
+        j(x`${
+            milongaEventList.map((item) => x`
+                <li class="mt-3">${milongaEventItem(item)}</li>
+            `)
+        }`, document.querySelector('#today-milongas ul'));
+    }, 500);
 };
 
 const Login = () => {
@@ -11194,9 +11231,64 @@ const Login = () => {
     });
 };
 
-const Me = () => {
-    console.log('me');
+const Toolbar = (props) => {
+    return x`<div class="min-w-[20%]">
+        ${props.left}
+    </div>
+    <div class="flex-1"><h1 class="font-bold text-center">${
+        props.title
+    }</h1></div>
+    <div class="min-w-[20%] flex justify-end">
+        ${props.right}
+    </div>`
 };
+
+const Me = () => {
+
+    j(x`${Toolbar({title: '계정'})}`, document.getElementById('toolbar'));
+
+    const setProfile = (user) => {
+        if (!user) return
+        j(x`<img class="rounded-full" src=${user.photoURL}>`, document.querySelector('#user-photo'));
+        j(x`${user.displayName}`, document.querySelector('#user-name'));
+        j(x`${user.email}`, document.querySelector('#user-email'));
+    };
+
+    const currentUser = getAuth().currentUser;
+
+    if (currentUser) setProfile(currentUser);
+
+    onAuthStateChanged(getAuth(), user => {
+        if (user) setProfile(user);
+        else location.href = '/';
+    });
+    
+    document.getElementById('logout').addEventListener('click', function() {
+        if (confirm('로그아웃 하시겠습니까?')) {
+            signOut(getAuth())
+                .then(() => {
+                    location.href = '/';
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+    });
+};
+
+const firebaseConfig = {
+    apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
+    authDomain: "mi-tango-365.firebaseapp.com",
+    databaseURL: "https://mi-tango-365-default-rtdb.firebaseio.com",
+    projectId: "mi-tango-365",
+    storageBucket: "mi-tango-365.appspot.com",
+    messagingSenderId: "956666689230",
+    appId: "1:956666689230:web:9857a6d2027b587fee829f",
+    measurementId: "G-Q9KPWCTZ9N"
+};
+  
+const app = initializeApp(firebaseConfig);
+getAnalytics(app);
 
 window.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {

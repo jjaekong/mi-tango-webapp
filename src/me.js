@@ -1,10 +1,14 @@
 import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth"
 import { Toolbar } from "./components/toolbar.js" 
 import { html, render } from "lit-html"
+import { ArrowLeftIcon } from "./icons.js"
 
 export const Me = () => {
 
-    render(html`${Toolbar({title: '계정'})}`, document.getElementById('toolbar'))
+    render(html`${Toolbar({
+        left: html`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
+        title: '계정'
+    })}`, document.getElementById('toolbar'))
 
     const setProfile = (user) => {
         if (!user) return

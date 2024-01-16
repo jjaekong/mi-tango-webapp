@@ -1,12 +1,13 @@
 import { getAuth, onAuthStateChanged } from "@firebase/auth"
 import { render, html } from "lit-html"
-import { UserCircleOutlineIcon } from "./icons.js"
+import { HeadphonesIcon, UserCircleOutlineIcon } from "./icons.js"
+import dayjs from 'dayjs'
 
 export const Home = () => {
     
     onAuthStateChanged(getAuth(), user => {
         if (user) {
-            render(html`<a href="me.html"><img src="${user.photoURL}" class="size-8 rounded-full ring-2 ring-purple-700 ring-offset-2"></a>`, document.getElementById('user-profile'))
+            render(html`<a href="me.html"><img src="${user.photoURL}" class="size-8 rounded-full"></a>`, document.getElementById('user-profile'))
         } else {
             render(html`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'))
         }
@@ -32,9 +33,7 @@ export const Home = () => {
                         <span>오나다</span>
                     </div> -->
                     <div class="flex items-center text-slate-400">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="h-4 w-4">
-                            <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
-                        </svg>
+                        ${ HeadphonesIcon({ classList: 'size-4' }) }
                         <span class="ms-1 text-sm">시스루</span>
                     </div>
                 </div>

@@ -23055,10 +23055,6 @@ onAuthStateChanged(auth, user => {
     }
 });
 
-window.addEventListener('load', function() {
-    document.getElementById('loading').classList.add('hidden');
-});
-
 toolbar({
     left: x`<a href="#" @click="${(e) => {
             e.preventDefault();

@@ -29,7 +29,3 @@ toolbar({
         }}">${arrowLeft({size: "size-6"})}</a>`,
     title: '내 프로필'
 });
-
-window.addEventListener('load', function() {
-    document.getElementById('loading').classList.add('hidden');
-});

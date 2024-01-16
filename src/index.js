@@ -1,12 +1,14 @@
 import './firebase_init.js'
-import { render, html } from "lit-html";
-import { getAuth, onAuthStateChanged } from 'firebase/auth'
+import  { Home } from './home.js'
+import  { Login } from './login.js'
+import  { Me } from './me.js'
 
-
-onAuthStateChanged(getAuth(), user => {
-	if (user) {
-		
-	} else {
-		
-	}
+window.addEventListener('DOMContentLoaded', () => {
+    if (document.body.classList.contains('home')) {
+        Home()
+    } else if (document.body.classList.contains('login')) {
+        Login()
+    } else if (document.body.classList.contains('me')) {
+        Me()
+    }
 })

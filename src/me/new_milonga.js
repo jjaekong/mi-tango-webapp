@@ -15,10 +15,6 @@ onAuthStateChanged(auth, user => {
     }
 })
 
-window.addEventListener('load', function() {
-    document.getElementById('loading').classList.add('hidden')
-})
-
 toolbar({
     left: html`<a href="#" @click="${(e) => {
             e.preventDefault();

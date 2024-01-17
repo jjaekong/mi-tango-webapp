@@ -1,9 +1,16 @@
 import { getAuth, onAuthStateChanged } from "@firebase/auth"
 import { render, html } from "lit-html"
 import { HeadphonesIcon, UserCircleOutlineIcon } from "./icons.js"
-import dayjs from 'dayjs'
+import dayjs from 'dayjs/esm'
+import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
+import 'dayjs/esm/locale/ko'
+
+
 
 export const Home = () => {
+
+	dayjs.locale('ko')
+	dayjs.extend(localizedFormat)
     
     onAuthStateChanged(getAuth(), user => {
         if (user) {
@@ -12,6 +19,8 @@ export const Home = () => {
             render(html`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'))
         }
     })
+
+	render(html`${dayjs().format("MMM D dddd")}`, document.querySelector('#today-date'))
 
     const milongaEventList = [10, 100, 1000, 1050, 550]
 

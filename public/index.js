@@ -11964,6 +11964,8 @@ const Home = () => {
             j(x`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'));
         }
     });
+	
+	// render(html`${Bar3Icon()}`, document.getElementById('menu'))
 
 	j(x`${dayjs().format("MMM Do dddd")}`, document.querySelector('#today-date'));
 

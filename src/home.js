@@ -1,6 +1,6 @@
 import { getAuth, onAuthStateChanged } from "@firebase/auth"
 import { render, html } from "lit-html"
-import { HeadphonesIcon, UserCircleOutlineIcon } from "./icons.js"
+import { Bar3Icon, HeadphonesIcon, UserCircleOutlineIcon } from "./icons.js"
 import dayjs from 'dayjs/esm'
 import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
 import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
@@ -21,6 +21,8 @@ export const Home = () => {
             render(html`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'))
         }
     })
+	
+	// render(html`${Bar3Icon()}`, document.getElementById('menu'))
 
 	render(html`${dayjs().format("MMM Do dddd")}`, document.querySelector('#today-date'))
 

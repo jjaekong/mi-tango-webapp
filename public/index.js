@@ -12088,12 +12088,12 @@ const Home = () => {
     `};
 
     setTimeout(() => {
-        document.querySelector('#dj-list ul').innerHTML = '';
+        document.querySelector('#djs ul').innerHTML = '';
         j(x$1`${
             djList.map((item) => x$1`
                 <li class="mt-3">${djItem(item)}</li>
             `)
-        }`, document.querySelector('#dj-list ul'));
+        }`, document.querySelector('#djs ul'));
     }, 500);
 };
 

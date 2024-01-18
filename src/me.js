@@ -46,11 +46,11 @@ export const EditProfile = () => {
 
 export const NewMilonga = () => {
 
-	var user = null
+	let userInfo = null
 
 	onAuthStateChanged(getAuth(), user => {
 		if (user) {
-			user = { ...{ email: user.email } }
+			userInfo = { email: user.email }
 		} else {
 			location.href = '/'
 		}
@@ -65,12 +65,8 @@ export const NewMilonga = () => {
 	document.getElementById('new-milonga-form').addEventListener('submit', async e => {
 
 		e.preventDefault()
-		
-		console.log('AAAAAAA', user)
 
-		if (!user) return;
-
-		console.log('BBBBBBBB')
+		if (!userInfo) return;
 
 		const milongaId = document.forms['new-milonga-form']?.elements['milonga-id']?.value
 
@@ -79,9 +75,12 @@ export const NewMilonga = () => {
 			const docRef = doc(db, 'milongas', milongaId)
 			const docSnap = await getDoc(docRef)
 			if (docSnap.exists()) {
-				console.log('있음')
+				document.querySelector('#new-milonga-form input[name="milonga-id"]').focus();
+				alert('이미 사용 중인 밀롱가 아이디입니다.');
+				milongaId.focus();
+				return;
 			} else {
-				console.log('없음')
+				location.href = '/milonga.html'
 			}
 		}
 

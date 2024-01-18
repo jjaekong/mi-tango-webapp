@@ -1,6 +1,6 @@
 import { html } from "lit-html"
 
-export const Toolbar = (props) => {
+export const Toolbar = (props = { left: '', title: '', right: '' }) => {
     return html`<div class="min-w-[20%]">
         ${props.left}
     </div>

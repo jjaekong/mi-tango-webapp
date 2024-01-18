@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Mi Tango</title>
+	<link href="../style.css" rel="stylesheet">
+	<script type="module" src="../index.js"></script>
+</head>
+<body class="me new-milonga p-5">
+	<header id="toolbar" class="h-10 mb-5 flex w-full items-center">
+		<div class="min-w-[20%]">
+			<button class="back"></button>
+		</div>
+		<h1 class="font-bold flex-1 text-center">밀롱가 만들기</h1>
+		<div class="min-w-[20%]"></div>
+	</header>
+	<form id="new-milonga-form" action="#" method="post">
+		<div class="mb-3">
+			<label>
+				<div class="sr-only">밀롱가명</div>
+				<input type="text" placeholder="밀롱가명" name="milonga-name" class="rounded-lg border-slate-200 block w-full" required>
+			</label>
+		</div>
+		<div class="mb-3">
+			<label>
+				<div class="sr-only">밀롱가 아이디</div>
+				<input type="text" placeholder="밀롱가 아이디" name="milonga-id" class="rounded-lg border-slate-200 block w-full" required pattern="[a-zA-Z\-_]{8,}">
+			</label>
+			<div class="text-slate-500 text-xs mt-1">영문, 숫자, 언더바(_), 대쉬(-)를 이용하여 8자 이상으로 작성하세요.</div>
+		</div>
+		<div>
+			<button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">만들기</button>
+		</div>
+	</form>
+</body>
+</html>

@@ -6,8 +6,6 @@ import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
 import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
 import 'dayjs/esm/locale/ko'
 
-
-
 export const Home = () => {
 
 	dayjs.locale('ko')

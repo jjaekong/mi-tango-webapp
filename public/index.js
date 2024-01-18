@@ -11159,15 +11159,15 @@ registerAuth("Browser" /* ClientPlatform.BROWSER */);
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$1=globalThis,i=t$1.trustedTypes,s=i?i.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h=`lit$${(Math.random()+"").slice(9)}$`,o="?"+h,n=`<${o}>`,r=document,l=()=>r.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$1=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x=y(1),w=Symbol.for("lit-noChange"),T=Symbol.for("lit-nothing"),A=new WeakMap,E=r.createTreeWalker(r,129);function C(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s?s.createHTML(i):i}const P=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p):c===g||c===p?c=m:c===v||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h+x):s+h+(-2===d?i:x);}return [C(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P(t,s);if(this.el=V.createElement(f,n),E.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k:"?"===e[1]?H$1:"@"===e[1]?I:R}),r.removeAttribute(t);}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i?i.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l()),E.nextNode(),d.push({type:2,index:++c});r.append(t[s],l());}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1;}c++;}}static createElement(t,i){const s=r.createElement("template");return s.innerHTML=t,s}}function N(t,i,s=t,e){if(i===w)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N(t,h._$AS(t,i.values),h,e)),i}let S$1 = class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r).importNode(i,!0);E.currentNode=e;let h=E.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$1(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E.nextNode(),o++);}return E.currentNode=r,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$1 = class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N(this,t,i),c(t)?t===T||null==t||""===t?(this._$AH!==T&&this._$AR(),this._$AH=T):t!==this._$AH&&t!==w&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$1(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V.createElement(C(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$1(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A.get(t.strings);return void 0===i&&A.set(t.strings,i=new V(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l()),this.k(l()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N(this,e[s+n],i,n),r===w&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T?t=T:t!==T&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}}class k extends R{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T?void 0:t;}}let H$1 = class H extends R{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T);}};class I extends R{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N(this,t,i,0)??T)===w)return;const s=this._$AH,e=t===T&&s!==T||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T&&(s===T||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}}let L$1 = class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N(this,t);}};const Z=t$1.litHtmlPolyfillSupport;Z?.(V,M$1),(t$1.litHtmlVersions??=[]).push("3.1.1");const j=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$1(i.insertBefore(l(),t),t,void 0,s??{});}return h._$AI(t),h};
+const t$1=globalThis,i=t$1.trustedTypes,s=i?i.createPolicy("lit-html",{createHTML:t=>t}):void 0,e="$lit$",h=`lit$${(Math.random()+"").slice(9)}$`,o="?"+h,n=`<${o}>`,r$1=document,l$1=()=>r$1.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$1=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v$1=/-->/g,_=/>/g,m=RegExp(`>|${d}(?:([^\\s"'>=/]+)(${d}*=${d}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p$1=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y$1=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x$1=y$1(1),w$2=Symbol.for("lit-noChange"),T$1=Symbol.for("lit-nothing"),A$1=new WeakMap,E$1=r$1.createTreeWalker(r$1,129);function C$1(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s?s.createHTML(i):i}const P$1=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v$1:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m):void 0!==u[3]&&(c=m):c===m?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m:'"'===u[3]?g:p$1):c===g||c===p$1?c=m:c===v$1||c===_?c=f:(c=m,r=void 0);const x=c===m&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e+s.slice(d)+h+x):s+h+(-2===d?i:x);}return [C$1(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};let V$1 = class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P$1(t,s);if(this.el=V.createElement(f,n),E$1.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E$1.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e)){const i=v[a++],s=r.getAttribute(t).split(h),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k$1:"?"===e[1]?H$2:"@"===e[1]?I$1:R$1}),r.removeAttribute(t);}else t.startsWith(h)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h),s=t.length-1;if(s>0){r.textContent=i?i.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$1()),E$1.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$1());}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h,t+1));)d.push({type:7,index:c}),t+=h.length-1;}c++;}}static createElement(t,i){const s=r$1.createElement("template");return s.innerHTML=t,s}};function N$1(t,i,s=t,e){if(i===w$2)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N$1(t,h._$AS(t,i.values),h,e)),i}let S$3 = class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$1).importNode(i,!0);E$1.currentNode=e;let h=E$1.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$2(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E$1.nextNode(),o++);}return E$1.currentNode=r$1,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$2 = class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T$1,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N$1(this,t,i),c(t)?t===T$1||null==t||""===t?(this._$AH!==T$1&&this._$AR(),this._$AH=T$1):t!==this._$AH&&t!==w$2&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$1(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T$1&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r$1.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V$1.createElement(C$1(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$3(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A$1.get(t.strings);return void 0===i&&A$1.set(t.strings,i=new V$1(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l$1()),this.k(l$1()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};let R$1 = class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T$1,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T$1;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N$1(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w$2,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N$1(this,e[s+n],i,n),r===w$2&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T$1?t=T$1:t!==T$1&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T$1?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}};let k$1 = class k extends R$1{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T$1?void 0:t;}};let H$2 = class H extends R$1{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T$1);}};let I$1 = class I extends R$1{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N$1(this,t,i,0)??T$1)===w$2)return;const s=this._$AH,e=t===T$1&&s!==T$1||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T$1&&(s===T$1||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}};let L$1 = class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N$1(this,t);}};const Z$1=t$1.litHtmlPolyfillSupport;Z$1?.(V$1,M$2),(t$1.litHtmlVersions??=[]).push("3.1.1");const j=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$2(i.insertBefore(l$1(),t),t,void 0,s??{});}return h._$AI(t),h};
 
-const ArrowLeftIcon = (payload = { classList: 'w-6 h-6'}) => x`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${payload.classList}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
+const ArrowLeftIcon = (payload = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${payload.classList}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
 
-const UserCircleOutlineIcon = (payload = { classList: 'w-6 h-6'}) => x`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${payload.classList}">
+const UserCircleOutlineIcon = (payload = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${payload.classList}">
   <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 </svg>`;
 
-const HeadphonesIcon = (payload = { classList: 'w-6 h-6'}) => x`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="${payload.classList}">
+const HeadphonesIcon = (payload = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="${payload.classList}">
 <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
 </svg>`;
 
@@ -11182,14 +11182,14 @@ var MILLISECONDS_A_DAY = SECONDS_A_DAY * MILLISECONDS_A_SECOND;
 var MILLISECONDS_A_WEEK = SECONDS_A_WEEK * MILLISECONDS_A_SECOND; // English locales
 
 var MS = 'millisecond';
-var S = 'second';
+var S$2 = 'second';
 var MIN = 'minute';
-var H = 'hour';
-var D = 'day';
-var W = 'week';
-var M = 'month';
-var Q = 'quarter';
-var Y = 'year';
+var H$1 = 'hour';
+var D$2 = 'day';
+var W$1 = 'week';
+var M$1 = 'month';
+var Q$1 = 'quarter';
+var Y$1 = 'year';
 var DATE = 'date';
 var FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ';
 var INVALID_DATE_STRING = 'Invalid Date'; // regex
@@ -11228,9 +11228,9 @@ var monthDiff = function monthDiff(a, b) {
   // function from moment.js in order to keep the same result
   if (a.date() < b.date()) return -monthDiff(b, a);
   var wholeMonthDiff = (b.year() - a.year()) * 12 + (b.month() - a.month());
-  var anchor = a.clone().add(wholeMonthDiff, M);
+  var anchor = a.clone().add(wholeMonthDiff, M$1);
   var c = b - anchor < 0;
-  var anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), M);
+  var anchor2 = a.clone().add(wholeMonthDiff + (c ? -1 : 1), M$1);
   return +(-(wholeMonthDiff + (b - anchor) / (c ? anchor - anchor2 : anchor2 - anchor)) || 0);
 };
 
@@ -11240,16 +11240,16 @@ var absFloor = function absFloor(n) {
 
 var prettyUnit = function prettyUnit(u) {
   var special = {
-    M: M,
-    y: Y,
-    w: W,
-    d: D,
+    M: M$1,
+    y: Y$1,
+    w: W$1,
+    d: D$2,
     D: DATE,
-    h: H,
+    h: H$1,
     m: MIN,
-    s: S,
+    s: S$2,
     ms: MS,
-    Q: Q
+    Q: Q$1
   };
   return special[u] || String(u || '').toLowerCase().replace(/s$/, '');
 };
@@ -11258,7 +11258,7 @@ var isUndefined = function isUndefined(s) {
   return s === undefined;
 };
 
-var U = {
+var U$1 = {
   s: padStart,
   z: padZoneStr,
   m: monthDiff,
@@ -11332,7 +11332,7 @@ var wrapper = function wrapper(date, instance) {
   });
 };
 
-var Utils = U; // for plugin use
+var Utils = U$1; // for plugin use
 
 Utils.l = parseLocale;
 Utils.i = isDayjs;
@@ -11438,7 +11438,7 @@ var Dayjs = /*#__PURE__*/function () {
 
     var instanceFactory = function instanceFactory(d, m) {
       var ins = Utils.w(_this.$u ? Date.UTC(_this.$y, m, d) : new Date(_this.$y, m, d), _this);
-      return isStartOf ? ins : ins.endOf(D);
+      return isStartOf ? ins : ins.endOf(D$2);
     };
 
     var instanceFactorySet = function instanceFactorySet(method, slice) {
@@ -11454,30 +11454,30 @@ var Dayjs = /*#__PURE__*/function () {
     var utcPad = "set" + (this.$u ? 'UTC' : '');
 
     switch (unit) {
-      case Y:
+      case Y$1:
         return isStartOf ? instanceFactory(1, 0) : instanceFactory(31, 11);
 
-      case M:
+      case M$1:
         return isStartOf ? instanceFactory(1, $M) : instanceFactory(0, $M + 1);
 
-      case W:
+      case W$1:
         {
           var weekStart = this.$locale().weekStart || 0;
           var gap = ($W < weekStart ? $W + 7 : $W) - weekStart;
           return instanceFactory(isStartOf ? $D - gap : $D + (6 - gap), $M);
         }
 
-      case D:
+      case D$2:
       case DATE:
         return instanceFactorySet(utcPad + "Hours", 0);
 
-      case H:
+      case H$1:
         return instanceFactorySet(utcPad + "Minutes", 1);
 
       case MIN:
         return instanceFactorySet(utcPad + "Seconds", 2);
 
-      case S:
+      case S$2:
         return instanceFactorySet(utcPad + "Milliseconds", 3);
 
       default:
@@ -11495,10 +11495,10 @@ var Dayjs = /*#__PURE__*/function () {
     // private set
     var unit = Utils.p(units);
     var utcPad = "set" + (this.$u ? 'UTC' : '');
-    var name = (_C$D$C$DATE$C$M$C$Y$C = {}, _C$D$C$DATE$C$M$C$Y$C[D] = utcPad + "Date", _C$D$C$DATE$C$M$C$Y$C[DATE] = utcPad + "Date", _C$D$C$DATE$C$M$C$Y$C[M] = utcPad + "Month", _C$D$C$DATE$C$M$C$Y$C[Y] = utcPad + "FullYear", _C$D$C$DATE$C$M$C$Y$C[H] = utcPad + "Hours", _C$D$C$DATE$C$M$C$Y$C[MIN] = utcPad + "Minutes", _C$D$C$DATE$C$M$C$Y$C[S] = utcPad + "Seconds", _C$D$C$DATE$C$M$C$Y$C[MS] = utcPad + "Milliseconds", _C$D$C$DATE$C$M$C$Y$C)[unit];
-    var arg = unit === D ? this.$D + (_int - this.$W) : _int;
+    var name = (_C$D$C$DATE$C$M$C$Y$C = {}, _C$D$C$DATE$C$M$C$Y$C[D$2] = utcPad + "Date", _C$D$C$DATE$C$M$C$Y$C[DATE] = utcPad + "Date", _C$D$C$DATE$C$M$C$Y$C[M$1] = utcPad + "Month", _C$D$C$DATE$C$M$C$Y$C[Y$1] = utcPad + "FullYear", _C$D$C$DATE$C$M$C$Y$C[H$1] = utcPad + "Hours", _C$D$C$DATE$C$M$C$Y$C[MIN] = utcPad + "Minutes", _C$D$C$DATE$C$M$C$Y$C[S$2] = utcPad + "Seconds", _C$D$C$DATE$C$M$C$Y$C[MS] = utcPad + "Milliseconds", _C$D$C$DATE$C$M$C$Y$C)[unit];
+    var arg = unit === D$2 ? this.$D + (_int - this.$W) : _int;
 
-    if (unit === M || unit === Y) {
+    if (unit === M$1 || unit === Y$1) {
       // clone is for badMutable plugin
       var date = this.clone().set(DATE, 1);
       date.$d[name](arg);
@@ -11531,23 +11531,23 @@ var Dayjs = /*#__PURE__*/function () {
       return Utils.w(d.date(d.date() + Math.round(n * number)), _this2);
     };
 
-    if (unit === M) {
-      return this.set(M, this.$M + number);
+    if (unit === M$1) {
+      return this.set(M$1, this.$M + number);
     }
 
-    if (unit === Y) {
-      return this.set(Y, this.$y + number);
+    if (unit === Y$1) {
+      return this.set(Y$1, this.$y + number);
     }
 
-    if (unit === D) {
+    if (unit === D$2) {
       return instanceFactorySet(1);
     }
 
-    if (unit === W) {
+    if (unit === W$1) {
       return instanceFactorySet(7);
     }
 
-    var step = (_C$MIN$C$H$C$S$unit = {}, _C$MIN$C$H$C$S$unit[MIN] = MILLISECONDS_A_MINUTE, _C$MIN$C$H$C$S$unit[H] = MILLISECONDS_A_HOUR, _C$MIN$C$H$C$S$unit[S] = MILLISECONDS_A_SECOND, _C$MIN$C$H$C$S$unit)[unit] || 1; // ms
+    var step = (_C$MIN$C$H$C$S$unit = {}, _C$MIN$C$H$C$S$unit[MIN] = MILLISECONDS_A_MINUTE, _C$MIN$C$H$C$S$unit[H$1] = MILLISECONDS_A_HOUR, _C$MIN$C$H$C$S$unit[S$2] = MILLISECONDS_A_SECOND, _C$MIN$C$H$C$S$unit)[unit] || 1; // ms
 
     var nextTimeStamp = this.$d.getTime() + number * step;
     return Utils.w(nextTimeStamp, this);
@@ -11688,27 +11688,27 @@ var Dayjs = /*#__PURE__*/function () {
     var result;
 
     switch (unit) {
-      case Y:
+      case Y$1:
         result = getMonth() / 12;
         break;
 
-      case M:
+      case M$1:
         result = getMonth();
         break;
 
-      case Q:
+      case Q$1:
         result = getMonth() / 3;
         break;
 
-      case W:
+      case W$1:
         result = (diff - zoneDelta) / MILLISECONDS_A_WEEK;
         break;
 
-      case D:
+      case D$2:
         result = (diff - zoneDelta) / MILLISECONDS_A_DAY;
         break;
 
-      case H:
+      case H$1:
         result = diff / MILLISECONDS_A_HOUR;
         break;
 
@@ -11716,7 +11716,7 @@ var Dayjs = /*#__PURE__*/function () {
         result = diff / MILLISECONDS_A_MINUTE;
         break;
 
-      case S:
+      case S$2:
         result = diff / MILLISECONDS_A_SECOND;
         break;
 
@@ -11730,7 +11730,7 @@ var Dayjs = /*#__PURE__*/function () {
   };
 
   _proto.daysInMonth = function daysInMonth() {
-    return this.endOf(M).$D;
+    return this.endOf(M$1).$D;
   };
 
   _proto.$locale = function $locale() {
@@ -11774,7 +11774,7 @@ var Dayjs = /*#__PURE__*/function () {
 
 var proto = Dayjs.prototype;
 dayjs.prototype = proto;
-[['$ms', MS], ['$s', S], ['$m', MIN], ['$H', H], ['$W', D], ['$M', M], ['$y', Y], ['$D', DATE]].forEach(function (g) {
+[['$ms', MS], ['$s', S$2], ['$m', MIN], ['$H', H$1], ['$W', D$2], ['$M', M$1], ['$y', Y$1], ['$D', DATE]].forEach(function (g) {
   proto[g[1]] = function (input) {
     return this.$g(input, g[0], g[1]);
   };
@@ -11959,20 +11959,20 @@ const Home = () => {
     
     onAuthStateChanged(getAuth(), user => {
         if (user) {
-            j(x`<a href="me.html"><img src="${user.photoURL}" class="size-8 rounded-full"></a>`, document.getElementById('user-profile'));
+            j(x$1`<a href="me.html"><img src="${user.photoURL}" class="size-8 rounded-full"></a>`, document.getElementById('user-profile'));
         } else {
-            j(x`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'));
+            j(x$1`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'));
         }
     });
 	
 	// render(html`${Bar3Icon()}`, document.getElementById('menu'))
 
-	j(x`${dayjs().format("MMM Do dddd")}`, document.querySelector('#today-date'));
+	j(x$1`${dayjs().format("MMM Do dddd")}`, document.querySelector('#today-date'));
 
     const milongaEventList = [10, 100, 1000, 1050, 550];
 
     const milongaEventItem = (item) => {
-        return x`
+        return x$1`
             <a href="milonga_event.html" class="flex w-100 items-center">
                 <div class="self-start">
                     <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
@@ -11995,8 +11995,8 @@ const Home = () => {
 
     setTimeout(() => {
         document.querySelector('#today-milongas ul').innerHTML = '';
-        j(x`${
-            milongaEventList.map((item) => x`
+        j(x$1`${
+            milongaEventList.map((item) => x$1`
                 <li class="mt-3">${milongaEventItem(item)}</li>
             `)
         }`, document.querySelector('#today-milongas ul'));
@@ -12005,7 +12005,7 @@ const Home = () => {
     const djList = [10, 100, 1000, 1050, 550];
 
     const djItem = (item) => {
-        return x`
+        return x$1`
             <a href="dj.html" class="flex w-full items-center">
                 <div class="self-start">
                     <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
@@ -12018,8 +12018,8 @@ const Home = () => {
 
     setTimeout(() => {
         document.querySelector('#dj-list ul').innerHTML = '';
-        j(x`${
-            djList.map((item) => x`
+        j(x$1`${
+            djList.map((item) => x$1`
                 <li class="mt-3">${djItem(item)}</li>
             `)
         }`, document.querySelector('#dj-list ul'));
@@ -12040,8 +12040,8 @@ const Login = () => {
     });
 };
 
-const Toolbar = (props) => {
-    return x`<div class="min-w-[20%]">
+const Toolbar = (props = { left: '', title: '', right: '' }) => {
+    return x$1`<div class="min-w-[20%]">
         ${props.left}
     </div>
     <div class="flex-1"><h1 class="font-bold text-center">${
@@ -12052,18 +12052,1625 @@ const Toolbar = (props) => {
     </div>`
 };
 
+var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+
+/*
+
+ Copyright The Closure Library Authors.
+ SPDX-License-Identifier: Apache-2.0
+*/
+
+var k,goog=goog||{},l=commonjsGlobal||self;function aa(a){var b=typeof a;b="object"!=b?b:a?Array.isArray(a)?"array":b:"null";return "array"==b||"object"==b&&"number"==typeof a.length}function p(a){var b=typeof a;return "object"==b&&null!=a||"function"==b}function ba(a){return Object.prototype.hasOwnProperty.call(a,ca)&&a[ca]||(a[ca]=++da)}var ca="closure_uid_"+(1E9*Math.random()>>>0),da=0;function ea(a,b,c){return a.call.apply(a.bind,arguments)}
+function fa(a,b,c){if(!a)throw Error();if(2<arguments.length){var d=Array.prototype.slice.call(arguments,2);return function(){var e=Array.prototype.slice.call(arguments);Array.prototype.unshift.apply(e,d);return a.apply(b,e)}}return function(){return a.apply(b,arguments)}}function q(a,b,c){Function.prototype.bind&&-1!=Function.prototype.bind.toString().indexOf("native code")?q=ea:q=fa;return q.apply(null,arguments)}
+function ha(a,b){var c=Array.prototype.slice.call(arguments,1);return function(){var d=c.slice();d.push.apply(d,arguments);return a.apply(this,d)}}function r(a,b){function c(){}c.prototype=b.prototype;a.$=b.prototype;a.prototype=new c;a.prototype.constructor=a;a.ac=function(d,e,f){for(var h=Array(arguments.length-2),n=2;n<arguments.length;n++)h[n-2]=arguments[n];return b.prototype[e].apply(d,h)};}function v(){this.s=this.s;this.o=this.o;}var ia=0;v.prototype.s=!1;v.prototype.sa=function(){if(!this.s&&(this.s=!0,this.N(),0!=ia)){ba(this);}};v.prototype.N=function(){if(this.o)for(;this.o.length;)this.o.shift()();};const ka=Array.prototype.indexOf?function(a,b){return Array.prototype.indexOf.call(a,b,void 0)}:function(a,b){if("string"===typeof a)return "string"!==typeof b||1!=b.length?-1:a.indexOf(b,0);for(let c=0;c<a.length;c++)if(c in a&&a[c]===b)return c;return -1};function ma(a){const b=a.length;if(0<b){const c=Array(b);for(let d=0;d<b;d++)c[d]=a[d];return c}return []}
+function na(a,b){for(let c=1;c<arguments.length;c++){const d=arguments[c];if(aa(d)){const e=a.length||0,f=d.length||0;a.length=e+f;for(let h=0;h<f;h++)a[e+h]=d[h];}else a.push(d);}}function w$1(a,b){this.type=a;this.g=this.target=b;this.defaultPrevented=!1;}w$1.prototype.h=function(){this.defaultPrevented=!0;};var oa=function(){if(!l.addEventListener||!Object.defineProperty)return !1;var a=!1,b=Object.defineProperty({},"passive",{get:function(){a=!0;}});try{const c=()=>{};l.addEventListener("test",c,b);l.removeEventListener("test",c,b);}catch(c){}return a}();function x(a){return /^[\s\xa0]*$/.test(a)}function pa(){var a=l.navigator;return a&&(a=a.userAgent)?a:""}function y(a){return -1!=pa().indexOf(a)}function qa(a){qa[" "](a);return a}qa[" "]=function(){};function ra(a,b){var c=sa;return Object.prototype.hasOwnProperty.call(c,a)?c[a]:c[a]=b(a)}var ta=y("Opera"),z=y("Trident")||y("MSIE"),ua=y("Edge"),va=ua||z,wa=y("Gecko")&&!(-1!=pa().toLowerCase().indexOf("webkit")&&!y("Edge"))&&!(y("Trident")||y("MSIE"))&&!y("Edge"),xa=-1!=pa().toLowerCase().indexOf("webkit")&&!y("Edge");function ya(){var a=l.document;return a?a.documentMode:void 0}a:{var Aa="",Ba=function(){var a=pa();if(wa)return /rv:([^\);]+)(\)|;)/.exec(a);if(ua)return /Edge\/([\d\.]+)/.exec(a);if(z)return /\b(?:MSIE|rv)[: ]([^\);]+)(\)|;)/.exec(a);if(xa)return /WebKit\/(\S+)/.exec(a);if(ta)return /(?:Version)[ \/]?(\S+)/.exec(a)}();Ba&&(Aa=Ba?Ba[1]:"");if(z){var Ca=ya();if(null!=Ca&&Ca>parseFloat(Aa)){break a}}}if(l.document&&z){ya();}function A(a,b){w$1.call(this,a?a.type:"");this.relatedTarget=this.g=this.target=null;this.button=this.screenY=this.screenX=this.clientY=this.clientX=0;this.key="";this.metaKey=this.shiftKey=this.altKey=this.ctrlKey=!1;this.state=null;this.pointerId=0;this.pointerType="";this.i=null;if(a){var c=this.type=a.type,d=a.changedTouches&&a.changedTouches.length?a.changedTouches[0]:null;this.target=a.target||a.srcElement;this.g=b;if(b=a.relatedTarget){if(wa){a:{try{qa(b.nodeName);var e=!0;break a}catch(f){}e=
+!1;}e||(b=null);}}else "mouseover"==c?b=a.fromElement:"mouseout"==c&&(b=a.toElement);this.relatedTarget=b;d?(this.clientX=void 0!==d.clientX?d.clientX:d.pageX,this.clientY=void 0!==d.clientY?d.clientY:d.pageY,this.screenX=d.screenX||0,this.screenY=d.screenY||0):(this.clientX=void 0!==a.clientX?a.clientX:a.pageX,this.clientY=void 0!==a.clientY?a.clientY:a.pageY,this.screenX=a.screenX||0,this.screenY=a.screenY||0);this.button=a.button;this.key=a.key||"";this.ctrlKey=a.ctrlKey;this.altKey=a.altKey;this.shiftKey=
+a.shiftKey;this.metaKey=a.metaKey;this.pointerId=a.pointerId||0;this.pointerType="string"===typeof a.pointerType?a.pointerType:Ga[a.pointerType]||"";this.state=a.state;this.i=a;a.defaultPrevented&&A.$.h.call(this);}}r(A,w$1);var Ga={2:"touch",3:"pen",4:"mouse"};A.prototype.h=function(){A.$.h.call(this);var a=this.i;a.preventDefault?a.preventDefault():a.returnValue=!1;};var Ha="closure_listenable_"+(1E6*Math.random()|0);var Ia=0;function Ja(a,b,c,d,e){this.listener=a;this.proxy=null;this.src=b;this.type=c;this.capture=!!d;this.la=e;this.key=++Ia;this.fa=this.ia=!1;}function Ma(a){a.fa=!0;a.listener=null;a.proxy=null;a.src=null;a.la=null;}function Na(a,b,c){for(const d in a)b.call(c,a[d],d,a);}function Oa(a,b){for(const c in a)b.call(void 0,a[c],c,a);}function Pa(a){const b={};for(const c in a)b[c]=a[c];return b}const Qa="constructor hasOwnProperty isPrototypeOf propertyIsEnumerable toLocaleString toString valueOf".split(" ");function Ra(a,b){let c,d;for(let e=1;e<arguments.length;e++){d=arguments[e];for(c in d)a[c]=d[c];for(let f=0;f<Qa.length;f++)c=Qa[f],Object.prototype.hasOwnProperty.call(d,c)&&(a[c]=d[c]);}}function Sa(a){this.src=a;this.g={};this.h=0;}Sa.prototype.add=function(a,b,c,d,e){var f=a.toString();a=this.g[f];a||(a=this.g[f]=[],this.h++);var h=Ta(a,b,d,e);-1<h?(b=a[h],c||(b.ia=!1)):(b=new Ja(b,this.src,f,!!d,e),b.ia=c,a.push(b));return b};function Ua(a,b){var c=b.type;if(c in a.g){var d=a.g[c],e=ka(d,b),f;(f=0<=e)&&Array.prototype.splice.call(d,e,1);f&&(Ma(b),0==a.g[c].length&&(delete a.g[c],a.h--));}}
+function Ta(a,b,c,d){for(var e=0;e<a.length;++e){var f=a[e];if(!f.fa&&f.listener==b&&f.capture==!!c&&f.la==d)return e}return -1}var Va="closure_lm_"+(1E6*Math.random()|0),Wa={};function Ya(a,b,c,d,e){if(d&&d.once)return Za(a,b,c,d,e);if(Array.isArray(b)){for(var f=0;f<b.length;f++)Ya(a,b[f],c,d,e);return null}c=$a(c);return a&&a[Ha]?a.O(b,c,p(d)?!!d.capture:!!d,e):ab(a,b,c,!1,d,e)}
+function ab(a,b,c,d,e,f){if(!b)throw Error("Invalid event type");var h=p(e)?!!e.capture:!!e,n=bb(a);n||(a[Va]=n=new Sa(a));c=n.add(b,c,d,h,f);if(c.proxy)return c;d=cb();c.proxy=d;d.src=a;d.listener=c;if(a.addEventListener)oa||(e=h),void 0===e&&(e=!1),a.addEventListener(b.toString(),d,e);else if(a.attachEvent)a.attachEvent(db(b.toString()),d);else if(a.addListener&&a.removeListener)a.addListener(d);else throw Error("addEventListener and attachEvent are unavailable.");return c}
+function cb(){function a(c){return b.call(a.src,a.listener,c)}const b=eb;return a}function Za(a,b,c,d,e){if(Array.isArray(b)){for(var f=0;f<b.length;f++)Za(a,b[f],c,d,e);return null}c=$a(c);return a&&a[Ha]?a.P(b,c,p(d)?!!d.capture:!!d,e):ab(a,b,c,!0,d,e)}
+function fb(a,b,c,d,e){if(Array.isArray(b))for(var f=0;f<b.length;f++)fb(a,b[f],c,d,e);else (d=p(d)?!!d.capture:!!d,c=$a(c),a&&a[Ha])?(a=a.i,b=String(b).toString(),b in a.g&&(f=a.g[b],c=Ta(f,c,d,e),-1<c&&(Ma(f[c]),Array.prototype.splice.call(f,c,1),0==f.length&&(delete a.g[b],a.h--)))):a&&(a=bb(a))&&(b=a.g[b.toString()],a=-1,b&&(a=Ta(b,c,d,e)),(c=-1<a?b[a]:null)&&gb(c));}
+function gb(a){if("number"!==typeof a&&a&&!a.fa){var b=a.src;if(b&&b[Ha])Ua(b.i,a);else {var c=a.type,d=a.proxy;b.removeEventListener?b.removeEventListener(c,d,a.capture):b.detachEvent?b.detachEvent(db(c),d):b.addListener&&b.removeListener&&b.removeListener(d);(c=bb(b))?(Ua(c,a),0==c.h&&(c.src=null,b[Va]=null)):Ma(a);}}}function db(a){return a in Wa?Wa[a]:Wa[a]="on"+a}function eb(a,b){if(a.fa)a=!0;else {b=new A(b,this);var c=a.listener,d=a.la||a.src;a.ia&&gb(a);a=c.call(d,b);}return a}
+function bb(a){a=a[Va];return a instanceof Sa?a:null}var hb="__closure_events_fn_"+(1E9*Math.random()>>>0);function $a(a){if("function"===typeof a)return a;a[hb]||(a[hb]=function(b){return a.handleEvent(b)});return a[hb]}function B(){v.call(this);this.i=new Sa(this);this.S=this;this.J=null;}r(B,v);B.prototype[Ha]=!0;B.prototype.removeEventListener=function(a,b,c,d){fb(this,a,b,c,d);};
+function C(a,b){var c,d=a.J;if(d)for(c=[];d;d=d.J)c.push(d);a=a.S;d=b.type||b;if("string"===typeof b)b=new w$1(b,a);else if(b instanceof w$1)b.target=b.target||a;else {var e=b;b=new w$1(d,a);Ra(b,e);}e=!0;if(c)for(var f=c.length-1;0<=f;f--){var h=b.g=c[f];e=ib(h,d,!0,b)&&e;}h=b.g=a;e=ib(h,d,!0,b)&&e;e=ib(h,d,!1,b)&&e;if(c)for(f=0;f<c.length;f++)h=b.g=c[f],e=ib(h,d,!1,b)&&e;}
+B.prototype.N=function(){B.$.N.call(this);if(this.i){var a=this.i,c;for(c in a.g){for(var d=a.g[c],e=0;e<d.length;e++)Ma(d[e]);delete a.g[c];a.h--;}}this.J=null;};B.prototype.O=function(a,b,c,d){return this.i.add(String(a),b,!1,c,d)};B.prototype.P=function(a,b,c,d){return this.i.add(String(a),b,!0,c,d)};
+function ib(a,b,c,d){b=a.i.g[String(b)];if(!b)return !0;b=b.concat();for(var e=!0,f=0;f<b.length;++f){var h=b[f];if(h&&!h.fa&&h.capture==c){var n=h.listener,t=h.la||h.src;h.ia&&Ua(a.i,h);e=!1!==n.call(t,d)&&e;}}return e&&!d.defaultPrevented}var jb=l.JSON.stringify;class kb{constructor(a,b){this.i=a;this.j=b;this.h=0;this.g=null;}get(){let a;0<this.h?(this.h--,a=this.g,this.g=a.next,a.next=null):a=this.i();return a}}function lb(){var a=mb;let b=null;a.g&&(b=a.g,a.g=a.g.next,a.g||(a.h=null),b.next=null);return b}class nb{constructor(){this.h=this.g=null;}add(a,b){const c=ob.get();c.set(a,b);this.h?this.h.next=c:this.g=c;this.h=c;}}var ob=new kb(()=>new pb,a=>a.reset());class pb{constructor(){this.next=this.g=this.h=null;}set(a,b){this.h=a;this.g=b;this.next=null;}reset(){this.next=this.g=this.h=null;}}function qb(a){var b=1;a=a.split(":");const c=[];for(;0<b&&a.length;)c.push(a.shift()),b--;a.length&&c.push(a.join(":"));return c}function rb(a){l.setTimeout(()=>{throw a;},0);}let sb,tb=!1,mb=new nb,vb=()=>{const a=l.Promise.resolve(void 0);sb=()=>{a.then(ub);};};var ub=()=>{for(var a;a=lb();){try{a.h.call(a.g);}catch(c){rb(c);}var b=ob;b.j(a);100>b.h&&(b.h++,a.next=b.g,b.g=a);}tb=!1;};function wb(a,b){B.call(this);this.h=a||1;this.g=b||l;this.j=q(this.qb,this);this.l=Date.now();}r(wb,B);k=wb.prototype;k.ga=!1;k.T=null;k.qb=function(){if(this.ga){var a=Date.now()-this.l;0<a&&a<.8*this.h?this.T=this.g.setTimeout(this.j,this.h-a):(this.T&&(this.g.clearTimeout(this.T),this.T=null),C(this,"tick"),this.ga&&(xb(this),this.start()));}};k.start=function(){this.ga=!0;this.T||(this.T=this.g.setTimeout(this.j,this.h),this.l=Date.now());};
+function xb(a){a.ga=!1;a.T&&(a.g.clearTimeout(a.T),a.T=null);}k.N=function(){wb.$.N.call(this);xb(this);delete this.g;};function yb(a,b,c){if("function"===typeof a)c&&(a=q(a,c));else if(a&&"function"==typeof a.handleEvent)a=q(a.handleEvent,a);else throw Error("Invalid listener argument");return 2147483647<Number(b)?-1:l.setTimeout(a,b||0)}function zb(a){a.g=yb(()=>{a.g=null;a.i&&(a.i=!1,zb(a));},a.j);const b=a.h;a.h=null;a.m.apply(null,b);}class Ab extends v{constructor(a,b){super();this.m=a;this.j=b;this.h=null;this.i=!1;this.g=null;}l(a){this.h=arguments;this.g?this.i=!0:zb(this);}N(){super.N();this.g&&(l.clearTimeout(this.g),this.g=null,this.i=!1,this.h=null);}}function Bb(a){v.call(this);this.h=a;this.g={};}r(Bb,v);var Cb=[];function Eb(a,b,c,d){Array.isArray(c)||(c&&(Cb[0]=c.toString()),c=Cb);for(var e=0;e<c.length;e++){var f=Ya(b,c[e],d||a.handleEvent,!1,a.h||a);if(!f)break;a.g[f.key]=f;}}function Fb(a){Na(a.g,function(b,c){this.g.hasOwnProperty(c)&&gb(b);},a);a.g={};}Bb.prototype.N=function(){Bb.$.N.call(this);Fb(this);};Bb.prototype.handleEvent=function(){throw Error("EventHandler.handleEvent not implemented");};function Gb(){this.g=!0;}Gb.prototype.Ea=function(){this.g=!1;};function Hb(a,b,c,d,e,f){a.info(function(){if(a.g)if(f){var h="";for(var n=f.split("&"),t=0;t<n.length;t++){var m=n[t].split("=");if(1<m.length){var u=m[0];m=m[1];var L=u.split("_");h=2<=L.length&&"type"==L[1]?h+(u+"="+m+"&"):h+(u+"=redacted&");}}}else h=null;else h=f;return "XMLHTTP REQ ("+d+") [attempt "+e+"]: "+b+"\n"+c+"\n"+h});}
+function Ib(a,b,c,d,e,f,h){a.info(function(){return "XMLHTTP RESP ("+d+") [ attempt "+e+"]: "+b+"\n"+c+"\n"+f+" "+h});}function D$1(a,b,c,d){a.info(function(){return "XMLHTTP TEXT ("+b+"): "+Jb(a,c)+(d?" "+d:"")});}function Kb(a,b){a.info(function(){return "TIMEOUT: "+b});}Gb.prototype.info=function(){};
+function Jb(a,b){if(!a.g)return b;if(!b)return null;try{var c=JSON.parse(b);if(c)for(a=0;a<c.length;a++)if(Array.isArray(c[a])){var d=c[a];if(!(2>d.length)){var e=d[1];if(Array.isArray(e)&&!(1>e.length)){var f=e[0];if("noop"!=f&&"stop"!=f&&"close"!=f)for(var h=1;h<e.length;h++)e[h]="";}}}return jb(c)}catch(n){return b}}var E={},Lb=null;function Mb(){return Lb=Lb||new B}E.Ta="serverreachability";function Nb(a){w$1.call(this,E.Ta,a);}r(Nb,w$1);function Ob(a){const b=Mb();C(b,new Nb(b));}E.STAT_EVENT="statevent";function Pb(a,b){w$1.call(this,E.STAT_EVENT,a);this.stat=b;}r(Pb,w$1);function F(a){const b=Mb();C(b,new Pb(b,a));}E.Ua="timingevent";function Qb(a,b){w$1.call(this,E.Ua,a);this.size=b;}r(Qb,w$1);
+function Rb(a,b){if("function"!==typeof a)throw Error("Fn must not be null and must be a function");return l.setTimeout(function(){a();},b)}var Sb={NO_ERROR:0,rb:1,Eb:2,Db:3,yb:4,Cb:5,Fb:6,Qa:7,TIMEOUT:8,Ib:9};var Tb={wb:"complete",Sb:"success",Ra:"error",Qa:"abort",Kb:"ready",Lb:"readystatechange",TIMEOUT:"timeout",Gb:"incrementaldata",Jb:"progress",zb:"downloadprogress",$b:"uploadprogress"};function Ub(){}Ub.prototype.h=null;function Vb(a){return a.h||(a.h=a.i())}function Wb(){}var Xb={OPEN:"a",vb:"b",Ra:"c",Hb:"d"};function Yb(){w$1.call(this,"d");}r(Yb,w$1);function Zb(){w$1.call(this,"c");}r(Zb,w$1);var $b;function ac(){}r(ac,Ub);ac.prototype.g=function(){return new XMLHttpRequest};ac.prototype.i=function(){return {}};$b=new ac;function bc(a,b,c,d){this.l=a;this.j=b;this.m=c;this.W=d||1;this.U=new Bb(this);this.P=cc;a=va?125:void 0;this.V=new wb(a);this.I=null;this.i=!1;this.u=this.B=this.A=this.L=this.G=this.Y=this.C=null;this.F=[];this.g=null;this.o=0;this.s=this.v=null;this.ca=-1;this.J=!1;this.O=0;this.M=null;this.ba=this.K=this.aa=this.S=!1;this.h=new dc;}function dc(){this.i=null;this.g="";this.h=!1;}var cc=45E3,ec={},fc={};k=bc.prototype;k.setTimeout=function(a){this.P=a;};
+function gc(a,b,c){a.L=1;a.A=hc(G(b));a.u=c;a.S=!0;ic(a,null);}function ic(a,b){a.G=Date.now();jc(a);a.B=G(a.A);var c=a.B,d=a.W;Array.isArray(d)||(d=[String(d)]);kc(c.i,"t",d);a.o=0;c=a.l.J;a.h=new dc;a.g=lc(a.l,c?b:null,!a.u);0<a.O&&(a.M=new Ab(q(a.Pa,a,a.g),a.O));Eb(a.U,a.g,"readystatechange",a.nb);b=a.I?Pa(a.I):{};a.u?(a.v||(a.v="POST"),b["Content-Type"]="application/x-www-form-urlencoded",a.g.ha(a.B,a.v,a.u,b)):(a.v="GET",a.g.ha(a.B,a.v,null,b));Ob();Hb(a.j,a.v,a.B,a.m,a.W,a.u);}
+k.nb=function(a){a=a.target;const b=this.M;b&&3==H(a)?b.l():this.Pa(a);};
+k.Pa=function(a){try{if(a==this.g)a:{const u=H(this.g);var b=this.g.Ia();const L=this.g.da();if(!(3>u)&&(3!=u||va||this.g&&(this.h.h||this.g.ja()||mc(this.g)))){this.J||4!=u||7==b||(8==b||0>=L?Ob(3):Ob(2));nc(this);var c=this.g.da();this.ca=c;b:if(oc(this)){var d=mc(this.g);a="";var e=d.length,f=4==H(this.g);if(!this.h.i){if("undefined"===typeof TextDecoder){I(this);pc(this);var h="";break b}this.h.i=new l.TextDecoder;}for(b=0;b<e;b++)this.h.h=!0,a+=this.h.i.decode(d[b],{stream:f&&b==e-1});d.length=
+0;this.h.g+=a;this.o=0;h=this.h.g;}else h=this.g.ja();this.i=200==c;Ib(this.j,this.v,this.B,this.m,this.W,u,c);if(this.i){if(this.aa&&!this.K){b:{if(this.g){var n,t=this.g;if((n=t.g?t.g.getResponseHeader("X-HTTP-Initial-Response"):null)&&!x(n)){var m=n;break b}}m=null;}if(c=m)D$1(this.j,this.m,c,"Initial handshake response via X-HTTP-Initial-Response"),this.K=!0,qc(this,c);else {this.i=!1;this.s=3;F(12);I(this);pc(this);break a}}this.S?(rc(this,u,h),va&&this.i&&3==u&&(Eb(this.U,this.V,"tick",this.mb),
+this.V.start())):(D$1(this.j,this.m,h,null),qc(this,h));4==u&&I(this);this.i&&!this.J&&(4==u?sc(this.l,this):(this.i=!1,jc(this)));}else tc(this.g),400==c&&0<h.indexOf("Unknown SID")?(this.s=3,F(12)):(this.s=0,F(13)),I(this),pc(this);}}}catch(u){}finally{}};function oc(a){return a.g?"GET"==a.v&&2!=a.L&&a.l.Ha:!1}
+function rc(a,b,c){let d=!0,e;for(;!a.J&&a.o<c.length;)if(e=uc(a,c),e==fc){4==b&&(a.s=4,F(14),d=!1);D$1(a.j,a.m,null,"[Incomplete Response]");break}else if(e==ec){a.s=4;F(15);D$1(a.j,a.m,c,"[Invalid Chunk]");d=!1;break}else D$1(a.j,a.m,e,null),qc(a,e);oc(a)&&0!=a.o&&(a.h.g=a.h.g.slice(a.o),a.o=0);4!=b||0!=c.length||a.h.h||(a.s=1,F(16),d=!1);a.i=a.i&&d;d?0<c.length&&!a.ba&&(a.ba=!0,b=a.l,b.g==a&&b.ca&&!b.M&&(b.l.info("Great, no buffering proxy detected. Bytes received: "+c.length),vc(b),b.M=!0,F(11))):(D$1(a.j,
+a.m,c,"[Invalid Chunked Response]"),I(a),pc(a));}k.mb=function(){if(this.g){var a=H(this.g),b=this.g.ja();this.o<b.length&&(nc(this),rc(this,a,b),this.i&&4!=a&&jc(this));}};function uc(a,b){var c=a.o,d=b.indexOf("\n",c);if(-1==d)return fc;c=Number(b.substring(c,d));if(isNaN(c))return ec;d+=1;if(d+c>b.length)return fc;b=b.slice(d,d+c);a.o=d+c;return b}k.cancel=function(){this.J=!0;I(this);};function jc(a){a.Y=Date.now()+a.P;wc(a,a.P);}
+function wc(a,b){if(null!=a.C)throw Error("WatchDog timer not null");a.C=Rb(q(a.lb,a),b);}function nc(a){a.C&&(l.clearTimeout(a.C),a.C=null);}k.lb=function(){this.C=null;const a=Date.now();0<=a-this.Y?(Kb(this.j,this.B),2!=this.L&&(Ob(),F(17)),I(this),this.s=2,pc(this)):wc(this,this.Y-a);};function pc(a){0==a.l.H||a.J||sc(a.l,a);}function I(a){nc(a);var b=a.M;b&&"function"==typeof b.sa&&b.sa();a.M=null;xb(a.V);Fb(a.U);a.g&&(b=a.g,a.g=null,b.abort(),b.sa());}
+function qc(a,b){try{var c=a.l;if(0!=c.H&&(c.g==a||xc(c.i,a)))if(!a.K&&xc(c.i,a)&&3==c.H){try{var d=c.Ja.g.parse(b);}catch(m){d=null;}if(Array.isArray(d)&&3==d.length){var e=d;if(0==e[0])a:{if(!c.u){if(c.g)if(c.g.G+3E3<a.G)yc(c),zc(c);else break a;Ac(c);F(18);}}else c.Fa=e[1],0<c.Fa-c.V&&37500>e[2]&&c.G&&0==c.A&&!c.v&&(c.v=Rb(q(c.ib,c),6E3));if(1>=Bc(c.i)&&c.oa){try{c.oa();}catch(m){}c.oa=void 0;}}else J(c,11);}else if((a.K||c.g==a)&&yc(c),!x(b))for(e=c.Ja.g.parse(b),b=0;b<e.length;b++){let m=e[b];c.V=
+m[0];m=m[1];if(2==c.H)if("c"==m[0]){c.K=m[1];c.pa=m[2];const u=m[3];null!=u&&(c.ra=u,c.l.info("VER="+c.ra));const L=m[4];null!=L&&(c.Ga=L,c.l.info("SVER="+c.Ga));const Ka=m[5];null!=Ka&&"number"===typeof Ka&&0<Ka&&(d=1.5*Ka,c.L=d,c.l.info("backChannelRequestTimeoutMs_="+d));d=c;const la=a.g;if(la){const La=la.g?la.g.getResponseHeader("X-Client-Wire-Protocol"):null;if(La){var f=d.i;f.g||-1==La.indexOf("spdy")&&-1==La.indexOf("quic")&&-1==La.indexOf("h2")||(f.j=f.l,f.g=new Set,f.h&&(Cc(f,f.h),f.h=null));}if(d.F){const Db=
+la.g?la.g.getResponseHeader("X-HTTP-Session-Id"):null;Db&&(d.Da=Db,K(d.I,d.F,Db));}}c.H=3;c.h&&c.h.Ba();c.ca&&(c.S=Date.now()-a.G,c.l.info("Handshake RTT: "+c.S+"ms"));d=c;var h=a;d.wa=Dc(d,d.J?d.pa:null,d.Y);if(h.K){Ec(d.i,h);var n=h,t=d.L;t&&n.setTimeout(t);n.C&&(nc(n),jc(n));d.g=h;}else Fc(d);0<c.j.length&&Gc(c);}else "stop"!=m[0]&&"close"!=m[0]||J(c,7);else 3==c.H&&("stop"==m[0]||"close"==m[0]?"stop"==m[0]?J(c,7):Hc(c):"noop"!=m[0]&&c.h&&c.h.Aa(m),c.A=0);}Ob(4);}catch(m){}}function Ic(a){if(a.Z&&"function"==typeof a.Z)return a.Z();if("undefined"!==typeof Map&&a instanceof Map||"undefined"!==typeof Set&&a instanceof Set)return Array.from(a.values());if("string"===typeof a)return a.split("");if(aa(a)){for(var b=[],c=a.length,d=0;d<c;d++)b.push(a[d]);return b}b=[];c=0;for(d in a)b[c++]=a[d];return b}
+function Jc(a){if(a.ta&&"function"==typeof a.ta)return a.ta();if(!a.Z||"function"!=typeof a.Z){if("undefined"!==typeof Map&&a instanceof Map)return Array.from(a.keys());if(!("undefined"!==typeof Set&&a instanceof Set)){if(aa(a)||"string"===typeof a){var b=[];a=a.length;for(var c=0;c<a;c++)b.push(c);return b}b=[];c=0;for(const d in a)b[c++]=d;return b}}}
+function Kc(a,b){if(a.forEach&&"function"==typeof a.forEach)a.forEach(b,void 0);else if(aa(a)||"string"===typeof a)Array.prototype.forEach.call(a,b,void 0);else for(var c=Jc(a),d=Ic(a),e=d.length,f=0;f<e;f++)b.call(void 0,d[f],c&&c[f],a);}var Lc=RegExp("^(?:([^:/?#.]+):)?(?://(?:([^\\\\/?#]*)@)?([^\\\\/?#]*?)(?::([0-9]+))?(?=[\\\\/?#]|$))?([^?#]+)?(?:\\?([^#]*))?(?:#([\\s\\S]*))?$");function Mc(a,b){if(a){a=a.split("&");for(var c=0;c<a.length;c++){var d=a[c].indexOf("="),e=null;if(0<=d){var f=a[c].substring(0,d);e=a[c].substring(d+1);}else f=a[c];b(f,e?decodeURIComponent(e.replace(/\+/g," ")):"");}}}function M(a){this.g=this.s=this.j="";this.m=null;this.o=this.l="";this.h=!1;if(a instanceof M){this.h=a.h;Nc(this,a.j);this.s=a.s;this.g=a.g;Oc(this,a.m);this.l=a.l;var b=a.i;var c=new Pc;c.i=b.i;b.g&&(c.g=new Map(b.g),c.h=b.h);Qc(this,c);this.o=a.o;}else a&&(b=String(a).match(Lc))?(this.h=!1,Nc(this,b[1]||"",!0),this.s=Rc(b[2]||""),this.g=Rc(b[3]||"",!0),Oc(this,b[4]),this.l=Rc(b[5]||"",!0),Qc(this,b[6]||"",!0),this.o=Rc(b[7]||"")):(this.h=!1,this.i=new Pc(null,this.h));}
+M.prototype.toString=function(){var a=[],b=this.j;b&&a.push(Sc(b,Tc,!0),":");var c=this.g;if(c||"file"==b)a.push("//"),(b=this.s)&&a.push(Sc(b,Tc,!0),"@"),a.push(encodeURIComponent(String(c)).replace(/%25([0-9a-fA-F]{2})/g,"%$1")),c=this.m,null!=c&&a.push(":",String(c));if(c=this.l)this.g&&"/"!=c.charAt(0)&&a.push("/"),a.push(Sc(c,"/"==c.charAt(0)?Uc:Vc,!0));(c=this.i.toString())&&a.push("?",c);(c=this.o)&&a.push("#",Sc(c,Wc));return a.join("")};function G(a){return new M(a)}
+function Nc(a,b,c){a.j=c?Rc(b,!0):b;a.j&&(a.j=a.j.replace(/:$/,""));}function Oc(a,b){if(b){b=Number(b);if(isNaN(b)||0>b)throw Error("Bad port number "+b);a.m=b;}else a.m=null;}function Qc(a,b,c){b instanceof Pc?(a.i=b,Xc(a.i,a.h)):(c||(b=Sc(b,Yc)),a.i=new Pc(b,a.h));}function K(a,b,c){a.i.set(b,c);}function hc(a){K(a,"zx",Math.floor(2147483648*Math.random()).toString(36)+Math.abs(Math.floor(2147483648*Math.random())^Date.now()).toString(36));return a}
+function Rc(a,b){return a?b?decodeURI(a.replace(/%25/g,"%2525")):decodeURIComponent(a):""}function Sc(a,b,c){return "string"===typeof a?(a=encodeURI(a).replace(b,Zc),c&&(a=a.replace(/%25([0-9a-fA-F]{2})/g,"%$1")),a):null}function Zc(a){a=a.charCodeAt(0);return "%"+(a>>4&15).toString(16)+(a&15).toString(16)}var Tc=/[#\/\?@]/g,Vc=/[#\?:]/g,Uc=/[#\?]/g,Yc=/[#\?@]/g,Wc=/#/g;function Pc(a,b){this.h=this.g=null;this.i=a||null;this.j=!!b;}
+function N(a){a.g||(a.g=new Map,a.h=0,a.i&&Mc(a.i,function(b,c){a.add(decodeURIComponent(b.replace(/\+/g," ")),c);}));}k=Pc.prototype;k.add=function(a,b){N(this);this.i=null;a=O(this,a);var c=this.g.get(a);c||this.g.set(a,c=[]);c.push(b);this.h+=1;return this};function $c(a,b){N(a);b=O(a,b);a.g.has(b)&&(a.i=null,a.h-=a.g.get(b).length,a.g.delete(b));}function ad(a,b){N(a);b=O(a,b);return a.g.has(b)}
+k.forEach=function(a,b){N(this);this.g.forEach(function(c,d){c.forEach(function(e){a.call(b,e,d,this);},this);},this);};k.ta=function(){N(this);const a=Array.from(this.g.values()),b=Array.from(this.g.keys()),c=[];for(let d=0;d<b.length;d++){const e=a[d];for(let f=0;f<e.length;f++)c.push(b[d]);}return c};k.Z=function(a){N(this);let b=[];if("string"===typeof a)ad(this,a)&&(b=b.concat(this.g.get(O(this,a))));else {a=Array.from(this.g.values());for(let c=0;c<a.length;c++)b=b.concat(a[c]);}return b};
+k.set=function(a,b){N(this);this.i=null;a=O(this,a);ad(this,a)&&(this.h-=this.g.get(a).length);this.g.set(a,[b]);this.h+=1;return this};k.get=function(a,b){if(!a)return b;a=this.Z(a);return 0<a.length?String(a[0]):b};function kc(a,b,c){$c(a,b);0<c.length&&(a.i=null,a.g.set(O(a,b),ma(c)),a.h+=c.length);}
+k.toString=function(){if(this.i)return this.i;if(!this.g)return "";const a=[],b=Array.from(this.g.keys());for(var c=0;c<b.length;c++){var d=b[c];const f=encodeURIComponent(String(d)),h=this.Z(d);for(d=0;d<h.length;d++){var e=f;""!==h[d]&&(e+="="+encodeURIComponent(String(h[d])));a.push(e);}}return this.i=a.join("&")};function O(a,b){b=String(b);a.j&&(b=b.toLowerCase());return b}
+function Xc(a,b){b&&!a.j&&(N(a),a.i=null,a.g.forEach(function(c,d){var e=d.toLowerCase();d!=e&&($c(this,d),kc(this,e,c));},a));a.j=b;}var bd=class{constructor(a,b){this.g=a;this.map=b;}};function cd(a){this.l=a||dd;l.PerformanceNavigationTiming?(a=l.performance.getEntriesByType("navigation"),a=0<a.length&&("hq"==a[0].nextHopProtocol||"h2"==a[0].nextHopProtocol)):a=!!(l.g&&l.g.Ka&&l.g.Ka()&&l.g.Ka().dc);this.j=a?this.l:1;this.g=null;1<this.j&&(this.g=new Set);this.h=null;this.i=[];}var dd=10;function ed(a){return a.h?!0:a.g?a.g.size>=a.j:!1}function Bc(a){return a.h?1:a.g?a.g.size:0}function xc(a,b){return a.h?a.h==b:a.g?a.g.has(b):!1}function Cc(a,b){a.g?a.g.add(b):a.h=b;}
+function Ec(a,b){a.h&&a.h==b?a.h=null:a.g&&a.g.has(b)&&a.g.delete(b);}cd.prototype.cancel=function(){this.i=fd(this);if(this.h)this.h.cancel(),this.h=null;else if(this.g&&0!==this.g.size){for(const a of this.g.values())a.cancel();this.g.clear();}};function fd(a){if(null!=a.h)return a.i.concat(a.h.F);if(null!=a.g&&0!==a.g.size){let b=a.i;for(const c of a.g.values())b=b.concat(c.F);return b}return ma(a.i)}var gd=class{stringify(a){return l.JSON.stringify(a,void 0)}parse(a){return l.JSON.parse(a,void 0)}};function hd(){this.g=new gd;}function id(a,b,c){const d=c||"";try{Kc(a,function(e,f){let h=e;p(e)&&(h=jb(e));b.push(d+f+"="+encodeURIComponent(h));});}catch(e){throw b.push(d+"type="+encodeURIComponent("_badmap")),e;}}function jd(a,b){const c=new Gb;if(l.Image){const d=new Image;d.onload=ha(kd,c,d,"TestLoadImage: loaded",!0,b);d.onerror=ha(kd,c,d,"TestLoadImage: error",!1,b);d.onabort=ha(kd,c,d,"TestLoadImage: abort",!1,b);d.ontimeout=ha(kd,c,d,"TestLoadImage: timeout",!1,b);l.setTimeout(function(){if(d.ontimeout)d.ontimeout();},1E4);d.src=a;}else b(!1);}function kd(a,b,c,d,e){try{b.onload=null,b.onerror=null,b.onabort=null,b.ontimeout=null,e(d);}catch(f){}}function ld(a){this.l=a.ec||null;this.j=a.ob||!1;}r(ld,Ub);ld.prototype.g=function(){return new md(this.l,this.j)};ld.prototype.i=function(a){return function(){return a}}({});function md(a,b){B.call(this);this.F=a;this.u=b;this.m=void 0;this.readyState=nd;this.status=0;this.responseType=this.responseText=this.response=this.statusText="";this.onreadystatechange=null;this.v=new Headers;this.h=null;this.C="GET";this.B="";this.g=!1;this.A=this.j=this.l=null;}r(md,B);var nd=0;k=md.prototype;
+k.open=function(a,b){if(this.readyState!=nd)throw this.abort(),Error("Error reopening a connection");this.C=a;this.B=b;this.readyState=1;od(this);};k.send=function(a){if(1!=this.readyState)throw this.abort(),Error("need to call open() first. ");this.g=!0;const b={headers:this.v,method:this.C,credentials:this.m,cache:void 0};a&&(b.body=a);(this.F||l).fetch(new Request(this.B,b)).then(this.$a.bind(this),this.ka.bind(this));};
+k.abort=function(){this.response=this.responseText="";this.v=new Headers;this.status=0;this.j&&this.j.cancel("Request was aborted.").catch(()=>{});1<=this.readyState&&this.g&&4!=this.readyState&&(this.g=!1,pd(this));this.readyState=nd;};
+k.$a=function(a){if(this.g&&(this.l=a,this.h||(this.status=this.l.status,this.statusText=this.l.statusText,this.h=a.headers,this.readyState=2,od(this)),this.g&&(this.readyState=3,od(this),this.g)))if("arraybuffer"===this.responseType)a.arrayBuffer().then(this.Ya.bind(this),this.ka.bind(this));else if("undefined"!==typeof l.ReadableStream&&"body"in a){this.j=a.body.getReader();if(this.u){if(this.responseType)throw Error('responseType must be empty for "streamBinaryChunks" mode responses.');this.response=
+[];}else this.response=this.responseText="",this.A=new TextDecoder;qd(this);}else a.text().then(this.Za.bind(this),this.ka.bind(this));};function qd(a){a.j.read().then(a.Xa.bind(a)).catch(a.ka.bind(a));}k.Xa=function(a){if(this.g){if(this.u&&a.value)this.response.push(a.value);else if(!this.u){var b=a.value?a.value:new Uint8Array(0);if(b=this.A.decode(b,{stream:!a.done}))this.response=this.responseText+=b;}a.done?pd(this):od(this);3==this.readyState&&qd(this);}};
+k.Za=function(a){this.g&&(this.response=this.responseText=a,pd(this));};k.Ya=function(a){this.g&&(this.response=a,pd(this));};k.ka=function(){this.g&&pd(this);};function pd(a){a.readyState=4;a.l=null;a.j=null;a.A=null;od(a);}k.setRequestHeader=function(a,b){this.v.append(a,b);};k.getResponseHeader=function(a){return this.h?this.h.get(a.toLowerCase())||"":""};
+k.getAllResponseHeaders=function(){if(!this.h)return "";const a=[],b=this.h.entries();for(var c=b.next();!c.done;)c=c.value,a.push(c[0]+": "+c[1]),c=b.next();return a.join("\r\n")};function od(a){a.onreadystatechange&&a.onreadystatechange.call(a);}Object.defineProperty(md.prototype,"withCredentials",{get:function(){return "include"===this.m},set:function(a){this.m=a?"include":"same-origin";}});var rd=l.JSON.parse;function P(a){B.call(this);this.headers=new Map;this.u=a||null;this.h=!1;this.C=this.g=null;this.I="";this.m=0;this.j="";this.l=this.G=this.v=this.F=!1;this.B=0;this.A=null;this.K=sd;this.L=this.M=!1;}r(P,B);var sd="",td=/^https?$/i,ud=["POST","PUT"];k=P.prototype;k.Oa=function(a){this.M=a;};
+k.ha=function(a,b,c,d){if(this.g)throw Error("[goog.net.XhrIo] Object is active with another request="+this.I+"; newUri="+a);b=b?b.toUpperCase():"GET";this.I=a;this.j="";this.m=0;this.F=!1;this.h=!0;this.g=this.u?this.u.g():$b.g();this.C=this.u?Vb(this.u):Vb($b);this.g.onreadystatechange=q(this.La,this);try{this.G=!0,this.g.open(b,String(a),!0),this.G=!1;}catch(f){vd(this,f);return}a=c||"";c=new Map(this.headers);if(d)if(Object.getPrototypeOf(d)===Object.prototype)for(var e in d)c.set(e,d[e]);else if("function"===
+typeof d.keys&&"function"===typeof d.get)for(const f of d.keys())c.set(f,d.get(f));else throw Error("Unknown input type for opt_headers: "+String(d));d=Array.from(c.keys()).find(f=>"content-type"==f.toLowerCase());e=l.FormData&&a instanceof l.FormData;!(0<=ka(ud,b))||d||e||c.set("Content-Type","application/x-www-form-urlencoded;charset=utf-8");for(const [f,h]of c)this.g.setRequestHeader(f,h);this.K&&(this.g.responseType=this.K);"withCredentials"in this.g&&this.g.withCredentials!==this.M&&(this.g.withCredentials=
+this.M);try{wd(this),0<this.B&&((this.L=xd(this.g))?(this.g.timeout=this.B,this.g.ontimeout=q(this.ua,this)):this.A=yb(this.ua,this.B,this)),this.v=!0,this.g.send(a),this.v=!1;}catch(f){vd(this,f);}};function xd(a){return z&&"number"===typeof a.timeout&&void 0!==a.ontimeout}k.ua=function(){"undefined"!=typeof goog&&this.g&&(this.j="Timed out after "+this.B+"ms, aborting",this.m=8,C(this,"timeout"),this.abort(8));};function vd(a,b){a.h=!1;a.g&&(a.l=!0,a.g.abort(),a.l=!1);a.j=b;a.m=5;yd(a);zd(a);}
+function yd(a){a.F||(a.F=!0,C(a,"complete"),C(a,"error"));}k.abort=function(a){this.g&&this.h&&(this.h=!1,this.l=!0,this.g.abort(),this.l=!1,this.m=a||7,C(this,"complete"),C(this,"abort"),zd(this));};k.N=function(){this.g&&(this.h&&(this.h=!1,this.l=!0,this.g.abort(),this.l=!1),zd(this,!0));P.$.N.call(this);};k.La=function(){this.s||(this.G||this.v||this.l?Ad(this):this.kb());};k.kb=function(){Ad(this);};
+function Ad(a){if(a.h&&"undefined"!=typeof goog&&(!a.C[1]||4!=H(a)||2!=a.da()))if(a.v&&4==H(a))yb(a.La,0,a);else if(C(a,"readystatechange"),4==H(a)){a.h=!1;try{const h=a.da();a:switch(h){case 200:case 201:case 202:case 204:case 206:case 304:case 1223:var b=!0;break a;default:b=!1;}var c;if(!(c=b)){var d;if(d=0===h){var e=String(a.I).match(Lc)[1]||null;!e&&l.self&&l.self.location&&(e=l.self.location.protocol.slice(0,-1));d=!td.test(e?e.toLowerCase():"");}c=d;}if(c)C(a,"complete"),C(a,"success");else {a.m=
+6;try{var f=2<H(a)?a.g.statusText:"";}catch(n){f="";}a.j=f+" ["+a.da()+"]";yd(a);}}finally{zd(a);}}}function zd(a,b){if(a.g){wd(a);const c=a.g,d=a.C[0]?()=>{}:null;a.g=null;a.C=null;b||C(a,"ready");try{c.onreadystatechange=d;}catch(e){}}}function wd(a){a.g&&a.L&&(a.g.ontimeout=null);a.A&&(l.clearTimeout(a.A),a.A=null);}k.isActive=function(){return !!this.g};function H(a){return a.g?a.g.readyState:0}k.da=function(){try{return 2<H(this)?this.g.status:-1}catch(a){return -1}};
+k.ja=function(){try{return this.g?this.g.responseText:""}catch(a){return ""}};k.Wa=function(a){if(this.g){var b=this.g.responseText;a&&0==b.indexOf(a)&&(b=b.substring(a.length));return rd(b)}};function mc(a){try{if(!a.g)return null;if("response"in a.g)return a.g.response;switch(a.K){case sd:case "text":return a.g.responseText;case "arraybuffer":if("mozResponseArrayBuffer"in a.g)return a.g.mozResponseArrayBuffer}return null}catch(b){return null}}
+function tc(a){const b={};a=(a.g&&2<=H(a)?a.g.getAllResponseHeaders()||"":"").split("\r\n");for(let d=0;d<a.length;d++){if(x(a[d]))continue;var c=qb(a[d]);const e=c[0];c=c[1];if("string"!==typeof c)continue;c=c.trim();const f=b[e]||[];b[e]=f;f.push(c);}Oa(b,function(d){return d.join(", ")});}k.Ia=function(){return this.m};k.Sa=function(){return "string"===typeof this.j?this.j:String(this.j)};function Bd(a){let b="";Na(a,function(c,d){b+=d;b+=":";b+=c;b+="\r\n";});return b}function Cd(a,b,c){a:{for(d in c){var d=!1;break a}d=!0;}d||(c=Bd(c),"string"===typeof a?(null!=c&&encodeURIComponent(String(c))):K(a,b,c));}function Dd(a,b,c){return c&&c.internalChannelParams?c.internalChannelParams[a]||b:b}
+function Ed(a){this.Ga=0;this.j=[];this.l=new Gb;this.pa=this.wa=this.I=this.Y=this.g=this.Da=this.F=this.na=this.o=this.U=this.s=null;this.fb=this.W=0;this.cb=Dd("failFast",!1,a);this.G=this.v=this.u=this.m=this.h=null;this.aa=!0;this.Fa=this.V=-1;this.ba=this.A=this.C=0;this.ab=Dd("baseRetryDelayMs",5E3,a);this.hb=Dd("retryDelaySeedMs",1E4,a);this.eb=Dd("forwardChannelMaxRetries",2,a);this.xa=Dd("forwardChannelRequestTimeoutMs",2E4,a);this.va=a&&a.xmlHttpFactory||void 0;this.Ha=a&&a.useFetchStreams||
+!1;this.L=void 0;this.J=a&&a.supportsCrossDomainXhr||!1;this.K="";this.i=new cd(a&&a.concurrentRequestLimit);this.Ja=new hd;this.P=a&&a.fastHandshake||!1;this.O=a&&a.encodeInitMessageHeaders||!1;this.P&&this.O&&(this.O=!1);this.bb=a&&a.bc||!1;a&&a.Ea&&this.l.Ea();a&&a.forceLongPolling&&(this.aa=!1);this.ca=!this.P&&this.aa&&a&&a.detectBufferingProxy||!1;this.qa=void 0;a&&a.longPollingTimeout&&0<a.longPollingTimeout&&(this.qa=a.longPollingTimeout);this.oa=void 0;this.S=0;this.M=!1;this.ma=this.B=null;}
+k=Ed.prototype;k.ra=8;k.H=1;function Hc(a){Fd(a);if(3==a.H){var b=a.W++,c=G(a.I);K(c,"SID",a.K);K(c,"RID",b);K(c,"TYPE","terminate");Gd(a,c);b=new bc(a,a.l,b);b.L=2;b.A=hc(G(c));c=!1;if(l.navigator&&l.navigator.sendBeacon)try{c=l.navigator.sendBeacon(b.A.toString(),"");}catch(d){}!c&&l.Image&&((new Image).src=b.A,c=!0);c||(b.g=lc(b.l,null),b.g.ha(b.A));b.G=Date.now();jc(b);}Hd(a);}function zc(a){a.g&&(vc(a),a.g.cancel(),a.g=null);}
+function Fd(a){zc(a);a.u&&(l.clearTimeout(a.u),a.u=null);yc(a);a.i.cancel();a.m&&("number"===typeof a.m&&l.clearTimeout(a.m),a.m=null);}function Gc(a){if(!ed(a.i)&&!a.m){a.m=!0;var b=a.Na;sb||vb();tb||(sb(),tb=!0);mb.add(b,a);a.C=0;}}function Id(a,b){if(Bc(a.i)>=a.i.j-(a.m?1:0))return !1;if(a.m)return a.j=b.F.concat(a.j),!0;if(1==a.H||2==a.H||a.C>=(a.cb?0:a.eb))return !1;a.m=Rb(q(a.Na,a,b),Jd(a,a.C));a.C++;return !0}
+k.Na=function(a){if(this.m)if(this.m=null,1==this.H){if(!a){this.W=Math.floor(1E5*Math.random());a=this.W++;const e=new bc(this,this.l,a);let f=this.s;this.U&&(f?(f=Pa(f),Ra(f,this.U)):f=this.U);null!==this.o||this.O||(e.I=f,f=null);if(this.P)a:{var b=0;for(var c=0;c<this.j.length;c++){b:{var d=this.j[c];if("__data__"in d.map&&(d=d.map.__data__,"string"===typeof d)){d=d.length;break b}d=void 0;}if(void 0===d)break;b+=d;if(4096<b){b=c;break a}if(4096===b||c===this.j.length-1){b=c+1;break a}}b=1E3;}else b=
+1E3;b=Kd(this,e,b);c=G(this.I);K(c,"RID",a);K(c,"CVER",22);this.F&&K(c,"X-HTTP-Session-Id",this.F);Gd(this,c);f&&(this.O?b="headers="+encodeURIComponent(String(Bd(f)))+"&"+b:this.o&&Cd(c,this.o,f));Cc(this.i,e);this.bb&&K(c,"TYPE","init");this.P?(K(c,"$req",b),K(c,"SID","null"),e.aa=!0,gc(e,c,null)):gc(e,c,b);this.H=2;}}else 3==this.H&&(a?Ld(this,a):0==this.j.length||ed(this.i)||Ld(this));};
+function Ld(a,b){var c;b?c=b.m:c=a.W++;const d=G(a.I);K(d,"SID",a.K);K(d,"RID",c);K(d,"AID",a.V);Gd(a,d);a.o&&a.s&&Cd(d,a.o,a.s);c=new bc(a,a.l,c,a.C+1);null===a.o&&(c.I=a.s);b&&(a.j=b.F.concat(a.j));b=Kd(a,c,1E3);c.setTimeout(Math.round(.5*a.xa)+Math.round(.5*a.xa*Math.random()));Cc(a.i,c);gc(c,d,b);}function Gd(a,b){a.na&&Na(a.na,function(c,d){K(b,d,c);});a.h&&Kc({},function(c,d){K(b,d,c);});}
+function Kd(a,b,c){c=Math.min(a.j.length,c);var d=a.h?q(a.h.Va,a.h,a):null;a:{var e=a.j;let f=-1;for(;;){const h=["count="+c];-1==f?0<c?(f=e[0].g,h.push("ofs="+f)):f=0:h.push("ofs="+f);let n=!0;for(let t=0;t<c;t++){let m=e[t].g;const u=e[t].map;m-=f;if(0>m)f=Math.max(0,e[t].g-100),n=!1;else try{id(u,h,"req"+m+"_");}catch(L){d&&d(u);}}if(n){d=h.join("&");break a}}}a=a.j.splice(0,c);b.F=a;return d}function Fc(a){if(!a.g&&!a.u){a.ba=1;var b=a.Ma;sb||vb();tb||(sb(),tb=!0);mb.add(b,a);a.A=0;}}
+function Ac(a){if(a.g||a.u||3<=a.A)return !1;a.ba++;a.u=Rb(q(a.Ma,a),Jd(a,a.A));a.A++;return !0}k.Ma=function(){this.u=null;Md(this);if(this.ca&&!(this.M||null==this.g||0>=this.S)){var a=2*this.S;this.l.info("BP detection timer enabled: "+a);this.B=Rb(q(this.jb,this),a);}};k.jb=function(){this.B&&(this.B=null,this.l.info("BP detection timeout reached."),this.l.info("Buffering proxy detected and switch to long-polling!"),this.G=!1,this.M=!0,F(10),zc(this),Md(this));};
+function vc(a){null!=a.B&&(l.clearTimeout(a.B),a.B=null);}function Md(a){a.g=new bc(a,a.l,"rpc",a.ba);null===a.o&&(a.g.I=a.s);a.g.O=0;var b=G(a.wa);K(b,"RID","rpc");K(b,"SID",a.K);K(b,"AID",a.V);K(b,"CI",a.G?"0":"1");!a.G&&a.qa&&K(b,"TO",a.qa);K(b,"TYPE","xmlhttp");Gd(a,b);a.o&&a.s&&Cd(b,a.o,a.s);a.L&&a.g.setTimeout(a.L);var c=a.g;a=a.pa;c.L=1;c.A=hc(G(b));c.u=null;c.S=!0;ic(c,a);}k.ib=function(){null!=this.v&&(this.v=null,zc(this),Ac(this),F(19));};
+function yc(a){null!=a.v&&(l.clearTimeout(a.v),a.v=null);}function sc(a,b){var c=null;if(a.g==b){yc(a);vc(a);a.g=null;var d=2;}else if(xc(a.i,b))c=b.F,Ec(a.i,b),d=1;else return;if(0!=a.H)if(b.i)if(1==d){c=b.u?b.u.length:0;b=Date.now()-b.G;var e=a.C;d=Mb();C(d,new Qb(d,c));Gc(a);}else Fc(a);else if(e=b.s,3==e||0==e&&0<b.ca||!(1==d&&Id(a,b)||2==d&&Ac(a)))switch(c&&0<c.length&&(b=a.i,b.i=b.i.concat(c)),e){case 1:J(a,5);break;case 4:J(a,10);break;case 3:J(a,6);break;default:J(a,2);}}
+function Jd(a,b){let c=a.ab+Math.floor(Math.random()*a.hb);a.isActive()||(c*=2);return c*b}function J(a,b){a.l.info("Error code "+b);if(2==b){var c=null;a.h&&(c=null);var d=q(a.pb,a);c||(c=new M("//www.google.com/images/cleardot.gif"),l.location&&"http"==l.location.protocol||Nc(c,"https"),hc(c));jd(c.toString(),d);}else F(2);a.H=0;a.h&&a.h.za(b);Hd(a);Fd(a);}k.pb=function(a){a?(this.l.info("Successfully pinged google.com"),F(2)):(this.l.info("Failed to ping google.com"),F(1));};
+function Hd(a){a.H=0;a.ma=[];if(a.h){const b=fd(a.i);if(0!=b.length||0!=a.j.length)na(a.ma,b),na(a.ma,a.j),a.i.i.length=0,ma(a.j),a.j.length=0;a.h.ya();}}function Dc(a,b,c){var d=c instanceof M?G(c):new M(c);if(""!=d.g)b&&(d.g=b+"."+d.g),Oc(d,d.m);else {var e=l.location;d=e.protocol;b=b?b+"."+e.hostname:e.hostname;e=+e.port;var f=new M(null);d&&Nc(f,d);b&&(f.g=b);e&&Oc(f,e);c&&(f.l=c);d=f;}c=a.F;b=a.Da;c&&b&&K(d,c,b);K(d,"VER",a.ra);Gd(a,d);return d}
+function lc(a,b,c){if(b&&!a.J)throw Error("Can't create secondary domain capable XhrIo object.");b=a.Ha&&!a.va?new P(new ld({ob:c})):new P(a.va);b.Oa(a.J);return b}k.isActive=function(){return !!this.h&&this.h.isActive(this)};function Nd(){}k=Nd.prototype;k.Ba=function(){};k.Aa=function(){};k.za=function(){};k.ya=function(){};k.isActive=function(){return !0};k.Va=function(){};function Q(a,b){B.call(this);this.g=new Ed(b);this.l=a;this.h=b&&b.messageUrlParams||null;a=b&&b.messageHeaders||null;b&&b.clientProtocolHeaderRequired&&(a?a["X-Client-Protocol"]="webchannel":a={"X-Client-Protocol":"webchannel"});this.g.s=a;a=b&&b.initMessageHeaders||null;b&&b.messageContentType&&(a?a["X-WebChannel-Content-Type"]=b.messageContentType:a={"X-WebChannel-Content-Type":b.messageContentType});b&&b.Ca&&(a?a["X-WebChannel-Client-Profile"]=b.Ca:a={"X-WebChannel-Client-Profile":b.Ca});this.g.U=
+a;(a=b&&b.cc)&&!x(a)&&(this.g.o=a);this.A=b&&b.supportsCrossDomainXhr||!1;this.v=b&&b.sendRawJson||!1;(b=b&&b.httpSessionIdParam)&&!x(b)&&(this.g.F=b,a=this.h,null!==a&&b in a&&(a=this.h,b in a&&delete a[b]));this.j=new R(this);}r(Q,B);Q.prototype.m=function(){this.g.h=this.j;this.A&&(this.g.J=!0);var a=this.g,b=this.l,c=this.h||void 0;F(0);a.Y=b;a.na=c||{};a.G=a.aa;a.I=Dc(a,null,a.Y);Gc(a);};Q.prototype.close=function(){Hc(this.g);};
+Q.prototype.u=function(a){var b=this.g;if("string"===typeof a){var c={};c.__data__=a;a=c;}else this.v&&(c={},c.__data__=jb(a),a=c);b.j.push(new bd(b.fb++,a));3==b.H&&Gc(b);};Q.prototype.N=function(){this.g.h=null;delete this.j;Hc(this.g);delete this.g;Q.$.N.call(this);};
+function Pd(a){Yb.call(this);a.__headers__&&(this.headers=a.__headers__,this.statusCode=a.__status__,delete a.__headers__,delete a.__status__);var b=a.__sm__;if(b){a:{for(const c in b){a=c;break a}a=void 0;}if(this.i=a)a=this.i,b=null!==b&&a in b?b[a]:void 0;this.data=b;}else this.data=a;}r(Pd,Yb);function Qd(){Zb.call(this);this.status=1;}r(Qd,Zb);function R(a){this.g=a;}r(R,Nd);R.prototype.Ba=function(){C(this.g,"a");};R.prototype.Aa=function(a){C(this.g,new Pd(a));};
+R.prototype.za=function(a){C(this.g,new Qd());};R.prototype.ya=function(){C(this.g,"b");};function Rd(){this.blockSize=-1;}function S$1(){this.blockSize=-1;this.blockSize=64;this.g=Array(4);this.m=Array(this.blockSize);this.i=this.h=0;this.reset();}r(S$1,Rd);S$1.prototype.reset=function(){this.g[0]=1732584193;this.g[1]=4023233417;this.g[2]=2562383102;this.g[3]=271733878;this.i=this.h=0;};
+function Sd(a,b,c){c||(c=0);var d=Array(16);if("string"===typeof b)for(var e=0;16>e;++e)d[e]=b.charCodeAt(c++)|b.charCodeAt(c++)<<8|b.charCodeAt(c++)<<16|b.charCodeAt(c++)<<24;else for(e=0;16>e;++e)d[e]=b[c++]|b[c++]<<8|b[c++]<<16|b[c++]<<24;b=a.g[0];c=a.g[1];e=a.g[2];var f=a.g[3];var h=b+(f^c&(e^f))+d[0]+3614090360&4294967295;b=c+(h<<7&4294967295|h>>>25);h=f+(e^b&(c^e))+d[1]+3905402710&4294967295;f=b+(h<<12&4294967295|h>>>20);h=e+(c^f&(b^c))+d[2]+606105819&4294967295;e=f+(h<<17&4294967295|h>>>15);
+h=c+(b^e&(f^b))+d[3]+3250441966&4294967295;c=e+(h<<22&4294967295|h>>>10);h=b+(f^c&(e^f))+d[4]+4118548399&4294967295;b=c+(h<<7&4294967295|h>>>25);h=f+(e^b&(c^e))+d[5]+1200080426&4294967295;f=b+(h<<12&4294967295|h>>>20);h=e+(c^f&(b^c))+d[6]+2821735955&4294967295;e=f+(h<<17&4294967295|h>>>15);h=c+(b^e&(f^b))+d[7]+4249261313&4294967295;c=e+(h<<22&4294967295|h>>>10);h=b+(f^c&(e^f))+d[8]+1770035416&4294967295;b=c+(h<<7&4294967295|h>>>25);h=f+(e^b&(c^e))+d[9]+2336552879&4294967295;f=b+(h<<12&4294967295|
+h>>>20);h=e+(c^f&(b^c))+d[10]+4294925233&4294967295;e=f+(h<<17&4294967295|h>>>15);h=c+(b^e&(f^b))+d[11]+2304563134&4294967295;c=e+(h<<22&4294967295|h>>>10);h=b+(f^c&(e^f))+d[12]+1804603682&4294967295;b=c+(h<<7&4294967295|h>>>25);h=f+(e^b&(c^e))+d[13]+4254626195&4294967295;f=b+(h<<12&4294967295|h>>>20);h=e+(c^f&(b^c))+d[14]+2792965006&4294967295;e=f+(h<<17&4294967295|h>>>15);h=c+(b^e&(f^b))+d[15]+1236535329&4294967295;c=e+(h<<22&4294967295|h>>>10);h=b+(e^f&(c^e))+d[1]+4129170786&4294967295;b=c+(h<<
+5&4294967295|h>>>27);h=f+(c^e&(b^c))+d[6]+3225465664&4294967295;f=b+(h<<9&4294967295|h>>>23);h=e+(b^c&(f^b))+d[11]+643717713&4294967295;e=f+(h<<14&4294967295|h>>>18);h=c+(f^b&(e^f))+d[0]+3921069994&4294967295;c=e+(h<<20&4294967295|h>>>12);h=b+(e^f&(c^e))+d[5]+3593408605&4294967295;b=c+(h<<5&4294967295|h>>>27);h=f+(c^e&(b^c))+d[10]+38016083&4294967295;f=b+(h<<9&4294967295|h>>>23);h=e+(b^c&(f^b))+d[15]+3634488961&4294967295;e=f+(h<<14&4294967295|h>>>18);h=c+(f^b&(e^f))+d[4]+3889429448&4294967295;c=
+e+(h<<20&4294967295|h>>>12);h=b+(e^f&(c^e))+d[9]+568446438&4294967295;b=c+(h<<5&4294967295|h>>>27);h=f+(c^e&(b^c))+d[14]+3275163606&4294967295;f=b+(h<<9&4294967295|h>>>23);h=e+(b^c&(f^b))+d[3]+4107603335&4294967295;e=f+(h<<14&4294967295|h>>>18);h=c+(f^b&(e^f))+d[8]+1163531501&4294967295;c=e+(h<<20&4294967295|h>>>12);h=b+(e^f&(c^e))+d[13]+2850285829&4294967295;b=c+(h<<5&4294967295|h>>>27);h=f+(c^e&(b^c))+d[2]+4243563512&4294967295;f=b+(h<<9&4294967295|h>>>23);h=e+(b^c&(f^b))+d[7]+1735328473&4294967295;
+e=f+(h<<14&4294967295|h>>>18);h=c+(f^b&(e^f))+d[12]+2368359562&4294967295;c=e+(h<<20&4294967295|h>>>12);h=b+(c^e^f)+d[5]+4294588738&4294967295;b=c+(h<<4&4294967295|h>>>28);h=f+(b^c^e)+d[8]+2272392833&4294967295;f=b+(h<<11&4294967295|h>>>21);h=e+(f^b^c)+d[11]+1839030562&4294967295;e=f+(h<<16&4294967295|h>>>16);h=c+(e^f^b)+d[14]+4259657740&4294967295;c=e+(h<<23&4294967295|h>>>9);h=b+(c^e^f)+d[1]+2763975236&4294967295;b=c+(h<<4&4294967295|h>>>28);h=f+(b^c^e)+d[4]+1272893353&4294967295;f=b+(h<<11&4294967295|
+h>>>21);h=e+(f^b^c)+d[7]+4139469664&4294967295;e=f+(h<<16&4294967295|h>>>16);h=c+(e^f^b)+d[10]+3200236656&4294967295;c=e+(h<<23&4294967295|h>>>9);h=b+(c^e^f)+d[13]+681279174&4294967295;b=c+(h<<4&4294967295|h>>>28);h=f+(b^c^e)+d[0]+3936430074&4294967295;f=b+(h<<11&4294967295|h>>>21);h=e+(f^b^c)+d[3]+3572445317&4294967295;e=f+(h<<16&4294967295|h>>>16);h=c+(e^f^b)+d[6]+76029189&4294967295;c=e+(h<<23&4294967295|h>>>9);h=b+(c^e^f)+d[9]+3654602809&4294967295;b=c+(h<<4&4294967295|h>>>28);h=f+(b^c^e)+d[12]+
+3873151461&4294967295;f=b+(h<<11&4294967295|h>>>21);h=e+(f^b^c)+d[15]+530742520&4294967295;e=f+(h<<16&4294967295|h>>>16);h=c+(e^f^b)+d[2]+3299628645&4294967295;c=e+(h<<23&4294967295|h>>>9);h=b+(e^(c|~f))+d[0]+4096336452&4294967295;b=c+(h<<6&4294967295|h>>>26);h=f+(c^(b|~e))+d[7]+1126891415&4294967295;f=b+(h<<10&4294967295|h>>>22);h=e+(b^(f|~c))+d[14]+2878612391&4294967295;e=f+(h<<15&4294967295|h>>>17);h=c+(f^(e|~b))+d[5]+4237533241&4294967295;c=e+(h<<21&4294967295|h>>>11);h=b+(e^(c|~f))+d[12]+1700485571&
+4294967295;b=c+(h<<6&4294967295|h>>>26);h=f+(c^(b|~e))+d[3]+2399980690&4294967295;f=b+(h<<10&4294967295|h>>>22);h=e+(b^(f|~c))+d[10]+4293915773&4294967295;e=f+(h<<15&4294967295|h>>>17);h=c+(f^(e|~b))+d[1]+2240044497&4294967295;c=e+(h<<21&4294967295|h>>>11);h=b+(e^(c|~f))+d[8]+1873313359&4294967295;b=c+(h<<6&4294967295|h>>>26);h=f+(c^(b|~e))+d[15]+4264355552&4294967295;f=b+(h<<10&4294967295|h>>>22);h=e+(b^(f|~c))+d[6]+2734768916&4294967295;e=f+(h<<15&4294967295|h>>>17);h=c+(f^(e|~b))+d[13]+1309151649&
+4294967295;c=e+(h<<21&4294967295|h>>>11);h=b+(e^(c|~f))+d[4]+4149444226&4294967295;b=c+(h<<6&4294967295|h>>>26);h=f+(c^(b|~e))+d[11]+3174756917&4294967295;f=b+(h<<10&4294967295|h>>>22);h=e+(b^(f|~c))+d[2]+718787259&4294967295;e=f+(h<<15&4294967295|h>>>17);h=c+(f^(e|~b))+d[9]+3951481745&4294967295;a.g[0]=a.g[0]+b&4294967295;a.g[1]=a.g[1]+(e+(h<<21&4294967295|h>>>11))&4294967295;a.g[2]=a.g[2]+e&4294967295;a.g[3]=a.g[3]+f&4294967295;}
+S$1.prototype.j=function(a,b){void 0===b&&(b=a.length);for(var c=b-this.blockSize,d=this.m,e=this.h,f=0;f<b;){if(0==e)for(;f<=c;)Sd(this,a,f),f+=this.blockSize;if("string"===typeof a)for(;f<b;){if(d[e++]=a.charCodeAt(f++),e==this.blockSize){Sd(this,d);e=0;break}}else for(;f<b;)if(d[e++]=a[f++],e==this.blockSize){Sd(this,d);e=0;break}}this.h=e;this.i+=b;};
+S$1.prototype.l=function(){var a=Array((56>this.h?this.blockSize:2*this.blockSize)-this.h);a[0]=128;for(var b=1;b<a.length-8;++b)a[b]=0;var c=8*this.i;for(b=a.length-8;b<a.length;++b)a[b]=c&255,c/=256;this.j(a);a=Array(16);for(b=c=0;4>b;++b)for(var d=0;32>d;d+=8)a[c++]=this.g[b]>>>d&255;return a};function T(a,b){this.h=b;for(var c=[],d=!0,e=a.length-1;0<=e;e--){var f=a[e]|0;d&&f==b||(c[e]=f,d=!1);}this.g=c;}var sa={};function Td(a){return -128<=a&&128>a?ra(a,function(b){return new T([b|0],0>b?-1:0)}):new T([a|0],0>a?-1:0)}function U(a){if(isNaN(a)||!isFinite(a))return V;if(0>a)return W(U(-a));for(var b=[],c=1,d=0;a>=c;d++)b[d]=a/c|0,c*=Ud;return new T(b,0)}
+function Vd(a,b){if(0==a.length)throw Error("number format error: empty string");b=b||10;if(2>b||36<b)throw Error("radix out of range: "+b);if("-"==a.charAt(0))return W(Vd(a.substring(1),b));if(0<=a.indexOf("-"))throw Error('number format error: interior "-" character');for(var c=U(Math.pow(b,8)),d=V,e=0;e<a.length;e+=8){var f=Math.min(8,a.length-e),h=parseInt(a.substring(e,e+f),b);8>f?(f=U(Math.pow(b,f)),d=d.R(f).add(U(h))):(d=d.R(c),d=d.add(U(h)));}return d}
+var Ud=4294967296,V=Td(0),Wd=Td(1),Xd=Td(16777216);k=T.prototype;k.ea=function(){if(X(this))return -W(this).ea();for(var a=0,b=1,c=0;c<this.g.length;c++){var d=this.D(c);a+=(0<=d?d:Ud+d)*b;b*=Ud;}return a};
+k.toString=function(a){a=a||10;if(2>a||36<a)throw Error("radix out of range: "+a);if(Y(this))return "0";if(X(this))return "-"+W(this).toString(a);for(var b=U(Math.pow(a,6)),c=this,d="";;){var e=Yd(c,b).g;c=Zd(c,e.R(b));var f=((0<c.g.length?c.g[0]:c.h)>>>0).toString(a);c=e;if(Y(c))return f+d;for(;6>f.length;)f="0"+f;d=f+d;}};k.D=function(a){return 0>a?0:a<this.g.length?this.g[a]:this.h};function Y(a){if(0!=a.h)return !1;for(var b=0;b<a.g.length;b++)if(0!=a.g[b])return !1;return !0}
+function X(a){return -1==a.h}k.X=function(a){a=Zd(this,a);return X(a)?-1:Y(a)?0:1};function W(a){for(var b=a.g.length,c=[],d=0;d<b;d++)c[d]=~a.g[d];return (new T(c,~a.h)).add(Wd)}k.abs=function(){return X(this)?W(this):this};k.add=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0,e=0;e<=b;e++){var f=d+(this.D(e)&65535)+(a.D(e)&65535),h=(f>>>16)+(this.D(e)>>>16)+(a.D(e)>>>16);d=h>>>16;f&=65535;h&=65535;c[e]=h<<16|f;}return new T(c,c[c.length-1]&-2147483648?-1:0)};
+function Zd(a,b){return a.add(W(b))}
+k.R=function(a){if(Y(this)||Y(a))return V;if(X(this))return X(a)?W(this).R(W(a)):W(W(this).R(a));if(X(a))return W(this.R(W(a)));if(0>this.X(Xd)&&0>a.X(Xd))return U(this.ea()*a.ea());for(var b=this.g.length+a.g.length,c=[],d=0;d<2*b;d++)c[d]=0;for(d=0;d<this.g.length;d++)for(var e=0;e<a.g.length;e++){var f=this.D(d)>>>16,h=this.D(d)&65535,n=a.D(e)>>>16,t=a.D(e)&65535;c[2*d+2*e]+=h*t;$d(c,2*d+2*e);c[2*d+2*e+1]+=f*t;$d(c,2*d+2*e+1);c[2*d+2*e+1]+=h*n;$d(c,2*d+2*e+1);c[2*d+2*e+2]+=f*n;$d(c,2*d+2*e+2);}for(d=
+0;d<b;d++)c[d]=c[2*d+1]<<16|c[2*d];for(d=b;d<2*b;d++)c[d]=0;return new T(c,0)};function $d(a,b){for(;(a[b]&65535)!=a[b];)a[b+1]+=a[b]>>>16,a[b]&=65535,b++;}function ae$1(a,b){this.g=a;this.h=b;}
+function Yd(a,b){if(Y(b))throw Error("division by zero");if(Y(a))return new ae$1(V,V);if(X(a))return b=Yd(W(a),b),new ae$1(W(b.g),W(b.h));if(X(b))return b=Yd(a,W(b)),new ae$1(W(b.g),b.h);if(30<a.g.length){if(X(a)||X(b))throw Error("slowDivide_ only works with positive integers.");for(var c=Wd,d=b;0>=d.X(a);)c=be(c),d=be(d);var e=Z(c,1),f=Z(d,1);d=Z(d,2);for(c=Z(c,2);!Y(d);){var h=f.add(d);0>=h.X(a)&&(e=e.add(c),f=h);d=Z(d,1);c=Z(c,1);}b=Zd(a,e.R(b));return new ae$1(e,b)}for(e=V;0<=a.X(b);){c=Math.max(1,Math.floor(a.ea()/
+b.ea()));d=Math.ceil(Math.log(c)/Math.LN2);d=48>=d?1:Math.pow(2,d-48);f=U(c);for(h=f.R(b);X(h)||0<h.X(a);)c-=d,f=U(c),h=f.R(b);Y(f)&&(f=Wd);e=e.add(f);a=Zd(a,h);}return new ae$1(e,a)}k.gb=function(a){return Yd(this,a).h};k.and=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)&a.D(d);return new T(c,this.h&a.h)};k.or=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)|a.D(d);return new T(c,this.h|a.h)};
+k.xor=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)^a.D(d);return new T(c,this.h^a.h)};function be(a){for(var b=a.g.length+1,c=[],d=0;d<b;d++)c[d]=a.D(d)<<1|a.D(d-1)>>>31;return new T(c,a.h)}function Z(a,b){var c=b>>5;b%=32;for(var d=a.g.length-c,e=[],f=0;f<d;f++)e[f]=0<b?a.D(f+c)>>>b|a.D(f+c+1)<<32-b:a.D(f+c);return new T(e,a.h)}Q.prototype.send=Q.prototype.u;Q.prototype.open=Q.prototype.m;Q.prototype.close=Q.prototype.close;Sb.NO_ERROR=0;Sb.TIMEOUT=8;Sb.HTTP_ERROR=6;Tb.COMPLETE="complete";Wb.EventType=Xb;Xb.OPEN="a";Xb.CLOSE="b";Xb.ERROR="c";Xb.MESSAGE="d";B.prototype.listen=B.prototype.O;P.prototype.listenOnce=P.prototype.P;P.prototype.getLastError=P.prototype.Sa;P.prototype.getLastErrorCode=P.prototype.Ia;P.prototype.getStatus=P.prototype.da;P.prototype.getResponseJson=P.prototype.Wa;
+P.prototype.getResponseText=P.prototype.ja;P.prototype.send=P.prototype.ha;P.prototype.setWithCredentials=P.prototype.Oa;S$1.prototype.digest=S$1.prototype.l;S$1.prototype.reset=S$1.prototype.reset;S$1.prototype.update=S$1.prototype.j;T.prototype.add=T.prototype.add;T.prototype.multiply=T.prototype.R;T.prototype.modulo=T.prototype.gb;T.prototype.compare=T.prototype.X;T.prototype.toNumber=T.prototype.ea;T.prototype.toString=T.prototype.toString;T.prototype.getBits=T.prototype.D;T.fromNumber=U;T.fromString=Vd;
+var Integer = T;
+
+const w = "@firebase/firestore";
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Simple wrapper around a nullable UID. Mostly exists to make code more
+ * readable.
+ */
+class User {
+    constructor(e) {
+        this.uid = e;
+    }
+    isAuthenticated() {
+        return null != this.uid;
+    }
+    /**
+     * Returns a key representing this user, suitable for inclusion in a
+     * dictionary.
+     */    toKey() {
+        return this.isAuthenticated() ? "uid:" + this.uid : "anonymous-user";
+    }
+    isEqual(e) {
+        return e.uid === this.uid;
+    }
+}
+
+/** A user with a null UID. */ User.UNAUTHENTICATED = new User(null), 
+// TODO(mikelehen): Look into getting a proper uid-equivalent for
+// non-FirebaseAuth providers.
+User.GOOGLE_CREDENTIALS = new User("google-credentials-uid"), User.FIRST_PARTY = new User("first-party-uid"), 
+User.MOCK_USER = new User("mock-user");
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+let S = "10.7.0";
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+const b = new Logger("@firebase/firestore");
+
+function __PRIVATE_logDebug(e, ...t) {
+    if (b.logLevel <= LogLevel.DEBUG) {
+        const n = t.map(__PRIVATE_argToString);
+        b.debug(`Firestore (${S}): ${e}`, ...n);
+    }
+}
+
+function __PRIVATE_logError(e, ...t) {
+    if (b.logLevel <= LogLevel.ERROR) {
+        const n = t.map(__PRIVATE_argToString);
+        b.error(`Firestore (${S}): ${e}`, ...n);
+    }
+}
+
+/**
+ * Converts an additional log parameter to a string representation.
+ */ function __PRIVATE_argToString(e) {
+    if ("string" == typeof e) return e;
+    try {
+        /**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+        /** Formats an object as a JSON string, suitable for logging. */
+        return function __PRIVATE_formatJSON(e) {
+            return JSON.stringify(e);
+        }(e);
+    } catch (t) {
+        // Converting to JSON failed, just log the object directly
+        return e;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Unconditionally fails, throwing an Error with the given message.
+ * Messages are stripped in production builds.
+ *
+ * Returns `never` and can be used in expressions:
+ * @example
+ * let futureVar = fail('not implemented yet');
+ */ function fail(e = "Unexpected state") {
+    // Log the failure in addition to throw an exception, just in case the
+    // exception is swallowed.
+    const t = `FIRESTORE (${S}) INTERNAL ASSERTION FAILED: ` + e;
+    // NOTE: We don't use FirestoreError here because these are internal failures
+    // that cannot be handled by the user. (Also it would create a circular
+    // dependency between the error and assert modules which doesn't work.)
+    throw __PRIVATE_logError(t), new Error(t);
+}
+
+/**
+ * Fails if the given assertion condition is false, throwing an Error with the
+ * given message if it did.
+ *
+ * Messages are stripped in production builds.
+ */ function __PRIVATE_hardAssert(e, t) {
+    e || fail();
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ const D = {
+    // Causes are copied from:
+    // https://github.com/grpc/grpc/blob/bceec94ea4fc5f0085d81235d8e1c06798dc341a/include/grpc%2B%2B/impl/codegen/status_code_enum.h
+    /** Not an error; returned on success. */
+    OK: "ok",
+    /** The operation was cancelled (typically by the caller). */
+    CANCELLED: "cancelled",
+    /** Unknown error or an error from a different error domain. */
+    UNKNOWN: "unknown",
+    /**
+     * Client specified an invalid argument. Note that this differs from
+     * FAILED_PRECONDITION. INVALID_ARGUMENT indicates arguments that are
+     * problematic regardless of the state of the system (e.g., a malformed file
+     * name).
+     */
+    INVALID_ARGUMENT: "invalid-argument",
+    /**
+     * Deadline expired before operation could complete. For operations that
+     * change the state of the system, this error may be returned even if the
+     * operation has completed successfully. For example, a successful response
+     * from a server could have been delayed long enough for the deadline to
+     * expire.
+     */
+    DEADLINE_EXCEEDED: "deadline-exceeded",
+    /** Some requested entity (e.g., file or directory) was not found. */
+    NOT_FOUND: "not-found",
+    /**
+     * Some entity that we attempted to create (e.g., file or directory) already
+     * exists.
+     */
+    ALREADY_EXISTS: "already-exists",
+    /**
+     * The caller does not have permission to execute the specified operation.
+     * PERMISSION_DENIED must not be used for rejections caused by exhausting
+     * some resource (use RESOURCE_EXHAUSTED instead for those errors).
+     * PERMISSION_DENIED must not be used if the caller can not be identified
+     * (use UNAUTHENTICATED instead for those errors).
+     */
+    PERMISSION_DENIED: "permission-denied",
+    /**
+     * The request does not have valid authentication credentials for the
+     * operation.
+     */
+    UNAUTHENTICATED: "unauthenticated",
+    /**
+     * Some resource has been exhausted, perhaps a per-user quota, or perhaps the
+     * entire file system is out of space.
+     */
+    RESOURCE_EXHAUSTED: "resource-exhausted",
+    /**
+     * Operation was rejected because the system is not in a state required for
+     * the operation's execution. For example, directory to be deleted may be
+     * non-empty, an rmdir operation is applied to a non-directory, etc.
+     *
+     * A litmus test that may help a service implementor in deciding
+     * between FAILED_PRECONDITION, ABORTED, and UNAVAILABLE:
+     *  (a) Use UNAVAILABLE if the client can retry just the failing call.
+     *  (b) Use ABORTED if the client should retry at a higher-level
+     *      (e.g., restarting a read-modify-write sequence).
+     *  (c) Use FAILED_PRECONDITION if the client should not retry until
+     *      the system state has been explicitly fixed. E.g., if an "rmdir"
+     *      fails because the directory is non-empty, FAILED_PRECONDITION
+     *      should be returned since the client should not retry unless
+     *      they have first fixed up the directory by deleting files from it.
+     *  (d) Use FAILED_PRECONDITION if the client performs conditional
+     *      REST Get/Update/Delete on a resource and the resource on the
+     *      server does not match the condition. E.g., conflicting
+     *      read-modify-write on the same resource.
+     */
+    FAILED_PRECONDITION: "failed-precondition",
+    /**
+     * The operation was aborted, typically due to a concurrency issue like
+     * sequencer check failures, transaction aborts, etc.
+     *
+     * See litmus test above for deciding between FAILED_PRECONDITION, ABORTED,
+     * and UNAVAILABLE.
+     */
+    ABORTED: "aborted",
+    /**
+     * Operation was attempted past the valid range. E.g., seeking or reading
+     * past end of file.
+     *
+     * Unlike INVALID_ARGUMENT, this error indicates a problem that may be fixed
+     * if the system state changes. For example, a 32-bit file system will
+     * generate INVALID_ARGUMENT if asked to read at an offset that is not in the
+     * range [0,2^32-1], but it will generate OUT_OF_RANGE if asked to read from
+     * an offset past the current file size.
+     *
+     * There is a fair bit of overlap between FAILED_PRECONDITION and
+     * OUT_OF_RANGE. We recommend using OUT_OF_RANGE (the more specific error)
+     * when it applies so that callers who are iterating through a space can
+     * easily look for an OUT_OF_RANGE error to detect when they are done.
+     */
+    OUT_OF_RANGE: "out-of-range",
+    /** Operation is not implemented or not supported/enabled in this service. */
+    UNIMPLEMENTED: "unimplemented",
+    /**
+     * Internal errors. Means some invariants expected by underlying System has
+     * been broken. If you see one of these errors, Something is very broken.
+     */
+    INTERNAL: "internal",
+    /**
+     * The service is currently unavailable. This is a most likely a transient
+     * condition and may be corrected by retrying with a backoff.
+     *
+     * See litmus test above for deciding between FAILED_PRECONDITION, ABORTED,
+     * and UNAVAILABLE.
+     */
+    UNAVAILABLE: "unavailable",
+    /** Unrecoverable data loss or corruption. */
+    DATA_LOSS: "data-loss"
+};
+
+/** An error returned by a Firestore operation. */ class FirestoreError extends FirebaseError {
+    /** @hideconstructor */
+    constructor(
+    /**
+     * The backend error code associated with this error.
+     */
+    e, 
+    /**
+     * A custom error description.
+     */
+    t) {
+        super(e, t), this.code = e, this.message = t, 
+        // HACK: We write a toString property directly because Error is not a real
+        // class and so inheritance does not work correctly. We could alternatively
+        // do the same "back-door inheritance" trick that FirebaseError does.
+        this.toString = () => `${this.name}: [code=${this.code}]: ${this.message}`;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ class __PRIVATE_Deferred {
+    constructor() {
+        this.promise = new Promise(((e, t) => {
+            this.resolve = e, this.reject = t;
+        }));
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ class __PRIVATE_OAuthToken {
+    constructor(e, t) {
+        this.user = t, this.type = "OAuth", this.headers = new Map, this.headers.set("Authorization", `Bearer ${e}`);
+    }
+}
+
+/**
+ * A CredentialsProvider that always yields an empty token.
+ * @internal
+ */ class __PRIVATE_EmptyAuthCredentialsProvider {
+    getToken() {
+        return Promise.resolve(null);
+    }
+    invalidateToken() {}
+    start(e, t) {
+        // Fire with initial user.
+        e.enqueueRetryable((() => t(User.UNAUTHENTICATED)));
+    }
+    shutdown() {}
+}
+
+class __PRIVATE_FirebaseAuthCredentialsProvider {
+    constructor(e) {
+        this.t = e, 
+        /** Tracks the current User. */
+        this.currentUser = User.UNAUTHENTICATED, 
+        /**
+         * Counter used to detect if the token changed while a getToken request was
+         * outstanding.
+         */
+        this.i = 0, this.forceRefresh = !1, this.auth = null;
+    }
+    start(e, t) {
+        let n = this.i;
+        // A change listener that prevents double-firing for the same token change.
+                const __PRIVATE_guardedChangeListener = e => this.i !== n ? (n = this.i, 
+        t(e)) : Promise.resolve();
+        // A promise that can be waited on to block on the next token change.
+        // This promise is re-created after each change.
+                let r = new __PRIVATE_Deferred;
+        this.o = () => {
+            this.i++, this.currentUser = this.u(), r.resolve(), r = new __PRIVATE_Deferred, 
+            e.enqueueRetryable((() => __PRIVATE_guardedChangeListener(this.currentUser)));
+        };
+        const __PRIVATE_awaitNextToken = () => {
+            const t = r;
+            e.enqueueRetryable((async () => {
+                await t.promise, await __PRIVATE_guardedChangeListener(this.currentUser);
+            }));
+        }, __PRIVATE_registerAuth = e => {
+            __PRIVATE_logDebug("FirebaseAuthCredentialsProvider", "Auth detected"), this.auth = e, 
+            this.auth.addAuthTokenListener(this.o), __PRIVATE_awaitNextToken();
+        };
+        this.t.onInit((e => __PRIVATE_registerAuth(e))), 
+        // Our users can initialize Auth right after Firestore, so we give it
+        // a chance to register itself with the component framework before we
+        // determine whether to start up in unauthenticated mode.
+        setTimeout((() => {
+            if (!this.auth) {
+                const e = this.t.getImmediate({
+                    optional: !0
+                });
+                e ? __PRIVATE_registerAuth(e) : (
+                // If auth is still not available, proceed with `null` user
+                __PRIVATE_logDebug("FirebaseAuthCredentialsProvider", "Auth not yet detected"), 
+                r.resolve(), r = new __PRIVATE_Deferred);
+            }
+        }), 0), __PRIVATE_awaitNextToken();
+    }
+    getToken() {
+        // Take note of the current value of the tokenCounter so that this method
+        // can fail (with an ABORTED error) if there is a token change while the
+        // request is outstanding.
+        const e = this.i, t = this.forceRefresh;
+        return this.forceRefresh = !1, this.auth ? this.auth.getToken(t).then((t => 
+        // Cancel the request since the token changed while the request was
+        // outstanding so the response is potentially for a previous user (which
+        // user, we can't be sure).
+        this.i !== e ? (__PRIVATE_logDebug("FirebaseAuthCredentialsProvider", "getToken aborted due to token change."), 
+        this.getToken()) : t ? (__PRIVATE_hardAssert("string" == typeof t.accessToken), 
+        new __PRIVATE_OAuthToken(t.accessToken, this.currentUser)) : null)) : Promise.resolve(null);
+    }
+    invalidateToken() {
+        this.forceRefresh = !0;
+    }
+    shutdown() {
+        this.auth && this.auth.removeAuthTokenListener(this.o);
+    }
+    // Auth.getUid() can return null even with a user logged in. It is because
+    // getUid() is synchronous, but the auth code populating Uid is asynchronous.
+    // This method should only be called in the AuthTokenListener callback
+    // to guarantee to get the actual user.
+    u() {
+        const e = this.auth && this.auth.getUid();
+        return __PRIVATE_hardAssert(null === e || "string" == typeof e), new User(e);
+    }
+}
+
+/*
+ * FirstPartyToken provides a fresh token each time its value
+ * is requested, because if the token is too old, requests will be rejected.
+ * Technically this may no longer be necessary since the SDK should gracefully
+ * recover from unauthenticated errors (see b/33147818 for context), but it's
+ * safer to keep the implementation as-is.
+ */ class __PRIVATE_FirstPartyToken {
+    constructor(e, t, n) {
+        this.l = e, this.h = t, this.P = n, this.type = "FirstParty", this.user = User.FIRST_PARTY, 
+        this.I = new Map;
+    }
+    /**
+     * Gets an authorization token, using a provided factory function, or return
+     * null.
+     */    T() {
+        return this.P ? this.P() : null;
+    }
+    get headers() {
+        this.I.set("X-Goog-AuthUser", this.l);
+        // Use array notation to prevent minification
+        const e = this.T();
+        return e && this.I.set("Authorization", e), this.h && this.I.set("X-Goog-Iam-Authorization-Token", this.h), 
+        this.I;
+    }
+}
+
+/*
+ * Provides user credentials required for the Firestore JavaScript SDK
+ * to authenticate the user, using technique that is only available
+ * to applications hosted by Google.
+ */ class __PRIVATE_FirstPartyAuthCredentialsProvider {
+    constructor(e, t, n) {
+        this.l = e, this.h = t, this.P = n;
+    }
+    getToken() {
+        return Promise.resolve(new __PRIVATE_FirstPartyToken(this.l, this.h, this.P));
+    }
+    start(e, t) {
+        // Fire with initial uid.
+        e.enqueueRetryable((() => t(User.FIRST_PARTY)));
+    }
+    shutdown() {}
+    invalidateToken() {}
+}
+
+class AppCheckToken {
+    constructor(e) {
+        this.value = e, this.type = "AppCheck", this.headers = new Map, e && e.length > 0 && this.headers.set("x-firebase-appcheck", this.value);
+    }
+}
+
+class __PRIVATE_FirebaseAppCheckTokenProvider {
+    constructor(e) {
+        this.A = e, this.forceRefresh = !1, this.appCheck = null, this.R = null;
+    }
+    start(e, t) {
+        const onTokenChanged = e => {
+            null != e.error && __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", `Error getting App Check token; using placeholder token instead. Error: ${e.error.message}`);
+            const n = e.token !== this.R;
+            return this.R = e.token, __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", `Received ${n ? "new" : "existing"} token.`), 
+            n ? t(e.token) : Promise.resolve();
+        };
+        this.o = t => {
+            e.enqueueRetryable((() => onTokenChanged(t)));
+        };
+        const __PRIVATE_registerAppCheck = e => {
+            __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", "AppCheck detected"), this.appCheck = e, 
+            this.appCheck.addTokenListener(this.o);
+        };
+        this.A.onInit((e => __PRIVATE_registerAppCheck(e))), 
+        // Our users can initialize AppCheck after Firestore, so we give it
+        // a chance to register itself with the component framework.
+        setTimeout((() => {
+            if (!this.appCheck) {
+                const e = this.A.getImmediate({
+                    optional: !0
+                });
+                e ? __PRIVATE_registerAppCheck(e) : 
+                // If AppCheck is still not available, proceed without it.
+                __PRIVATE_logDebug("FirebaseAppCheckTokenProvider", "AppCheck not yet detected");
+            }
+        }), 0);
+    }
+    getToken() {
+        const e = this.forceRefresh;
+        return this.forceRefresh = !1, this.appCheck ? this.appCheck.getToken(e).then((e => e ? (__PRIVATE_hardAssert("string" == typeof e.token), 
+        this.R = e.token, new AppCheckToken(e.token)) : null)) : Promise.resolve(null);
+    }
+    invalidateToken() {
+        this.forceRefresh = !0;
+    }
+    shutdown() {
+        this.appCheck && this.appCheck.removeTokenListener(this.o);
+    }
+}
+
+/**
+ * Builds a CredentialsProvider depending on the type of
+ * the credentials passed in.
+ */
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Generates `nBytes` of random bytes.
+ *
+ * If `nBytes < 0` , an error will be thrown.
+ */
+function __PRIVATE_randomBytes(e) {
+    // Polyfills for IE and WebWorker by using `self` and `msCrypto` when `crypto` is not available.
+    const t = 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    "undefined" != typeof self && (self.crypto || self.msCrypto), n = new Uint8Array(e);
+    if (t && "function" == typeof t.getRandomValues) t.getRandomValues(n); else 
+    // Falls back to Math.random
+    for (let t = 0; t < e; t++) n[t] = Math.floor(256 * Math.random());
+    return n;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * A utility class for generating unique alphanumeric IDs of a specified length.
+ *
+ * @internal
+ * Exported internally for testing purposes.
+ */ class __PRIVATE_AutoId {
+    static newId() {
+        // Alphanumeric characters
+        const e = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789", t = Math.floor(256 / e.length) * e.length;
+        // The largest byte value that is a multiple of `char.length`.
+                let n = "";
+        for (;n.length < 20; ) {
+            const r = __PRIVATE_randomBytes(40);
+            for (let i = 0; i < r.length; ++i) 
+            // Only accept values that are [0, maxMultiple), this ensures they can
+            // be evenly mapped to indices of `chars` via a modulo operation.
+            n.length < 20 && r[i] < t && (n += e.charAt(r[i] % e.length));
+        }
+        return n;
+    }
+}
+
+/** Verifies whether `e` is an IndexedDbTransactionError. */ function __PRIVATE_isIndexedDbTransactionError(e) {
+    // Use name equality, as instanceof checks on errors don't work with errors
+    // that wrap other errors.
+    return "IndexedDbTransactionError" === e.name;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ class DatabaseInfo {
+    /**
+     * Constructs a DatabaseInfo using the provided host, databaseId and
+     * persistenceKey.
+     *
+     * @param databaseId - The database to use.
+     * @param appId - The Firebase App Id.
+     * @param persistenceKey - A unique identifier for this Firestore's local
+     * storage (used in conjunction with the databaseId).
+     * @param host - The Firestore backend host to connect to.
+     * @param ssl - Whether to use SSL when connecting.
+     * @param forceLongPolling - Whether to use the forceLongPolling option
+     * when using WebChannel as the network transport.
+     * @param autoDetectLongPolling - Whether to use the detectBufferingProxy
+     * option when using WebChannel as the network transport.
+     * @param longPollingOptions Options that configure long-polling.
+     * @param useFetchStreams Whether to use the Fetch API instead of
+     * XMLHTTPRequest
+     */
+    constructor(e, t, n, r, i, s, o, _, a) {
+        this.databaseId = e, this.appId = t, this.persistenceKey = n, this.host = r, this.ssl = i, 
+        this.forceLongPolling = s, this.autoDetectLongPolling = o, this.longPollingOptions = _, 
+        this.useFetchStreams = a;
+    }
+}
+
+/** The default database name for a project. */
+/**
+ * Represents the database ID a Firestore client is associated with.
+ * @internal
+ */
+class DatabaseId {
+    constructor(e, t) {
+        this.projectId = e, this.database = t || "(default)";
+    }
+    static empty() {
+        return new DatabaseId("", "");
+    }
+    get isDefaultDatabase() {
+        return "(default)" === this.database;
+    }
+    isEqual(e) {
+        return e instanceof DatabaseId && e.projectId === this.projectId && e.database === this.database;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Error Codes describing the different ways GRPC can fail. These are copied
+ * directly from GRPC's sources here:
+ *
+ * https://github.com/grpc/grpc/blob/bceec94ea4fc5f0085d81235d8e1c06798dc341a/include/grpc%2B%2B/impl/codegen/status_code_enum.h
+ *
+ * Important! The names of these identifiers matter because the string forms
+ * are used for reverse lookups from the webchannel stream. Do NOT change the
+ * names of these identifiers or change this into a const enum.
+ */ var ae, ue;
+
+/**
+ * Converts an HTTP response's error status to the equivalent error code.
+ *
+ * @param status - An HTTP error response status ("FAILED_PRECONDITION",
+ * "UNKNOWN", etc.)
+ * @returns The equivalent Code. Non-matching responses are mapped to
+ *     Code.UNKNOWN.
+ */ (ue = ae || (ae = {}))[ue.OK = 0] = "OK", ue[ue.CANCELLED = 1] = "CANCELLED", 
+ue[ue.UNKNOWN = 2] = "UNKNOWN", ue[ue.INVALID_ARGUMENT = 3] = "INVALID_ARGUMENT", 
+ue[ue.DEADLINE_EXCEEDED = 4] = "DEADLINE_EXCEEDED", ue[ue.NOT_FOUND = 5] = "NOT_FOUND", 
+ue[ue.ALREADY_EXISTS = 6] = "ALREADY_EXISTS", ue[ue.PERMISSION_DENIED = 7] = "PERMISSION_DENIED", 
+ue[ue.UNAUTHENTICATED = 16] = "UNAUTHENTICATED", ue[ue.RESOURCE_EXHAUSTED = 8] = "RESOURCE_EXHAUSTED", 
+ue[ue.FAILED_PRECONDITION = 9] = "FAILED_PRECONDITION", ue[ue.ABORTED = 10] = "ABORTED", 
+ue[ue.OUT_OF_RANGE = 11] = "OUT_OF_RANGE", ue[ue.UNIMPLEMENTED = 12] = "UNIMPLEMENTED", 
+ue[ue.INTERNAL = 13] = "INTERNAL", ue[ue.UNAVAILABLE = 14] = "UNAVAILABLE", ue[ue.DATA_LOSS = 15] = "DATA_LOSS";
+
+/**
+ * An instance of the Platform's 'TextDecoder' implementation.
+ */
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+new Integer([ 4294967295, 4294967295 ], 0);
+
+/** The Platform's 'document' implementation or null if not available. */ function getDocument() {
+    // `document` is not always available, e.g. in ReactNative and WebWorkers.
+    // eslint-disable-next-line no-restricted-globals
+    return "undefined" != typeof document ? document : null;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * A helper for running delayed tasks following an exponential backoff curve
+ * between attempts.
+ *
+ * Each delay is made up of a "base" delay which follows the exponential
+ * backoff curve, and a +/- 50% "jitter" that is calculated and added to the
+ * base delay. This prevents clients from accidentally synchronizing their
+ * delays causing spikes of load to the backend.
+ */
+class __PRIVATE_ExponentialBackoff {
+    constructor(
+    /**
+     * The AsyncQueue to run backoff operations on.
+     */
+    e, 
+    /**
+     * The ID to use when scheduling backoff operations on the AsyncQueue.
+     */
+    t, 
+    /**
+     * The initial delay (used as the base delay on the first retry attempt).
+     * Note that jitter will still be applied, so the actual delay could be as
+     * little as 0.5*initialDelayMs.
+     */
+    n = 1e3
+    /**
+     * The multiplier to use to determine the extended base delay after each
+     * attempt.
+     */ , r = 1.5
+    /**
+     * The maximum base delay after which no further backoff is performed.
+     * Note that jitter will still be applied, so the actual delay could be as
+     * much as 1.5*maxDelayMs.
+     */ , i = 6e4) {
+        this.si = e, this.timerId = t, this.Fo = n, this.Mo = r, this.xo = i, this.Oo = 0, 
+        this.No = null, 
+        /** The last backoff attempt, as epoch milliseconds. */
+        this.Bo = Date.now(), this.reset();
+    }
+    /**
+     * Resets the backoff delay.
+     *
+     * The very next backoffAndWait() will have no delay. If it is called again
+     * (i.e. due to an error), initialDelayMs (plus jitter) will be used, and
+     * subsequent ones will increase according to the backoffFactor.
+     */    reset() {
+        this.Oo = 0;
+    }
+    /**
+     * Resets the backoff delay to the maximum delay (e.g. for use after a
+     * RESOURCE_EXHAUSTED error).
+     */    Lo() {
+        this.Oo = this.xo;
+    }
+    /**
+     * Returns a promise that resolves after currentDelayMs, and increases the
+     * delay for any subsequent attempts. If there was a pending backoff operation
+     * already, it will be canceled.
+     */    ko(e) {
+        // Cancel any pending backoff operation.
+        this.cancel();
+        // First schedule using the current base (which may be 0 and should be
+        // honored as such).
+        const t = Math.floor(this.Oo + this.qo()), n = Math.max(0, Date.now() - this.Bo), r = Math.max(0, t - n);
+        // Guard against lastAttemptTime being in the future due to a clock change.
+                r > 0 && __PRIVATE_logDebug("ExponentialBackoff", `Backing off for ${r} ms (base delay: ${this.Oo} ms, delay with jitter: ${t} ms, last attempt: ${n} ms ago)`), 
+        this.No = this.si.enqueueAfterDelay(this.timerId, r, (() => (this.Bo = Date.now(), 
+        e()))), 
+        // Apply backoff factor to determine next delay and ensure it is within
+        // bounds.
+        this.Oo *= this.Mo, this.Oo < this.Fo && (this.Oo = this.Fo), this.Oo > this.xo && (this.Oo = this.xo);
+    }
+    Qo() {
+        null !== this.No && (this.No.skipDelay(), this.No = null);
+    }
+    cancel() {
+        null !== this.No && (this.No.cancel(), this.No = null);
+    }
+    /** Returns a random value in the range [-currentBaseMs/2, currentBaseMs/2] */    qo() {
+        return (Math.random() - .5) * this.Oo;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Represents an operation scheduled to be run in the future on an AsyncQueue.
+ *
+ * It is created via DelayedOperation.createAndSchedule().
+ *
+ * Supports cancellation (via cancel()) and early execution (via skipDelay()).
+ *
+ * Note: We implement `PromiseLike` instead of `Promise`, as the `Promise` type
+ * in newer versions of TypeScript defines `finally`, which is not available in
+ * IE.
+ */
+class DelayedOperation {
+    constructor(e, t, n, r, i) {
+        this.asyncQueue = e, this.timerId = t, this.targetTimeMs = n, this.op = r, this.removalCallback = i, 
+        this.deferred = new __PRIVATE_Deferred, this.then = this.deferred.promise.then.bind(this.deferred.promise), 
+        // It's normal for the deferred promise to be canceled (due to cancellation)
+        // and so we attach a dummy catch callback to avoid
+        // 'UnhandledPromiseRejectionWarning' log spam.
+        this.deferred.promise.catch((e => {}));
+    }
+    get promise() {
+        return this.deferred.promise;
+    }
+    /**
+     * Creates and returns a DelayedOperation that has been scheduled to be
+     * executed on the provided asyncQueue after the provided delayMs.
+     *
+     * @param asyncQueue - The queue to schedule the operation on.
+     * @param id - A Timer ID identifying the type of operation this is.
+     * @param delayMs - The delay (ms) before the operation should be scheduled.
+     * @param op - The operation to run.
+     * @param removalCallback - A callback to be called synchronously once the
+     *   operation is executed or canceled, notifying the AsyncQueue to remove it
+     *   from its delayedOperations list.
+     *   PORTING NOTE: This exists to prevent making removeDelayedOperation() and
+     *   the DelayedOperation class public.
+     */    static createAndSchedule(e, t, n, r, i) {
+        const s = Date.now() + n, o = new DelayedOperation(e, t, s, r, i);
+        return o.start(n), o;
+    }
+    /**
+     * Starts the timer. This is called immediately after construction by
+     * createAndSchedule().
+     */    start(e) {
+        this.timerHandle = setTimeout((() => this.handleDelayElapsed()), e);
+    }
+    /**
+     * Queues the operation to run immediately (if it hasn't already been run or
+     * canceled).
+     */    skipDelay() {
+        return this.handleDelayElapsed();
+    }
+    /**
+     * Cancels the operation if it hasn't already been executed or canceled. The
+     * promise will be rejected.
+     *
+     * As long as the operation has not yet been run, calling cancel() provides a
+     * guarantee that the operation will not be run.
+     */    cancel(e) {
+        null !== this.timerHandle && (this.clearTimeout(), this.deferred.reject(new FirestoreError(D.CANCELLED, "Operation cancelled" + (e ? ": " + e : ""))));
+    }
+    handleDelayElapsed() {
+        this.asyncQueue.enqueueAndForget((() => null !== this.timerHandle ? (this.clearTimeout(), 
+        this.op().then((e => this.deferred.resolve(e)))) : Promise.resolve()));
+    }
+    clearTimeout() {
+        null !== this.timerHandle && (this.removalCallback(this), clearTimeout(this.timerHandle), 
+        this.timerHandle = null);
+    }
+}
+
+/**
+ * Returns a FirestoreError that can be surfaced to the user if the provided
+ * error is an IndexedDbTransactionError. Re-throws the error otherwise.
+ */ function __PRIVATE_wrapInUserErrorIfRecoverable(e, t) {
+    if (__PRIVATE_logError("AsyncQueue", `${t}: ${e}`), __PRIVATE_isIndexedDbTransactionError(e)) return new FirestoreError(D.UNAVAILABLE, `${t}: ${e}`);
+    throw e;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * FirestoreClient is a top-level class that constructs and owns all of the //
+ * pieces of the client SDK architecture. It is responsible for creating the //
+ * async queue that is shared by all of the other components in the system. //
+ */
+class FirestoreClient {
+    constructor(e, t, 
+    /**
+     * Asynchronous queue responsible for all of our internal processing. When
+     * we get incoming work from the user (via public API) or the network
+     * (incoming GRPC messages), we should always schedule onto this queue.
+     * This ensures all of our work is properly serialized (e.g. we don't
+     * start processing a new operation while the previous one is waiting for
+     * an async I/O to complete).
+     */
+    n, r) {
+        this.authCredentials = e, this.appCheckCredentials = t, this.asyncQueue = n, this.databaseInfo = r, 
+        this.user = User.UNAUTHENTICATED, this.clientId = __PRIVATE_AutoId.newId(), this.authCredentialListener = () => Promise.resolve(), 
+        this.appCheckCredentialListener = () => Promise.resolve(), this.authCredentials.start(n, (async e => {
+            __PRIVATE_logDebug("FirestoreClient", "Received user=", e.uid), await this.authCredentialListener(e), 
+            this.user = e;
+        })), this.appCheckCredentials.start(n, (e => (__PRIVATE_logDebug("FirestoreClient", "Received new app check token=", e), 
+        this.appCheckCredentialListener(e, this.user))));
+    }
+    async getConfiguration() {
+        return {
+            asyncQueue: this.asyncQueue,
+            databaseInfo: this.databaseInfo,
+            clientId: this.clientId,
+            authCredentials: this.authCredentials,
+            appCheckCredentials: this.appCheckCredentials,
+            initialUser: this.user,
+            maxConcurrentLimboResolutions: 100
+        };
+    }
+    setCredentialChangeListener(e) {
+        this.authCredentialListener = e;
+    }
+    setAppCheckTokenChangeListener(e) {
+        this.appCheckCredentialListener = e;
+    }
+    /**
+     * Checks that the client has not been terminated. Ensures that other methods on //
+     * this class cannot be called after the client is terminated. //
+     */    verifyNotTerminated() {
+        if (this.asyncQueue.isShuttingDown) throw new FirestoreError(D.FAILED_PRECONDITION, "The client has already been terminated.");
+    }
+    terminate() {
+        this.asyncQueue.enterRestrictedMode();
+        const e = new __PRIVATE_Deferred;
+        return this.asyncQueue.enqueueAndForgetEvenWhileRestricted((async () => {
+            try {
+                this._onlineComponents && await this._onlineComponents.terminate(), this._offlineComponents && await this._offlineComponents.terminate(), 
+                // The credentials provider must be terminated after shutting down the
+                // RemoteStore as it will prevent the RemoteStore from retrieving auth
+                // tokens.
+                this.authCredentials.shutdown(), this.appCheckCredentials.shutdown(), e.resolve();
+            } catch (t) {
+                const n = __PRIVATE_wrapInUserErrorIfRecoverable(t, "Failed to shutdown persistence");
+                e.reject(n);
+            }
+        })), e.promise;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2023 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Compares two `ExperimentalLongPollingOptions` objects for equality.
+ */
+/**
+ * Creates and returns a new `ExperimentalLongPollingOptions` with the same
+ * option values as the given instance.
+ */
+function __PRIVATE_cloneLongPollingOptions(e) {
+    const t = {};
+    return void 0 !== e.timeoutSeconds && (t.timeoutSeconds = e.timeoutSeconds), t;
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ const me = new Map;
+
+/**
+ * Validates that two boolean options are not set at the same time.
+ * @internal
+ */ function __PRIVATE_validateIsNotUsedTogether(e, t, n, r) {
+    if (!0 === t && !0 === r) throw new FirestoreError(D.INVALID_ARGUMENT, `${e} and ${n} cannot be used together.`);
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+// settings() defaults:
+/**
+ * A concrete type describing all the values that can be applied via a
+ * user-supplied `FirestoreSettings` object. This is a separate type so that
+ * defaults can be supplied and the value can be checked for equality.
+ */
+class FirestoreSettingsImpl {
+    constructor(e) {
+        var t, n;
+        if (void 0 === e.host) {
+            if (void 0 !== e.ssl) throw new FirestoreError(D.INVALID_ARGUMENT, "Can't provide ssl option if host option is not set");
+            this.host = "firestore.googleapis.com", this.ssl = true;
+        } else this.host = e.host, this.ssl = null === (t = e.ssl) || void 0 === t || t;
+        if (this.credentials = e.credentials, this.ignoreUndefinedProperties = !!e.ignoreUndefinedProperties, 
+        this.localCache = e.localCache, void 0 === e.cacheSizeBytes) this.cacheSizeBytes = 41943040; else {
+            if (-1 !== e.cacheSizeBytes && e.cacheSizeBytes < 1048576) throw new FirestoreError(D.INVALID_ARGUMENT, "cacheSizeBytes must be at least 1048576");
+            this.cacheSizeBytes = e.cacheSizeBytes;
+        }
+        __PRIVATE_validateIsNotUsedTogether("experimentalForceLongPolling", e.experimentalForceLongPolling, "experimentalAutoDetectLongPolling", e.experimentalAutoDetectLongPolling), 
+        this.experimentalForceLongPolling = !!e.experimentalForceLongPolling, this.experimentalForceLongPolling ? this.experimentalAutoDetectLongPolling = !1 : void 0 === e.experimentalAutoDetectLongPolling ? this.experimentalAutoDetectLongPolling = true : 
+        // For backwards compatibility, coerce the value to boolean even though
+        // the TypeScript compiler has narrowed the type to boolean already.
+        // noinspection PointlessBooleanExpressionJS
+        this.experimentalAutoDetectLongPolling = !!e.experimentalAutoDetectLongPolling, 
+        this.experimentalLongPollingOptions = __PRIVATE_cloneLongPollingOptions(null !== (n = e.experimentalLongPollingOptions) && void 0 !== n ? n : {}), 
+        function __PRIVATE_validateLongPollingOptions(e) {
+            if (void 0 !== e.timeoutSeconds) {
+                if (isNaN(e.timeoutSeconds)) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (must not be NaN)`);
+                if (e.timeoutSeconds < 5) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (minimum allowed value is 5)`);
+                if (e.timeoutSeconds > 30) throw new FirestoreError(D.INVALID_ARGUMENT, `invalid long polling timeout: ${e.timeoutSeconds} (maximum allowed value is 30)`);
+            }
+        }
+        /**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+        /**
+ * The Cloud Firestore service interface.
+ *
+ * Do not call this constructor directly. Instead, use {@link (getFirestore:1)}.
+ */ (this.experimentalLongPollingOptions), this.useFetchStreams = !!e.useFetchStreams;
+    }
+    isEqual(e) {
+        return this.host === e.host && this.ssl === e.ssl && this.credentials === e.credentials && this.cacheSizeBytes === e.cacheSizeBytes && this.experimentalForceLongPolling === e.experimentalForceLongPolling && this.experimentalAutoDetectLongPolling === e.experimentalAutoDetectLongPolling && function __PRIVATE_longPollingOptionsEqual(e, t) {
+            return e.timeoutSeconds === t.timeoutSeconds;
+        }(this.experimentalLongPollingOptions, e.experimentalLongPollingOptions) && this.ignoreUndefinedProperties === e.ignoreUndefinedProperties && this.useFetchStreams === e.useFetchStreams;
+    }
+}
+
+class Firestore$1 {
+    /** @hideconstructor */
+    constructor(e, t, n, r) {
+        this._authCredentials = e, this._appCheckCredentials = t, this._databaseId = n, 
+        this._app = r, 
+        /**
+         * Whether it's a Firestore or Firestore Lite instance.
+         */
+        this.type = "firestore-lite", this._persistenceKey = "(lite)", this._settings = new FirestoreSettingsImpl({}), 
+        this._settingsFrozen = !1;
+    }
+    /**
+     * The {@link @firebase/app#FirebaseApp} associated with this `Firestore` service
+     * instance.
+     */    get app() {
+        if (!this._app) throw new FirestoreError(D.FAILED_PRECONDITION, "Firestore was not initialized using the Firebase SDK. 'app' is not available");
+        return this._app;
+    }
+    get _initialized() {
+        return this._settingsFrozen;
+    }
+    get _terminated() {
+        return void 0 !== this._terminateTask;
+    }
+    _setSettings(e) {
+        if (this._settingsFrozen) throw new FirestoreError(D.FAILED_PRECONDITION, "Firestore has already been started and its settings can no longer be changed. You can only modify settings before calling any other methods on a Firestore object.");
+        this._settings = new FirestoreSettingsImpl(e), void 0 !== e.credentials && (this._authCredentials = function __PRIVATE_makeAuthCredentialsProvider(e) {
+            if (!e) return new __PRIVATE_EmptyAuthCredentialsProvider;
+            switch (e.type) {
+              case "firstParty":
+                return new __PRIVATE_FirstPartyAuthCredentialsProvider(e.sessionIndex || "0", e.iamToken || null, e.authTokenFactory || null);
+
+              case "provider":
+                return e.client;
+
+              default:
+                throw new FirestoreError(D.INVALID_ARGUMENT, "makeAuthCredentialsProvider failed due to invalid credential type");
+            }
+        }(e.credentials));
+    }
+    _getSettings() {
+        return this._settings;
+    }
+    _freezeSettings() {
+        return this._settingsFrozen = !0, this._settings;
+    }
+    _delete() {
+        return this._terminateTask || (this._terminateTask = this._terminate()), this._terminateTask;
+    }
+    /** Returns a JSON-serializable representation of this `Firestore` instance. */    toJSON() {
+        return {
+            app: this._app,
+            databaseId: this._databaseId,
+            settings: this._settings
+        };
+    }
+    /**
+     * Terminates all components used by this client. Subclasses can override
+     * this method to clean up their own dependencies, but must also call this
+     * method.
+     *
+     * Only ever called once.
+     */    _terminate() {
+        /**
+ * Removes all components associated with the provided instance. Must be called
+ * when the `Firestore` instance is terminated.
+ */
+        return function __PRIVATE_removeComponents(e) {
+            const t = me.get(e);
+            t && (__PRIVATE_logDebug("ComponentProvider", "Removing Datastore"), me.delete(e), 
+            t.terminate());
+        }(this), Promise.resolve();
+    }
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ class __PRIVATE_AsyncQueueImpl {
+    constructor() {
+        // The last promise in the queue.
+        this.Ja = Promise.resolve(), 
+        // A list of retryable operations. Retryable operations are run in order and
+        // retried with backoff.
+        this.Ya = [], 
+        // Is this AsyncQueue being shut down? Once it is set to true, it will not
+        // be changed again.
+        this.Za = !1, 
+        // Operations scheduled to be queued in the future. Operations are
+        // automatically removed after they are run or canceled.
+        this.Xa = [], 
+        // visible for testing
+        this.eu = null, 
+        // Flag set while there's an outstanding AsyncQueue operation, used for
+        // assertion sanity-checks.
+        this.tu = !1, 
+        // Enabled during shutdown on Safari to prevent future access to IndexedDB.
+        this.nu = !1, 
+        // List of TimerIds to fast-forward delays for.
+        this.ru = [], 
+        // Backoff timer used to schedule retries for retryable operations
+        this.zo = new __PRIVATE_ExponentialBackoff(this, "async_queue_retry" /* TimerId.AsyncQueueRetry */), 
+        // Visibility handler that triggers an immediate retry of all retryable
+        // operations. Meant to speed up recovery when we regain file system access
+        // after page comes into foreground.
+        this.iu = () => {
+            const e = getDocument();
+            e && __PRIVATE_logDebug("AsyncQueue", "Visibility state changed to " + e.visibilityState), 
+            this.zo.Qo();
+        };
+        const e = getDocument();
+        e && "function" == typeof e.addEventListener && e.addEventListener("visibilitychange", this.iu);
+    }
+    get isShuttingDown() {
+        return this.Za;
+    }
+    /**
+     * Adds a new operation to the queue without waiting for it to complete (i.e.
+     * we ignore the Promise result).
+     */    enqueueAndForget(e) {
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.enqueue(e);
+    }
+    enqueueAndForgetEvenWhileRestricted(e) {
+        this.su(), 
+        // eslint-disable-next-line @typescript-eslint/no-floating-promises
+        this.ou(e);
+    }
+    enterRestrictedMode(e) {
+        if (!this.Za) {
+            this.Za = !0, this.nu = e || !1;
+            const t = getDocument();
+            t && "function" == typeof t.removeEventListener && t.removeEventListener("visibilitychange", this.iu);
+        }
+    }
+    enqueue(e) {
+        if (this.su(), this.Za) 
+        // Return a Promise which never resolves.
+        return new Promise((() => {}));
+        // Create a deferred Promise that we can return to the callee. This
+        // allows us to return a "hanging Promise" only to the callee and still
+        // advance the queue even when the operation is not run.
+                const t = new __PRIVATE_Deferred;
+        return this.ou((() => this.Za && this.nu ? Promise.resolve() : (e().then(t.resolve, t.reject), 
+        t.promise))).then((() => t.promise));
+    }
+    enqueueRetryable(e) {
+        this.enqueueAndForget((() => (this.Ya.push(e), this._u())));
+    }
+    /**
+     * Runs the next operation from the retryable queue. If the operation fails,
+     * reschedules with backoff.
+     */    async _u() {
+        if (0 !== this.Ya.length) {
+            try {
+                await this.Ya[0](), this.Ya.shift(), this.zo.reset();
+            } catch (e) {
+                if (!__PRIVATE_isIndexedDbTransactionError(e)) throw e;
+ // Failure will be handled by AsyncQueue
+                                __PRIVATE_logDebug("AsyncQueue", "Operation failed with retryable error: " + e);
+            }
+            this.Ya.length > 0 && 
+            // If there are additional operations, we re-schedule `retryNextOp()`.
+            // This is necessary to run retryable operations that failed during
+            // their initial attempt since we don't know whether they are already
+            // enqueued. If, for example, `op1`, `op2`, `op3` are enqueued and `op1`
+            // needs to  be re-run, we will run `op1`, `op1`, `op2` using the
+            // already enqueued calls to `retryNextOp()`. `op3()` will then run in the
+            // call scheduled here.
+            // Since `backoffAndRun()` cancels an existing backoff and schedules a
+            // new backoff on every call, there is only ever a single additional
+            // operation in the queue.
+            this.zo.ko((() => this._u()));
+        }
+    }
+    ou(e) {
+        const t = this.Ja.then((() => (this.tu = !0, e().catch((e => {
+            this.eu = e, this.tu = !1;
+            const t = 
+            /**
+ * Chrome includes Error.message in Error.stack. Other browsers do not.
+ * This returns expected output of message + stack when available.
+ * @param error - Error or FirestoreError
+ */
+            function __PRIVATE_getMessageOrStack(e) {
+                let t = e.message || "";
+                e.stack && (t = e.stack.includes(e.message) ? e.stack : e.message + "\n" + e.stack);
+                return t;
+            }
+            /**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ (e);
+            // Re-throw the error so that this.tail becomes a rejected Promise and
+            // all further attempts to chain (via .then) will just short-circuit
+            // and return the rejected Promise.
+            throw __PRIVATE_logError("INTERNAL UNHANDLED ERROR: ", t), e;
+        })).then((e => (this.tu = !1, e))))));
+        return this.Ja = t, t;
+    }
+    enqueueAfterDelay(e, t, n) {
+        this.su(), 
+        // Fast-forward delays for timerIds that have been overriden.
+        this.ru.indexOf(e) > -1 && (t = 0);
+        const r = DelayedOperation.createAndSchedule(this, e, t, n, (e => this.au(e)));
+        return this.Xa.push(r), r;
+    }
+    su() {
+        this.eu && fail();
+    }
+    verifyOperationInProgress() {}
+    /**
+     * Waits until all currently queued tasks are finished executing. Delayed
+     * operations are not run.
+     */    async uu() {
+        // Operations in the queue prior to draining may have enqueued additional
+        // operations. Keep draining the queue until the tail is no longer advanced,
+        // which indicates that no more new operations were enqueued and that all
+        // operations were executed.
+        let e;
+        do {
+            e = this.Ja, await e;
+        } while (e !== this.Ja);
+    }
+    /**
+     * For Tests: Determine if a delayed operation with a particular TimerId
+     * exists.
+     */    cu(e) {
+        for (const t of this.Xa) if (t.timerId === e) return !0;
+        return !1;
+    }
+    /**
+     * For Tests: Runs some or all delayed operations early.
+     *
+     * @param lastTimerId - Delayed operations up to and including this TimerId
+     * will be drained. Pass TimerId.All to run all delayed operations.
+     * @returns a Promise that resolves once all operations have been run.
+     */    lu(e) {
+        // Note that draining may generate more delayed ops, so we do that first.
+        return this.uu().then((() => {
+            // Run ops in the same order they'd run if they ran naturally.
+            this.Xa.sort(((e, t) => e.targetTimeMs - t.targetTimeMs));
+            for (const t of this.Xa) if (t.skipDelay(), "all" /* TimerId.All */ !== e && t.timerId === e) break;
+            return this.uu();
+        }));
+    }
+    /**
+     * For Tests: Skip all subsequent delays for a timer id.
+     */    hu(e) {
+        this.ru.push(e);
+    }
+    /** Called once a DelayedOperation is run or canceled. */    au(e) {
+        // NOTE: indexOf / slice are O(n), but delayedOperations is expected to be small.
+        const t = this.Xa.indexOf(e);
+        this.Xa.splice(t, 1);
+    }
+}
+
+/**
+ * The Cloud Firestore service interface.
+ *
+ * Do not call this constructor directly. Instead, use {@link (getFirestore:1)}.
+ */ class Firestore extends Firestore$1 {
+    /** @hideconstructor */
+    constructor(e, t, n, r) {
+        super(e, t, n, r), 
+        /**
+         * Whether it's a {@link Firestore} or Firestore Lite instance.
+         */
+        this.type = "firestore", this._queue = function __PRIVATE_newAsyncQueue() {
+            return new __PRIVATE_AsyncQueueImpl;
+        }(), this._persistenceKey = (null == r ? void 0 : r.name) || "[DEFAULT]";
+    }
+    _terminate() {
+        return this._firestoreClient || 
+        // The client must be initialized to ensure that all subsequent API
+        // usage throws an exception.
+        __PRIVATE_configureFirestore(this), this._firestoreClient.terminate();
+    }
+}
+
+function __PRIVATE_configureFirestore(e) {
+    var t, n, r;
+    const i = e._freezeSettings(), s = function __PRIVATE_makeDatabaseInfo(e, t, n, r) {
+        return new DatabaseInfo(e, t, n, r.host, r.ssl, r.experimentalForceLongPolling, r.experimentalAutoDetectLongPolling, __PRIVATE_cloneLongPollingOptions(r.experimentalLongPollingOptions), r.useFetchStreams);
+    }(e._databaseId, (null === (t = e._app) || void 0 === t ? void 0 : t.options.appId) || "", e._persistenceKey, i);
+    e._firestoreClient = new FirestoreClient(e._authCredentials, e._appCheckCredentials, e._queue, s), 
+    (null === (n = i.localCache) || void 0 === n ? void 0 : n._offlineComponentProvider) && (null === (r = i.localCache) || void 0 === r ? void 0 : r._onlineComponentProvider) && (e._firestoreClient._uninitializedComponentsProvider = {
+        _offlineKind: i.localCache.kind,
+        _offline: i.localCache._offlineComponentProvider,
+        _online: i.localCache._onlineComponentProvider
+    });
+}
+
+/**
+ * Cloud Firestore
+ *
+ * @packageDocumentation
+ */ !function __PRIVATE_registerFirestore(e, t = !0) {
+    !function __PRIVATE_setSDKVersion(e) {
+        S = e;
+    }(SDK_VERSION), _registerComponent(new Component("firestore", ((e, {instanceIdentifier: n, options: r}) => {
+        const i = e.getProvider("app").getImmediate(), s = new Firestore(new __PRIVATE_FirebaseAuthCredentialsProvider(e.getProvider("auth-internal")), new __PRIVATE_FirebaseAppCheckTokenProvider(e.getProvider("app-check-internal")), function __PRIVATE_databaseIdFromApp(e, t) {
+            if (!Object.prototype.hasOwnProperty.apply(e.options, [ "projectId" ])) throw new FirestoreError(D.INVALID_ARGUMENT, '"projectId" not provided in firebase.initializeApp.');
+            return new DatabaseId(e.options.projectId, t);
+        }(i, n), i);
+        return r = Object.assign({
+            useFetchStreams: t
+        }, r), s._setSettings(r), s;
+    }), "PUBLIC").setMultipleInstances(!0)), registerVersion(w, "4.4.0", e), 
+    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+    registerVersion(w, "4.4.0", "esm2017");
+}();
+
 const Me = () => {
 
-    j(x`${Toolbar({
-        left: x`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
+    j(x$1`${Toolbar({
+        left: x$1`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
         title: '계정'
     })}`, document.getElementById('toolbar'));
 
     const setProfile = (user) => {
         if (!user) return
-        j(x`<img class="rounded-full" src=${user.photoURL}>`, document.querySelector('#user-photo'));
-        j(x`${user.displayName}`, document.querySelector('#user-name'));
-        j(x`${user.email}`, document.querySelector('#user-email'));
+        j(x$1`<img class="rounded-full" src=${user.photoURL}>`, document.querySelector('#user-photo'));
+        j(x$1`${user.displayName}`, document.querySelector('#user-name'));
+        j(x$1`${user.email}`, document.querySelector('#user-email'));
     };
 
     const currentUser = getAuth().currentUser;
@@ -12088,6 +13695,39 @@ const Me = () => {
     });
 };
 
+const EditProfile = () => {
+	console.log('edit profile');
+};
+
+const NewMilonga = () => {
+
+	var user = null;
+
+	onAuthStateChanged(getAuth(), user => {
+		if (user) {
+			user = { ...{ email: user.email } };
+		} else {
+			location.href = '/';
+		}
+	});
+
+	j(x$1`${ArrowLeftIcon()}`, document.querySelector('#toolbar .back'));
+
+	document.querySelector('#toolbar .back').addEventListener('click', () => {
+		history.back();
+	});
+
+	document.getElementById('new-milonga-form').addEventListener('submit', async e => {
+
+		e.preventDefault();
+		
+		console.log('AAAAAAA', user);
+
+		return;
+
+	});
+};
+
 const firebaseConfig = {
     apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
     authDomain: "mi-tango-365.firebaseapp.com",
@@ -12108,6 +13748,13 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (document.body.classList.contains('login')) {
         Login();
     } else if (document.body.classList.contains('me')) {
-        Me();
+		if (document.body.classList.contains('edit-profile')) {
+			EditProfile();
+		} else if (document.body.classList.contains('new-milonga')) {
+			console.log('new-milonga');
+			NewMilonga();
+		} else {
+			Me();
+		}
     }
 });

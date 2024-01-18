@@ -1,7 +1,8 @@
-import { getAuth, onAuthStateChanged, signOut } from "@firebase/auth"
+import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { Toolbar } from "./components/toolbar.js" 
 import { html, render } from "lit-html"
 import { ArrowLeftIcon } from "./icons.js"
+import { getFirestore, doc, getDoc } from "firebase/firestore"
 
 export const Me = () => {
 
@@ -37,4 +38,52 @@ export const Me = () => {
                 })
         }
     })
+}
+
+export const EditProfile = () => {
+	console.log('edit profile')
+}
+
+export const NewMilonga = () => {
+
+	var user = null
+
+	onAuthStateChanged(getAuth(), user => {
+		if (user) {
+			user = { ...{ email: user.email } }
+		} else {
+			location.href = '/'
+		}
+	})
+
+	render(html`${ArrowLeftIcon()}`, document.querySelector('#toolbar .back'))
+
+	document.querySelector('#toolbar .back').addEventListener('click', () => {
+		history.back()
+	})
+
+	document.getElementById('new-milonga-form').addEventListener('submit', async e => {
+
+		e.preventDefault()
+		
+		console.log('AAAAAAA', user)
+
+		if (!user) return;
+
+		console.log('BBBBBBBB')
+
+		const milongaId = document.forms['new-milonga-form']?.elements['milonga-id']?.value
+
+		if (milongaId) {
+			const db = getFirestore()
+			const docRef = doc(db, 'milongas', milongaId)
+			const docSnap = await getDoc(docRef)
+			if (docSnap.exists()) {
+				console.log('있음')
+			} else {
+				console.log('없음')
+			}
+		}
+
+	})
 }

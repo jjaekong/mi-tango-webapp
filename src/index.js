@@ -2,7 +2,8 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import  { Home } from './home.js'
 import  { Login } from './login.js'
-import  { Me, EditProfile, NewMilonga } from './me.js'
+import  { Me } from './me.js'
+import  { NewMilonga } from './new_milonga.js'
 
 const firebaseConfig = {
     apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
@@ -24,13 +25,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (document.body.classList.contains('login')) {
         Login()
     } else if (document.body.classList.contains('me')) {
-		if (document.body.classList.contains('edit-profile')) {
-			EditProfile()
-		} else if (document.body.classList.contains('new-milonga')) {
-			console.log('new-milonga')
-			NewMilonga()
-		} else {
-			Me()
-		}
+        Me()
+    } else if (document.body.classList.contains('new-milonga')) {
+        NewMilonga()
     }
 })

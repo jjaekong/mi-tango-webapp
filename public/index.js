@@ -13680,6 +13680,13 @@ function __PRIVATE_isNullOrUndefined(e) {
 }
 
 /**
+ * Returns whether a value is an integer and in the safe integer range
+ * @param value - The value to test for being an integer and in the safe range
+ */ function isSafeInteger(e) {
+    return "number" == typeof e && Number.isInteger(e) && !__PRIVATE_isNegativeZero(e) && e <= Number.MAX_SAFE_INTEGER && e >= Number.MIN_SAFE_INTEGER;
+}
+
+/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -14924,6 +14931,27 @@ function isArray(e) {
 }
 
 /**
+ * Returns a FieldMask built from all fields in a MapValue.
+ */ function __PRIVATE_extractFieldMask(e) {
+    const t = [];
+    return forEach(e.fields, ((e, n) => {
+        const r = new FieldPath$1([ e ]);
+        if (__PRIVATE_isMapValue(n)) {
+            const e = __PRIVATE_extractFieldMask(n.mapValue).fields;
+            if (0 === e.length) 
+            // Preserve the empty map by adding it to the FieldMask.
+            t.push(r); else 
+            // For nested and non-empty ObjectValues, add the FieldPath of the
+            // leaf nodes.
+            for (const n of e) t.push(r.child(n));
+        } else 
+        // For nested and non-empty ObjectValues, add the FieldPath of the leaf
+        // nodes.
+        t.push(r);
+    })), new FieldMask(t);
+}
+
+/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -15817,6 +15845,8 @@ function __PRIVATE_newDocumentKeyMap() {
     return new ObjectMap((e => e.toString()), ((e, t) => e.isEqual(t)));
 }
 
+const se = new SortedMap(DocumentKey.comparator);
+
 const oe = new SortedSet(DocumentKey.comparator);
 
 function __PRIVATE_documentKeySet(...e) {
@@ -15873,6 +15903,14 @@ function __PRIVATE_targetIdSet() {
     return {
         integerValue: "" + e
     };
+}
+
+/**
+ * Returns a value for a number that's appropriate to put into a proto.
+ * The return value is an IntegerValue if it can safely represent the value,
+ * otherwise a DoubleValue is returned.
+ */ function toNumber(e, t) {
+    return isSafeInteger(t) ? __PRIVATE_toInteger(t) : __PRIVATE_toDouble(e, t);
 }
 
 /**
@@ -16028,10 +16066,58 @@ function __PRIVATE_coercedFieldValuesArray(e) {
     return isArray(e) && e.arrayValue.values ? e.arrayValue.values.slice() : [];
 }
 
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** A field path and the TransformOperation to perform upon it. */ class FieldTransform {
+    constructor(e, t) {
+        this.field = e, this.transform = t;
+    }
+}
+
 function __PRIVATE_fieldTransformEquals(e, t) {
     return e.field.isEqual(t.field) && function __PRIVATE_transformOperationEquals(e, t) {
         return e instanceof __PRIVATE_ArrayUnionTransformOperation && t instanceof __PRIVATE_ArrayUnionTransformOperation || e instanceof __PRIVATE_ArrayRemoveTransformOperation && t instanceof __PRIVATE_ArrayRemoveTransformOperation ? __PRIVATE_arrayEquals(e.elements, t.elements, __PRIVATE_valueEquals) : e instanceof __PRIVATE_NumericIncrementTransformOperation && t instanceof __PRIVATE_NumericIncrementTransformOperation ? __PRIVATE_valueEquals(e.Ie, t.Ie) : e instanceof __PRIVATE_ServerTimestampTransform && t instanceof __PRIVATE_ServerTimestampTransform;
     }(e.transform, t.transform);
+}
+
+/** The result of successfully applying a mutation to the backend. */
+class MutationResult {
+    constructor(
+    /**
+     * The version at which the mutation was committed:
+     *
+     * - For most operations, this is the updateTime in the WriteResult.
+     * - For deletes, the commitTime of the WriteResponse (because deletes are
+     *   not stored and have no updateTime).
+     *
+     * Note that these versions can be different: No-op writes will not change
+     * the updateTime even though the commitTime advances.
+     */
+    e, 
+    /**
+     * The resulting fields returned from the backend after a mutation
+     * containing field transforms has been committed. Contains one FieldValue
+     * for each FieldTransform that was in the mutation.
+     *
+     * Will be empty if the mutation did not contain any field transforms.
+     */
+    t) {
+        this.version = e, this.transformResults = t;
+    }
 }
 
 /**
@@ -16231,6 +16317,30 @@ function __PRIVATE_fieldTransformEquals(e, t) {
  */ (e, t, n);
 }
 
+/**
+ * If this mutation is not idempotent, returns the base value to persist with
+ * this mutation. If a base value is returned, the mutation is always applied
+ * to this base value, even if document has already been updated.
+ *
+ * The base value is a sparse object that consists of only the document
+ * fields for which this mutation contains a non-idempotent transformation
+ * (e.g. a numeric increment). The provided value guarantees consistent
+ * behavior for non-idempotent transforms and allow us to return the same
+ * latency-compensated value even if the backend has already applied the
+ * mutation. The base value is null for idempotent mutations, as they can be
+ * re-played even if the backend has already applied them.
+ *
+ * @returns a base value to store along with the mutation, or null for
+ * idempotent mutations.
+ */ function __PRIVATE_mutationExtractBaseValue(e, t) {
+    let n = null;
+    for (const r of e.fieldTransforms) {
+        const e = t.data.field(r.field), i = __PRIVATE_computeTransformOperationBaseValue(r.transform, e || null);
+        null != i && (null === n && (n = ObjectValue.empty()), n.set(r.field, i));
+    }
+    return n || null;
+}
+
 function __PRIVATE_mutationEquals(e, t) {
     return e.type === t.type && (!!e.key.isEqual(t.key) && (!!e.precondition.isEqual(t.precondition) && (!!function __PRIVATE_fieldTransformsAreEqual(e, t) {
         return void 0 === e && void 0 === t || !(!e || !t) && __PRIVATE_arrayEquals(e, t, ((e, t) => __PRIVATE_fieldTransformEquals(e, t)));
@@ -16312,6 +16422,16 @@ function __PRIVATE_getPatch(e) {
 /** A mutation that deletes the document at the given key. */ class __PRIVATE_DeleteMutation extends Mutation {
     constructor(e, t) {
         super(), this.key = e, this.precondition = t, this.type = 2 /* MutationType.Delete */ , 
+        this.fieldTransforms = [];
+    }
+    getFieldMask() {
+        return null;
+    }
+}
+
+class __PRIVATE_VerifyMutation extends Mutation {
+    constructor(e, t) {
+        super(), this.key = e, this.precondition = t, this.type = 3 /* MutationType.Verify */ , 
         this.fieldTransforms = [];
     }
     getFieldMask() {
@@ -16413,6 +16533,30 @@ function __PRIVATE_getPatch(e) {
     }
 }
 
+/** The result of applying a mutation batch to the backend. */ class MutationBatchResult {
+    constructor(e, t, n, 
+    /**
+     * A pre-computed mapping from each mutated document to the resulting
+     * version.
+     */
+    r) {
+        this.batch = e, this.commitVersion = t, this.mutationResults = n, this.docVersions = r;
+    }
+    /**
+     * Creates a new MutationBatchResult for the given batch and results. There
+     * must be one result for each mutation in the batch. This static factory
+     * caches a document=&gt;version mapping (docVersions).
+     */    static from(e, t, n) {
+        __PRIVATE_hardAssert(e.mutations.length === n.length);
+        let r = function __PRIVATE_documentVersionMap() {
+            return se;
+        }();
+        const i = e.mutations;
+        for (let e = 0; e < i.length; e++) r = r.insert(i[e].key, n[e].version);
+        return new MutationBatchResult(e, t, n, r);
+    }
+}
+
 /**
  * @license
  * Copyright 2022 Google LLC
@@ -16496,6 +16640,44 @@ function __PRIVATE_getPatch(e) {
  * are used for reverse lookups from the webchannel stream. Do NOT change the
  * names of these identifiers or change this into a const enum.
  */ var ae, ue;
+
+/**
+ * Determines whether an error code represents a permanent error when received
+ * in response to a non-write operation.
+ *
+ * See isPermanentWriteError for classifying write errors.
+ */
+function __PRIVATE_isPermanentError(e) {
+    switch (e) {
+      default:
+        return fail();
+
+      case D.CANCELLED:
+      case D.UNKNOWN:
+      case D.DEADLINE_EXCEEDED:
+      case D.RESOURCE_EXHAUSTED:
+      case D.INTERNAL:
+      case D.UNAVAILABLE:
+ // Unauthenticated means something went wrong with our token and we need
+        // to retry with new credentials which will happen automatically.
+              case D.UNAUTHENTICATED:
+        return !1;
+
+      case D.INVALID_ARGUMENT:
+      case D.NOT_FOUND:
+      case D.ALREADY_EXISTS:
+      case D.PERMISSION_DENIED:
+      case D.FAILED_PRECONDITION:
+ // Aborted might be retried in some scenarios, but that is dependant on
+        // the context and should handled individually by the calling code.
+        // See https://cloud.google.com/apis/design/errors.
+              case D.ABORTED:
+      case D.OUT_OF_RANGE:
+      case D.UNIMPLEMENTED:
+      case D.DATA_LOSS:
+        return !0;
+    }
+}
 
 /**
  * Determines whether an error code represents a permanent error when received
@@ -17360,6 +17542,12 @@ function __PRIVATE_toBytes(e, t) {
     return e.useProto3Json ? t.toBase64() : t.toUint8Array();
 }
 
+/**
+ * Returns a ByteString based on the proto string value.
+ */ function __PRIVATE_toVersion(e, t) {
+    return toTimestamp(e, t.toTimestamp());
+}
+
 function __PRIVATE_fromVersion(e) {
     return __PRIVATE_hardAssert(!!e), SnapshotVersion.fromTimestamp(function fromTimestamp(e) {
         const t = __PRIVATE_normalizeTimestamp(e);
@@ -17376,6 +17564,10 @@ function __PRIVATE_toResourceName(e, t) {
 function __PRIVATE_fromResourceName(e) {
     const t = ResourcePath.fromString(e);
     return __PRIVATE_hardAssert(__PRIVATE_isValidResourceName(t)), t;
+}
+
+function __PRIVATE_toName(e, t) {
+    return __PRIVATE_toResourceName(e.databaseId, t.path);
 }
 
 function fromName(e, t) {
@@ -17404,6 +17596,13 @@ function __PRIVATE_getEncodedDatabaseId(e) {
 
 function __PRIVATE_extractLocalPathFromResourceName(e) {
     return __PRIVATE_hardAssert(e.length > 4 && "documents" === e.get(4)), e.popFirst(5);
+}
+
+/** Creates a Document proto from key and fields (but no create/update time) */ function __PRIVATE_toMutationDocument(e, t, n) {
+    return {
+        name: __PRIVATE_toName(e, t),
+        fields: n.value.mapValue.fields
+    };
 }
 
 function __PRIVATE_fromWatchChange(e, t) {
@@ -17456,6 +17655,67 @@ function __PRIVATE_fromWatchChange(e, t) {
         }
     }
     return n;
+}
+
+function toMutation(e, t) {
+    let n;
+    if (t instanceof __PRIVATE_SetMutation) n = {
+        update: __PRIVATE_toMutationDocument(e, t.key, t.value)
+    }; else if (t instanceof __PRIVATE_DeleteMutation) n = {
+        delete: __PRIVATE_toName(e, t.key)
+    }; else if (t instanceof __PRIVATE_PatchMutation) n = {
+        update: __PRIVATE_toMutationDocument(e, t.key, t.data),
+        updateMask: __PRIVATE_toDocumentMask(t.fieldMask)
+    }; else {
+        if (!(t instanceof __PRIVATE_VerifyMutation)) return fail();
+        n = {
+            verify: __PRIVATE_toName(e, t.key)
+        };
+    }
+    return t.fieldTransforms.length > 0 && (n.updateTransforms = t.fieldTransforms.map((e => function __PRIVATE_toFieldTransform(e, t) {
+        const n = t.transform;
+        if (n instanceof __PRIVATE_ServerTimestampTransform) return {
+            fieldPath: t.field.canonicalString(),
+            setToServerValue: "REQUEST_TIME"
+        };
+        if (n instanceof __PRIVATE_ArrayUnionTransformOperation) return {
+            fieldPath: t.field.canonicalString(),
+            appendMissingElements: {
+                values: n.elements
+            }
+        };
+        if (n instanceof __PRIVATE_ArrayRemoveTransformOperation) return {
+            fieldPath: t.field.canonicalString(),
+            removeAllFromArray: {
+                values: n.elements
+            }
+        };
+        if (n instanceof __PRIVATE_NumericIncrementTransformOperation) return {
+            fieldPath: t.field.canonicalString(),
+            increment: n.Ie
+        };
+        throw fail();
+    }(0, e)))), t.precondition.isNone || (n.currentDocument = function __PRIVATE_toPrecondition(e, t) {
+        return void 0 !== t.updateTime ? {
+            updateTime: __PRIVATE_toVersion(e, t.updateTime)
+        } : void 0 !== t.exists ? {
+            exists: t.exists
+        } : fail();
+    }(e, t.precondition)), n;
+}
+
+function __PRIVATE_fromWriteResults(e, t) {
+    return e && e.length > 0 ? (__PRIVATE_hardAssert(void 0 !== t), e.map((e => function __PRIVATE_fromWriteResult(e, t) {
+        // NOTE: Deletes don't have an updateTime.
+        let n = e.updateTime ? __PRIVATE_fromVersion(e.updateTime) : __PRIVATE_fromVersion(t);
+        return n.isEqual(SnapshotVersion.min()) && (
+        // The Firestore Emulator currently returns an update time of 0 for
+        // deletes of non-existing documents (rather than null). This breaks the
+        // test "get deleted doc while offline with source=cache" as NoDocuments
+        // with version 0 are filtered by IndexedDb's RemoteDocumentCache.
+        // TODO(#2149): Remove this when Emulator is fixed
+        n = __PRIVATE_fromVersion(t)), new MutationResult(n, e.transformResults || []);
+    }(e, t)))) : [];
 }
 
 function __PRIVATE_toDocumentsTarget(e, t) {
@@ -17738,6 +17998,13 @@ function __PRIVATE_toFilter(e) {
             }
         };
     }(e) : fail();
+}
+
+function __PRIVATE_toDocumentMask(e) {
+    const t = [];
+    return e.fields.forEach((e => t.push(e.canonicalString()))), {
+        fieldPaths: t
+    };
 }
 
 function __PRIVATE_isValidResourceName(e) {
@@ -19552,6 +19819,60 @@ async function __PRIVATE_localStoreHandleUserChange(e, t) {
     }));
 }
 
+/* Accepts locally generated Mutations and commit them to storage. */
+/**
+ * Acknowledges the given batch.
+ *
+ * On the happy path when a batch is acknowledged, the local store will
+ *
+ *  + remove the batch from the mutation queue;
+ *  + apply the changes to the remote document cache;
+ *  + recalculate the latency compensated view implied by those changes (there
+ *    may be mutations in the queue that affect the documents but haven't been
+ *    acknowledged yet); and
+ *  + give the changed documents back the sync engine
+ *
+ * @returns The resulting (modified) documents.
+ */
+function __PRIVATE_localStoreAcknowledgeBatch(e, t) {
+    const n = __PRIVATE_debugCast(e);
+    return n.persistence.runTransaction("Acknowledge batch", "readwrite-primary", (e => {
+        const r = t.batch.keys(), i = n.ss.newChangeBuffer({
+            trackRemovals: !0
+        });
+        return function __PRIVATE_applyWriteToRemoteDocuments(e, t, n, r) {
+            const i = n.batch, s = i.keys();
+            let o = PersistencePromise.resolve();
+            return s.forEach((e => {
+                o = o.next((() => r.getEntry(t, e))).next((t => {
+                    const s = n.docVersions.get(e);
+                    __PRIVATE_hardAssert(null !== s), t.version.compareTo(s) < 0 && (i.applyToRemoteDocument(t, n), 
+                    t.isValidDocument() && (
+                    // We use the commitVersion as the readTime rather than the
+                    // document's updateTime since the updateTime is not advanced
+                    // for updates that do not modify the underlying document.
+                    t.setReadTime(n.commitVersion), r.addEntry(t)));
+                }));
+            })), o.next((() => e.mutationQueue.removeMutationBatch(t, i)));
+        }
+        /** Returns the local view of the documents affected by a mutation batch. */
+        // PORTING NOTE: Multi-Tab only.
+        (n, e, t, i).next((() => i.apply(e))).next((() => n.mutationQueue.performConsistencyCheck(e))).next((() => n.documentOverlayCache.removeOverlaysForBatchId(e, r, t.batch.batchId))).next((() => n.localDocuments.recalculateAndSaveOverlaysForDocumentKeys(e, function __PRIVATE_getKeysWithTransformResults(e) {
+            let t = __PRIVATE_documentKeySet();
+            for (let n = 0; n < e.mutationResults.length; ++n) {
+                e.mutationResults[n].transformResults.length > 0 && (t = t.add(e.batch.mutations[n].key));
+            }
+            return t;
+        }
+        /**
+ * Removes mutations from the MutationQueue for the specified batch;
+ * LocalDocuments will be recalculated.
+ *
+ * @returns The resulting modified documents.
+ */ (t)))).next((() => n.localDocuments.getDocuments(e, r)));
+    }));
+}
+
 /**
  * Returns the last consistent snapshot processed (used by the RemoteStore to
  * determine whether to buffer incoming snapshots from the backend).
@@ -19673,6 +19994,18 @@ function __PRIVATE_localStoreGetLastRemoteSnapshotVersion(e) {
             cs: i
         };
     }));
+}
+
+/**
+ * Gets the mutation batch after the passed in batchId in the mutation queue
+ * or null if empty.
+ * @param afterBatchId - If provided, the batch to search after.
+ * @returns The next mutation or null if there wasn't one.
+ */
+function __PRIVATE_localStoreGetNextMutationBatch(e, t) {
+    const n = __PRIVATE_debugCast(e);
+    return n.persistence.runTransaction("Get next mutation batch", "readonly", (e => (void 0 === t && (t = -1), 
+    n.mutationQueue.getNextMutationBatchAfterBatchId(e, t))));
 }
 
 /**
@@ -20727,6 +21060,77 @@ class __PRIVATE_PersistentStream {
 }
 
 /**
+ * A Stream that implements the Write RPC.
+ *
+ * The Write RPC requires the caller to maintain special streamToken
+ * state in between calls, to help the server understand which responses the
+ * client has processed by the time the next request is made. Every response
+ * will contain a streamToken; this value must be passed to the next
+ * request.
+ *
+ * After calling start() on this stream, the next request must be a handshake,
+ * containing whatever streamToken is on hand. Once a response to this
+ * request is received, all pending mutations may be submitted. When
+ * submitting multiple batches of mutations at the same time, it's
+ * okay to use the same streamToken for the calls to writeMutations.
+ *
+ * TODO(b/33271235): Use proto types
+ */ class __PRIVATE_PersistentWriteStream extends __PRIVATE_PersistentStream {
+    constructor(e, t, n, r, i, s) {
+        super(e, "write_stream_connection_backoff" /* TimerId.WriteStreamConnectionBackoff */ , "write_stream_idle" /* TimerId.WriteStreamIdle */ , "health_check_timeout" /* TimerId.HealthCheckTimeout */ , t, n, r, s), 
+        this.serializer = i, this.l_ = !1;
+    }
+    /**
+     * Tracks whether or not a handshake has been successfully exchanged and
+     * the stream is ready to accept mutations.
+     */    get h_() {
+        return this.l_;
+    }
+    // Override of PersistentStream.start
+    start() {
+        this.l_ = !1, this.lastStreamToken = void 0, super.start();
+    }
+    r_() {
+        this.l_ && this.P_([]);
+    }
+    __(e, t) {
+        return this.connection.vo("Write", e, t);
+    }
+    onMessage(e) {
+        if (
+        // Always capture the last stream token.
+        __PRIVATE_hardAssert(!!e.streamToken), this.lastStreamToken = e.streamToken, this.l_) {
+            // A successful first write response means the stream is healthy,
+            // Note, that we could consider a successful handshake healthy, however,
+            // the write itself might be causing an error we want to back off from.
+            this.zo.reset();
+            const t = __PRIVATE_fromWriteResults(e.writeResults, e.commitTime), n = __PRIVATE_fromVersion(e.commitTime);
+            return this.listener.I_(n, t);
+        }
+        // The first response is always the handshake response
+        return __PRIVATE_hardAssert(!e.writeResults || 0 === e.writeResults.length), this.l_ = !0, 
+        this.listener.T_();
+    }
+    /**
+     * Sends an initial streamToken to the server, performing the handshake
+     * required to make the StreamingWrite RPC work. Subsequent
+     * calls should wait until onHandshakeComplete was called.
+     */    E_() {
+        // TODO(dimond): Support stream resumption. We intentionally do not set the
+        // stream token on the handshake, ignoring any stream token we might have.
+        const e = {};
+        e.database = __PRIVATE_getEncodedDatabaseId(this.serializer), this.e_(e);
+    }
+    /** Sends a group of mutations to the Firestore backend to apply. */    P_(e) {
+        const t = {
+            streamToken: this.lastStreamToken,
+            writes: e.map((e => toMutation(this.serializer, e)))
+        };
+        this.e_(t);
+    }
+}
+
+/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -21131,6 +21535,99 @@ async function __PRIVATE_onWatchStreamChange(e, t, n) {
     }));
 }
 
+/**
+ * Executes `op`. If `op` fails, takes the network offline until `op`
+ * succeeds. Returns after the first attempt.
+ */ function __PRIVATE_executeWithRecovery(e, t) {
+    return t().catch((n => __PRIVATE_disableNetworkUntilRecovery(e, n, t)));
+}
+
+async function __PRIVATE_fillWritePipeline(e) {
+    const t = __PRIVATE_debugCast(e), n = __PRIVATE_ensureWriteStream(t);
+    let r = t.b_.length > 0 ? t.b_[t.b_.length - 1].batchId : -1;
+    for (;__PRIVATE_canAddToWritePipeline(t); ) try {
+        const e = await __PRIVATE_localStoreGetNextMutationBatch(t.localStore, r);
+        if (null === e) {
+            0 === t.b_.length && n.Zo();
+            break;
+        }
+        r = e.batchId, __PRIVATE_addToWritePipeline(t, e);
+    } catch (e) {
+        await __PRIVATE_disableNetworkUntilRecovery(t, e);
+    }
+    __PRIVATE_shouldStartWriteStream(t) && __PRIVATE_startWriteStream(t);
+}
+
+/**
+ * Returns true if we can add to the write pipeline (i.e. the network is
+ * enabled and the write pipeline is not full).
+ */ function __PRIVATE_canAddToWritePipeline(e) {
+    return __PRIVATE_canUseNetwork(e) && e.b_.length < 10;
+}
+
+/**
+ * Queues additional writes to be sent to the write stream, sending them
+ * immediately if the write stream is established.
+ */ function __PRIVATE_addToWritePipeline(e, t) {
+    e.b_.push(t);
+    const n = __PRIVATE_ensureWriteStream(e);
+    n.Ho() && n.h_ && n.P_(t.mutations);
+}
+
+function __PRIVATE_shouldStartWriteStream(e) {
+    return __PRIVATE_canUseNetwork(e) && !__PRIVATE_ensureWriteStream(e).jo() && e.b_.length > 0;
+}
+
+function __PRIVATE_startWriteStream(e) {
+    __PRIVATE_ensureWriteStream(e).start();
+}
+
+async function __PRIVATE_onWriteStreamOpen(e) {
+    __PRIVATE_ensureWriteStream(e).E_();
+}
+
+async function __PRIVATE_onWriteHandshakeComplete(e) {
+    const t = __PRIVATE_ensureWriteStream(e);
+    // Send the write pipeline now that the stream is established.
+        for (const n of e.b_) t.P_(n.mutations);
+}
+
+async function __PRIVATE_onMutationResult(e, t, n) {
+    const r = e.b_.shift(), i = MutationBatchResult.from(r, t, n);
+    await __PRIVATE_executeWithRecovery(e, (() => e.remoteSyncer.applySuccessfulWrite(i))), 
+    // It's possible that with the completion of this mutation another
+    // slot has freed up.
+    await __PRIVATE_fillWritePipeline(e);
+}
+
+async function __PRIVATE_onWriteStreamClose(e, t) {
+    // If the write stream closed after the write handshake completes, a write
+    // operation failed and we fail the pending operation.
+    t && __PRIVATE_ensureWriteStream(e).h_ && 
+    // This error affects the actual write.
+    await async function __PRIVATE_handleWriteError(e, t) {
+        // Only handle permanent errors here. If it's transient, just let the retry
+        // logic kick in.
+        if (function __PRIVATE_isPermanentWriteError(e) {
+            return __PRIVATE_isPermanentError(e) && e !== D.ABORTED;
+        }(t.code)) {
+            // This was a permanent error, the request itself was the problem
+            // so it's not going to succeed if we resend it.
+            const n = e.b_.shift();
+            // In this case it's also unlikely that the server itself is melting
+            // down -- this was just a bad request so inhibit backoff on the next
+            // restart.
+                        __PRIVATE_ensureWriteStream(e).Yo(), await __PRIVATE_executeWithRecovery(e, (() => e.remoteSyncer.rejectFailedWrite(n.batchId, t))), 
+            // It's possible that with the completion of this mutation
+            // another slot has freed up.
+            await __PRIVATE_fillWritePipeline(e);
+        }
+    }(e, t), 
+    // The write stream might have been started by refilling the write
+    // pipeline for failed writes
+    __PRIVATE_shouldStartWriteStream(e) && __PRIVATE_startWriteStream(e);
+}
+
 async function __PRIVATE_remoteStoreHandleCredentialChange(e, t) {
     const n = __PRIVATE_debugCast(e);
     n.asyncQueue.verifyOperationInProgress(), __PRIVATE_logDebug("RemoteStore", "RemoteStore received new credentials");
@@ -21190,6 +21687,32 @@ async function __PRIVATE_remoteStoreHandleCredentialChange(e, t) {
         t ? (e.O_.Yo(), __PRIVATE_shouldStartWatchStream(e) ? __PRIVATE_startWatchStream(e) : e.M_.set("Unknown" /* OnlineState.Unknown */)) : (await e.O_.stop(), 
         __PRIVATE_cleanUpWatchStreamState(e));
     }))), e.O_;
+}
+
+/**
+ * If not yet initialized, registers the WriteStream and its network state
+ * callback with `remoteStoreImpl`. Returns the existing stream if one is
+ * already available.
+ *
+ * PORTING NOTE: On iOS and Android, the WriteStream gets registered on startup.
+ * This is not done on Web to allow it to be tree-shaken.
+ */ function __PRIVATE_ensureWriteStream(e) {
+    return e.N_ || (
+    // Create stream (but note that it is not started yet).
+    e.N_ = function __PRIVATE_newPersistentWriteStream(e, t, n) {
+        const r = __PRIVATE_debugCast(e);
+        return r.A_(), new __PRIVATE_PersistentWriteStream(t, r.connection, r.authCredentials, r.appCheckCredentials, r.serializer, n);
+    }(e.datastore, e.asyncQueue, {
+        ho: __PRIVATE_onWriteStreamOpen.bind(null, e),
+        Io: __PRIVATE_onWriteStreamClose.bind(null, e),
+        T_: __PRIVATE_onWriteHandshakeComplete.bind(null, e),
+        I_: __PRIVATE_onMutationResult.bind(null, e)
+    }), e.v_.push((async t => {
+        t ? (e.N_.Yo(), 
+        // This will start the write stream if necessary.
+        await __PRIVATE_fillWritePipeline(e)) : (await e.N_.stop(), e.b_.length > 0 && (__PRIVATE_logDebug("RemoteStore", `Stopping write stream with ${e.b_.length} pending writes`), 
+        e.b_ = []));
+    }))), e.N_;
 }
 
 /**
@@ -22086,6 +22609,78 @@ async function __PRIVATE_syncEngineListen(e, t) {
 }
 
 /**
+ * Initiates the write of local mutation batch which involves adding the
+ * writes to the mutation queue, notifying the remote store about new
+ * mutations and raising events for any changes this write caused.
+ *
+ * The promise returned by this call is resolved when the above steps
+ * have completed, *not* when the write was acked by the backend. The
+ * userCallback is resolved once the write was acked/rejected by the
+ * backend (or failed locally for any other reason).
+ */ async function __PRIVATE_syncEngineWrite(e, t, n) {
+    const r = __PRIVATE_syncEngineEnsureWriteCallbacks(e);
+    try {
+        const e = await function __PRIVATE_localStoreWriteLocally(e, t) {
+            const n = __PRIVATE_debugCast(e), r = Timestamp.now(), i = t.reduce(((e, t) => e.add(t.key)), __PRIVATE_documentKeySet());
+            let s, o;
+            return n.persistence.runTransaction("Locally write mutations", "readwrite", (e => {
+                // Figure out which keys do not have a remote version in the cache, this
+                // is needed to create the right overlay mutation: if no remote version
+                // presents, we do not need to create overlays as patch mutations.
+                // TODO(Overlay): Is there a better way to determine this? Using the
+                //  document version does not work because local mutations set them back
+                //  to 0.
+                let _ = __PRIVATE_mutableDocumentMap(), a = __PRIVATE_documentKeySet();
+                return n.ss.getEntries(e, i).next((e => {
+                    _ = e, _.forEach(((e, t) => {
+                        t.isValidDocument() || (a = a.add(e));
+                    }));
+                })).next((() => n.localDocuments.getOverlayedDocuments(e, _))).next((i => {
+                    s = i;
+                    // For non-idempotent mutations (such as `FieldValue.increment()`),
+                    // we record the base state in a separate patch mutation. This is
+                    // later used to guarantee consistent values and prevents flicker
+                    // even if the backend sends us an update that already includes our
+                    // transform.
+                    const o = [];
+                    for (const e of t) {
+                        const t = __PRIVATE_mutationExtractBaseValue(e, s.get(e.key).overlayedDocument);
+                        null != t && 
+                        // NOTE: The base state should only be applied if there's some
+                        // existing document to override, so use a Precondition of
+                        // exists=true
+                        o.push(new __PRIVATE_PatchMutation(e.key, t, __PRIVATE_extractFieldMask(t.value.mapValue), Precondition.exists(!0)));
+                    }
+                    return n.mutationQueue.addMutationBatch(e, r, o, t);
+                })).next((t => {
+                    o = t;
+                    const r = t.applyToLocalDocumentSet(s, a);
+                    return n.documentOverlayCache.saveOverlays(e, t.batchId, r);
+                }));
+            })).then((() => ({
+                batchId: o.batchId,
+                changes: __PRIVATE_convertOverlayedDocumentMapToDocumentMap(s)
+            })));
+        }(r.localStore, t);
+        r.sharedClientState.addPendingMutation(e.batchId), function __PRIVATE_addMutationCallback(e, t, n) {
+            let r = e.Sa[e.currentUser.toKey()];
+            r || (r = new SortedMap(__PRIVATE_primitiveComparator));
+            r = r.insert(t, n), e.Sa[e.currentUser.toKey()] = r;
+        }
+        /**
+ * Resolves or rejects the user callback for the given batch and then discards
+ * it.
+ */ (r, e.batchId, n), await __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(r, e.changes), 
+        await __PRIVATE_fillWritePipeline(r.remoteStore);
+    } catch (e) {
+        // If we can't persist the mutation, we reject the user callback and
+        // don't send the mutation. The user can then retry the write.
+        const t = __PRIVATE_wrapInUserErrorIfRecoverable(e, "Failed to persist write");
+        n.reject(t);
+    }
+}
+
+/**
  * Applies one remote event to the sync engine, notifying any views of the
  * changes, and releasing any pending mutation batches that would become
  * visible because of the snapshot version the remote event contains.
@@ -22174,6 +22769,69 @@ async function __PRIVATE_syncEngineListen(e, t) {
         r.pa = r.pa.remove(s), r.ya.delete(t), __PRIVATE_pumpEnqueuedLimboResolutions(r);
     } else await __PRIVATE_localStoreReleaseTarget(r.localStore, t, 
     /* keepPersistedTargetData */ !1).then((() => __PRIVATE_removeAndCleanupTarget(r, t, n))).catch(__PRIVATE_ignoreIfPrimaryLeaseLoss);
+}
+
+async function __PRIVATE_syncEngineApplySuccessfulWrite(e, t) {
+    const n = __PRIVATE_debugCast(e), r = t.batch.batchId;
+    try {
+        const e = await __PRIVATE_localStoreAcknowledgeBatch(n.localStore, t);
+        // The local store may or may not be able to apply the write result and
+        // raise events immediately (depending on whether the watcher is caught
+        // up), so we raise user callbacks first so that they consistently happen
+        // before listen events.
+                __PRIVATE_processUserCallback(n, r, /*error=*/ null), __PRIVATE_triggerPendingWritesCallbacks(n, r), 
+        n.sharedClientState.updateMutationState(r, "acknowledged"), await __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(n, e);
+    } catch (e) {
+        await __PRIVATE_ignoreIfPrimaryLeaseLoss(e);
+    }
+}
+
+async function __PRIVATE_syncEngineRejectFailedWrite(e, t, n) {
+    const r = __PRIVATE_debugCast(e);
+    try {
+        const e = await function __PRIVATE_localStoreRejectBatch(e, t) {
+            const n = __PRIVATE_debugCast(e);
+            return n.persistence.runTransaction("Reject batch", "readwrite-primary", (e => {
+                let r;
+                return n.mutationQueue.lookupMutationBatch(e, t).next((t => (__PRIVATE_hardAssert(null !== t), 
+                r = t.keys(), n.mutationQueue.removeMutationBatch(e, t)))).next((() => n.mutationQueue.performConsistencyCheck(e))).next((() => n.documentOverlayCache.removeOverlaysForBatchId(e, r, t))).next((() => n.localDocuments.recalculateAndSaveOverlaysForDocumentKeys(e, r))).next((() => n.localDocuments.getDocuments(e, r)));
+            }));
+        }
+        /**
+ * Returns the largest (latest) batch id in mutation queue that is pending
+ * server response.
+ *
+ * Returns `BATCHID_UNKNOWN` if the queue is empty.
+ */ (r.localStore, t);
+        // The local store may or may not be able to apply the write result and
+        // raise events immediately (depending on whether the watcher is caught up),
+        // so we raise user callbacks first so that they consistently happen before
+        // listen events.
+                __PRIVATE_processUserCallback(r, t, n), __PRIVATE_triggerPendingWritesCallbacks(r, t), 
+        r.sharedClientState.updateMutationState(t, "rejected", n), await __PRIVATE_syncEngineEmitNewSnapsAndNotifyLocalStore(r, e);
+    } catch (n) {
+        await __PRIVATE_ignoreIfPrimaryLeaseLoss(n);
+    }
+}
+
+/**
+ * Triggers the callbacks that are waiting for this batch id to get acknowledged by server,
+ * if there are any.
+ */ function __PRIVATE_triggerPendingWritesCallbacks(e, t) {
+    (e.ba.get(t) || []).forEach((e => {
+        e.resolve();
+    })), e.ba.delete(t);
+}
+
+/** Reject all outstanding callbacks waiting for pending writes to complete. */ function __PRIVATE_processUserCallback(e, t, n) {
+    const r = __PRIVATE_debugCast(e);
+    let i = r.Sa[r.currentUser.toKey()];
+    // NOTE: Mutations restored from persistence won't have callbacks, so it's
+    // okay for there to be no callback for this ID.
+        if (i) {
+        const e = i.get(t);
+        e && (n ? e.reject(n) : e.resolve(), i = i.remove(t)), r.Sa[r.currentUser.toKey()] = i;
+    }
 }
 
 function __PRIVATE_removeAndCleanupTarget(e, t, n = null) {
@@ -22307,6 +22965,13 @@ function __PRIVATE_ensureWatchCallbacks(e) {
     t.remoteStore.remoteSyncer.getRemoteKeysForTarget = __PRIVATE_syncEngineGetRemoteKeysForTarget.bind(null, t), 
     t.remoteStore.remoteSyncer.rejectListen = __PRIVATE_syncEngineRejectListen.bind(null, t), 
     t.Va.a_ = __PRIVATE_eventManagerOnWatchChange.bind(null, t.eventManager), t.Va.Fa = __PRIVATE_eventManagerOnWatchError.bind(null, t.eventManager), 
+    t;
+}
+
+function __PRIVATE_syncEngineEnsureWriteCallbacks(e) {
+    const t = __PRIVATE_debugCast(e);
+    return t.remoteStore.remoteSyncer.applySuccessfulWrite = __PRIVATE_syncEngineApplySuccessfulWrite.bind(null, t), 
+    t.remoteStore.remoteSyncer.rejectFailedWrite = __PRIVATE_syncEngineRejectFailedWrite.bind(null, t), 
     t;
 }
 
@@ -22600,6 +23265,10 @@ async function __PRIVATE_ensureOnlineComponents(e) {
     return e._onlineComponents || (e._uninitializedComponentsProvider ? (__PRIVATE_logDebug("FirestoreClient", "Using user provided OnlineComponentProvider"), 
     await __PRIVATE_setOnlineComponentProvider(e, e._uninitializedComponentsProvider._online)) : (__PRIVATE_logDebug("FirestoreClient", "Using default OnlineComponentProvider"), 
     await __PRIVATE_setOnlineComponentProvider(e, new OnlineComponentProvider))), e._onlineComponents;
+}
+
+function __PRIVATE_getSyncEngine(e) {
+    return __PRIVATE_ensureOnlineComponents(e).then((e => e.syncEngine));
 }
 
 async function __PRIVATE_getEventManager(e) {
@@ -23458,6 +24127,35 @@ function __PRIVATE_configureFirestore(e) {
 
 /**
  * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Sentinel values that can be used when writing document fields with `set()`
+ * or `update()`.
+ */ class FieldValue {
+    /**
+     * @param _methodName - The public API endpoint that returns this class.
+     * @hideconstructor
+     */
+    constructor(e) {
+        this._methodName = e;
+    }
+}
+
+/**
+ * @license
  * Copyright 2017 Google LLC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -23523,6 +24221,370 @@ function __PRIVATE_configureFirestore(e) {
 }
 
 /**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ const ge = /^__.*__$/;
+
+/** The result of parsing document data (e.g. for a setData call). */ class ParsedSetData {
+    constructor(e, t, n) {
+        this.data = e, this.fieldMask = t, this.fieldTransforms = n;
+    }
+    toMutation(e, t) {
+        return null !== this.fieldMask ? new __PRIVATE_PatchMutation(e, this.data, this.fieldMask, t, this.fieldTransforms) : new __PRIVATE_SetMutation(e, this.data, t, this.fieldTransforms);
+    }
+}
+
+function __PRIVATE_isWrite(e) {
+    switch (e) {
+      case 0 /* UserDataSource.Set */ :
+ // fall through
+              case 2 /* UserDataSource.MergeSet */ :
+ // fall through
+              case 1 /* UserDataSource.Update */ :
+        return !0;
+
+      case 3 /* UserDataSource.Argument */ :
+      case 4 /* UserDataSource.ArrayArgument */ :
+        return !1;
+
+      default:
+        throw fail();
+    }
+}
+
+/** A "context" object passed around while parsing user data. */ class __PRIVATE_ParseContextImpl {
+    /**
+     * Initializes a ParseContext with the given source and path.
+     *
+     * @param settings - The settings for the parser.
+     * @param databaseId - The database ID of the Firestore instance.
+     * @param serializer - The serializer to use to generate the Value proto.
+     * @param ignoreUndefinedProperties - Whether to ignore undefined properties
+     * rather than throw.
+     * @param fieldTransforms - A mutable list of field transforms encountered
+     * while parsing the data.
+     * @param fieldMask - A mutable list of field paths encountered while parsing
+     * the data.
+     *
+     * TODO(b/34871131): We don't support array paths right now, so path can be
+     * null to indicate the context represents any location within an array (in
+     * which case certain features will not work and errors will be somewhat
+     * compromised).
+     */
+    constructor(e, t, n, r, i, s) {
+        this.settings = e, this.databaseId = t, this.serializer = n, this.ignoreUndefinedProperties = r, 
+        // Minor hack: If fieldTransforms is undefined, we assume this is an
+        // external call and we need to validate the entire path.
+        void 0 === i && this.Pu(), this.fieldTransforms = i || [], this.fieldMask = s || [];
+    }
+    get path() {
+        return this.settings.path;
+    }
+    get Iu() {
+        return this.settings.Iu;
+    }
+    /** Returns a new context with the specified settings overwritten. */    Tu(e) {
+        return new __PRIVATE_ParseContextImpl(Object.assign(Object.assign({}, this.settings), e), this.databaseId, this.serializer, this.ignoreUndefinedProperties, this.fieldTransforms, this.fieldMask);
+    }
+    Eu(e) {
+        var t;
+        const n = null === (t = this.path) || void 0 === t ? void 0 : t.child(e), r = this.Tu({
+            path: n,
+            du: !1
+        });
+        return r.Au(e), r;
+    }
+    Ru(e) {
+        var t;
+        const n = null === (t = this.path) || void 0 === t ? void 0 : t.child(e), r = this.Tu({
+            path: n,
+            du: !1
+        });
+        return r.Pu(), r;
+    }
+    Vu(e) {
+        // TODO(b/34871131): We don't support array paths right now; so make path
+        // undefined.
+        return this.Tu({
+            path: void 0,
+            du: !0
+        });
+    }
+    mu(e) {
+        return __PRIVATE_createError(e, this.settings.methodName, this.settings.fu || !1, this.path, this.settings.gu);
+    }
+    /** Returns 'true' if 'fieldPath' was traversed when creating this context. */    contains(e) {
+        return void 0 !== this.fieldMask.find((t => e.isPrefixOf(t))) || void 0 !== this.fieldTransforms.find((t => e.isPrefixOf(t.field)));
+    }
+    Pu() {
+        // TODO(b/34871131): Remove null check once we have proper paths for fields
+        // within arrays.
+        if (this.path) for (let e = 0; e < this.path.length; e++) this.Au(this.path.get(e));
+    }
+    Au(e) {
+        if (0 === e.length) throw this.mu("Document fields must not be empty");
+        if (__PRIVATE_isWrite(this.Iu) && ge.test(e)) throw this.mu('Document fields cannot begin and end with "__"');
+    }
+}
+
+/**
+ * Helper for parsing raw user input (provided via the API) into internal model
+ * classes.
+ */ class __PRIVATE_UserDataReader {
+    constructor(e, t, n) {
+        this.databaseId = e, this.ignoreUndefinedProperties = t, this.serializer = n || __PRIVATE_newSerializer(e);
+    }
+    /** Creates a new top-level parse context. */    pu(e, t, n, r = !1) {
+        return new __PRIVATE_ParseContextImpl({
+            Iu: e,
+            methodName: t,
+            gu: n,
+            path: FieldPath$1.emptyPath(),
+            du: !1,
+            fu: r
+        }, this.databaseId, this.serializer, this.ignoreUndefinedProperties);
+    }
+}
+
+function __PRIVATE_newUserDataReader(e) {
+    const t = e._freezeSettings(), n = __PRIVATE_newSerializer(e._databaseId);
+    return new __PRIVATE_UserDataReader(e._databaseId, !!t.ignoreUndefinedProperties, n);
+}
+
+/** Parse document data from a set() call. */ function __PRIVATE_parseSetData(e, t, n, r, i, s = {}) {
+    const o = e.pu(s.merge || s.mergeFields ? 2 /* UserDataSource.MergeSet */ : 0 /* UserDataSource.Set */ , t, n, i);
+    __PRIVATE_validatePlainObject("Data must be an object, but it was:", o, r);
+    const _ = __PRIVATE_parseObject(r, o);
+    let a, u;
+    if (s.merge) a = new FieldMask(o.fieldMask), u = o.fieldTransforms; else if (s.mergeFields) {
+        const e = [];
+        for (const r of s.mergeFields) {
+            const i = __PRIVATE_fieldPathFromArgument$1(t, r, n);
+            if (!o.contains(i)) throw new FirestoreError(D.INVALID_ARGUMENT, `Field '${i}' is specified in your field mask but missing from your input data.`);
+            __PRIVATE_fieldMaskContains(e, i) || e.push(i);
+        }
+        a = new FieldMask(e), u = o.fieldTransforms.filter((e => a.covers(e.field)));
+    } else a = null, u = o.fieldTransforms;
+    return new ParsedSetData(new ObjectValue(_), a, u);
+}
+
+/**
+ * Creates a child context for parsing SerializableFieldValues.
+ *
+ * This is different than calling `ParseContext.contextWith` because it keeps
+ * the fieldTransforms and fieldMask separate.
+ *
+ * The created context has its `dataSource` set to `UserDataSource.Argument`.
+ * Although these values are used with writes, any elements in these FieldValues
+ * are not considered writes since they cannot contain any FieldValue sentinels,
+ * etc.
+ *
+ * @param fieldValue - The sentinel FieldValue for which to create a child
+ *     context.
+ * @param context - The parent context.
+ * @param arrayElement - Whether or not the FieldValue has an array.
+ */ function __PRIVATE_createSentinelChildContext(e, t, n) {
+    return new __PRIVATE_ParseContextImpl({
+        Iu: 3 /* UserDataSource.Argument */ ,
+        gu: t.settings.gu,
+        methodName: e._methodName,
+        du: n
+    }, t.databaseId, t.serializer, t.ignoreUndefinedProperties);
+}
+
+class __PRIVATE_ArrayUnionFieldValueImpl extends FieldValue {
+    constructor(e, t) {
+        super(e), this.yu = t;
+    }
+    _toFieldTransform(e) {
+        const t = __PRIVATE_createSentinelChildContext(this, e, 
+        /*array=*/ !0), n = this.yu.map((e => __PRIVATE_parseData(e, t))), r = new __PRIVATE_ArrayUnionTransformOperation(n);
+        return new FieldTransform(e.path, r);
+    }
+    isEqual(e) {
+        // TODO(mrschmidt): Implement isEquals
+        return this === e;
+    }
+}
+
+/**
+ * Parses user data to Protobuf Values.
+ *
+ * @param input - Data to be parsed.
+ * @param context - A context object representing the current path being parsed,
+ * the source of the data being parsed, etc.
+ * @returns The parsed value, or null if the value was a FieldValue sentinel
+ * that should not be included in the resulting parsed data.
+ */ function __PRIVATE_parseData(e, t) {
+    if (__PRIVATE_looksLikeJsonObject(
+    // Unwrap the API type from the Compat SDK. This will return the API type
+    // from firestore-exp.
+    e = getModularInstance(e))) return __PRIVATE_validatePlainObject("Unsupported field value:", t, e), 
+    __PRIVATE_parseObject(e, t);
+    if (e instanceof FieldValue) 
+    // FieldValues usually parse into transforms (except deleteField())
+    // in which case we do not want to include this field in our parsed data
+    // (as doing so will overwrite the field directly prior to the transform
+    // trying to transform it). So we don't add this location to
+    // context.fieldMask and we return null as our parsing result.
+    /**
+ * "Parses" the provided FieldValueImpl, adding any necessary transforms to
+ * context.fieldTransforms.
+ */
+    return function __PRIVATE_parseSentinelFieldValue(e, t) {
+        // Sentinels are only supported with writes, and not within arrays.
+        if (!__PRIVATE_isWrite(t.Iu)) throw t.mu(`${e._methodName}() can only be used with update() and set()`);
+        if (!t.path) throw t.mu(`${e._methodName}() is not currently supported inside arrays`);
+        const n = e._toFieldTransform(t);
+        n && t.fieldTransforms.push(n);
+    }
+    /**
+ * Helper to parse a scalar value (i.e. not an Object, Array, or FieldValue)
+ *
+ * @returns The parsed value
+ */ (e, t), null;
+    if (void 0 === e && t.ignoreUndefinedProperties) 
+    // If the input is undefined it can never participate in the fieldMask, so
+    // don't handle this below. If `ignoreUndefinedProperties` is false,
+    // `parseScalarValue` will reject an undefined value.
+    return null;
+    if (
+    // If context.path is null we are inside an array and we don't support
+    // field mask paths more granular than the top-level array.
+    t.path && t.fieldMask.push(t.path), e instanceof Array) {
+        // TODO(b/34871131): Include the path containing the array in the error
+        // message.
+        // In the case of IN queries, the parsed data is an array (representing
+        // the set of values to be included for the IN query) that may directly
+        // contain additional arrays (each representing an individual field
+        // value), so we disable this validation.
+        if (t.settings.du && 4 /* UserDataSource.ArrayArgument */ !== t.Iu) throw t.mu("Nested arrays are not supported");
+        return function __PRIVATE_parseArray(e, t) {
+            const n = [];
+            let r = 0;
+            for (const i of e) {
+                let e = __PRIVATE_parseData(i, t.Vu(r));
+                null == e && (
+                // Just include nulls in the array for fields being replaced with a
+                // sentinel.
+                e = {
+                    nullValue: "NULL_VALUE"
+                }), n.push(e), r++;
+            }
+            return {
+                arrayValue: {
+                    values: n
+                }
+            };
+        }(e, t);
+    }
+    return function __PRIVATE_parseScalarValue(e, t) {
+        if (null === (e = getModularInstance(e))) return {
+            nullValue: "NULL_VALUE"
+        };
+        if ("number" == typeof e) return toNumber(t.serializer, e);
+        if ("boolean" == typeof e) return {
+            booleanValue: e
+        };
+        if ("string" == typeof e) return {
+            stringValue: e
+        };
+        if (e instanceof Date) {
+            const n = Timestamp.fromDate(e);
+            return {
+                timestampValue: toTimestamp(t.serializer, n)
+            };
+        }
+        if (e instanceof Timestamp) {
+            // Firestore backend truncates precision down to microseconds. To ensure
+            // offline mode works the same with regards to truncation, perform the
+            // truncation immediately without waiting for the backend to do that.
+            const n = new Timestamp(e.seconds, 1e3 * Math.floor(e.nanoseconds / 1e3));
+            return {
+                timestampValue: toTimestamp(t.serializer, n)
+            };
+        }
+        if (e instanceof GeoPoint) return {
+            geoPointValue: {
+                latitude: e.latitude,
+                longitude: e.longitude
+            }
+        };
+        if (e instanceof Bytes) return {
+            bytesValue: __PRIVATE_toBytes(t.serializer, e._byteString)
+        };
+        if (e instanceof DocumentReference) {
+            const n = t.databaseId, r = e.firestore._databaseId;
+            if (!r.isEqual(n)) throw t.mu(`Document reference is for database ${r.projectId}/${r.database} but should be for database ${n.projectId}/${n.database}`);
+            return {
+                referenceValue: __PRIVATE_toResourceName(e.firestore._databaseId || t.databaseId, e._key.path)
+            };
+        }
+        throw t.mu(`Unsupported field value: ${__PRIVATE_valueDescription(e)}`);
+    }
+    /**
+ * Checks whether an object looks like a JSON object that should be converted
+ * into a struct. Normal class/prototype instances are considered to look like
+ * JSON objects since they should be converted to a struct value. Arrays, Dates,
+ * GeoPoints, etc. are not considered to look like JSON objects since they map
+ * to specific FieldValue types other than ObjectValue.
+ */ (e, t);
+}
+
+function __PRIVATE_parseObject(e, t) {
+    const n = {};
+    return isEmpty(e) ? 
+    // If we encounter an empty object, we explicitly add it to the update
+    // mask to ensure that the server creates a map entry.
+    t.path && t.path.length > 0 && t.fieldMask.push(t.path) : forEach(e, ((e, r) => {
+        const i = __PRIVATE_parseData(r, t.Eu(e));
+        null != i && (n[e] = i);
+    })), {
+        mapValue: {
+            fields: n
+        }
+    };
+}
+
+function __PRIVATE_looksLikeJsonObject(e) {
+    return !("object" != typeof e || null === e || e instanceof Array || e instanceof Date || e instanceof Timestamp || e instanceof GeoPoint || e instanceof Bytes || e instanceof DocumentReference || e instanceof FieldValue);
+}
+
+function __PRIVATE_validatePlainObject(e, t, n) {
+    if (!__PRIVATE_looksLikeJsonObject(n) || !function __PRIVATE_isPlainObject(e) {
+        return "object" == typeof e && null !== e && (Object.getPrototypeOf(e) === Object.prototype || null === Object.getPrototypeOf(e));
+    }(n)) {
+        const r = __PRIVATE_valueDescription(n);
+        throw "an object" === r ? t.mu(e + " a custom object") : t.mu(e + " " + r);
+    }
+}
+
+/**
+ * Helper that calls fromDotSeparatedString() but wraps any error thrown.
+ */ function __PRIVATE_fieldPathFromArgument$1(e, t, n) {
+    if ((
+    // If required, replace the FieldPath Compat class with with the firestore-exp
+    // FieldPath.
+    t = getModularInstance(t)) instanceof FieldPath) return t._internalPath;
+    if ("string" == typeof t) return __PRIVATE_fieldPathFromDotSeparatedString(e, t);
+    throw __PRIVATE_createError("Field path arguments must be of type string or ", e, 
+    /* hasConverter= */ !1, 
+    /* path= */ void 0, n);
+}
+
+/**
  * Matches any characters in a field path string that are reserved.
  */ const pe = new RegExp("[~\\*/\\[\\]]");
 
@@ -23554,6 +24616,10 @@ function __PRIVATE_createError(e, t, n, r, i) {
     let a = "";
     return (s || o) && (a += " (found", s && (a += ` in field ${r}`), o && (a += ` in document ${i}`), 
     a += ")"), new FirestoreError(D.INVALID_ARGUMENT, _ + e + a);
+}
+
+/** Checks `haystack` if FieldPath `needle` is present. Runs in O(n). */ function __PRIVATE_fieldMaskContains(e, t) {
+    return e.some((e => e.isEqual(t)));
 }
 
 /**
@@ -23772,6 +24838,39 @@ class AbstractUserDataWriter {
  * limitations under the License.
  */
 /**
+ * Converts custom model object of type T into `DocumentData` by applying the
+ * converter if it exists.
+ *
+ * This function is used when converting user objects to `DocumentData`
+ * because we want to provide the user with a more specific error message if
+ * their `set()` or fails due to invalid data originating from a `toFirestore()`
+ * call.
+ */ function __PRIVATE_applyFirestoreDataConverter(e, t, n) {
+    let r;
+    // Cast to `any` in order to satisfy the union type constraint on
+    // toFirestore().
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    return r = e ? n && (n.merge || n.mergeFields) ? e.toFirestore(t, n) : e.toFirestore(t) : t, 
+    r;
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
  * Metadata about a snapshot, describing the state of the snapshot.
  */ class SnapshotMetadata {
     /** @hideconstructor */
@@ -23932,12 +25031,46 @@ class __PRIVATE_ExpUserDataWriter extends AbstractUserDataWriter {
     }
 }
 
+function setDoc(e, t, n) {
+    e = __PRIVATE_cast(e, DocumentReference);
+    const r = __PRIVATE_cast(e.firestore, Firestore), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t, n);
+    return executeWrite(r, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(r), "setDoc", e._key, i, null !== e.converter, n).toMutation(e._key, Precondition.none()) ]);
+}
+
+/**
+ * Locally writes `mutations` on the async queue.
+ * @internal
+ */ function executeWrite(e, t) {
+    return function __PRIVATE_firestoreClientWrite(e, t) {
+        const n = new __PRIVATE_Deferred;
+        return e.asyncQueue.enqueueAndForget((async () => __PRIVATE_syncEngineWrite(await __PRIVATE_getSyncEngine(e), t, n))), 
+        n.promise;
+    }(ensureFirestoreConfigured(e), t);
+}
+
 /**
  * Converts a {@link ViewSnapshot} that contains the single document specified by `ref`
  * to a {@link DocumentSnapshot}.
  */ function __PRIVATE_convertToDocSnapshot(e, t, n) {
     const r = n.docs.get(t._key), i = new __PRIVATE_ExpUserDataWriter(e);
     return new DocumentSnapshot(e, i, t._key, r, new SnapshotMetadata(n.hasPendingWrites, n.fromCache), t.converter);
+}
+
+/**
+ * Returns a special value that can be used with {@link @firebase/firestore/lite#(setDoc:1)} or {@link
+ * @firebase/firestore/lite#(updateDoc:1)} that tells the server to union the given elements with any array
+ * value that already exists on the server. Each specified element that doesn't
+ * already exist in the array will be added to the end. If the field being
+ * modified is not already an array it will be overwritten with an array
+ * containing exactly the specified elements.
+ *
+ * @param elements - The elements to union into the array.
+ * @returns The `FieldValue` sentinel for use in a call to `setDoc()` or
+ * `updateDoc()`.
+ */ function arrayUnion(...e) {
+    // NOTE: We don't actually parse the data until it's used in set() or
+    // update() since we'd need the Firestore instance to do this.
+    return new __PRIVATE_ArrayUnionFieldValueImpl("arrayUnion", e);
 }
 
 /**
@@ -23996,9 +25129,7 @@ const Me = () => {
     });
 };
 
-const EditProfile = () => {
-	console.log('edit profile');
-};
+const ENV = 'dev';
 
 const NewMilonga = () => {
 
@@ -24006,7 +25137,10 @@ const NewMilonga = () => {
 
 	onAuthStateChanged(getAuth(), user => {
 		if (user) {
-			userInfo = { email: user.email };
+			userInfo = {
+                email: user.email,
+                uid: user.uid
+            };
 		} else {
 			location.href = '/';
 		}
@@ -24024,22 +25158,40 @@ const NewMilonga = () => {
 
 		if (!userInfo) return;
 
+        console.log('userInfo', userInfo);
+
 		const milongaId = document.forms['new-milonga-form']?.elements['milonga-id']?.value;
+        const milongaName = document.forms['new-milonga-form']?.elements['milonga-name']?.value;
 
 		if (milongaId) {
-			const db = getFirestore();
-			const docRef = doc(db, 'milongas', milongaId);
-			const docSnap = await getDoc(docRef);
-			if (docSnap.exists()) {
+            const db = getFirestore();
+			const mRef = doc(db, `${ENV}.milongas`, milongaId);
+			const mSnap = await getDoc(mRef);
+			if (mSnap.exists()) {
+                alert('이미 사용 중인 밀롱가 아이디입니다.');
 				document.querySelector('#new-milonga-form input[name="milonga-id"]').focus();
-				alert('이미 사용 중인 밀롱가 아이디입니다.');
-				milongaId.focus();
 				return;
 			} else {
-				location.href = '/milonga.html';
-			}
-		}
-
+                const promise2 = setDoc(mRef, {
+                        createdAt: new Date(),
+                        createdBy: userInfo.uid,
+                        name: milongaName,
+                        organizers: [userInfo.uid]
+                    });
+                const promise1 = setDoc(doc(`${ENV}.users`), {
+                        "createdMilongas": arrayUnion(userInfo.uid)
+                    });
+                Promise.all([promise1, promise2])
+                    .then(() => {
+                        location.href = `/milonga.html?mid=${milongaId}`;
+                    })
+                    .catch(error => {
+                        console.log(error);
+                    });
+            }
+		} else {
+            return;
+        }
 	});
 };
 
@@ -24063,13 +25215,8 @@ window.addEventListener('DOMContentLoaded', () => {
     } else if (document.body.classList.contains('login')) {
         Login();
     } else if (document.body.classList.contains('me')) {
-		if (document.body.classList.contains('edit-profile')) {
-			EditProfile();
-		} else if (document.body.classList.contains('new-milonga')) {
-			console.log('new-milonga');
-			NewMilonga();
-		} else {
-			Me();
-		}
+        Me();
+    } else if (document.body.classList.contains('new-milonga')) {
+        NewMilonga();
     }
 });

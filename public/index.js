@@ -12116,15 +12116,19 @@ const Login = () => {
 };
 
 const Toolbar = (props = { left: '', title: '', right: '' }) => {
-    return x$1`<div class="min-w-[20%]">
-        ${props.left}
-    </div>
-    <div class="flex-1"><h1 class="font-bold text-center">${
-        props.title
-    }</h1></div>
-    <div class="min-w-[20%] flex justify-end">
-        ${props.right}
-    </div>`
+    return x$1`
+		<div class="flex items-center h-10 w-full">
+			<div class="min-w-[20%]">
+				${props.left}
+			</div>
+			<div class="flex-1"><h1 class="font-bold text-center">${
+				props.title
+			}</h1></div>
+			<div class="min-w-[20%] flex justify-end">
+				${props.right}
+			</div>
+		</div>
+	`
 };
 
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
@@ -25097,6 +25101,8 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.0", "esm2017");
 }();
 
+const aaaa = 'aaaa';
+
 const Me = () => {
 
     j(x$1`${Toolbar({
@@ -25136,7 +25142,15 @@ const Me = () => {
 };
 
 const EditProfile = () => {
-	console.log('edit profile');
+	
+	const auth = getAuth();
+	auth.currentUser;
+	console.log('edit profile', aaaa);
+
+	j(x$1`${Toolbar({
+        left: x$1`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
+        title: '프로필 수정'
+    })}`, document.getElementById('toolbar'));
 };
 
 const ENV = 'dev';
@@ -25220,13 +25234,21 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 
-onAuthStateChanged(getAuth(), async user => {
+const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 	if (user) {
 		getAuth();
 		const db = getFirestore();
 		const userRef = doc(db, `${ENV}.users`, user.uid);
 		const userSanp = await getDoc(userRef);
-		if (userSanp.exists()) ; else {
+		if (userSanp.exists()) {
+			store.user = {
+				email: user.email,
+				emailVerified: user.emailVerified,
+				uid: user.uid,
+				photoURL: user.photoURL,
+				displayName: user.displayName,
+			};
+		} else {
 			setDoc(userRef, {
 				email: user.email,
 				emailVerified: user.emailVerified,
@@ -25237,6 +25259,8 @@ onAuthStateChanged(getAuth(), async user => {
 		}
 	}
 });
+
+unsubscribe();
 
 window.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {

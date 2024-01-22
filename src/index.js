@@ -22,13 +22,20 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
 
-onAuthStateChanged(getAuth(), async user => {
+const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 	if (user) {
 		const auth = getAuth()
 		const db = getFirestore()
 		const userRef = doc(db, `${ENV}.users`, user.uid)
 		const userSanp = await getDoc(userRef)
 		if (userSanp.exists()) {
+			store.user = {
+				email: user.email,
+				emailVerified: user.emailVerified,
+				uid: user.uid,
+				photoURL: user.photoURL,
+				displayName: user.displayName,
+			}
 		} else {
 			setDoc(userRef, {
 				email: user.email,
@@ -40,6 +47,8 @@ onAuthStateChanged(getAuth(), async user => {
 		}
 	}
 })
+
+unsubscribe()
 
 window.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {

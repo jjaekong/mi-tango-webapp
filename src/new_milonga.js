@@ -38,22 +38,23 @@ export const NewMilonga = () => {
 
 		if (milongaId) {
             const db = getFirestore()
-			const mRef = doc(db, `${ENV}.milongas`, milongaId)
-			const mSnap = await getDoc(mRef)
-			if (mSnap.exists()) {
+			const milongaRef = doc(db, `${ENV}.milongas`, milongaId)
+			const milongaSnap = await getDoc(milongaRef)
+			if (milongaSnap.exists()) {
                 alert('이미 사용 중인 밀롱가 아이디입니다.');
 				document.querySelector('#new-milonga-form input[name="milonga-id"]').focus();
 				return;
 			} else {
-                const promise2 = setDoc(mRef, {
+                const promise2 = setDoc(milongaRef, {
                         createdAt: new Date(),
                         createdBy: userInfo.uid,
                         name: milongaName,
-                        organizers: [userInfo.uid]
+                        organizers: [userInfo.uid],
+						editors: [userInfo.uid]
                     })
-                const promise1 = setDoc(doc(`${ENV}.users`), {
-                        "createdMilongas": arrayUnion(userInfo.uid)
-                    })
+                const promise1 = setDoc(doc(db, `${ENV}.users`, userInfo.uid), {
+                        "createdMilongas": arrayUnion(milongaId)
+                    }, { merge: true })
                 Promise.all([promise1, promise2])
                     .then(() => {
                         location.href = `/milonga.html?mid=${milongaId}`

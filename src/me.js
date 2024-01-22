@@ -1,7 +1,7 @@
 import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
 import { Toolbar } from "./components/toolbar.js" 
 import { html, render } from "lit-html"
-import { ArrowLeftIcon } from "./icons.js"
+import { ArrowLeftIcon, ChevronRightIcon } from "./icons.js"
 import { getFirestore, doc, getDoc } from "firebase/firestore"
 
 export const Me = () => {
@@ -10,6 +10,8 @@ export const Me = () => {
         left: html`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
         title: '계정'
     })}`, document.getElementById('toolbar'))
+
+	render(html`${ChevronRightIcon()}`, document.querySelector('#edit-profile-icon'))
 
     const setProfile = (user) => {
         if (!user) return

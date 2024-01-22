@@ -11242,6 +11242,10 @@ const HeadphonesIcon = (payload = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="ht
 <path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
 </svg>`;
 
+const ChevronRightIcon = (payload = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${payload.classList}">
+<path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
+</svg>`;
+
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -25100,6 +25104,8 @@ const Me = () => {
         title: '계정'
     })}`, document.getElementById('toolbar'));
 
+	j(x$1`${ChevronRightIcon()}`, document.querySelector('#edit-profile-icon'));
+
     const setProfile = (user) => {
         if (!user) return
         j(x$1`<img class="rounded-full" src=${user.photoURL}>`, document.querySelector('#user-photo'));
@@ -25127,6 +25133,10 @@ const Me = () => {
                 });
         }
     });
+};
+
+const EditProfile = () => {
+	console.log('edit profile');
 };
 
 const ENV = 'dev';
@@ -25165,22 +25175,23 @@ const NewMilonga = () => {
 
 		if (milongaId) {
             const db = getFirestore();
-			const mRef = doc(db, `${ENV}.milongas`, milongaId);
-			const mSnap = await getDoc(mRef);
-			if (mSnap.exists()) {
+			const milongaRef = doc(db, `${ENV}.milongas`, milongaId);
+			const milongaSnap = await getDoc(milongaRef);
+			if (milongaSnap.exists()) {
                 alert('이미 사용 중인 밀롱가 아이디입니다.');
 				document.querySelector('#new-milonga-form input[name="milonga-id"]').focus();
 				return;
 			} else {
-                const promise2 = setDoc(mRef, {
+                const promise2 = setDoc(milongaRef, {
                         createdAt: new Date(),
                         createdBy: userInfo.uid,
                         name: milongaName,
-                        organizers: [userInfo.uid]
+                        organizers: [userInfo.uid],
+						editors: [userInfo.uid]
                     });
-                const promise1 = setDoc(doc(`${ENV}.users`), {
-                        "createdMilongas": arrayUnion(userInfo.uid)
-                    });
+                const promise1 = setDoc(doc(db, `${ENV}.users`, userInfo.uid), {
+                        "createdMilongas": arrayUnion(milongaId)
+                    }, { merge: true });
                 Promise.all([promise1, promise2])
                     .then(() => {
                         location.href = `/milonga.html?mid=${milongaId}`;
@@ -25209,14 +25220,38 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 
+onAuthStateChanged(getAuth(), async user => {
+	if (user) {
+		getAuth();
+		const db = getFirestore();
+		const userRef = doc(db, `${ENV}.users`, user.uid);
+		const userSanp = await getDoc(userRef);
+		if (userSanp.exists()) ; else {
+			setDoc(userRef, {
+				email: user.email,
+				emailVerified: user.emailVerified,
+				uid: user.uid,
+				photoURL: user.photoURL,
+				displayName: user.displayName,
+			}, { merge: true });
+		}
+	}
+});
+
 window.addEventListener('DOMContentLoaded', () => {
     if (document.body.classList.contains('home')) {
         Home();
     } else if (document.body.classList.contains('login')) {
         Login();
     } else if (document.body.classList.contains('me')) {
-        Me();
+		if (document.body.classList.contains('main')) {
+			Me();
+		} else if (document.body.classList.contains('edit-profile')) {
+			EditProfile();
+		}
     } else if (document.body.classList.contains('new-milonga')) {
         NewMilonga();
-    }
+    } else {
+		location.href = '404.html';
+	}
 });

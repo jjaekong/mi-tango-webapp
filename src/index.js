@@ -1,12 +1,13 @@
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
-import  { Home } from './home.js'
-import  { Login } from './login.js'
-import  { Me, EditProfile } from './me.js'
-import  { NewMilonga } from './new_milonga.js'
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { setDoc, getDoc, getFirestore, doc } from "firebase/firestore";
 import { ENV } from "./config.js";
+import { Home } from './home'
+import { Login } from './login.js'
+import { Me, EditProfile, NewMilonga } from './me.js'
+import { Milonga } from "./milonga.js";
+import { MilongaEvent } from "./milonga_event.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
@@ -50,20 +51,29 @@ const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 
 unsubscribe()
 
-window.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('DOMContentLoaded', async () => {
     if (document.body.classList.contains('home')) {
-        Home()
+		// const { Home } = await import('./home.js')
+		Home()
     } else if (document.body.classList.contains('login')) {
-        Login()
+			Login()
     } else if (document.body.classList.contains('me')) {
 		if (document.body.classList.contains('main')) {
-			Me()
+				Me()
 		} else if (document.body.classList.contains('edit-profile')) {
-			EditProfile()
+				EditProfile()
+		} else if (document.body.classList.contains('new-milonga')) {
+				NewMilonga()
 		}
-    } else if (document.body.classList.contains('new-milonga')) {
-        NewMilonga()
-    } else {
+    } else if (document.body.classList.contains('club')) {
+		Club()
+	} else if (document.body.classList.contains('dj')) {
+		DJ()
+	} else if (document.body.classList.contains('milonga')) {
+		Milonga()
+	} else if (document.body.classList.contains('milonga-event')) {
+		MilongaEvent()
+	} else {
 		location.href = '404.html'
 	}
 })

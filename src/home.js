@@ -19,6 +19,8 @@ export const Home = () => {
             render(html`<a href="login.html">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`, document.getElementById('user-profile'))
         }
     })
+
+	
 	
 	// render(html`${Bar3Icon()}`, document.getElementById('menu'))
 

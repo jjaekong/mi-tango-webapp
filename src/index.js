@@ -24,6 +24,7 @@ const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app)
 
 const unsubscribe = onAuthStateChanged(getAuth(), async user => {
+    unsubscribe()
 	if (user) {
 		const auth = getAuth()
 		const db = getFirestore()
@@ -47,9 +48,9 @@ const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 	}
 })
 
-window.addEventListener('beforeunload', () => {
-    unsubscribe()
-})
+// window.addEventListener('beforeunload', () => {
+//     unsubscribe()
+// })
 
 window.addEventListener('DOMContentLoaded', async () => {
     if (document.body.classList.contains('home')) {

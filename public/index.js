@@ -8810,6 +8810,74 @@ async function _signInWithCredential(auth, credential, bypassAuthState = false) 
     }
     return userCredential;
 }
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+async function updateProfile$1(auth, request) {
+    return _performApiRequest(auth, "POST" /* HttpMethod.POST */, "/v1/accounts:update" /* Endpoint.SET_ACCOUNT_INFO */, request);
+}
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Updates a user's profile data.
+ *
+ * @param user - The user.
+ * @param profile - The profile's `displayName` and `photoURL` to update.
+ *
+ * @public
+ */
+async function updateProfile(user, { displayName, photoURL: photoUrl }) {
+    if (displayName === undefined && photoUrl === undefined) {
+        return;
+    }
+    const userInternal = getModularInstance(user);
+    const idToken = await userInternal.getIdToken();
+    const profileRequest = {
+        idToken,
+        displayName,
+        photoUrl,
+        returnSecureToken: true
+    };
+    const response = await _logoutIfInvalidated(userInternal, updateProfile$1(userInternal.auth, profileRequest));
+    userInternal.displayName = response.displayName || null;
+    userInternal.photoURL = response.photoUrl || null;
+    // Update the password provider as well
+    const passwordProvider = userInternal.providerData.find(({ providerId }) => providerId === "password" /* ProviderId.PASSWORD */);
+    if (passwordProvider) {
+        passwordProvider.displayName = userInternal.displayName;
+        passwordProvider.photoURL = userInternal.photoURL;
+    }
+    await userInternal._updateTokensIfNecessary(response);
+}
 /**
  * Adds an observer for changes to the signed-in user's ID token.
  *
@@ -25125,7 +25193,8 @@ const Me = () => {
 
     if (currentUser) setProfile(currentUser);
 
-    onAuthStateChanged(getAuth(), user => {
+    const unsubscribe = onAuthStateChanged(getAuth(), user => {
+        unsubscribe();
         if (user) setProfile(user);
         else location.href = '/';
     });
@@ -25149,7 +25218,58 @@ const EditProfile = () => {
         left: x`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
         title: '프로필 수정'
     })}`, document.getElementById('toolbar'));
-    
+
+    const unsubscribe = onAuthStateChanged(getAuth(), async user => {
+        unsubscribe();
+        if (user) {
+            j(x`<img src="${user.photoURL}">`, document.querySelector('#photo-preview'));
+            document.querySelector('#photo-url').value = user.photoURL;
+            document.querySelector('#display-name').value = user.displayName;
+            document.querySelector('#email').value = user.email;
+            const db = getFirestore();
+            const userRef = doc(db, `${ENV}.users`, user.uid);
+            const userSnap = await getDoc(userRef);
+            if (userSnap.exists()) {
+                const userData = userSnap.data();
+                document.querySelector(`[name=dancing-role][value=${userData?.dancingRole}]`)?.setAttribute('checked', true);
+            }
+        }
+    });
+
+    document.querySelector('#delete-photo').addEventListener('click', e => {
+        e.preventDefault();
+        j(x``, document.querySelector('#photo-preview'));
+        document.querySelector('#photo-url').value = "";
+    });
+
+    document.querySelector('#upload-photo').addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector('#upload-file').click();
+    });
+
+    document.querySelector('#edit-profile-form').addEventListener('submit', e => {
+        e.preventDefault();
+        const auth = getAuth();
+        console.log(auth.currentUser);
+        const promise1 = updateProfile(auth.currentUser, {
+            photoURL: document.querySelector('#photo-url')?.value || null,
+            displayName: document.querySelector('#display-name').value,
+        }).then(() => { alert('수정됨'); });
+        const promise2 = setDoc(doc(getFirestore(), `${ENV}.users`, auth.currentUser.uid), {
+            photoURL: document.querySelector('#photo-url')?.value || null,
+            displayName: document.querySelector('#display-name').value,
+            dancingRole: document.forms['edit-profile-form'].elements["dancing-role"].value,
+            updatedAt: new Date()
+        }, { merge: true });
+        Promise.all([promise1, promise2])
+            .then(() => {
+                alert('수정되었습니다.');
+            })
+            .catch(error => {
+                console.log(error);
+            });
+    });
+
 };
 
 const NewMilonga = () => {
@@ -25240,6 +25360,7 @@ const app = initializeApp(firebaseConfig);
 getAnalytics(app);
 
 const unsubscribe = onAuthStateChanged(getAuth(), async user => {
+    unsubscribe();
 	if (user) {
 		getAuth();
 		const db = getFirestore();
@@ -25263,9 +25384,9 @@ const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 	}
 });
 
-window.addEventListener('beforeunload', () => {
-    unsubscribe();
-});
+// window.addEventListener('beforeunload', () => {
+//     unsubscribe()
+// })
 
 window.addEventListener('DOMContentLoaded', async () => {
     if (document.body.classList.contains('home')) {

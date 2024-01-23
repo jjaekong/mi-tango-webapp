@@ -1,4 +1,4 @@
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth"
+import { getAuth, onAuthStateChanged, signOut, updateProfile } from "firebase/auth"
 import { Toolbar } from "./components/toolbar.js" 
 import { html, render } from "lit-html"
 import { ArrowLeftIcon, ChevronRightIcon } from "./icons.js"
@@ -25,7 +25,8 @@ export const Me = () => {
 
     if (currentUser) setProfile(currentUser)
 
-    onAuthStateChanged(getAuth(), user => {
+    const unsubscribe = onAuthStateChanged(getAuth(), user => {
+        unsubscribe()
         if (user) setProfile(user)
         else location.href = '/'
     })
@@ -49,7 +50,58 @@ export const EditProfile = () => {
         left: html`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
         title: '프로필 수정'
     })}`, document.getElementById('toolbar'))
-    
+
+    const unsubscribe = onAuthStateChanged(getAuth(), async user => {
+        unsubscribe()
+        if (user) {
+            render(html`<img src="${user.photoURL}">`, document.querySelector('#photo-preview'))
+            document.querySelector('#photo-url').value = user.photoURL
+            document.querySelector('#display-name').value = user.displayName
+            document.querySelector('#email').value = user.email
+            const db = getFirestore()
+            const userRef = doc(db, `${ENV}.users`, user.uid)
+            const userSnap = await getDoc(userRef)
+            if (userSnap.exists()) {
+                const userData = userSnap.data()
+                document.querySelector(`[name=dancing-role][value=${userData?.dancingRole}]`)?.setAttribute('checked', true)
+            }
+        }
+    })
+
+    document.querySelector('#delete-photo').addEventListener('click', e => {
+        e.preventDefault()
+        render(html``, document.querySelector('#photo-preview'))
+        document.querySelector('#photo-url').value = ""
+    })
+
+    document.querySelector('#upload-photo').addEventListener('click', e => {
+        e.preventDefault()
+        document.querySelector('#upload-file').click()
+    })
+
+    document.querySelector('#edit-profile-form').addEventListener('submit', e => {
+        e.preventDefault()
+        const auth = getAuth()
+        console.log(auth.currentUser)
+        const promise1 = updateProfile(auth.currentUser, {
+            photoURL: document.querySelector('#photo-url')?.value || null,
+            displayName: document.querySelector('#display-name').value,
+        }).then(() => { alert('수정됨') })
+        const promise2 = setDoc(doc(getFirestore(), `${ENV}.users`, auth.currentUser.uid), {
+            photoURL: document.querySelector('#photo-url')?.value || null,
+            displayName: document.querySelector('#display-name').value,
+            dancingRole: document.forms['edit-profile-form'].elements["dancing-role"].value,
+            updatedAt: new Date()
+        }, { merge: true })
+        Promise.all([promise1, promise2])
+            .then(() => {
+                alert('수정되었습니다.')
+            })
+            .catch(error => {
+                console.log(error)
+            })
+    })
+
 }
 
 export const NewMilonga = () => {

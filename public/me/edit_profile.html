@@ -11,13 +11,13 @@
 	<header id="toolbar" class="mb-5"></header>
 	<form action="#" method="post" id="edit-profile-form">
 		<div class="mb-3">
-			<div id="photo-preview" class="mx-auto empty:w-32 empty:h-32 empty:bg-slate-200 empty:rounded-full"></div>
+			<div id="photo-preview" class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden"></div>
 			<div class="flex justify-center mt-4 mx-auto">
-				<button type="button" class="bg-slate-200 p-3 rounded-lg text-slate-700">삭제</button>
-				<label class="cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2">
+				<button type="button" class="bg-slate-200 p-3 rounded-lg text-slate-700" id="delete-photo">삭제</button>
+				<button type="button" class="cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" id="upload-photo" for="file">
 					<span>업로드</span>
-					<input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg">
-				</label>
+                </button>
+                <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="upload-file">
 			</div>
 			<input type="hidden" id="photo-url">
 		</div>
@@ -31,19 +31,18 @@
 				<input type="email" id="email" class="border-slate-200 w-full rounded-lg disabled:bg-slate-100" placeholder="이메일" disabled>
 			</label>
 		</div>
-        <div class="mb-3 flex">
+        <div class="mt-4 flex">
 			<label class="flex items-center me-3">
-                <input type="radio" name="dacing-role" value="leader">
-                <span class="font-bold ms-1">리더</span>
+                <input type="radio" id="dancing-role-leader" name="dancing-role" value="leader" required><span class="ms-1 font-bold">리더</span>
 			</label>
             <label class="flex items-center">
-                <input type="radio" name="dacing-role" value="follower">
-                <span class="font-bold ms-1">팔로워</span>
+                <input type="radio" id="dancing-role-follower" name="dancing-role" value="follower" required><span class="ms-1 font-bold">팔로워</span>
             </label>
 		</div>
 		<div class="mt-5">
 			<button type="submit" class="p-3 bg-purple-500 text-white rounded-lg w-full">저장</button>
 		</div>
 	</form>
+    <form></form>
 </body>
 </html>

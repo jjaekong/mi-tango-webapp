@@ -44,15 +44,12 @@ export const Me = () => {
 }
 
 export const EditProfile = () => {
-	
-	const auth = getAuth()
-	const user = auth.currentUser
-	console.log('edit profile', aaaa)
 
 	render(html`${Toolbar({
         left: html`<a href="#" @click="${e => { e.preventDefault(); history.back(); }}">${ArrowLeftIcon()}</a>`,
         title: '프로필 수정'
     })}`, document.getElementById('toolbar'))
+    
 }
 
 export const NewMilonga = () => {

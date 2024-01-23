@@ -21,7 +21,7 @@ const firebaseConfig = {
 };
   
 const app = initializeApp(firebaseConfig);
-const analytics = getAnalytics(app);
+const analytics = getAnalytics(app)
 
 const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 	if (user) {
@@ -29,27 +29,27 @@ const unsubscribe = onAuthStateChanged(getAuth(), async user => {
 		const db = getFirestore()
 		const userRef = doc(db, `${ENV}.users`, user.uid)
 		const userSanp = await getDoc(userRef)
+        const userData = {
+            email: user.email,
+            emailVerified: user.emailVerified,
+            uid: user.uid,
+            photoURL: user.photoURL,
+            displayName: user.displayName,
+        }
 		if (userSanp.exists()) {
-			store.user = {
-				email: user.email,
-				emailVerified: user.emailVerified,
-				uid: user.uid,
-				photoURL: user.photoURL,
-				displayName: user.displayName,
-			}
-		} else {
-			setDoc(userRef, {
-				email: user.email,
-				emailVerified: user.emailVerified,
-				uid: user.uid,
-				photoURL: user.photoURL,
-				displayName: user.displayName,
+            setDoc(userRef, {
+				...userData,
+                latestSignIn: new Date()
 			}, { merge: true })
+		} else {
+			setDoc(userRef, userData, { merge: true })
 		}
 	}
 })
 
-unsubscribe()
+window.addEventListener('beforeunload', () => {
+    unsubscribe()
+})
 
 window.addEventListener('DOMContentLoaded', async () => {
     if (document.body.classList.contains('home')) {

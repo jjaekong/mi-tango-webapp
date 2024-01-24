@@ -25254,7 +25254,7 @@ const EditProfile = () => {
         const promise1 = updateProfile(auth.currentUser, {
             photoURL: document.querySelector('#photo-url')?.value || null,
             displayName: document.querySelector('#display-name').value,
-        }).then(() => { alert('수정됨'); });
+        });
         const promise2 = setDoc(doc(getFirestore(), `${ENV}.users`, auth.currentUser.uid), {
             photoURL: document.querySelector('#photo-url')?.value || null,
             displayName: document.querySelector('#display-name').value,
@@ -25264,6 +25264,7 @@ const EditProfile = () => {
         Promise.all([promise1, promise2])
             .then(() => {
                 alert('수정되었습니다.');
+                location.href = '/me.html';
             })
             .catch(error => {
                 console.log(error);

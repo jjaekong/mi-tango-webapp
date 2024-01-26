@@ -1,12 +1,25 @@
+import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
+import { UserCircleOutlineIcon } from './icons.js'
 
-export const Home = () => {
+export const Home = async () => {
+	
+	const auth = getAuth()
+
+	await auth.authStateReady()
+
+	const user = auth.currentUser
+	
 	render(cache(html`
-		<div class="p-5">
+		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
-				<h1 class="font-bold">Mi Vada</h1>
-				<div id="user-profile" class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full"></div>
+				<h1 class="font-bold">Mi Vida</h1>
+				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
+					user
+						? html`<a href="#me"><img src="${user.photoURL}" class="size-8 rounded-full"></a>`
+						: html`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+				}</div>
 			</header>
 			<section id="today-milongas" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4 flex flex-wrap justify-between items-end">

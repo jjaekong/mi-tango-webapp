@@ -1,21 +1,38 @@
 import { html, render } from 'lit-html'
+import { cache } from 'lit-html/directives/cache.js'
 import { homeTemplate } from './home'
 
-const appEl = document.getElementById('app')
-render(html`home`, appEl)
+const root = document.getElementById('app')
 
-const setScreenByHash = () => {
+const showPageByHash = () => {
     if (location.hash === '') {
-        render(html`home`, appEl)
+        render(cache(html`
+			<div><img src=https://picsum.photos/100/100></div>
+			<div><a href=#milonga>milonga</a></div>
+			<div><a href=#milonga_event>milonga_event</a></div>
+			<div><a href=#dj>dj</a></div>
+			<div><a href=#club>club</a></div>
+		`), root)
+    } else if (location.hash === '#login') {
+        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>login</a></div>`), root)
     } else if (location.hash === '#milonga') {
-        render(html`milonga`, appEl)
+        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>milonga</a></div>`), root)
+    } else if (location.hash === '#dj') {
+        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>dj</a></div>`), root)
+    } else if (location.hash === '#milonga_event') {
+        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>milonga_event</a></div>`), root)
+    } else if (location.hash === '#club') {
+        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>club</a></div>`), root)
+    } else {
+        render(cache(html`<div>404</div>`), root)
     }
 }
 
 window.addEventListener('DOMContentLoaded', e => {
-    setScreenByHash()
+    showPageByHash()
 })
 
 window.addEventListener("hashchange", e => {
-    setScreenByHash()
+	console.log('hashchange', location)
+    showPageByHash()
 }, false)

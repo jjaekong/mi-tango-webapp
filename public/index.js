@@ -24,17 +24,152 @@ const e$1=t=>(...e)=>({_$litDirective$:t,values:e});class i{constructor(t){}get 
  * SPDX-License-Identifier: BSD-3-Clause
  */const d=t=>l(t)?t._$litType$.h:t.strings,h=e$1(class extends i{constructor(t){super(t),this.tt=new WeakMap;}render(t){return [t]}update(s,[e$1]){const u=e(this.et)?d(this.et):null,h=e(e$1)?d(e$1):null;if(null!==u&&(null===h||u!==h)){const e=p(s).pop();let o=this.tt.get(u);if(void 0===o){const s=document.createDocumentFragment();o=j$1(T,s),o.setConnected(!1),this.tt.set(u,o);}m(o,[e]),r(o,void 0,e);}if(null!==h){if(null===u||u!==h){const t=this.tt.get(h);if(void 0!==t){const i=p(t).pop();j(s),r(s,void 0,i),m(s,[i]);}}this.et=e$1;}else this.et=void 0;return this.render(e$1)}});
 
+const Home = () => x`
+	<div class="p-5">
+	<header class="h-10 px-5 flex items-center mb-5">
+		<h1 class="font-bold">Mi Vada</h1>
+		<div id="user-profile" class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full"></div>
+	</header>
+	<section id="today-milongas" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+		<header class="mb-4 flex flex-wrap justify-between items-end">
+			<h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
+			<time class="font-bold text-slate-500" id="today-date"></time>
+		</header>
+		<ul>
+			<li class="mt-3">
+				<div class="flex w-100 items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+						<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
+					</div>
+					<div class="ms-auto self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+				</div>
+			</li>
+			<li class="mt-3">
+				<div class="flex w-100 items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+						<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
+					</div>
+					<div class="ms-auto self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+				</div>
+			</li>
+			<li class="mt-3">
+				<div class="flex w-100 items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+						<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
+					</div>
+					<div class="ms-auto self-start">
+						<div class="size-14 rounded-xl bg-slate-100"></div>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
+	</section>
+	<section id="djs" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+		<header class="mb-4">
+			<h2 class="text-xl font-bold">DJs</h2>
+			<small class="text-slate-400">DJ의 일정을 확인하세요.</small>
+		</header>
+		<ul>
+			<li class="mt-3">
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-full bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+					</div>
+				</div>
+			</li>
+			<li class="mt-3">
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-full bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+					</div>
+				</div>
+			</li>
+			<li class="mt-3">
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-full bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
+	</section>
+	<section id="places" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+		<header class="mb-4">
+			<h2 class="text-xl font-bold">Places</h2>
+			<small class="text-slate-400">장소의 이벤트 일정을 확인하세요.</small>
+		</header>
+		<ul>
+			<li class="mt-3">
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<div class="size-14 rounded-lg bg-slate-100"></div>
+					</div>
+					<div class="mx-3 flex-1">
+						<h6 class="h-4 w-full bg-slate-100"></h6>
+					</div>
+				</div>
+			</li>
+		</ul>
+		<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 장소 보기</a>
+	</section>
+	<!-- <section id="poll" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+		<header class="mb-4">
+			<h2 class="text-xl font-bold">Poll</h2>
+		</header>
+		<div id="poll-question">
+			<div>당신은 아브라소 파? 피구라 파?</div>
+		</div>
+		<ul id="poll-answers">
+			<li class="mt-3">
+				<label class="border p-3 flex items-center rounded-lg">
+					<input type="radio" name="poll-answer">
+					<span class="ms-2">아브라소 파</span>
+				</label>
+			</li>
+			<li class="mt-3">
+				<label class="border p-3 flex items-center rounded-lg">
+					<input type="radio" name="poll-answer">
+					<span class="ms-2">피구라 파</span>
+				</label>
+			</li>
+		</ul>
+		<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 Poll 보기</a>
+	</section> -->
+	</div>
+`;
+
 const root = document.getElementById('app');
 
 const showPageByHash = () => {
     if (location.hash === '') {
-        j$1(h(x`
-			<div><img src=https://picsum.photos/100/100></div>
-			<div><a href=#milonga>milonga</a></div>
-			<div><a href=#milonga_event>milonga_event</a></div>
-			<div><a href=#dj>dj</a></div>
-			<div><a href=#club>club</a></div>
-		`), root);
+        j$1(h(x`${Home()}`), root);
     } else if (location.hash === '#login') {
         j$1(h(x`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>login</a></div>`), root);
     } else if (location.hash === '#milonga') {

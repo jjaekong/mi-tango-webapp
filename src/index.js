@@ -1,18 +1,12 @@
 import { html, render } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { homeTemplate } from './home'
+import { Home } from './home'
 
 const root = document.getElementById('app')
 
 const showPageByHash = () => {
     if (location.hash === '') {
-        render(cache(html`
-			<div><img src=https://picsum.photos/100/100></div>
-			<div><a href=#milonga>milonga</a></div>
-			<div><a href=#milonga_event>milonga_event</a></div>
-			<div><a href=#dj>dj</a></div>
-			<div><a href=#club>club</a></div>
-		`), root)
+        render(cache(html`${Home()}`), root)
     } else if (location.hash === '#login') {
         render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>login</a></div>`), root)
     } else if (location.hash === '#milonga') {

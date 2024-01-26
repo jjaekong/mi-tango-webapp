@@ -85,7 +85,7 @@ export const Home = async () => {
 			<section id="djs" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
 					<h2 class="text-xl font-bold">DJs</h2>
-					<small class="text-slate-400">DJ의 일정을 확인하세요.</small>
+					<small class="text-slate-400">DJ의 디제잉 일정을 확인하세요.</small>
 				</header>
 				<ul>
 					<li class="mt-3">
@@ -123,8 +123,8 @@ export const Home = async () => {
 			</section>
 			<section id="places" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
-					<h2 class="text-xl font-bold">Places</h2>
-					<small class="text-slate-400">장소의 이벤트 일정을 확인하세요.</small>
+					<h2 class="text-xl font-bold">Clubs</h2>
+					<small class="text-slate-400">탱고클럽의 밀롱가 일정을 확인하세요.</small>
 				</header>
 				<ul>
 					<li class="mt-3">

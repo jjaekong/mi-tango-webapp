@@ -2937,6 +2937,16 @@ function _errorWithCustomMessage(auth, code, message) {
         appName: auth.name
     });
 }
+function _assertInstanceOf(auth, object, instance) {
+    const constructorInstance = instance;
+    if (!(object instanceof constructorInstance)) {
+        if (constructorInstance.name !== object.constructor.name) {
+            _fail(auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */);
+        }
+        throw _errorWithCustomMessage(auth, "argument-error" /* AuthErrorCode.ARGUMENT_ERROR */, `Type of ${object.constructor.name} does not match expected instance.` +
+            `Did you pass a reference from a different Auth SDK?`);
+    }
+}
 function createErrorInternal(authOrCode, ...rest) {
     if (typeof authOrCode !== 'string') {
         const code = rest[0];
@@ -6571,6 +6581,16 @@ function onIdTokenChanged(auth, nextOrObserver, error, completed) {
 function beforeAuthStateChanged(auth, callback, onAbort) {
     return getModularInstance(auth).beforeAuthStateChanged(callback, onAbort);
 }
+/**
+ * Signs out the current user.
+ *
+ * @param auth - The {@link Auth} instance.
+ *
+ * @public
+ */
+function signOut(auth) {
+    return getModularInstance(auth).signOut();
+}
 
 const STORAGE_AVAILABLE_KEY = '__sak';
 
@@ -7785,6 +7805,43 @@ class AbstractPopupRedirectOperation {
  */
 const _POLL_WINDOW_CLOSE_TIMEOUT = new Delay(2000, 10000);
 /**
+ * Authenticates a Firebase client using a popup-based OAuth authentication flow.
+ *
+ * @remarks
+ * If succeeds, returns the signed in user along with the provider's credential. If sign in was
+ * unsuccessful, returns an error object containing additional information about the error.
+ *
+ * This method does not work in a Node.js environment.
+ *
+ * @example
+ * ```javascript
+ * // Sign in using a popup.
+ * const provider = new FacebookAuthProvider();
+ * const result = await signInWithPopup(auth, provider);
+ *
+ * // The signed-in user info.
+ * const user = result.user;
+ * // This gives you a Facebook Access Token.
+ * const credential = provider.credentialFromResult(auth, result);
+ * const token = credential.accessToken;
+ * ```
+ *
+ * @param auth - The {@link Auth} instance.
+ * @param provider - The provider to authenticate. The provider has to be an {@link OAuthProvider}.
+ * Non-OAuth providers like {@link EmailAuthProvider} will throw an error.
+ * @param resolver - An instance of {@link PopupRedirectResolver}, optional
+ * if already supplied to {@link initializeAuth} or provided by {@link getAuth}.
+ *
+ * @public
+ */
+async function signInWithPopup(auth, provider, resolver) {
+    const authInternal = _castAuth(auth);
+    _assertInstanceOf(auth, provider, FederatedAuthProvider);
+    const resolverInternal = _withDefaultResolver(authInternal, resolver);
+    const action = new PopupOperation(authInternal, "signInViaPopup" /* AuthEventType.SIGN_IN_VIA_POPUP */, provider, resolverInternal);
+    return action.executeNotNull();
+}
+/**
  * Popup event manager. Handles the popup's entire lifecycle; listens to auth
  * events
  *
@@ -8893,11 +8950,21 @@ const UserCircleOutlineIcon = (props = { classList: 'w-6 h-6'}) => x`<svg xmlns=
   <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 </svg>`;
 
+const GoogleLogoIcon = () => x`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
+<path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
+</svg>`;
+
+const FacebookLogoIcon = () => x`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
+</svg>`;
+
 const Home = async () => {
 	
 	const auth = getAuth();
 
 	await auth.authStateReady();
+	
+	document.getElementById('loading')?.remove();
 
 	const user = auth.currentUser;
 	
@@ -9047,25 +9114,41 @@ const Home = async () => {
 	`), document.getElementById('app'));
 };
 
-const Login = () => {
+const Login = async () => {
+
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	document.getElementById('loading')?.remove();
+
+	function login() {
+
+		const provider = new GoogleAuthProvider();
+		
+		signInWithPopup(auth, provider)
+			.then(() => {
+				location.replace('#');
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
 	j$1(h(x`
 		<div class="login p-5" role="document">
 			<div class="h-dvh flex flex-col justify-center items-center">
 				<h1 class="font-extrabold">LOGIN</h1>
 				<ul>
 					<li class="mt-4">
-						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" id="signin-with-google">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-google" viewBox="0 0 16 16">
-								<path d="M15.545 6.558a9.4 9.4 0 0 1 .139 1.626c0 2.434-.87 4.492-2.384 5.885h.002C11.978 15.292 10.158 16 8 16A8 8 0 1 1 8 0a7.7 7.7 0 0 1 5.352 2.082l-2.284 2.284A4.35 4.35 0 0 0 8 3.166c-2.087 0-3.86 1.408-4.492 3.304a4.8 4.8 0 0 0 0 3.063h.003c.635 1.893 2.405 3.301 4.492 3.301 1.078 0 2.004-.276 2.722-.764h-.003a3.7 3.7 0 0 0 1.599-2.431H8v-3.08z"/>
-							</svg>
+						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" @click=${login}>
+							${GoogleLogoIcon()}
 							<span class="ms-2">구글로 로그인</span>
 						</button>
 					</li>
 					<li class="mt-4">
-						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" id="signin-with-facebook">
-							<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-								<path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-							</svg>
+						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white">
+							${FacebookLogoIcon()}
 							<span class="ms-2">페이스북으로 로그인</span>
 						</button>
 					</li>
@@ -9075,9 +9158,52 @@ const Login = () => {
 	`), document.getElementById('app'));
 };
 
-const Me = () => {
+const Me = async () => {
+	
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	document.getElementById('loading')?.remove();
+
+	const user = auth.currentUser;
+
+	if (!user) {
+		location.replace('/');
+		return;
+	}
+
+	function logout() {
+		if (confirm('로그아웃 하시겠습니까?')) {
+            signOut(getAuth())
+                .then(() => {
+                    location.replace('/');
+					return;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+	}
+
 	j$1(h(x`
-		ME
+		<div class="me main p-5" role="document">
+			<header class="mb-5 flex items-center" id="toolbar"></header>
+			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" id="user-profile" href="/me/edit_profile.html">
+				<div>
+					<div id="user-photo" class="size-12 empty:rounded-full empty:bg-slate-200"></div>
+				</div>
+				<div class="px-3 flex-1">
+					<h4 id="user-name" class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]"></h4>
+					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1"></div>
+				</div>
+				<div id="edit-profile-icon" class="text-slate-400"></div>
+			</a>
+			<div class="py-4">
+				<a href="/me/new_milonga.html">밀롱가 만들기</a>
+			</div>
+			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
+		</div>
 	`), document.getElementById('app'));
 };
 

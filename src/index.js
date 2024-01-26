@@ -1,24 +1,30 @@
-import { html, render } from 'lit-html'
-import { cache } from 'lit-html/directives/cache.js'
-import { Home } from './home'
-
-const root = document.getElementById('app')
+import { Club } from './club.js'
+import { DJ } from './dj.js'
+import { Home } from './home.js'
+import { Login } from './login.js'
+import { Me } from './me.js'
+import { Milonga } from './milonga.js'
+import { MilongaEvent } from './milonga_event.js'
+import { NotFound } from './not_found.js'
 
 const showPageByHash = () => {
+	console.log('showPageByHash')
     if (location.hash === '') {
-        render(cache(html`${Home()}`), root)
+        Home()
     } else if (location.hash === '#login') {
-        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>login</a></div>`), root)
+		Login()
+	} else if (location.hash === '#me') {
+		Me()
     } else if (location.hash === '#milonga') {
-        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>milonga</a></div>`), root)
+        Milonga()
     } else if (location.hash === '#dj') {
-        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>dj</a></div>`), root)
+		DJ()
     } else if (location.hash === '#milonga_event') {
-        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>milonga_event</a></div>`), root)
+		MilongaEvent()
     } else if (location.hash === '#club') {
-        render(cache(html`<div><img src=https://picsum.photos/100/100></div><div><a class="font-bold" href=#>club</a></div>`), root)
+        Club()
     } else {
-        render(cache(html`<div>404</div>`), root)
+		NotFound()
     }
 }
 

@@ -920,6 +920,10 @@ select {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+html, body {
+  background: #fafafa;
+}
+
 .empty\:size-8:empty {
   width: 2rem;
   height: 2rem;

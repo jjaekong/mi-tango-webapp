@@ -851,6 +851,10 @@ select {
   width: 1.5rem;
 }
 
+.min-w-\[20\%\] {
+  min-width: 20%;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }
@@ -869,6 +873,10 @@ select {
 
 .items-center {
   align-items: center;
+}
+
+.justify-end {
+  justify-content: flex-end;
 }
 
 .justify-center {

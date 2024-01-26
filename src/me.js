@@ -1,6 +1,7 @@
 import { getAuth, signOut } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
+import { ArrowLeftIcon } from './icons.js'
 
 export const Me = async () => {
 	
@@ -32,14 +33,30 @@ export const Me = async () => {
 
 	render(cache(html`
 		<div class="me main p-5" role="document">
-			<header class="mb-5 flex items-center" id="toolbar"></header>
+			<header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">프로필</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
 			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" id="user-profile" href="/me/edit_profile.html">
 				<div>
-					<div id="user-photo" class="size-12 empty:rounded-full empty:bg-slate-200"></div>
+					<div class="size-12 empty:rounded-full empty:bg-slate-200">${
+						user
+							? html`<img class="rounded-full" src=${user.photoURL}>`
+							: html ``
+					}</div>
 				</div>
 				<div class="px-3 flex-1">
-					<h4 id="user-name" class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]"></h4>
-					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1"></div>
+					<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
+						user
+							? html`${user.displayName}`
+							: html ``
+					}</h4>
+					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
+						user
+							? html`${user.email}`
+							: html ``
+					}</div>
 				</div>
 				<div id="edit-profile-icon" class="text-slate-400"></div>
 			</a>

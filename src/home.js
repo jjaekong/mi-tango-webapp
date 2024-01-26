@@ -2,8 +2,16 @@ import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { UserCircleOutlineIcon } from './icons.js'
+import dayjs from 'dayjs/esm'
+import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
+import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
+import 'dayjs/esm/locale/ko'
 
 export const Home = async () => {
+
+	dayjs.locale('ko')
+	dayjs.extend(localizedFormat)
+	dayjs.extend(advancedFormat)
 	
 	const auth = getAuth()
 
@@ -26,7 +34,7 @@ export const Home = async () => {
 			<section id="today-milongas" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4 flex flex-wrap justify-between items-end">
 					<h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
-					<time class="font-bold text-slate-500" id="today-date"></time>
+					<time class="font-bold text-slate-500">${html`${dayjs().format("MMM Do dddd")}`}</time>
 				</header>
 				<ul>
 					<li class="mt-3">

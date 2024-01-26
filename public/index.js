@@ -9757,8 +9757,6 @@ const Home = async () => {
 	const auth = getAuth();
 
 	await auth.authStateReady();
-	
-	document.getElementById('loading')?.remove();
 
 	const user = auth.currentUser;
 	
@@ -9914,8 +9912,6 @@ const Login = async () => {
 
 	await auth.authStateReady();
 
-	document.getElementById('loading')?.remove();
-
 	function login() {
 
 		const provider = new GoogleAuthProvider();
@@ -9957,8 +9953,6 @@ const Me = async () => {
 	const auth = getAuth();
 
 	await auth.authStateReady();
-
-	document.getElementById('loading')?.remove();
 
 	const user = auth.currentUser;
 

@@ -9,8 +9,6 @@ export const Login = async () => {
 
 	await auth.authStateReady()
 
-	document.getElementById('loading')?.remove()
-
 	function login() {
 
 		const provider = new GoogleAuthProvider()

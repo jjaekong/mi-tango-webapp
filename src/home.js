@@ -16,8 +16,6 @@ export const Home = async () => {
 	const auth = getAuth()
 
 	await auth.authStateReady()
-	
-	document.getElementById('loading')?.remove()
 
 	const user = auth.currentUser
 	

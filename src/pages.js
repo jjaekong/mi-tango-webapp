@@ -11,6 +11,7 @@ import { NotFound } from './not_found.js'
 
 export const showPageByHash = () => {
 	console.log('showPageByHash')
+    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/;
     if (location.hash === '') {
         Home()
     } else if (location.hash === '#login') {
@@ -29,6 +30,8 @@ export const showPageByHash = () => {
         Club()
     } else if (location.hash === '#me/new_milonga') {
         NewMilonga()
+    } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
+        Milonga()
     } else {
 		NotFound()
     }

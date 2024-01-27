@@ -23,14 +23,13 @@ export const Login = async () => {
 	}
 
 	render(cache(html`
-		<div class="login p-5" role="document">
-            <header class="flex items-center mb-5 h-10 w-full">
+		<div class="login p-5 pt-15" role="document">
+            <header class="flex items-center h-10 fixed inset-5">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="sr-only">프로필</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center">로그인</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			<div class="h-dvh flex flex-col justify-center items-center">
-				<h1 class="font-extrabold">LOGIN</h1>
+			<div class="h-dvh flex justify-center items-center">
 				<ul>
 					<li class="mt-4">
 						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" @click=${login}>

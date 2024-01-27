@@ -20,7 +20,7 @@ export const Me = async () => {
 		if (confirm('로그아웃 하시겠습니까?')) {
             signOut(getAuth())
                 .then(() => {
-                    location.replace('/')
+                    location.replace('#')
 					return;
                 })
                 .catch(error => {

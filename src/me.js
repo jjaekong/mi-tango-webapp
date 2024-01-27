@@ -61,7 +61,7 @@ export const Me = async () => {
                 </div>
 			</a>
 			<div class="py-4">
-				<a href="/me/new_milonga.html">밀롱가 만들기</a>
+				<a href="#me/new_milonga">밀롱가 만들기</a>
 			</div>
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>

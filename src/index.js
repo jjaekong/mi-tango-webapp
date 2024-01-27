@@ -1,6 +1,9 @@
 import { showPageByHash } from "./pages";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
+import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { ENV } from "./config";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
@@ -15,6 +18,30 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+
+onAuthStateChanged(getAuth(), async user => {
+    if (user) {
+		const auth = getAuth()
+		const db = getFirestore()
+		const userRef = doc(db, `${ENV}.users`, user.uid)
+		const userSanp = await getDoc(userRef)
+        const userData = {
+            email: user.email,
+            emailVerified: user.emailVerified,
+            uid: user.uid,
+            photoURL: user.photoURL,
+            displayName: user.displayName,
+        }
+		if (userSanp.exists()) {
+            setDoc(userRef, {
+				...userData,
+                latestSignIn: new Date()
+			}, { merge: true })
+		} else {
+			setDoc(userRef, userData, { merge: true })
+		}
+	}
+})
 
 window.addEventListener('DOMContentLoaded', e => {
     showPageByHash()

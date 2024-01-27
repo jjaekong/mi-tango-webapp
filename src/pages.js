@@ -4,6 +4,7 @@ import { Home } from './home.js'
 import { Login } from './login.js'
 import { Me } from './me.js'
 import { EditProfile } from './me/edit_profile.js'
+import { NewMilonga } from './me/new_milonga.js'
 import { Milonga } from './milonga.js'
 import { MilongaEvent } from './milonga_event.js'
 import { NotFound } from './not_found.js'
@@ -26,6 +27,8 @@ export const showPageByHash = () => {
 		MilongaEvent()
     } else if (location.hash === '#club') {
         Club()
+    } else if (location.hash === '#me/new_milonga') {
+        NewMilonga()
     } else {
 		NotFound()
     }

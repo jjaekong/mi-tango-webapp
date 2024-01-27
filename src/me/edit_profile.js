@@ -16,7 +16,7 @@ export const EditProfile = async () => {
 
     console.log('currentUser => ', currentUser.photoURL)
 
-    function submit(e) {
+    function editProfile(e) {
         e.preventDefault()
         if (!currentUser) return;
         updateProfile(currentUser, {
@@ -89,7 +89,7 @@ export const EditProfile = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">프로필 수정</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-            <form action="#" method="post" id="edit-profile-form" @submit=${submit}>
+            <form action="#" method="post" id="edit-profile-form" @submit=${editProfile}>
                 <div class="mb-3">
                     <div id="profile-preview" class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden">${
                         currentUser

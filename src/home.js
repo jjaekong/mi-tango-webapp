@@ -1,7 +1,7 @@
 import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { UserCircleOutlineIcon } from './icons.js'
+import { UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
 import dayjs from 'dayjs/esm'
 import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
 import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
@@ -25,7 +25,11 @@ export const Home = async () => {
 				<h1 class="font-bold">Mi Vida</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					user
-						? html`<a href="#me"><img src="${user.photoURL}" class="size-8 rounded-full"></a>`
+						? html `<a href="#me">${
+                                    user.photoURL
+                                        ? html`<img src="${user.photoURL}" class="size-8 rounded-full">`
+                                        : html`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
+                                }</a>`
 						: html`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
@@ -82,7 +86,7 @@ export const Home = async () => {
 			</section>
 			<section id="djs" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
-					<h2 class="text-xl font-bold">DJs</h2>
+					<h2 class="text-xl font-bold">DJ</h2>
 					<small class="text-slate-400">DJ의 디제잉 일정을 확인하세요.</small>
 				</header>
 				<ul>
@@ -121,7 +125,7 @@ export const Home = async () => {
 			</section>
 			<section id="places" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
-					<h2 class="text-xl font-bold">Clubs</h2>
+					<h2 class="text-xl font-bold">Club</h2>
 					<small class="text-slate-400">탱고클럽의 밀롱가 일정을 확인하세요.</small>
 				</header>
 				<ul>

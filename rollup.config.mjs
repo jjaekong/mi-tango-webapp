@@ -5,6 +5,7 @@ export default {
 	output: {
 		file: "./public/index.js",
 		format: 'esm',
+        sourcemap: true
 	},
 	plugins: [
         resolve()

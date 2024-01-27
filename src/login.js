@@ -1,7 +1,7 @@
 import { getAuth, GoogleAuthProvider, signInWithPopup } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { FacebookLogoIcon, GoogleLogoIcon } from './icons'
+import { FacebookLogoIcon, GoogleLogoIcon, ArrowLeftIcon, ChevronRightIcon } from './icons'
 
 export const Login = async () => {
 
@@ -24,6 +24,11 @@ export const Login = async () => {
 
 	render(cache(html`
 		<div class="login p-5" role="document">
+            <header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="sr-only">프로필</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
 			<div class="h-dvh flex flex-col justify-center items-center">
 				<h1 class="font-extrabold">LOGIN</h1>
 				<ul>

@@ -1,7 +1,7 @@
 import { getAuth, signOut } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { ArrowLeftIcon } from './icons.js'
+import { ArrowLeftIcon, ChevronRightIcon, UserCircleSolidIcon, UserCircleOutlineIcon } from './icons.js'
 
 export const Me = async () => {
 	
@@ -36,12 +36,12 @@ export const Me = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">프로필</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" id="user-profile" href="/me/edit_profile.html">
+			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" href="#me/edit_profile">
 				<div>
 					<div class="size-12 empty:rounded-full empty:bg-slate-200">${
-						user
+						user?.photoURL
 							? html`<img class="rounded-full" src=${user.photoURL}>`
-							: html ``
+							: html`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-12' })}</span>`
 					}</div>
 				</div>
 				<div class="px-3 flex-1">
@@ -56,7 +56,9 @@ export const Me = async () => {
 							: html ``
 					}</div>
 				</div>
-				<div id="edit-profile-icon" class="text-slate-400"></div>
+				<div id="edit-profile-icon" class="text-slate-400">
+                    ${ChevronRightIcon()}
+                </div>
 			</a>
 			<div class="py-4">
 				<a href="/me/new_milonga.html">밀롱가 만들기</a>

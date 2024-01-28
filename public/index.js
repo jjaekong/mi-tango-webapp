@@ -9149,6 +9149,10 @@ const UserCircleSolidIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns=
   <path fill-rule="evenodd" d="M18.685 19.097A9.723 9.723 0 0 0 21.75 12c0-5.385-4.365-9.75-9.75-9.75S2.25 6.615 2.25 12a9.723 9.723 0 0 0 3.065 7.097A9.716 9.716 0 0 0 12 21.75a9.716 9.716 0 0 0 6.685-2.653Zm-12.54-1.285A7.486 7.486 0 0 1 12 15a7.486 7.486 0 0 1 5.855 2.812A8.224 8.224 0 0 1 12 20.25a8.224 8.224 0 0 1-5.855-2.438ZM15.75 9a3.75 3.75 0 1 1-7.5 0 3.75 3.75 0 0 1 7.5 0Z" clip-rule="evenodd" />
 </svg>`;
 
+const HeadphonesIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="${props.classList}">
+<path d="M8 3a5 5 0 0 0-5 5v1h1a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1V8a6 6 0 1 1 12 0v5a1 1 0 0 1-1 1h-1a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h1V8a5 5 0 0 0-5-5"/>
+</svg>`;
+
 const ChevronRightIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
 <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
 </svg>`;
@@ -10101,6 +10105,39 @@ const Home = async () => {
 			</section> -->
 		</div>
 	`), document.getElementById('app'));
+
+    const milongaEventList = [10, 100, 1000, 1050, 550];
+
+    const milongaEventItem = (item) => {
+        return x$1`
+            <a href="milonga_event.html" class="flex w-100 items-center">
+                <div class="self-start">
+                    <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+                        <span class="font-bold">8</span>
+                        <span class="text-slate-400 text-xs">PM</span>
+                    </time>
+                </div>
+                <div class="mx-3">
+                    <h6 class="font-extrabold">루미노소</h6>
+                    <div class="flex items-center text-slate-400">
+                        ${ HeadphonesIcon({ classList: 'size-4' }) }
+                        <span class="ms-1 text-sm">시스루</span>
+                    </div>
+                </div>
+                <div class="ms-auto self-start">
+                    <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
+                </div>
+            </a>
+    `};
+
+    setTimeout(() => {
+        document.querySelector('#today-milongas ul').innerHTML = '';
+        j$1(x$1`${
+            milongaEventList.map((item) => x$1`
+                <li class="mt-3">${milongaEventItem(item)}</li>
+            `)
+        }`, document.querySelector('#today-milongas ul'));
+    }, 1000);
 };
 
 const Login = async () => {
@@ -10158,7 +10195,7 @@ const Me = async () => {
 	const user = auth.currentUser;
 
 	if (!user) {
-		location.replace('/');
+		location.replace('#');
 		return;
 	}
 

@@ -1,4 +1,4 @@
 node_modules/
-
 .firebase/
 firebase-debug.log
+public/index.js.map

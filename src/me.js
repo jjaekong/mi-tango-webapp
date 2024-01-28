@@ -12,7 +12,7 @@ export const Me = async () => {
 	const user = auth.currentUser
 
 	if (!user) {
-		location.replace('/')
+		location.replace('#')
 		return;
 	}
 

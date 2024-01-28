@@ -9165,6 +9165,29 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
+const MilongaEventItem = (item) => {
+    return x$1`
+        <a href="#milonga_event" class="flex w-100 items-center">
+            <div class="self-start">
+                <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+                    <span class="font-bold">8</span>
+                    <span class="text-slate-400 text-xs">PM</span>
+                </time>
+            </div>
+            <div class="mx-3">
+                <h6 class="font-extrabold">루미노소</h6>
+                <div class="flex items-center text-slate-400">
+                    ${ HeadphonesIcon({ classList: 'size-4' }) }
+                    <span class="ms-1 text-sm">시스루</span>
+                </div>
+            </div>
+            <div class="ms-auto self-start">
+                <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
+            </div>
+        </a>
+    `
+};
+
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -9795,6 +9818,50 @@ dayjs.en = Ls[L];
 dayjs.Ls = Ls;
 dayjs.p = {};
 
+// Korean [ko]
+var locale = {
+  name: 'ko',
+  weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
+  weekdaysShort: '일_월_화_수_목_금_토'.split('_'),
+  weekdaysMin: '일_월_화_수_목_금_토'.split('_'),
+  months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
+  monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
+  ordinal: function ordinal(n) {
+    return n + "\uC77C";
+  },
+  formats: {
+    LT: 'A h:mm',
+    LTS: 'A h:mm:ss',
+    L: 'YYYY.MM.DD.',
+    LL: 'YYYY년 MMMM D일',
+    LLL: 'YYYY년 MMMM D일 A h:mm',
+    LLLL: 'YYYY년 MMMM D일 dddd A h:mm',
+    l: 'YYYY.MM.DD.',
+    ll: 'YYYY년 MMMM D일',
+    lll: 'YYYY년 MMMM D일 A h:mm',
+    llll: 'YYYY년 MMMM D일 dddd A h:mm'
+  },
+  meridiem: function meridiem(hour) {
+    return hour < 12 ? '오전' : '오후';
+  },
+  relativeTime: {
+    future: '%s 후',
+    past: '%s 전',
+    s: '몇 초',
+    m: '1분',
+    mm: '%d분',
+    h: '한 시간',
+    hh: '%d시간',
+    d: '하루',
+    dd: '%d일',
+    M: '한 달',
+    MM: '%d달',
+    y: '일 년',
+    yy: '%d년'
+  }
+};
+dayjs.locale(locale, null, true);
+
 // eslint-disable-next-line import/prefer-default-export
 var t = function t(format) {
   return format.replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g, function (_, a, b) {
@@ -9901,55 +9968,24 @@ var advancedFormat = (function (o, c) {
   };
 });
 
-// Korean [ko]
-var locale = {
-  name: 'ko',
-  weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
-  weekdaysShort: '일_월_화_수_목_금_토'.split('_'),
-  weekdaysMin: '일_월_화_수_목_금_토'.split('_'),
-  months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-  monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-  ordinal: function ordinal(n) {
-    return n + "\uC77C";
-  },
-  formats: {
-    LT: 'A h:mm',
-    LTS: 'A h:mm:ss',
-    L: 'YYYY.MM.DD.',
-    LL: 'YYYY년 MMMM D일',
-    LLL: 'YYYY년 MMMM D일 A h:mm',
-    LLLL: 'YYYY년 MMMM D일 dddd A h:mm',
-    l: 'YYYY.MM.DD.',
-    ll: 'YYYY년 MMMM D일',
-    lll: 'YYYY년 MMMM D일 A h:mm',
-    llll: 'YYYY년 MMMM D일 dddd A h:mm'
-  },
-  meridiem: function meridiem(hour) {
-    return hour < 12 ? '오전' : '오후';
-  },
-  relativeTime: {
-    future: '%s 후',
-    past: '%s 전',
-    s: '몇 초',
-    m: '1분',
-    mm: '%d분',
-    h: '한 시간',
-    hh: '%d시간',
-    d: '하루',
-    dd: '%d일',
-    M: '한 달',
-    MM: '%d달',
-    y: '일 년',
-    yy: '%d년'
-  }
+const djItem = (item) => {
+    return x$1`
+        <a href="#dj" class="flex w-full items-center">
+            <div class="self-start">
+                <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
+            </div>
+            <div class="mx-3">
+                <h6 class="font-bold">에르난</h6>
+            </div>
+        </a>
+    `
 };
-dayjs.locale(locale, null, true);
+
+dayjs.locale('ko');
+dayjs.extend(localizedFormat);
+dayjs.extend(advancedFormat);
 
 const Home = async () => {
-
-	dayjs.locale('ko');
-	dayjs.extend(localizedFormat);
-	dayjs.extend(advancedFormat);
 	
 	const auth = getAuth();
 
@@ -9971,116 +10007,35 @@ const Home = async () => {
 						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
-			<section id="today-milongas" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
-				<header class="mb-4 flex flex-wrap justify-between items-end">
-					<h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
-					<time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
-				</header>
-				<ul>
-					<li class="mt-3">
-						<div class="flex w-100 items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-								<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
-							</div>
-							<div class="ms-auto self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-						</div>
-					</li>
-					<li class="mt-3">
-						<div class="flex w-100 items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-								<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
-							</div>
-							<div class="ms-auto self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-						</div>
-					</li>
-					<li class="mt-3">
-						<div class="flex w-100 items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-								<div class="h-4 w-[50%] mt-1 bg-slate-100"></div>
-							</div>
-							<div class="ms-auto self-start">
-								<div class="size-14 rounded-xl bg-slate-100"></div>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
-			</section>
-			<section id="djs" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
-				<header class="mb-4">
-					<h2 class="text-xl font-bold">DJ</h2>
-					<small class="text-slate-400">DJ의 디제잉 일정을 확인하세요.</small>
-				</header>
-				<ul>
-					<li class="mt-3">
-						<div class="flex w-full items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-full bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-							</div>
-						</div>
-					</li>
-					<li class="mt-3">
-						<div class="flex w-full items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-full bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-							</div>
-						</div>
-					</li>
-					<li class="mt-3">
-						<div class="flex w-full items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-full bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-							</div>
-						</div>
-					</li>
-				</ul>
-				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
-			</section>
-			<section id="places" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+			<section id="today-milongas" class="mb-4 rounded-xl bg-white shadow-lg shadow-slate-200 p-5">
+                <header class="mb-4 flex flex-wrap justify-between items-end">
+                    <h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
+                    <time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
+                </header>
+                <ul>
+                    ${
+                        [10, 100, 1000, 1050, 550].map(item => x$1`
+                            <li class="mt-3">${MilongaEventItem(item)}</li>
+                        `)
+                    }
+                </ul>
+                <a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
+            </section>
+			<section id="club" class="mb-4 rounded-xl bg-white shadow-lg shadow-slate-200 p-5">
 				<header class="mb-4">
 					<h2 class="text-xl font-bold">Club</h2>
 					<small class="text-slate-400">탱고클럽의 밀롱가 일정을 확인하세요.</small>
 				</header>
 				<ul>
-					<li class="mt-3">
-						<div class="flex w-full items-center">
-							<div class="self-start">
-								<div class="size-14 rounded-lg bg-slate-100"></div>
-							</div>
-							<div class="mx-3 flex-1">
-								<h6 class="h-4 w-full bg-slate-100"></h6>
-							</div>
-						</div>
-					</li>
+                    ${
+                        [10, 100, 1000, 1050, 550].map((item) => x$1`
+                            <li class="mt-3">${djItem(item)}</li>
+                        `)
+                    }
 				</ul>
 				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 장소 보기</a>
 			</section>
-			<!-- <section id="poll" class="mb-4 rounded-[1rem] bg-white shadow-lg shadow-slate-100 p-5">
+			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
 					<h2 class="text-xl font-bold">Poll</h2>
 				</header>
@@ -10106,38 +10061,7 @@ const Home = async () => {
 		</div>
 	`), document.getElementById('app'));
 
-    const milongaEventList = [10, 100, 1000, 1050, 550];
-
-    const milongaEventItem = (item) => {
-        return x$1`
-            <a href="milonga_event.html" class="flex w-100 items-center">
-                <div class="self-start">
-                    <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-                        <span class="font-bold">8</span>
-                        <span class="text-slate-400 text-xs">PM</span>
-                    </time>
-                </div>
-                <div class="mx-3">
-                    <h6 class="font-extrabold">루미노소</h6>
-                    <div class="flex items-center text-slate-400">
-                        ${ HeadphonesIcon({ classList: 'size-4' }) }
-                        <span class="ms-1 text-sm">시스루</span>
-                    </div>
-                </div>
-                <div class="ms-auto self-start">
-                    <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
-                </div>
-            </a>
-    `};
-
-    setTimeout(() => {
-        document.querySelector('#today-milongas ul').innerHTML = '';
-        j$1(x$1`${
-            milongaEventList.map((item) => x$1`
-                <li class="mt-3">${milongaEventItem(item)}</li>
-            `)
-        }`, document.querySelector('#today-milongas ul'));
-    }, 1000);
+    
 };
 
 const Login = async () => {

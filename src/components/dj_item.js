@@ -8,10 +8,10 @@ export const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-            </div>
-            <div class="ms-auto flex flex-col justify-end items-end">
-                <b class="text-sm text-slate-500">루미노소</b>
-                <time class="text-xs text-slate-500">1월 14일 수요일</time>
+                <div class="text-slate-500 flex flex-wrap">
+                    <time class="font-bold me-2">1월 14일 수요일</time>
+                    <span>까사</span>
+                </div>
             </div>
         </a>
     `

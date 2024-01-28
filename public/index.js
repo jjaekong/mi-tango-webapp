@@ -9977,6 +9977,10 @@ const djItem = (item) => {
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
             </div>
+            <div class="ms-auto flex flex-col justify-end items-end">
+                <b class="text-sm text-slate-500">루미노소</b>
+                <time class="text-xs text-slate-500">1월 14일 수요일</time>
+            </div>
         </a>
     `
 };
@@ -10008,7 +10012,7 @@ const Home = async () => {
 				}</div>
 			</header>
 
-			<section id="today-milongas" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-200 p-5">
+			<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
                 <header class="mb-4 flex flex-wrap justify-between items-end">
                     <h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
                     <time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
@@ -10023,7 +10027,7 @@ const Home = async () => {
                 <a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
             </section>
 
-			<section id="dj" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-200 p-5">
+			<section id="dj" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 				<header class="mb-4">
 					<h2 class="text-xl font-bold">DJ</h2>
 					<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
@@ -10035,7 +10039,7 @@ const Home = async () => {
                         `)
                     }
 				</ul>
-				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 장소 보기</a>
+				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
 			</section>
 
 			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">

@@ -10007,7 +10007,8 @@ const Home = async () => {
 						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
-			<section id="today-milongas" class="mb-4 rounded-xl bg-white shadow-lg shadow-slate-200 p-5">
+
+			<section id="today-milongas" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-200 p-5">
                 <header class="mb-4 flex flex-wrap justify-between items-end">
                     <h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
                     <time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
@@ -10021,10 +10022,11 @@ const Home = async () => {
                 </ul>
                 <a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
             </section>
-			<section id="club" class="mb-4 rounded-xl bg-white shadow-lg shadow-slate-200 p-5">
+
+			<section id="dj" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-200 p-5">
 				<header class="mb-4">
-					<h2 class="text-xl font-bold">Club</h2>
-					<small class="text-slate-400">탱고클럽의 밀롱가 일정을 확인하세요.</small>
+					<h2 class="text-xl font-bold">DJ</h2>
+					<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
 				</header>
 				<ul>
                     ${
@@ -10035,6 +10037,7 @@ const Home = async () => {
 				</ul>
 				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 장소 보기</a>
 			</section>
+
 			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
 					<h2 class="text-xl font-bold">Poll</h2>

@@ -9998,20 +9998,20 @@ const Home = async () => {
 
 	await auth.authStateReady();
 
-	const user = auth.currentUser;
+	const currentUser = auth.currentUser;
 	
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
 				<h1 class="font-bold">Mi Vida</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
-					user
+					currentUser
 						? x$1 `<a href="#me">${
-                                    user.photoURL
-                                        ? x$1`<img src="${user.photoURL}" class="size-8 rounded-full">`
+                                    currentUser.photoURL
+                                        ? x$1`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
                                         : x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
                                 }</a>`
-						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+						: x$1`<a href="#login" @click=${ navigator.vibrate(200) }>${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
 

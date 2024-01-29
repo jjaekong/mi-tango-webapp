@@ -878,10 +878,6 @@ select {
   height: 100%;
 }
 
-.h-\[100px\] {
-  height: 100px;
-}
-
 .w-10 {
   width: 2.5rem;
 }
@@ -1046,6 +1042,11 @@ select {
   line-height: 2rem;
 }
 
+.text-lg {
+  font-size: 1.125rem;
+  line-height: 1.75rem;
+}
+
 .text-sm {
   font-size: 0.875rem;
   line-height: 1.25rem;
@@ -1071,6 +1072,11 @@ select {
 
 .leading-tight {
   line-height: 1.25;
+}
+
+.text-purple-700 {
+  --tw-text-opacity: 1;
+  color: rgb(126 34 206 / var(--tw-text-opacity));
 }
 
 .text-purple-800 {
@@ -1101,11 +1107,6 @@ select {
 .text-white {
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
-}
-
-.text-purple-700 {
-  --tw-text-opacity: 1;
-  color: rgb(126 34 206 / var(--tw-text-opacity));
 }
 
 .shadow-lg {

@@ -19,20 +19,20 @@ export const Home = async () => {
 
 	await auth.authStateReady()
 
-	const user = auth.currentUser
+	const currentUser = auth.currentUser
 	
 	render(cache(html`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
 				<h1 class="font-bold">Mi Vida</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
-					user
+					currentUser
 						? html `<a href="#me">${
-                                    user.photoURL
-                                        ? html`<img src="${user.photoURL}" class="size-8 rounded-full">`
+                                    currentUser.photoURL
+                                        ? html`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
                                         : html`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
                                 }</a>`
-						: html`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+						: html`<a href="#login" @click=${ navigator.vibrate(200) }>${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
 

@@ -16,11 +16,30 @@ export const MyMilongas = async (currentUser) => {
 
 	return html`
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
-			<header>
-				<h6>내 밀롱가 (${html`${qSnap.size})`}</h6>
+			<header class="mb-4">
+				<h6 class="font-bold text-lg">내 밀롱가 (${html`${qSnap.size})`}</h6>
 			</header>
 			<ul>
-				${ until(map(qSnap.docs, (doc) => html`<li>${doc.data().name}</li>`), html`<div>loading...</div>`) }
+				${
+					map(qSnap.docs, (doc) => {
+						const data = {
+							id: doc.id,
+							...doc.data()
+						}
+						return html`
+							<li class="mt-3">
+								<a href="#milonga/${data.id}" class="flex items-center">
+									<div class="flex-0">
+										${data.logoURL ? html`AA` : html`<div class="size-12 bg-slate-100 rounded-xl"></div>` }
+									</div>
+									<div class="mx-3">
+										${data.name}
+									</div>
+								</a>
+							</li>
+						`
+					})
+				}
 			</ul>
 		</section>
 	`

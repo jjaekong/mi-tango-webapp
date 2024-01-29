@@ -24066,7 +24066,7 @@ const Me = async () => {
         }
 	}
 
-	j$1((x$1`
+	j$1(h$2(x$1`
 		<div class="me main p-5" role="document">
 			<header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>

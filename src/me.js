@@ -1,5 +1,6 @@
 import { getAuth, signOut } from 'firebase/auth'
 import { render, html, nothing } from 'lit-html'
+import { cache } from 'lit-html/directives/cache.js'
 import { ArrowLeftIcon, ChevronRightIcon, UserCircleSolidIcon, UserCircleOutlineIcon } from './icons.js'
 import { MyMilongas } from './me/main/my_milongas.js'
 import { UserProfile } from './me/main/user_profile.js'
@@ -30,7 +31,7 @@ export const Me = async () => {
         }
 	}
 
-	render((html`
+	render(cache(html`
 		<div class="me main p-5" role="document">
 			<header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>

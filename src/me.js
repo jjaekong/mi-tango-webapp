@@ -1,7 +1,8 @@
 import { getAuth, signOut } from 'firebase/auth'
-import { render, html } from 'lit-html'
+import { render, html, nothing } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { ArrowLeftIcon, ChevronRightIcon, UserCircleSolidIcon, UserCircleOutlineIcon } from './icons.js'
+import { MyMilongas } from './me/main/my_milongas.js'
 
 export const Me = async () => {
 	
@@ -36,7 +37,7 @@ export const Me = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">프로필</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" href="#me/edit_profile">
+			<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#me/edit_profile">
 				<div>
 					<div class="size-12 empty:rounded-full empty:bg-slate-200">${
 						user?.photoURL
@@ -48,21 +49,20 @@ export const Me = async () => {
 					<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
 						user
 							? html`${user.displayName}`
-							: html ``
+							: html`${nothing}`
 					}</h4>
 					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
 						user
 							? html`${user.email}`
-							: html ``
+							: html`${nothing}`
 					}</div>
 				</div>
 				<div id="edit-profile-icon" class="text-slate-400">
                     ${ChevronRightIcon()}
                 </div>
 			</a>
-			<div class="py-4">
-				<a href="#me/new_milonga">밀롱가 만들기</a>
-			</div>
+			${ await MyMilongas() }
+			<!-- <a href="#me/new_milonga" class="block mb-3 p-3 bg-slate-200 text-purple-700 text-center rounded-lg">밀롱가 만들기</a> -->
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>
 	`), document.getElementById('app'))

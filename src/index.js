@@ -46,7 +46,7 @@ onAuthStateChanged(getAuth(), async user => {
 getAuth().authStateReady()
     .then(() => {
         document.body.classList.remove('overflow-hidden')
-        document.getElementById('loading').classList.add('hidden')
+        document.getElementById('loading')?.classList.add('hidden')
     })
 
 window.addEventListener('DOMContentLoaded', e => {

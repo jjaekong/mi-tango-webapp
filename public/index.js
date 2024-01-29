@@ -3,7 +3,7 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$2=globalThis,i$1=t$2.trustedTypes,s$1=i$1?i$1.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$2="$lit$",h$1=`lit$${(Math.random()+"").slice(9)}$`,o="?"+h$1,n=`<${o}>`,r$2=document,l$2=()=>r$2.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$2=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d$1="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v$2=/-->/g,_=/>/g,m$1=RegExp(`>|${d$1}(?:([^\\s"'>=/]+)(${d$1}*=${d$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p$2=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y$1=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x$1=y$1(1),w$2=Symbol.for("lit-noChange"),T$1=Symbol.for("lit-nothing"),A$1=new WeakMap,E$1=r$2.createTreeWalker(r$2,129);function C$2(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const P$1=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v$2:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p$2):c===g||c===p$2?c=m$1:c===v$2||c===_?c=f:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e$2+s.slice(d)+h$1+x):s+h$1+(-2===d?i:x);}return [C$2(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};let V$1 = class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P$1(t,s);if(this.el=V.createElement(f,n),E$1.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E$1.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$2)){const i=v[a++],s=r.getAttribute(t).split(h$1),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k$1:"?"===e[1]?H$2:"@"===e[1]?I$1:R$1}),r.removeAttribute(t);}else t.startsWith(h$1)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h$1),s=t.length-1;if(s>0){r.textContent=i$1?i$1.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),E$1.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h$1,t+1));)d.push({type:7,index:c}),t+=h$1.length-1;}c++;}}static createElement(t,i){const s=r$2.createElement("template");return s.innerHTML=t,s}};function N$1(t,i,s=t,e){if(i===w$2)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N$1(t,h._$AS(t,i.values),h,e)),i}let S$3 = class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$2).importNode(i,!0);E$1.currentNode=e;let h=E$1.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$2(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E$1.nextNode(),o++);}return E$1.currentNode=r$2,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$2 = class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T$1,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N$1(this,t,i),c(t)?t===T$1||null==t||""===t?(this._$AH!==T$1&&this._$AR(),this._$AH=T$1):t!==this._$AH&&t!==w$2&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$2(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T$1&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r$2.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V$1.createElement(C$2(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$3(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A$1.get(t.strings);return void 0===i&&A$1.set(t.strings,i=new V$1(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l$2()),this.k(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};let R$1 = class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T$1,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T$1;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N$1(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w$2,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N$1(this,e[s+n],i,n),r===w$2&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T$1?t=T$1:t!==T$1&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T$1?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}};let k$1 = class k extends R$1{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T$1?void 0:t;}};let H$2 = class H extends R$1{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T$1);}};let I$1 = class I extends R$1{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N$1(this,t,i,0)??T$1)===w$2)return;const s=this._$AH,e=t===T$1&&s!==T$1||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T$1&&(s===T$1||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}};let L$1 = class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N$1(this,t);}};const z$1={j:e$2,P:h$1,A:o,C:1,M:P$1,L:S$3,R:u$2,V:N$1,D:M$2,I:R$1,H: H$2,N:I$1,U:k$1,B:L$1},Z$1=t$2.litHtmlPolyfillSupport;Z$1?.(V$1,M$2),(t$2.litHtmlVersions??=[]).push("3.1.1");const j$1=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$2(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};
+const t$2=globalThis,i$1=t$2.trustedTypes,s$1=i$1?i$1.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$2="$lit$",h$1=`lit$${(Math.random()+"").slice(9)}$`,o$1="?"+h$1,n=`<${o$1}>`,r$2=document,l$2=()=>r$2.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$2=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d$1="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v$2=/-->/g,_=/>/g,m$1=RegExp(`>|${d$1}(?:([^\\s"'>=/]+)(${d$1}*=${d$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p$2=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y$1=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x$1=y$1(1),w$2=Symbol.for("lit-noChange"),T$1=Symbol.for("lit-nothing"),A$1=new WeakMap,E$1=r$2.createTreeWalker(r$2,129);function C$2(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const P$1=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v$2:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p$2):c===g||c===p$2?c=m$1:c===v$2||c===_?c=f:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e$2+s.slice(d)+h$1+x):s+h$1+(-2===d?i:x);}return [C$2(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};let V$1 = class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P$1(t,s);if(this.el=V.createElement(f,n),E$1.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E$1.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$2)){const i=v[a++],s=r.getAttribute(t).split(h$1),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k$1:"?"===e[1]?H$2:"@"===e[1]?I$1:R$1}),r.removeAttribute(t);}else t.startsWith(h$1)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h$1),s=t.length-1;if(s>0){r.textContent=i$1?i$1.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),E$1.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o$1)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h$1,t+1));)d.push({type:7,index:c}),t+=h$1.length-1;}c++;}}static createElement(t,i){const s=r$2.createElement("template");return s.innerHTML=t,s}};function N$1(t,i,s=t,e){if(i===w$2)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N$1(t,h._$AS(t,i.values),h,e)),i}let S$3 = class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$2).importNode(i,!0);E$1.currentNode=e;let h=E$1.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$2(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E$1.nextNode(),o++);}return E$1.currentNode=r$2,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$2 = class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T$1,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N$1(this,t,i),c(t)?t===T$1||null==t||""===t?(this._$AH!==T$1&&this._$AR(),this._$AH=T$1):t!==this._$AH&&t!==w$2&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$2(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T$1&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r$2.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V$1.createElement(C$2(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$3(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A$1.get(t.strings);return void 0===i&&A$1.set(t.strings,i=new V$1(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l$2()),this.k(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};let R$1 = class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T$1,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T$1;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N$1(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w$2,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N$1(this,e[s+n],i,n),r===w$2&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T$1?t=T$1:t!==T$1&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T$1?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}};let k$1 = class k extends R$1{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T$1?void 0:t;}};let H$2 = class H extends R$1{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T$1);}};let I$1 = class I extends R$1{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N$1(this,t,i,0)??T$1)===w$2)return;const s=this._$AH,e=t===T$1&&s!==T$1||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T$1&&(s===T$1||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}};let L$1 = class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N$1(this,t);}};const z$1={j:e$2,P:h$1,A:o$1,C:1,M:P$1,L:S$3,R:u$2,V:N$1,D:M$2,I:R$1,H: H$2,N:I$1,U:k$1,B:L$1},Z$1=t$2.litHtmlPolyfillSupport;Z$1?.(V$1,M$2),(t$2.litHtmlVersions??=[]).push("3.1.1");const j$1=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$2(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};
 
 /**
  * @license
@@ -10120,2531 +10120,6 @@ const Login = async () => {
 	`), document.getElementById('app'));
 };
 
-const Me = async () => {
-	
-	const auth = getAuth();
-
-	await auth.authStateReady();
-
-	const user = auth.currentUser;
-
-	if (!user) {
-		location.replace('#');
-		return;
-	}
-
-	function logout() {
-		if (confirm('로그아웃 하시겠습니까?')) {
-            signOut(getAuth())
-                .then(() => {
-                    location.replace('#');
-					return;
-                })
-                .catch(error => {
-                    console.log(error);
-                });
-        }
-	}
-
-	j$1(h(x$1`
-		<div class="me main p-5" role="document">
-			<header class="flex items-center mb-5 h-10 w-full">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">프로필</h1></div>
-				<div class="min-w-[20%] flex justify-end"></div>
-			</header>
-			<a class="flex items-center bg-white rounded-xl shadow-xl shadow-slate-100 p-5" href="#me/edit_profile">
-				<div>
-					<div class="size-12 empty:rounded-full empty:bg-slate-200">${
-						user?.photoURL
-							? x$1`<img class="rounded-full" src=${user.photoURL}>`
-							: x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-12' })}</span>`
-					}</div>
-				</div>
-				<div class="px-3 flex-1">
-					<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
-						user
-							? x$1`${user.displayName}`
-							: x$1 ``
-					}</h4>
-					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
-						user
-							? x$1`${user.email}`
-							: x$1 ``
-					}</div>
-				</div>
-				<div id="edit-profile-icon" class="text-slate-400">
-                    ${ChevronRightIcon()}
-                </div>
-			</a>
-			<div class="py-4">
-				<a href="#me/new_milonga">밀롱가 만들기</a>
-			</div>
-			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
-		</div>
-	`), document.getElementById('app'));
-};
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @fileoverview Constants used in the Firebase Storage library.
- */
-/**
- * Domain name for firebase storage.
- */
-const DEFAULT_HOST = 'firebasestorage.googleapis.com';
-/**
- * The key in Firebase config json for the storage bucket.
- */
-const CONFIG_STORAGE_BUCKET_KEY = 'storageBucket';
-/**
- * 2 minutes
- *
- * The timeout for all operations except upload.
- */
-const DEFAULT_MAX_OPERATION_RETRY_TIME = 2 * 60 * 1000;
-/**
- * 10 minutes
- *
- * The timeout for upload.
- */
-const DEFAULT_MAX_UPLOAD_RETRY_TIME = 10 * 60 * 1000;
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * An error returned by the Firebase Storage SDK.
- * @public
- */
-class StorageError extends FirebaseError {
-    /**
-     * @param code - A `StorageErrorCode` string to be prefixed with 'storage/' and
-     *  added to the end of the message.
-     * @param message  - Error message.
-     * @param status_ - Corresponding HTTP Status Code
-     */
-    constructor(code, message, status_ = 0) {
-        super(prependCode(code), `Firebase Storage: ${message} (${prependCode(code)})`);
-        this.status_ = status_;
-        /**
-         * Stores custom error data unique to the `StorageError`.
-         */
-        this.customData = { serverResponse: null };
-        this._baseMessage = this.message;
-        // Without this, `instanceof StorageError`, in tests for example,
-        // returns false.
-        Object.setPrototypeOf(this, StorageError.prototype);
-    }
-    get status() {
-        return this.status_;
-    }
-    set status(status) {
-        this.status_ = status;
-    }
-    /**
-     * Compares a `StorageErrorCode` against this error's code, filtering out the prefix.
-     */
-    _codeEquals(code) {
-        return prependCode(code) === this.code;
-    }
-    /**
-     * Optional response message that was added by the server.
-     */
-    get serverResponse() {
-        return this.customData.serverResponse;
-    }
-    set serverResponse(serverResponse) {
-        this.customData.serverResponse = serverResponse;
-        if (this.customData.serverResponse) {
-            this.message = `${this._baseMessage}\n${this.customData.serverResponse}`;
-        }
-        else {
-            this.message = this._baseMessage;
-        }
-    }
-}
-/**
- * @public
- * Error codes that can be attached to `StorageError` objects.
- */
-var StorageErrorCode;
-(function (StorageErrorCode) {
-    // Shared between all platforms
-    StorageErrorCode["UNKNOWN"] = "unknown";
-    StorageErrorCode["OBJECT_NOT_FOUND"] = "object-not-found";
-    StorageErrorCode["BUCKET_NOT_FOUND"] = "bucket-not-found";
-    StorageErrorCode["PROJECT_NOT_FOUND"] = "project-not-found";
-    StorageErrorCode["QUOTA_EXCEEDED"] = "quota-exceeded";
-    StorageErrorCode["UNAUTHENTICATED"] = "unauthenticated";
-    StorageErrorCode["UNAUTHORIZED"] = "unauthorized";
-    StorageErrorCode["UNAUTHORIZED_APP"] = "unauthorized-app";
-    StorageErrorCode["RETRY_LIMIT_EXCEEDED"] = "retry-limit-exceeded";
-    StorageErrorCode["INVALID_CHECKSUM"] = "invalid-checksum";
-    StorageErrorCode["CANCELED"] = "canceled";
-    // JS specific
-    StorageErrorCode["INVALID_EVENT_NAME"] = "invalid-event-name";
-    StorageErrorCode["INVALID_URL"] = "invalid-url";
-    StorageErrorCode["INVALID_DEFAULT_BUCKET"] = "invalid-default-bucket";
-    StorageErrorCode["NO_DEFAULT_BUCKET"] = "no-default-bucket";
-    StorageErrorCode["CANNOT_SLICE_BLOB"] = "cannot-slice-blob";
-    StorageErrorCode["SERVER_FILE_WRONG_SIZE"] = "server-file-wrong-size";
-    StorageErrorCode["NO_DOWNLOAD_URL"] = "no-download-url";
-    StorageErrorCode["INVALID_ARGUMENT"] = "invalid-argument";
-    StorageErrorCode["INVALID_ARGUMENT_COUNT"] = "invalid-argument-count";
-    StorageErrorCode["APP_DELETED"] = "app-deleted";
-    StorageErrorCode["INVALID_ROOT_OPERATION"] = "invalid-root-operation";
-    StorageErrorCode["INVALID_FORMAT"] = "invalid-format";
-    StorageErrorCode["INTERNAL_ERROR"] = "internal-error";
-    StorageErrorCode["UNSUPPORTED_ENVIRONMENT"] = "unsupported-environment";
-})(StorageErrorCode || (StorageErrorCode = {}));
-function prependCode(code) {
-    return 'storage/' + code;
-}
-function unknown() {
-    const message = 'An unknown error occurred, please check the error payload for ' +
-        'server response.';
-    return new StorageError(StorageErrorCode.UNKNOWN, message);
-}
-function objectNotFound(path) {
-    return new StorageError(StorageErrorCode.OBJECT_NOT_FOUND, "Object '" + path + "' does not exist.");
-}
-function quotaExceeded(bucket) {
-    return new StorageError(StorageErrorCode.QUOTA_EXCEEDED, "Quota for bucket '" +
-        bucket +
-        "' exceeded, please view quota on " +
-        'https://firebase.google.com/pricing/.');
-}
-function unauthenticated() {
-    const message = 'User is not authenticated, please authenticate using Firebase ' +
-        'Authentication and try again.';
-    return new StorageError(StorageErrorCode.UNAUTHENTICATED, message);
-}
-function unauthorizedApp() {
-    return new StorageError(StorageErrorCode.UNAUTHORIZED_APP, 'This app does not have permission to access Firebase Storage on this project.');
-}
-function unauthorized(path) {
-    return new StorageError(StorageErrorCode.UNAUTHORIZED, "User does not have permission to access '" + path + "'.");
-}
-function retryLimitExceeded() {
-    return new StorageError(StorageErrorCode.RETRY_LIMIT_EXCEEDED, 'Max retry time for operation exceeded, please try again.');
-}
-function canceled() {
-    return new StorageError(StorageErrorCode.CANCELED, 'User canceled the upload/download.');
-}
-function invalidUrl(url) {
-    return new StorageError(StorageErrorCode.INVALID_URL, "Invalid URL '" + url + "'.");
-}
-function invalidDefaultBucket(bucket) {
-    return new StorageError(StorageErrorCode.INVALID_DEFAULT_BUCKET, "Invalid default bucket '" + bucket + "'.");
-}
-function noDefaultBucket() {
-    return new StorageError(StorageErrorCode.NO_DEFAULT_BUCKET, 'No default bucket ' +
-        "found. Did you set the '" +
-        CONFIG_STORAGE_BUCKET_KEY +
-        "' property when initializing the app?");
-}
-function cannotSliceBlob() {
-    return new StorageError(StorageErrorCode.CANNOT_SLICE_BLOB, 'Cannot slice blob for upload. Please retry the upload.');
-}
-function noDownloadURL() {
-    return new StorageError(StorageErrorCode.NO_DOWNLOAD_URL, 'The given file does not have any download URLs.');
-}
-function missingPolyFill(polyFill) {
-    return new StorageError(StorageErrorCode.UNSUPPORTED_ENVIRONMENT, `${polyFill} is missing. Make sure to install the required polyfills. See https://firebase.google.com/docs/web/environments-js-sdk#polyfills for more information.`);
-}
-/**
- * @internal
- */
-function invalidArgument(message) {
-    return new StorageError(StorageErrorCode.INVALID_ARGUMENT, message);
-}
-function appDeleted() {
-    return new StorageError(StorageErrorCode.APP_DELETED, 'The Firebase app was deleted.');
-}
-/**
- * @param name - The name of the operation that was invalid.
- *
- * @internal
- */
-function invalidRootOperation(name) {
-    return new StorageError(StorageErrorCode.INVALID_ROOT_OPERATION, "The operation '" +
-        name +
-        "' cannot be performed on a root reference, create a non-root " +
-        "reference using child, such as .child('file.png').");
-}
-/**
- * @param format - The format that was not valid.
- * @param message - A message describing the format violation.
- */
-function invalidFormat(format, message) {
-    return new StorageError(StorageErrorCode.INVALID_FORMAT, "String does not match format '" + format + "': " + message);
-}
-/**
- * @param message - A message describing the internal error.
- */
-function internalError(message) {
-    throw new StorageError(StorageErrorCode.INTERNAL_ERROR, 'Internal error: ' + message);
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Firebase Storage location data.
- *
- * @internal
- */
-class Location {
-    constructor(bucket, path) {
-        this.bucket = bucket;
-        this.path_ = path;
-    }
-    get path() {
-        return this.path_;
-    }
-    get isRoot() {
-        return this.path.length === 0;
-    }
-    fullServerUrl() {
-        const encode = encodeURIComponent;
-        return '/b/' + encode(this.bucket) + '/o/' + encode(this.path);
-    }
-    bucketOnlyServerUrl() {
-        const encode = encodeURIComponent;
-        return '/b/' + encode(this.bucket) + '/o';
-    }
-    static makeFromBucketSpec(bucketString, host) {
-        let bucketLocation;
-        try {
-            bucketLocation = Location.makeFromUrl(bucketString, host);
-        }
-        catch (e) {
-            // Not valid URL, use as-is. This lets you put bare bucket names in
-            // config.
-            return new Location(bucketString, '');
-        }
-        if (bucketLocation.path === '') {
-            return bucketLocation;
-        }
-        else {
-            throw invalidDefaultBucket(bucketString);
-        }
-    }
-    static makeFromUrl(url, host) {
-        let location = null;
-        const bucketDomain = '([A-Za-z0-9.\\-_]+)';
-        function gsModify(loc) {
-            if (loc.path.charAt(loc.path.length - 1) === '/') {
-                loc.path_ = loc.path_.slice(0, -1);
-            }
-        }
-        const gsPath = '(/(.*))?$';
-        const gsRegex = new RegExp('^gs://' + bucketDomain + gsPath, 'i');
-        const gsIndices = { bucket: 1, path: 3 };
-        function httpModify(loc) {
-            loc.path_ = decodeURIComponent(loc.path);
-        }
-        const version = 'v[A-Za-z0-9_]+';
-        const firebaseStorageHost = host.replace(/[.]/g, '\\.');
-        const firebaseStoragePath = '(/([^?#]*).*)?$';
-        const firebaseStorageRegExp = new RegExp(`^https?://${firebaseStorageHost}/${version}/b/${bucketDomain}/o${firebaseStoragePath}`, 'i');
-        const firebaseStorageIndices = { bucket: 1, path: 3 };
-        const cloudStorageHost = host === DEFAULT_HOST
-            ? '(?:storage.googleapis.com|storage.cloud.google.com)'
-            : host;
-        const cloudStoragePath = '([^?#]*)';
-        const cloudStorageRegExp = new RegExp(`^https?://${cloudStorageHost}/${bucketDomain}/${cloudStoragePath}`, 'i');
-        const cloudStorageIndices = { bucket: 1, path: 2 };
-        const groups = [
-            { regex: gsRegex, indices: gsIndices, postModify: gsModify },
-            {
-                regex: firebaseStorageRegExp,
-                indices: firebaseStorageIndices,
-                postModify: httpModify
-            },
-            {
-                regex: cloudStorageRegExp,
-                indices: cloudStorageIndices,
-                postModify: httpModify
-            }
-        ];
-        for (let i = 0; i < groups.length; i++) {
-            const group = groups[i];
-            const captures = group.regex.exec(url);
-            if (captures) {
-                const bucketValue = captures[group.indices.bucket];
-                let pathValue = captures[group.indices.path];
-                if (!pathValue) {
-                    pathValue = '';
-                }
-                location = new Location(bucketValue, pathValue);
-                group.postModify(location);
-                break;
-            }
-        }
-        if (location == null) {
-            throw invalidUrl(url);
-        }
-        return location;
-    }
-}
-
-/**
- * A request whose promise always fails.
- */
-class FailRequest {
-    constructor(error) {
-        this.promise_ = Promise.reject(error);
-    }
-    /** @inheritDoc */
-    getPromise() {
-        return this.promise_;
-    }
-    /** @inheritDoc */
-    cancel(_appDelete = false) { }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Accepts a callback for an action to perform (`doRequest`),
- * and then a callback for when the backoff has completed (`backoffCompleteCb`).
- * The callback sent to start requires an argument to call (`onRequestComplete`).
- * When `start` calls `doRequest`, it passes a callback for when the request has
- * completed, `onRequestComplete`. Based on this, the backoff continues, with
- * another call to `doRequest` and the above loop continues until the timeout
- * is hit, or a successful response occurs.
- * @description
- * @param doRequest Callback to perform request
- * @param backoffCompleteCb Callback to call when backoff has been completed
- */
-function start(doRequest, 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-backoffCompleteCb, timeout) {
-    // TODO(andysoto): make this code cleaner (probably refactor into an actual
-    // type instead of a bunch of functions with state shared in the closure)
-    let waitSeconds = 1;
-    // Would type this as "number" but that doesn't work for Node so ¯\_(ツ)_/¯
-    // TODO: find a way to exclude Node type definition for storage because storage only works in browser
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let retryTimeoutId = null;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    let globalTimeoutId = null;
-    let hitTimeout = false;
-    let cancelState = 0;
-    function canceled() {
-        return cancelState === 2;
-    }
-    let triggeredCallback = false;
-    function triggerCallback(...args) {
-        if (!triggeredCallback) {
-            triggeredCallback = true;
-            backoffCompleteCb.apply(null, args);
-        }
-    }
-    function callWithDelay(millis) {
-        retryTimeoutId = setTimeout(() => {
-            retryTimeoutId = null;
-            doRequest(responseHandler, canceled());
-        }, millis);
-    }
-    function clearGlobalTimeout() {
-        if (globalTimeoutId) {
-            clearTimeout(globalTimeoutId);
-        }
-    }
-    function responseHandler(success, ...args) {
-        if (triggeredCallback) {
-            clearGlobalTimeout();
-            return;
-        }
-        if (success) {
-            clearGlobalTimeout();
-            triggerCallback.call(null, success, ...args);
-            return;
-        }
-        const mustStop = canceled() || hitTimeout;
-        if (mustStop) {
-            clearGlobalTimeout();
-            triggerCallback.call(null, success, ...args);
-            return;
-        }
-        if (waitSeconds < 64) {
-            /* TODO(andysoto): don't back off so quickly if we know we're offline. */
-            waitSeconds *= 2;
-        }
-        let waitMillis;
-        if (cancelState === 1) {
-            cancelState = 2;
-            waitMillis = 0;
-        }
-        else {
-            waitMillis = (waitSeconds + Math.random()) * 1000;
-        }
-        callWithDelay(waitMillis);
-    }
-    let stopped = false;
-    function stop(wasTimeout) {
-        if (stopped) {
-            return;
-        }
-        stopped = true;
-        clearGlobalTimeout();
-        if (triggeredCallback) {
-            return;
-        }
-        if (retryTimeoutId !== null) {
-            if (!wasTimeout) {
-                cancelState = 2;
-            }
-            clearTimeout(retryTimeoutId);
-            callWithDelay(0);
-        }
-        else {
-            if (!wasTimeout) {
-                cancelState = 1;
-            }
-        }
-    }
-    callWithDelay(0);
-    globalTimeoutId = setTimeout(() => {
-        hitTimeout = true;
-        stop(true);
-    }, timeout);
-    return stop;
-}
-/**
- * Stops the retry loop from repeating.
- * If the function is currently "in between" retries, it is invoked immediately
- * with the second parameter as "true". Otherwise, it will be invoked once more
- * after the current invocation finishes iff the current invocation would have
- * triggered another retry.
- */
-function stop(id) {
-    id(false);
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function isJustDef(p) {
-    return p !== void 0;
-}
-function isNonArrayObject(p) {
-    return typeof p === 'object' && !Array.isArray(p);
-}
-function isString(p) {
-    return typeof p === 'string' || p instanceof String;
-}
-function isNativeBlob(p) {
-    return isNativeBlobDefined() && p instanceof Blob;
-}
-function isNativeBlobDefined() {
-    return typeof Blob !== 'undefined';
-}
-function validateNumber(argument, minValue, maxValue, value) {
-    if (value < minValue) {
-        throw invalidArgument(`Invalid value for '${argument}'. Expected ${minValue} or greater.`);
-    }
-    if (value > maxValue) {
-        throw invalidArgument(`Invalid value for '${argument}'. Expected ${maxValue} or less.`);
-    }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function makeUrl(urlPart, host, protocol) {
-    let origin = host;
-    if (protocol == null) {
-        origin = `https://${host}`;
-    }
-    return `${protocol}://${origin}/v0${urlPart}`;
-}
-function makeQueryString(params) {
-    const encode = encodeURIComponent;
-    let queryPart = '?';
-    for (const key in params) {
-        if (params.hasOwnProperty(key)) {
-            const nextPart = encode(key) + '=' + encode(params[key]);
-            queryPart = queryPart + nextPart + '&';
-        }
-    }
-    // Chop off the extra '&' or '?' on the end
-    queryPart = queryPart.slice(0, -1);
-    return queryPart;
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Error codes for requests made by the the XhrIo wrapper.
- */
-var ErrorCode$1;
-(function (ErrorCode) {
-    ErrorCode[ErrorCode["NO_ERROR"] = 0] = "NO_ERROR";
-    ErrorCode[ErrorCode["NETWORK_ERROR"] = 1] = "NETWORK_ERROR";
-    ErrorCode[ErrorCode["ABORT"] = 2] = "ABORT";
-})(ErrorCode$1 || (ErrorCode$1 = {}));
-
-/**
- * @license
- * Copyright 2022 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Checks the status code to see if the action should be retried.
- *
- * @param status Current HTTP status code returned by server.
- * @param additionalRetryCodes additional retry codes to check against
- */
-function isRetryStatusCode(status, additionalRetryCodes) {
-    // The codes for which to retry came from this page:
-    // https://cloud.google.com/storage/docs/exponential-backoff
-    const isFiveHundredCode = status >= 500 && status < 600;
-    const extraRetryCodes = [
-        // Request Timeout: web server didn't receive full request in time.
-        408,
-        // Too Many Requests: you're getting rate-limited, basically.
-        429
-    ];
-    const isExtraRetryCode = extraRetryCodes.indexOf(status) !== -1;
-    const isAdditionalRetryCode = additionalRetryCodes.indexOf(status) !== -1;
-    return isFiveHundredCode || isExtraRetryCode || isAdditionalRetryCode;
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Handles network logic for all Storage Requests, including error reporting and
- * retries with backoff.
- *
- * @param I - the type of the backend's network response.
- * @param - O the output type used by the rest of the SDK. The conversion
- * happens in the specified `callback_`.
- */
-class NetworkRequest {
-    constructor(url_, method_, headers_, body_, successCodes_, additionalRetryCodes_, callback_, errorCallback_, timeout_, progressCallback_, connectionFactory_, retry = true) {
-        this.url_ = url_;
-        this.method_ = method_;
-        this.headers_ = headers_;
-        this.body_ = body_;
-        this.successCodes_ = successCodes_;
-        this.additionalRetryCodes_ = additionalRetryCodes_;
-        this.callback_ = callback_;
-        this.errorCallback_ = errorCallback_;
-        this.timeout_ = timeout_;
-        this.progressCallback_ = progressCallback_;
-        this.connectionFactory_ = connectionFactory_;
-        this.retry = retry;
-        this.pendingConnection_ = null;
-        this.backoffId_ = null;
-        this.canceled_ = false;
-        this.appDelete_ = false;
-        this.promise_ = new Promise((resolve, reject) => {
-            this.resolve_ = resolve;
-            this.reject_ = reject;
-            this.start_();
-        });
-    }
-    /**
-     * Actually starts the retry loop.
-     */
-    start_() {
-        const doTheRequest = (backoffCallback, canceled) => {
-            if (canceled) {
-                backoffCallback(false, new RequestEndStatus(false, null, true));
-                return;
-            }
-            const connection = this.connectionFactory_();
-            this.pendingConnection_ = connection;
-            const progressListener = progressEvent => {
-                const loaded = progressEvent.loaded;
-                const total = progressEvent.lengthComputable ? progressEvent.total : -1;
-                if (this.progressCallback_ !== null) {
-                    this.progressCallback_(loaded, total);
-                }
-            };
-            if (this.progressCallback_ !== null) {
-                connection.addUploadProgressListener(progressListener);
-            }
-            // connection.send() never rejects, so we don't need to have a error handler or use catch on the returned promise.
-            // eslint-disable-next-line @typescript-eslint/no-floating-promises
-            connection
-                .send(this.url_, this.method_, this.body_, this.headers_)
-                .then(() => {
-                if (this.progressCallback_ !== null) {
-                    connection.removeUploadProgressListener(progressListener);
-                }
-                this.pendingConnection_ = null;
-                const hitServer = connection.getErrorCode() === ErrorCode$1.NO_ERROR;
-                const status = connection.getStatus();
-                if (!hitServer ||
-                    (isRetryStatusCode(status, this.additionalRetryCodes_) &&
-                        this.retry)) {
-                    const wasCanceled = connection.getErrorCode() === ErrorCode$1.ABORT;
-                    backoffCallback(false, new RequestEndStatus(false, null, wasCanceled));
-                    return;
-                }
-                const successCode = this.successCodes_.indexOf(status) !== -1;
-                backoffCallback(true, new RequestEndStatus(successCode, connection));
-            });
-        };
-        /**
-         * @param requestWentThrough - True if the request eventually went
-         *     through, false if it hit the retry limit or was canceled.
-         */
-        const backoffDone = (requestWentThrough, status) => {
-            const resolve = this.resolve_;
-            const reject = this.reject_;
-            const connection = status.connection;
-            if (status.wasSuccessCode) {
-                try {
-                    const result = this.callback_(connection, connection.getResponse());
-                    if (isJustDef(result)) {
-                        resolve(result);
-                    }
-                    else {
-                        resolve();
-                    }
-                }
-                catch (e) {
-                    reject(e);
-                }
-            }
-            else {
-                if (connection !== null) {
-                    const err = unknown();
-                    err.serverResponse = connection.getErrorText();
-                    if (this.errorCallback_) {
-                        reject(this.errorCallback_(connection, err));
-                    }
-                    else {
-                        reject(err);
-                    }
-                }
-                else {
-                    if (status.canceled) {
-                        const err = this.appDelete_ ? appDeleted() : canceled();
-                        reject(err);
-                    }
-                    else {
-                        const err = retryLimitExceeded();
-                        reject(err);
-                    }
-                }
-            }
-        };
-        if (this.canceled_) {
-            backoffDone(false, new RequestEndStatus(false, null, true));
-        }
-        else {
-            this.backoffId_ = start(doTheRequest, backoffDone, this.timeout_);
-        }
-    }
-    /** @inheritDoc */
-    getPromise() {
-        return this.promise_;
-    }
-    /** @inheritDoc */
-    cancel(appDelete) {
-        this.canceled_ = true;
-        this.appDelete_ = appDelete || false;
-        if (this.backoffId_ !== null) {
-            stop(this.backoffId_);
-        }
-        if (this.pendingConnection_ !== null) {
-            this.pendingConnection_.abort();
-        }
-    }
-}
-/**
- * A collection of information about the result of a network request.
- * @param opt_canceled - Defaults to false.
- */
-class RequestEndStatus {
-    constructor(wasSuccessCode, connection, canceled) {
-        this.wasSuccessCode = wasSuccessCode;
-        this.connection = connection;
-        this.canceled = !!canceled;
-    }
-}
-function addAuthHeader_(headers, authToken) {
-    if (authToken !== null && authToken.length > 0) {
-        headers['Authorization'] = 'Firebase ' + authToken;
-    }
-}
-function addVersionHeader_(headers, firebaseVersion) {
-    headers['X-Firebase-Storage-Version'] =
-        'webjs/' + (firebaseVersion !== null && firebaseVersion !== void 0 ? firebaseVersion : 'AppManager');
-}
-function addGmpidHeader_(headers, appId) {
-    if (appId) {
-        headers['X-Firebase-GMPID'] = appId;
-    }
-}
-function addAppCheckHeader_(headers, appCheckToken) {
-    if (appCheckToken !== null) {
-        headers['X-Firebase-AppCheck'] = appCheckToken;
-    }
-}
-function makeRequest(requestInfo, appId, authToken, appCheckToken, requestFactory, firebaseVersion, retry = true) {
-    const queryPart = makeQueryString(requestInfo.urlParams);
-    const url = requestInfo.url + queryPart;
-    const headers = Object.assign({}, requestInfo.headers);
-    addGmpidHeader_(headers, appId);
-    addAuthHeader_(headers, authToken);
-    addVersionHeader_(headers, firebaseVersion);
-    addAppCheckHeader_(headers, appCheckToken);
-    return new NetworkRequest(url, requestInfo.method, headers, requestInfo.body, requestInfo.successCodes, requestInfo.additionalRetryCodes, requestInfo.handler, requestInfo.errorHandler, requestInfo.timeout, requestInfo.progressCallback, requestFactory, retry);
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function getBlobBuilder() {
-    if (typeof BlobBuilder !== 'undefined') {
-        return BlobBuilder;
-    }
-    else if (typeof WebKitBlobBuilder !== 'undefined') {
-        return WebKitBlobBuilder;
-    }
-    else {
-        return undefined;
-    }
-}
-/**
- * Concatenates one or more values together and converts them to a Blob.
- *
- * @param args The values that will make up the resulting blob.
- * @return The blob.
- */
-function getBlob$1(...args) {
-    const BlobBuilder = getBlobBuilder();
-    if (BlobBuilder !== undefined) {
-        const bb = new BlobBuilder();
-        for (let i = 0; i < args.length; i++) {
-            bb.append(args[i]);
-        }
-        return bb.getBlob();
-    }
-    else {
-        if (isNativeBlobDefined()) {
-            return new Blob(args);
-        }
-        else {
-            throw new StorageError(StorageErrorCode.UNSUPPORTED_ENVIRONMENT, "This browser doesn't seem to support creating Blobs");
-        }
-    }
-}
-/**
- * Slices the blob. The returned blob contains data from the start byte
- * (inclusive) till the end byte (exclusive). Negative indices cannot be used.
- *
- * @param blob The blob to be sliced.
- * @param start Index of the starting byte.
- * @param end Index of the ending byte.
- * @return The blob slice or null if not supported.
- */
-function sliceBlob(blob, start, end) {
-    if (blob.webkitSlice) {
-        return blob.webkitSlice(start, end);
-    }
-    else if (blob.mozSlice) {
-        return blob.mozSlice(start, end);
-    }
-    else if (blob.slice) {
-        return blob.slice(start, end);
-    }
-    return null;
-}
-
-/**
- * @license
- * Copyright 2021 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/** Converts a Base64 encoded string to a binary string. */
-function decodeBase64(encoded) {
-    if (typeof atob === 'undefined') {
-        throw missingPolyFill('base-64');
-    }
-    return atob(encoded);
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * An enumeration of the possible string formats for upload.
- * @public
- */
-const StringFormat = {
-    /**
-     * Indicates the string should be interpreted "raw", that is, as normal text.
-     * The string will be interpreted as UTF-16, then uploaded as a UTF-8 byte
-     * sequence.
-     * Example: The string 'Hello! \\ud83d\\ude0a' becomes the byte sequence
-     * 48 65 6c 6c 6f 21 20 f0 9f 98 8a
-     */
-    RAW: 'raw',
-    /**
-     * Indicates the string should be interpreted as base64-encoded data.
-     * Padding characters (trailing '='s) are optional.
-     * Example: The string 'rWmO++E6t7/rlw==' becomes the byte sequence
-     * ad 69 8e fb e1 3a b7 bf eb 97
-     */
-    BASE64: 'base64',
-    /**
-     * Indicates the string should be interpreted as base64url-encoded data.
-     * Padding characters (trailing '='s) are optional.
-     * Example: The string 'rWmO--E6t7_rlw==' becomes the byte sequence
-     * ad 69 8e fb e1 3a b7 bf eb 97
-     */
-    BASE64URL: 'base64url',
-    /**
-     * Indicates the string is a data URL, such as one obtained from
-     * canvas.toDataURL().
-     * Example: the string 'data:application/octet-stream;base64,aaaa'
-     * becomes the byte sequence
-     * 69 a6 9a
-     * (the content-type "application/octet-stream" is also applied, but can
-     * be overridden in the metadata object).
-     */
-    DATA_URL: 'data_url'
-};
-class StringData {
-    constructor(data, contentType) {
-        this.data = data;
-        this.contentType = contentType || null;
-    }
-}
-/**
- * @internal
- */
-function dataFromString(format, stringData) {
-    switch (format) {
-        case StringFormat.RAW:
-            return new StringData(utf8Bytes_(stringData));
-        case StringFormat.BASE64:
-        case StringFormat.BASE64URL:
-            return new StringData(base64Bytes_(format, stringData));
-        case StringFormat.DATA_URL:
-            return new StringData(dataURLBytes_(stringData), dataURLContentType_(stringData));
-        // do nothing
-    }
-    // assert(false);
-    throw unknown();
-}
-function utf8Bytes_(value) {
-    const b = [];
-    for (let i = 0; i < value.length; i++) {
-        let c = value.charCodeAt(i);
-        if (c <= 127) {
-            b.push(c);
-        }
-        else {
-            if (c <= 2047) {
-                b.push(192 | (c >> 6), 128 | (c & 63));
-            }
-            else {
-                if ((c & 64512) === 55296) {
-                    // The start of a surrogate pair.
-                    const valid = i < value.length - 1 && (value.charCodeAt(i + 1) & 64512) === 56320;
-                    if (!valid) {
-                        // The second surrogate wasn't there.
-                        b.push(239, 191, 189);
-                    }
-                    else {
-                        const hi = c;
-                        const lo = value.charCodeAt(++i);
-                        c = 65536 | ((hi & 1023) << 10) | (lo & 1023);
-                        b.push(240 | (c >> 18), 128 | ((c >> 12) & 63), 128 | ((c >> 6) & 63), 128 | (c & 63));
-                    }
-                }
-                else {
-                    if ((c & 64512) === 56320) {
-                        // Invalid low surrogate.
-                        b.push(239, 191, 189);
-                    }
-                    else {
-                        b.push(224 | (c >> 12), 128 | ((c >> 6) & 63), 128 | (c & 63));
-                    }
-                }
-            }
-        }
-    }
-    return new Uint8Array(b);
-}
-function percentEncodedBytes_(value) {
-    let decoded;
-    try {
-        decoded = decodeURIComponent(value);
-    }
-    catch (e) {
-        throw invalidFormat(StringFormat.DATA_URL, 'Malformed data URL.');
-    }
-    return utf8Bytes_(decoded);
-}
-function base64Bytes_(format, value) {
-    switch (format) {
-        case StringFormat.BASE64: {
-            const hasMinus = value.indexOf('-') !== -1;
-            const hasUnder = value.indexOf('_') !== -1;
-            if (hasMinus || hasUnder) {
-                const invalidChar = hasMinus ? '-' : '_';
-                throw invalidFormat(format, "Invalid character '" +
-                    invalidChar +
-                    "' found: is it base64url encoded?");
-            }
-            break;
-        }
-        case StringFormat.BASE64URL: {
-            const hasPlus = value.indexOf('+') !== -1;
-            const hasSlash = value.indexOf('/') !== -1;
-            if (hasPlus || hasSlash) {
-                const invalidChar = hasPlus ? '+' : '/';
-                throw invalidFormat(format, "Invalid character '" + invalidChar + "' found: is it base64 encoded?");
-            }
-            value = value.replace(/-/g, '+').replace(/_/g, '/');
-            break;
-        }
-        // do nothing
-    }
-    let bytes;
-    try {
-        bytes = decodeBase64(value);
-    }
-    catch (e) {
-        if (e.message.includes('polyfill')) {
-            throw e;
-        }
-        throw invalidFormat(format, 'Invalid character found');
-    }
-    const array = new Uint8Array(bytes.length);
-    for (let i = 0; i < bytes.length; i++) {
-        array[i] = bytes.charCodeAt(i);
-    }
-    return array;
-}
-class DataURLParts {
-    constructor(dataURL) {
-        this.base64 = false;
-        this.contentType = null;
-        const matches = dataURL.match(/^data:([^,]+)?,/);
-        if (matches === null) {
-            throw invalidFormat(StringFormat.DATA_URL, "Must be formatted 'data:[<mediatype>][;base64],<data>");
-        }
-        const middle = matches[1] || null;
-        if (middle != null) {
-            this.base64 = endsWith(middle, ';base64');
-            this.contentType = this.base64
-                ? middle.substring(0, middle.length - ';base64'.length)
-                : middle;
-        }
-        this.rest = dataURL.substring(dataURL.indexOf(',') + 1);
-    }
-}
-function dataURLBytes_(dataUrl) {
-    const parts = new DataURLParts(dataUrl);
-    if (parts.base64) {
-        return base64Bytes_(StringFormat.BASE64, parts.rest);
-    }
-    else {
-        return percentEncodedBytes_(parts.rest);
-    }
-}
-function dataURLContentType_(dataUrl) {
-    const parts = new DataURLParts(dataUrl);
-    return parts.contentType;
-}
-function endsWith(s, end) {
-    const longEnough = s.length >= end.length;
-    if (!longEnough) {
-        return false;
-    }
-    return s.substring(s.length - end.length) === end;
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @param opt_elideCopy - If true, doesn't copy mutable input data
- *     (e.g. Uint8Arrays). Pass true only if you know the objects will not be
- *     modified after this blob's construction.
- *
- * @internal
- */
-class FbsBlob {
-    constructor(data, elideCopy) {
-        let size = 0;
-        let blobType = '';
-        if (isNativeBlob(data)) {
-            this.data_ = data;
-            size = data.size;
-            blobType = data.type;
-        }
-        else if (data instanceof ArrayBuffer) {
-            if (elideCopy) {
-                this.data_ = new Uint8Array(data);
-            }
-            else {
-                this.data_ = new Uint8Array(data.byteLength);
-                this.data_.set(new Uint8Array(data));
-            }
-            size = this.data_.length;
-        }
-        else if (data instanceof Uint8Array) {
-            if (elideCopy) {
-                this.data_ = data;
-            }
-            else {
-                this.data_ = new Uint8Array(data.length);
-                this.data_.set(data);
-            }
-            size = data.length;
-        }
-        this.size_ = size;
-        this.type_ = blobType;
-    }
-    size() {
-        return this.size_;
-    }
-    type() {
-        return this.type_;
-    }
-    slice(startByte, endByte) {
-        if (isNativeBlob(this.data_)) {
-            const realBlob = this.data_;
-            const sliced = sliceBlob(realBlob, startByte, endByte);
-            if (sliced === null) {
-                return null;
-            }
-            return new FbsBlob(sliced);
-        }
-        else {
-            const slice = new Uint8Array(this.data_.buffer, startByte, endByte - startByte);
-            return new FbsBlob(slice, true);
-        }
-    }
-    static getBlob(...args) {
-        if (isNativeBlobDefined()) {
-            const blobby = args.map((val) => {
-                if (val instanceof FbsBlob) {
-                    return val.data_;
-                }
-                else {
-                    return val;
-                }
-            });
-            return new FbsBlob(getBlob$1.apply(null, blobby));
-        }
-        else {
-            const uint8Arrays = args.map((val) => {
-                if (isString(val)) {
-                    return dataFromString(StringFormat.RAW, val).data;
-                }
-                else {
-                    // Blobs don't exist, so this has to be a Uint8Array.
-                    return val.data_;
-                }
-            });
-            let finalLength = 0;
-            uint8Arrays.forEach((array) => {
-                finalLength += array.byteLength;
-            });
-            const merged = new Uint8Array(finalLength);
-            let index = 0;
-            uint8Arrays.forEach((array) => {
-                for (let i = 0; i < array.length; i++) {
-                    merged[index++] = array[i];
-                }
-            });
-            return new FbsBlob(merged, true);
-        }
-    }
-    uploadData() {
-        return this.data_;
-    }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Returns the Object resulting from parsing the given JSON, or null if the
- * given string does not represent a JSON object.
- */
-function jsonObjectOrNull(s) {
-    let obj;
-    try {
-        obj = JSON.parse(s);
-    }
-    catch (e) {
-        return null;
-    }
-    if (isNonArrayObject(obj)) {
-        return obj;
-    }
-    else {
-        return null;
-    }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * @fileoverview Contains helper methods for manipulating paths.
- */
-/**
- * @return Null if the path is already at the root.
- */
-function parent(path) {
-    if (path.length === 0) {
-        return null;
-    }
-    const index = path.lastIndexOf('/');
-    if (index === -1) {
-        return '';
-    }
-    const newPath = path.slice(0, index);
-    return newPath;
-}
-function child(path, childPath) {
-    const canonicalChildPath = childPath
-        .split('/')
-        .filter(component => component.length > 0)
-        .join('/');
-    if (path.length === 0) {
-        return canonicalChildPath;
-    }
-    else {
-        return path + '/' + canonicalChildPath;
-    }
-}
-/**
- * Returns the last component of a path.
- * '/foo/bar' -> 'bar'
- * '/foo/bar/baz/' -> 'baz/'
- * '/a' -> 'a'
- */
-function lastComponent(path) {
-    const index = path.lastIndexOf('/', path.length - 2);
-    if (index === -1) {
-        return path;
-    }
-    else {
-        return path.slice(index + 1);
-    }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function noXform_(metadata, value) {
-    return value;
-}
-class Mapping {
-    constructor(server, local, writable, xform) {
-        this.server = server;
-        this.local = local || server;
-        this.writable = !!writable;
-        this.xform = xform || noXform_;
-    }
-}
-let mappings_ = null;
-function xformPath(fullPath) {
-    if (!isString(fullPath) || fullPath.length < 2) {
-        return fullPath;
-    }
-    else {
-        return lastComponent(fullPath);
-    }
-}
-function getMappings() {
-    if (mappings_) {
-        return mappings_;
-    }
-    const mappings = [];
-    mappings.push(new Mapping('bucket'));
-    mappings.push(new Mapping('generation'));
-    mappings.push(new Mapping('metageneration'));
-    mappings.push(new Mapping('name', 'fullPath', true));
-    function mappingsXformPath(_metadata, fullPath) {
-        return xformPath(fullPath);
-    }
-    const nameMapping = new Mapping('name');
-    nameMapping.xform = mappingsXformPath;
-    mappings.push(nameMapping);
-    /**
-     * Coerces the second param to a number, if it is defined.
-     */
-    function xformSize(_metadata, size) {
-        if (size !== undefined) {
-            return Number(size);
-        }
-        else {
-            return size;
-        }
-    }
-    const sizeMapping = new Mapping('size');
-    sizeMapping.xform = xformSize;
-    mappings.push(sizeMapping);
-    mappings.push(new Mapping('timeCreated'));
-    mappings.push(new Mapping('updated'));
-    mappings.push(new Mapping('md5Hash', null, true));
-    mappings.push(new Mapping('cacheControl', null, true));
-    mappings.push(new Mapping('contentDisposition', null, true));
-    mappings.push(new Mapping('contentEncoding', null, true));
-    mappings.push(new Mapping('contentLanguage', null, true));
-    mappings.push(new Mapping('contentType', null, true));
-    mappings.push(new Mapping('metadata', 'customMetadata', true));
-    mappings_ = mappings;
-    return mappings_;
-}
-function addRef(metadata, service) {
-    function generateRef() {
-        const bucket = metadata['bucket'];
-        const path = metadata['fullPath'];
-        const loc = new Location(bucket, path);
-        return service._makeStorageReference(loc);
-    }
-    Object.defineProperty(metadata, 'ref', { get: generateRef });
-}
-function fromResource(service, resource, mappings) {
-    const metadata = {};
-    metadata['type'] = 'file';
-    const len = mappings.length;
-    for (let i = 0; i < len; i++) {
-        const mapping = mappings[i];
-        metadata[mapping.local] = mapping.xform(metadata, resource[mapping.server]);
-    }
-    addRef(metadata, service);
-    return metadata;
-}
-function fromResourceString(service, resourceString, mappings) {
-    const obj = jsonObjectOrNull(resourceString);
-    if (obj === null) {
-        return null;
-    }
-    const resource = obj;
-    return fromResource(service, resource, mappings);
-}
-function downloadUrlFromResourceString(metadata, resourceString, host, protocol) {
-    const obj = jsonObjectOrNull(resourceString);
-    if (obj === null) {
-        return null;
-    }
-    if (!isString(obj['downloadTokens'])) {
-        // This can happen if objects are uploaded through GCS and retrieved
-        // through list, so we don't want to throw an Error.
-        return null;
-    }
-    const tokens = obj['downloadTokens'];
-    if (tokens.length === 0) {
-        return null;
-    }
-    const encode = encodeURIComponent;
-    const tokensList = tokens.split(',');
-    const urls = tokensList.map((token) => {
-        const bucket = metadata['bucket'];
-        const path = metadata['fullPath'];
-        const urlPart = '/b/' + encode(bucket) + '/o/' + encode(path);
-        const base = makeUrl(urlPart, host, protocol);
-        const queryString = makeQueryString({
-            alt: 'media',
-            token
-        });
-        return base + queryString;
-    });
-    return urls[0];
-}
-function toResourceString(metadata, mappings) {
-    const resource = {};
-    const len = mappings.length;
-    for (let i = 0; i < len; i++) {
-        const mapping = mappings[i];
-        if (mapping.writable) {
-            resource[mapping.server] = metadata[mapping.local];
-        }
-    }
-    return JSON.stringify(resource);
-}
-
-/**
- * Contains a fully specified request.
- *
- * @param I - the type of the backend's network response.
- * @param O - the output response type used by the rest of the SDK.
- */
-class RequestInfo {
-    constructor(url, method, 
-    /**
-     * Returns the value with which to resolve the request's promise. Only called
-     * if the request is successful. Throw from this function to reject the
-     * returned Request's promise with the thrown error.
-     * Note: The XhrIo passed to this function may be reused after this callback
-     * returns. Do not keep a reference to it in any way.
-     */
-    handler, timeout) {
-        this.url = url;
-        this.method = method;
-        this.handler = handler;
-        this.timeout = timeout;
-        this.urlParams = {};
-        this.headers = {};
-        this.body = null;
-        this.errorHandler = null;
-        /**
-         * Called with the current number of bytes uploaded and total size (-1 if not
-         * computable) of the request body (i.e. used to report upload progress).
-         */
-        this.progressCallback = null;
-        this.successCodes = [200];
-        this.additionalRetryCodes = [];
-    }
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Throws the UNKNOWN StorageError if cndn is false.
- */
-function handlerCheck(cndn) {
-    if (!cndn) {
-        throw unknown();
-    }
-}
-function metadataHandler(service, mappings) {
-    function handler(xhr, text) {
-        const metadata = fromResourceString(service, text, mappings);
-        handlerCheck(metadata !== null);
-        return metadata;
-    }
-    return handler;
-}
-function downloadUrlHandler(service, mappings) {
-    function handler(xhr, text) {
-        const metadata = fromResourceString(service, text, mappings);
-        handlerCheck(metadata !== null);
-        return downloadUrlFromResourceString(metadata, text, service.host, service._protocol);
-    }
-    return handler;
-}
-function sharedErrorHandler(location) {
-    function errorHandler(xhr, err) {
-        let newErr;
-        if (xhr.getStatus() === 401) {
-            if (
-            // This exact message string is the only consistent part of the
-            // server's error response that identifies it as an App Check error.
-            xhr.getErrorText().includes('Firebase App Check token is invalid')) {
-                newErr = unauthorizedApp();
-            }
-            else {
-                newErr = unauthenticated();
-            }
-        }
-        else {
-            if (xhr.getStatus() === 402) {
-                newErr = quotaExceeded(location.bucket);
-            }
-            else {
-                if (xhr.getStatus() === 403) {
-                    newErr = unauthorized(location.path);
-                }
-                else {
-                    newErr = err;
-                }
-            }
-        }
-        newErr.status = xhr.getStatus();
-        newErr.serverResponse = err.serverResponse;
-        return newErr;
-    }
-    return errorHandler;
-}
-function objectErrorHandler(location) {
-    const shared = sharedErrorHandler(location);
-    function errorHandler(xhr, err) {
-        let newErr = shared(xhr, err);
-        if (xhr.getStatus() === 404) {
-            newErr = objectNotFound(location.path);
-        }
-        newErr.serverResponse = err.serverResponse;
-        return newErr;
-    }
-    return errorHandler;
-}
-function getDownloadUrl(service, location, mappings) {
-    const urlPart = location.fullServerUrl();
-    const url = makeUrl(urlPart, service.host, service._protocol);
-    const method = 'GET';
-    const timeout = service.maxOperationRetryTime;
-    const requestInfo = new RequestInfo(url, method, downloadUrlHandler(service, mappings), timeout);
-    requestInfo.errorHandler = objectErrorHandler(location);
-    return requestInfo;
-}
-function determineContentType_(metadata, blob) {
-    return ((metadata && metadata['contentType']) ||
-        (blob && blob.type()) ||
-        'application/octet-stream');
-}
-function metadataForUpload_(location, blob, metadata) {
-    const metadataClone = Object.assign({}, metadata);
-    metadataClone['fullPath'] = location.path;
-    metadataClone['size'] = blob.size();
-    if (!metadataClone['contentType']) {
-        metadataClone['contentType'] = determineContentType_(null, blob);
-    }
-    return metadataClone;
-}
-/**
- * Prepare RequestInfo for uploads as Content-Type: multipart.
- */
-function multipartUpload(service, location, mappings, blob, metadata) {
-    const urlPart = location.bucketOnlyServerUrl();
-    const headers = {
-        'X-Goog-Upload-Protocol': 'multipart'
-    };
-    function genBoundary() {
-        let str = '';
-        for (let i = 0; i < 2; i++) {
-            str = str + Math.random().toString().slice(2);
-        }
-        return str;
-    }
-    const boundary = genBoundary();
-    headers['Content-Type'] = 'multipart/related; boundary=' + boundary;
-    const metadata_ = metadataForUpload_(location, blob, metadata);
-    const metadataString = toResourceString(metadata_, mappings);
-    const preBlobPart = '--' +
-        boundary +
-        '\r\n' +
-        'Content-Type: application/json; charset=utf-8\r\n\r\n' +
-        metadataString +
-        '\r\n--' +
-        boundary +
-        '\r\n' +
-        'Content-Type: ' +
-        metadata_['contentType'] +
-        '\r\n\r\n';
-    const postBlobPart = '\r\n--' + boundary + '--';
-    const body = FbsBlob.getBlob(preBlobPart, blob, postBlobPart);
-    if (body === null) {
-        throw cannotSliceBlob();
-    }
-    const urlParams = { name: metadata_['fullPath'] };
-    const url = makeUrl(urlPart, service.host, service._protocol);
-    const method = 'POST';
-    const timeout = service.maxUploadRetryTime;
-    const requestInfo = new RequestInfo(url, method, metadataHandler(service, mappings), timeout);
-    requestInfo.urlParams = urlParams;
-    requestInfo.headers = headers;
-    requestInfo.body = body.uploadData();
-    requestInfo.errorHandler = sharedErrorHandler(location);
-    return requestInfo;
-}
-/**
- * Network layer for browsers. We use this instead of goog.net.XhrIo because
- * goog.net.XhrIo is hyuuuuge and doesn't work in React Native on Android.
- */
-class XhrConnection {
-    constructor() {
-        this.sent_ = false;
-        this.xhr_ = new XMLHttpRequest();
-        this.initXhr();
-        this.errorCode_ = ErrorCode$1.NO_ERROR;
-        this.sendPromise_ = new Promise(resolve => {
-            this.xhr_.addEventListener('abort', () => {
-                this.errorCode_ = ErrorCode$1.ABORT;
-                resolve();
-            });
-            this.xhr_.addEventListener('error', () => {
-                this.errorCode_ = ErrorCode$1.NETWORK_ERROR;
-                resolve();
-            });
-            this.xhr_.addEventListener('load', () => {
-                resolve();
-            });
-        });
-    }
-    send(url, method, body, headers) {
-        if (this.sent_) {
-            throw internalError('cannot .send() more than once');
-        }
-        this.sent_ = true;
-        this.xhr_.open(method, url, true);
-        if (headers !== undefined) {
-            for (const key in headers) {
-                if (headers.hasOwnProperty(key)) {
-                    this.xhr_.setRequestHeader(key, headers[key].toString());
-                }
-            }
-        }
-        if (body !== undefined) {
-            this.xhr_.send(body);
-        }
-        else {
-            this.xhr_.send();
-        }
-        return this.sendPromise_;
-    }
-    getErrorCode() {
-        if (!this.sent_) {
-            throw internalError('cannot .getErrorCode() before sending');
-        }
-        return this.errorCode_;
-    }
-    getStatus() {
-        if (!this.sent_) {
-            throw internalError('cannot .getStatus() before sending');
-        }
-        try {
-            return this.xhr_.status;
-        }
-        catch (e) {
-            return -1;
-        }
-    }
-    getResponse() {
-        if (!this.sent_) {
-            throw internalError('cannot .getResponse() before sending');
-        }
-        return this.xhr_.response;
-    }
-    getErrorText() {
-        if (!this.sent_) {
-            throw internalError('cannot .getErrorText() before sending');
-        }
-        return this.xhr_.statusText;
-    }
-    /** Aborts the request. */
-    abort() {
-        this.xhr_.abort();
-    }
-    getResponseHeader(header) {
-        return this.xhr_.getResponseHeader(header);
-    }
-    addUploadProgressListener(listener) {
-        if (this.xhr_.upload != null) {
-            this.xhr_.upload.addEventListener('progress', listener);
-        }
-    }
-    removeUploadProgressListener(listener) {
-        if (this.xhr_.upload != null) {
-            this.xhr_.upload.removeEventListener('progress', listener);
-        }
-    }
-}
-class XhrTextConnection extends XhrConnection {
-    initXhr() {
-        this.xhr_.responseType = 'text';
-    }
-}
-function newTextConnection() {
-    return new XhrTextConnection();
-}
-
-/**
- * @license
- * Copyright 2019 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Provides methods to interact with a bucket in the Firebase Storage service.
- * @internal
- * @param _location - An fbs.location, or the URL at
- *     which to base this object, in one of the following forms:
- *         gs://<bucket>/<object-path>
- *         http[s]://firebasestorage.googleapis.com/
- *                     <api-version>/b/<bucket>/o/<object-path>
- *     Any query or fragment strings will be ignored in the http[s]
- *     format. If no value is passed, the storage object will use a URL based on
- *     the project ID of the base firebase.App instance.
- */
-class Reference {
-    constructor(_service, location) {
-        this._service = _service;
-        if (location instanceof Location) {
-            this._location = location;
-        }
-        else {
-            this._location = Location.makeFromUrl(location, _service.host);
-        }
-    }
-    /**
-     * Returns the URL for the bucket and path this object references,
-     *     in the form gs://<bucket>/<object-path>
-     * @override
-     */
-    toString() {
-        return 'gs://' + this._location.bucket + '/' + this._location.path;
-    }
-    _newRef(service, location) {
-        return new Reference(service, location);
-    }
-    /**
-     * A reference to the root of this object's bucket.
-     */
-    get root() {
-        const location = new Location(this._location.bucket, '');
-        return this._newRef(this._service, location);
-    }
-    /**
-     * The name of the bucket containing this reference's object.
-     */
-    get bucket() {
-        return this._location.bucket;
-    }
-    /**
-     * The full path of this object.
-     */
-    get fullPath() {
-        return this._location.path;
-    }
-    /**
-     * The short name of this object, which is the last component of the full path.
-     * For example, if fullPath is 'full/path/image.png', name is 'image.png'.
-     */
-    get name() {
-        return lastComponent(this._location.path);
-    }
-    /**
-     * The `StorageService` instance this `StorageReference` is associated with.
-     */
-    get storage() {
-        return this._service;
-    }
-    /**
-     * A `StorageReference` pointing to the parent location of this `StorageReference`, or null if
-     * this reference is the root.
-     */
-    get parent() {
-        const newPath = parent(this._location.path);
-        if (newPath === null) {
-            return null;
-        }
-        const location = new Location(this._location.bucket, newPath);
-        return new Reference(this._service, location);
-    }
-    /**
-     * Utility function to throw an error in methods that do not accept a root reference.
-     */
-    _throwIfRoot(name) {
-        if (this._location.path === '') {
-            throw invalidRootOperation(name);
-        }
-    }
-}
-/**
- * Uploads data to this object's location.
- * The upload is not resumable.
- *
- * @param ref - StorageReference where data should be uploaded.
- * @param data - The data to upload.
- * @param metadata - Metadata for the newly uploaded data.
- * @returns A Promise containing an UploadResult
- */
-function uploadBytes$1(ref, data, metadata) {
-    ref._throwIfRoot('uploadBytes');
-    const requestInfo = multipartUpload(ref.storage, ref._location, getMappings(), new FbsBlob(data, true), metadata);
-    return ref.storage
-        .makeRequestWithTokens(requestInfo, newTextConnection)
-        .then(finalMetadata => {
-        return {
-            metadata: finalMetadata,
-            ref
-        };
-    });
-}
-/**
- * Returns the download URL for the given Reference.
- * @public
- * @returns A `Promise` that resolves with the download
- *     URL for this object.
- */
-function getDownloadURL$1(ref) {
-    ref._throwIfRoot('getDownloadURL');
-    const requestInfo = getDownloadUrl(ref.storage, ref._location, getMappings());
-    return ref.storage
-        .makeRequestWithTokens(requestInfo, newTextConnection)
-        .then(url => {
-        if (url === null) {
-            throw noDownloadURL();
-        }
-        return url;
-    });
-}
-/**
- * Returns reference for object obtained by appending `childPath` to `ref`.
- *
- * @param ref - StorageReference to get child of.
- * @param childPath - Child path from provided ref.
- * @returns A reference to the object obtained by
- * appending childPath, removing any duplicate, beginning, or trailing
- * slashes.
- *
- */
-function _getChild$1(ref, childPath) {
-    const newPath = child(ref._location.path, childPath);
-    const location = new Location(ref._location.bucket, newPath);
-    return new Reference(ref.storage, location);
-}
-
-/**
- * @license
- * Copyright 2017 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-function isUrl(path) {
-    return /^[A-Za-z]+:\/\//.test(path);
-}
-/**
- * Returns a firebaseStorage.Reference for the given url.
- */
-function refFromURL(service, url) {
-    return new Reference(service, url);
-}
-/**
- * Returns a firebaseStorage.Reference for the given path in the default
- * bucket.
- */
-function refFromPath(ref, path) {
-    if (ref instanceof FirebaseStorageImpl) {
-        const service = ref;
-        if (service._bucket == null) {
-            throw noDefaultBucket();
-        }
-        const reference = new Reference(service, service._bucket);
-        if (path != null) {
-            return refFromPath(reference, path);
-        }
-        else {
-            return reference;
-        }
-    }
-    else {
-        // ref is a Reference
-        if (path !== undefined) {
-            return _getChild$1(ref, path);
-        }
-        else {
-            return ref;
-        }
-    }
-}
-function ref$1(serviceOrRef, pathOrUrl) {
-    if (pathOrUrl && isUrl(pathOrUrl)) {
-        if (serviceOrRef instanceof FirebaseStorageImpl) {
-            return refFromURL(serviceOrRef, pathOrUrl);
-        }
-        else {
-            throw invalidArgument('To use ref(service, url), the first argument must be a Storage instance.');
-        }
-    }
-    else {
-        return refFromPath(serviceOrRef, pathOrUrl);
-    }
-}
-function extractBucket(host, config) {
-    const bucketString = config === null || config === void 0 ? void 0 : config[CONFIG_STORAGE_BUCKET_KEY];
-    if (bucketString == null) {
-        return null;
-    }
-    return Location.makeFromBucketSpec(bucketString, host);
-}
-function connectStorageEmulator$1(storage, host, port, options = {}) {
-    storage.host = `${host}:${port}`;
-    storage._protocol = 'http';
-    const { mockUserToken } = options;
-    if (mockUserToken) {
-        storage._overrideAuthToken =
-            typeof mockUserToken === 'string'
-                ? mockUserToken
-                : createMockUserToken(mockUserToken, storage.app.options.projectId);
-    }
-}
-/**
- * A service that provides Firebase Storage Reference instances.
- * @param opt_url - gs:// url to a custom Storage Bucket
- *
- * @internal
- */
-class FirebaseStorageImpl {
-    constructor(
-    /**
-     * FirebaseApp associated with this StorageService instance.
-     */
-    app, _authProvider, 
-    /**
-     * @internal
-     */
-    _appCheckProvider, 
-    /**
-     * @internal
-     */
-    _url, _firebaseVersion) {
-        this.app = app;
-        this._authProvider = _authProvider;
-        this._appCheckProvider = _appCheckProvider;
-        this._url = _url;
-        this._firebaseVersion = _firebaseVersion;
-        this._bucket = null;
-        /**
-         * This string can be in the formats:
-         * - host
-         * - host:port
-         */
-        this._host = DEFAULT_HOST;
-        this._protocol = 'https';
-        this._appId = null;
-        this._deleted = false;
-        this._maxOperationRetryTime = DEFAULT_MAX_OPERATION_RETRY_TIME;
-        this._maxUploadRetryTime = DEFAULT_MAX_UPLOAD_RETRY_TIME;
-        this._requests = new Set();
-        if (_url != null) {
-            this._bucket = Location.makeFromBucketSpec(_url, this._host);
-        }
-        else {
-            this._bucket = extractBucket(this._host, this.app.options);
-        }
-    }
-    /**
-     * The host string for this service, in the form of `host` or
-     * `host:port`.
-     */
-    get host() {
-        return this._host;
-    }
-    set host(host) {
-        this._host = host;
-        if (this._url != null) {
-            this._bucket = Location.makeFromBucketSpec(this._url, host);
-        }
-        else {
-            this._bucket = extractBucket(host, this.app.options);
-        }
-    }
-    /**
-     * The maximum time to retry uploads in milliseconds.
-     */
-    get maxUploadRetryTime() {
-        return this._maxUploadRetryTime;
-    }
-    set maxUploadRetryTime(time) {
-        validateNumber('time', 
-        /* minValue=*/ 0, 
-        /* maxValue= */ Number.POSITIVE_INFINITY, time);
-        this._maxUploadRetryTime = time;
-    }
-    /**
-     * The maximum time to retry operations other than uploads or downloads in
-     * milliseconds.
-     */
-    get maxOperationRetryTime() {
-        return this._maxOperationRetryTime;
-    }
-    set maxOperationRetryTime(time) {
-        validateNumber('time', 
-        /* minValue=*/ 0, 
-        /* maxValue= */ Number.POSITIVE_INFINITY, time);
-        this._maxOperationRetryTime = time;
-    }
-    async _getAuthToken() {
-        if (this._overrideAuthToken) {
-            return this._overrideAuthToken;
-        }
-        const auth = this._authProvider.getImmediate({ optional: true });
-        if (auth) {
-            const tokenData = await auth.getToken();
-            if (tokenData !== null) {
-                return tokenData.accessToken;
-            }
-        }
-        return null;
-    }
-    async _getAppCheckToken() {
-        const appCheck = this._appCheckProvider.getImmediate({ optional: true });
-        if (appCheck) {
-            const result = await appCheck.getToken();
-            // TODO: What do we want to do if there is an error getting the token?
-            // Context: appCheck.getToken() will never throw even if an error happened. In the error case, a dummy token will be
-            // returned along with an error field describing the error. In general, we shouldn't care about the error condition and just use
-            // the token (actual or dummy) to send requests.
-            return result.token;
-        }
-        return null;
-    }
-    /**
-     * Stop running requests and prevent more from being created.
-     */
-    _delete() {
-        if (!this._deleted) {
-            this._deleted = true;
-            this._requests.forEach(request => request.cancel());
-            this._requests.clear();
-        }
-        return Promise.resolve();
-    }
-    /**
-     * Returns a new firebaseStorage.Reference object referencing this StorageService
-     * at the given Location.
-     */
-    _makeStorageReference(loc) {
-        return new Reference(this, loc);
-    }
-    /**
-     * @param requestInfo - HTTP RequestInfo object
-     * @param authToken - Firebase auth token
-     */
-    _makeRequest(requestInfo, requestFactory, authToken, appCheckToken, retry = true) {
-        if (!this._deleted) {
-            const request = makeRequest(requestInfo, this._appId, authToken, appCheckToken, requestFactory, this._firebaseVersion, retry);
-            this._requests.add(request);
-            // Request removes itself from set when complete.
-            request.getPromise().then(() => this._requests.delete(request), () => this._requests.delete(request));
-            return request;
-        }
-        else {
-            return new FailRequest(appDeleted());
-        }
-    }
-    async makeRequestWithTokens(requestInfo, requestFactory) {
-        const [authToken, appCheckToken] = await Promise.all([
-            this._getAuthToken(),
-            this._getAppCheckToken()
-        ]);
-        return this._makeRequest(requestInfo, requestFactory, authToken, appCheckToken).getPromise();
-    }
-}
-
-const name$3 = "@firebase/storage";
-const version$3 = "0.12.0";
-
-/**
- * @license
- * Copyright 2020 Google LLC
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *   http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
-/**
- * Type constant for Firebase Storage.
- */
-const STORAGE_TYPE = 'storage';
-/**
- * Uploads data to this object's location.
- * The upload is not resumable.
- * @public
- * @param ref - {@link StorageReference} where data should be uploaded.
- * @param data - The data to upload.
- * @param metadata - Metadata for the data to upload.
- * @returns A Promise containing an UploadResult
- */
-function uploadBytes(ref, data, metadata) {
-    ref = getModularInstance(ref);
-    return uploadBytes$1(ref, data, metadata);
-}
-/**
- * Returns the download URL for the given {@link StorageReference}.
- * @public
- * @param ref - {@link StorageReference} to get the download URL for.
- * @returns A `Promise` that resolves with the download
- *     URL for this object.
- */
-function getDownloadURL(ref) {
-    ref = getModularInstance(ref);
-    return getDownloadURL$1(ref);
-}
-function ref(serviceOrRef, pathOrUrl) {
-    serviceOrRef = getModularInstance(serviceOrRef);
-    return ref$1(serviceOrRef, pathOrUrl);
-}
-/**
- * Gets a {@link FirebaseStorage} instance for the given Firebase app.
- * @public
- * @param app - Firebase app to get {@link FirebaseStorage} instance for.
- * @param bucketUrl - The gs:// url to your Firebase Storage Bucket.
- * If not passed, uses the app's default Storage Bucket.
- * @returns A {@link FirebaseStorage} instance.
- */
-function getStorage(app = getApp(), bucketUrl) {
-    app = getModularInstance(app);
-    const storageProvider = _getProvider(app, STORAGE_TYPE);
-    const storageInstance = storageProvider.getImmediate({
-        identifier: bucketUrl
-    });
-    const emulator = getDefaultEmulatorHostnameAndPort('storage');
-    if (emulator) {
-        connectStorageEmulator(storageInstance, ...emulator);
-    }
-    return storageInstance;
-}
-/**
- * Modify this {@link FirebaseStorage} instance to communicate with the Cloud Storage emulator.
- *
- * @param storage - The {@link FirebaseStorage} instance
- * @param host - The emulator host (ex: localhost)
- * @param port - The emulator port (ex: 5001)
- * @param options - Emulator options. `options.mockUserToken` is the mock auth
- * token to use for unit testing Security Rules.
- * @public
- */
-function connectStorageEmulator(storage, host, port, options = {}) {
-    connectStorageEmulator$1(storage, host, port, options);
-}
-
-/**
- * Cloud Storage for Firebase
- *
- * @packageDocumentation
- */
-function factory$1(container, { instanceIdentifier: url }) {
-    const app = container.getProvider('app').getImmediate();
-    const authProvider = container.getProvider('auth-internal');
-    const appCheckProvider = container.getProvider('app-check-internal');
-    return new FirebaseStorageImpl(app, authProvider, appCheckProvider, url, SDK_VERSION);
-}
-function registerStorage() {
-    _registerComponent(new Component(STORAGE_TYPE, factory$1, "PUBLIC" /* ComponentType.PUBLIC */).setMultipleInstances(true));
-    //RUNTIME_ENV will be replaced during the compilation to "node" for nodejs and an empty string for browser
-    registerVersion(name$3, version$3, '');
-    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-    registerVersion(name$3, version$3, 'esm2017');
-}
-registerStorage();
-
-function resizeImage(file, width, height, quality) {
-	return new Promise((resolve, reject) => {
-
-		if (isNaN(width)) {
-			reject('넓이를 숫자로 입력하세요.');
-		}
-
-		if (isNaN(height)) {
-			reject('높이를 숫자로 입력하세요.');	
-		}
-
-		const reader = new FileReader();
-
-		reader.readAsDataURL(file);
-
-		reader.onload = function() {
-			const image = new Image();
-
-			image.src = reader.result;
-
-			image.onload = function() {
-				const canvas = document.createElement('canvas');
-				canvas.width = width;
-				canvas.height = height;
-				const ctx = canvas.getContext('2d');
-				if (image.width / image.height >= width / height) {
-					const w = width * image.width / image.height;
-					const x = (w - width) / 2 * -1;
-					ctx.drawImage(image, x, 0, w, height);
-				} else {
-					const h = height * image.height / image.width;
-					const y = (h - height) / 2 * -1;
-					ctx.drawImage(image, 0, y, width, h);
-				}
-				try {
-					canvas.toBlob(blob => {
-						resolve(blob);
-					}, file.type, !quality ? .8 : quality);
-				} catch(error) {
-					reject(error);
-				}
-			};
-
-			image.onerror = function(event) {
-				reject(event);
-			};
-		};
-
-		reader.onerror = function(event) {
-			reject(event);
-		};
-	})
-}
-
-const EditProfile = async () => {
-
-    const auth = getAuth();
-    
-    await auth.authStateReady();
-    
-    const currentUser = auth.currentUser;
-
-    console.log('currentUser => ', currentUser.photoURL);
-
-    function editProfile(e) {
-        e.preventDefault();
-        if (!currentUser) return;
-        updateProfile(currentUser, {
-            photoURL: document.forms['edit-profile-form'].elements['photo-url'].value,
-            displayName: document.forms['edit-profile-form'].elements['display-name'].value
-        })
-        .then(() => {
-            alert('수정되었습니다.');
-            // location.reload('#me')
-            // location.href = '#me'
-            history.back();
-        })
-        .catch(error => { console.log(error); });
-    }
-
-    function uploadPhoto(e) {
-
-        if (e.target.files.length !== 1) return false;
-        const file = e.target.files[0];
-
-        // 이미지인지 확인
-        if (file.type.indexOf('image') !== 0) {
-            alert('이미지가 아닙니다.');
-            return
-        }
-
-        const ext = file.type.split('/').at(-1);
-
-        resizeImage(file, 300, 300)
-            .then(data => {
-                const storage = getStorage();
-                const storageRef = ref(storage, `users/profile/${dayjs().format('YYYYMMDD_HHmmss_SSS')}_${currentUser.uid}.${ext}`);
-                //uploadBytes(storageRef, data, { cacheControl: 'private, max-age=108000' })
-                uploadBytes(storageRef, data)
-                    .then(() => {
-                        getDownloadURL(storageRef)
-                            .then((url) => {
-                                document.querySelector('#profile-preview img')?.remove();
-                                document.querySelector('#profile-preview span')?.remove();
-                                j$1(
-                                    x$1`<img src="${url}" class="rounded-full w-full h-full block">`,
-                                    document.querySelector('#profile-preview')
-                                );
-                                document.querySelector('[name="photo-url"]').setAttribute('value', url);
-                            });
-                    });
-            })
-            .catch(error => {
-                console.log(error);
-            });
-            
-    }
-
-    function deletePhoto() {
-        document.querySelector('#profile-preview img')?.remove();
-        j$1(
-            x$1`<span class="text-slate-400">${ UserCircleSolidIcon({ classList: 'size-32' }) }</span>`,
-            document.getElementById('profile-preview')
-        );
-        document.querySelector('[name="photo-url"]').setAttribute('value', "");
-    }
-
-    j$1((x$1`
-        <div class="me edit-profile p-5">
-            <header class="flex items-center mb-5 h-10 w-full">
-				<div class="min-w-[20%]"><a href="#" @click=${e => {
-                    e.preventDefault();
-                    history.back();
-                }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">프로필 수정</h1></div>
-				<div class="min-w-[20%] flex justify-end"></div>
-			</header>
-            <form action="#" method="post" id="edit-profile-form" @submit=${editProfile}>
-                <div class="mb-3">
-                    <div id="profile-preview" class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden">${
-                        currentUser
-                            ? currentUser.photoURL
-                                ? x$1`<img src=${currentUser.photoURL} class="rounded-full w-full h-full block">`
-                                : x$1`<span class="text-slate-400">${ UserCircleSolidIcon({ classList: 'size-32' }) }</span>`
-                            : x$1`${T$1}`
-                    }</div>
-                    <div class="flex justify-center mt-4 mx-auto">
-                        <button type="button" class="bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
-                        <button type="button" class="cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
-                            <span>업로드</span>
-                        </button>
-                        <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${ uploadPhoto }>
-                    </div>
-                    <input type="hidden" name="photo-url" value="${currentUser.photoURL}">
-                </div>
-                <div class="mb-3">
-                    <label>
-                        <input type="text" name="display-name" class="border-slate-200 w-full rounded-lg" placeholder="이름 또는 닉네임" required value="${currentUser.displayName}">
-                    </label>
-                </div>
-                <div class="mb-3">
-                    <label>
-                        <input type="email" name="email" class="border-slate-200 w-full rounded-lg disabled:bg-slate-100" placeholder="이메일" disabled value="${currentUser.email}">
-                    </label>
-                </div>
-                <div class="mt-5">
-                    <button type="submit" class="p-3 bg-purple-500 text-white rounded-lg w-full">저장</button>
-                </div>
-            </form>
-        </div>
-    `), document.getElementById('app'));
-};
-
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /*
@@ -12751,7 +10226,7 @@ function Yd(a,b){if(Y(b))throw Error("division by zero");if(Y(a))return new ae$1
 b.ea()));d=Math.ceil(Math.log(c)/Math.LN2);d=48>=d?1:Math.pow(2,d-48);f=U(c);for(h=f.R(b);X(h)||0<h.X(a);)c-=d,f=U(c),h=f.R(b);Y(f)&&(f=Wd);e=e.add(f);a=Zd(a,h);}return new ae$1(e,a)}k.gb=function(a){return Yd(this,a).h};k.and=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)&a.D(d);return new T(c,this.h&a.h)};k.or=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)|a.D(d);return new T(c,this.h|a.h)};
 k.xor=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)^a.D(d);return new T(c,this.h^a.h)};function be(a){for(var b=a.g.length+1,c=[],d=0;d<b;d++)c[d]=a.D(d)<<1|a.D(d-1)>>>31;return new T(c,a.h)}function Z(a,b){var c=b>>5;b%=32;for(var d=a.g.length-c,e=[],f=0;f<d;f++)e[f]=0<b?a.D(f+c)>>>b|a.D(f+c+1)<<32-b:a.D(f+c);return new T(e,a.h)}Od.prototype.createWebChannel=Od.prototype.g;Q.prototype.send=Q.prototype.u;Q.prototype.open=Q.prototype.m;Q.prototype.close=Q.prototype.close;Sb.NO_ERROR=0;Sb.TIMEOUT=8;Sb.HTTP_ERROR=6;Tb.COMPLETE="complete";Wb.EventType=Xb;Xb.OPEN="a";Xb.CLOSE="b";Xb.ERROR="c";Xb.MESSAGE="d";B.prototype.listen=B.prototype.O;P.prototype.listenOnce=P.prototype.P;P.prototype.getLastError=P.prototype.Sa;P.prototype.getLastErrorCode=P.prototype.Ia;P.prototype.getStatus=P.prototype.da;P.prototype.getResponseJson=P.prototype.Wa;
 P.prototype.getResponseText=P.prototype.ja;P.prototype.send=P.prototype.ha;P.prototype.setWithCredentials=P.prototype.Oa;S$1.prototype.digest=S$1.prototype.l;S$1.prototype.reset=S$1.prototype.reset;S$1.prototype.update=S$1.prototype.j;T.prototype.add=T.prototype.add;T.prototype.multiply=T.prototype.R;T.prototype.modulo=T.prototype.gb;T.prototype.compare=T.prototype.X;T.prototype.toNumber=T.prototype.ea;T.prototype.toString=T.prototype.toString;T.prototype.getBits=T.prototype.D;T.fromNumber=U;T.fromString=Vd;
-var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;
+var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;
 
 const w = "@firebase/firestore";
 
@@ -15741,6 +13216,12 @@ function __PRIVATE_canonifyValue(e) {
     }(e.mapValue) : fail();
 }
 
+function __PRIVATE_refValue(e, t) {
+    return {
+        referenceValue: `projects/${e.projectId}/databases/${e.database}/documents/${t.path.canonicalString()}`
+    };
+}
+
 /** Returns true if `value` is an IntegerValue . */ function isInteger(e) {
     return !!e && "integerValue" in e;
 }
@@ -16588,6 +14069,11 @@ function __PRIVATE_isCollectionGroupQuery(e) {
         // Now return as a LimitType.First query.
         return __PRIVATE_newTarget(e.path, e.collectionGroup, t, e.filters, e.limit, n, r);
     }
+}
+
+function __PRIVATE_queryWithAddedFilter(e, t) {
+    const n = e.filters.concat([ t ]);
+    return new __PRIVATE_QueryImpl(e.path, e.collectionGroup, e.explicitOrderBy.slice(), n, e.limit, e.limitType, e.startAt, e.endAt);
 }
 
 function __PRIVATE_queryWithLimit(e, t, n) {
@@ -21471,17 +18957,17 @@ class __PRIVATE_RestConnection {
             _.setWithCredentials(!0), _.listenOnce(EventType.COMPLETE, (() => {
                 try {
                     switch (_.getLastErrorCode()) {
-                      case ErrorCode.NO_ERROR:
+                      case ErrorCode$1.NO_ERROR:
                         const t = _.getResponseJson();
                         __PRIVATE_logDebug(Ve, `XHR for RPC '${e}' ${i} received:`, JSON.stringify(t)), 
                         s(t);
                         break;
 
-                      case ErrorCode.TIMEOUT:
+                      case ErrorCode$1.TIMEOUT:
                         __PRIVATE_logDebug(Ve, `RPC '${e}' ${i} timed out`), o(new FirestoreError(D.DEADLINE_EXCEEDED, "Request time out"));
                         break;
 
-                      case ErrorCode.HTTP_ERROR:
+                      case ErrorCode$1.HTTP_ERROR:
                         const n = _.getStatus();
                         if (__PRIVATE_logDebug(Ve, `RPC '${e}' ${i} failed with status:`, n, "response text:", _.getResponseText()), 
                         n > 0) {
@@ -24307,6 +21793,24 @@ function __PRIVATE_firestoreClientGetDocumentViaSnapshotListener(e, t, n = {}) {
     }(await __PRIVATE_getEventManager(e), e.asyncQueue, t, n, r))), r.promise;
 }
 
+function __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(e, t, n = {}) {
+    const r = new __PRIVATE_Deferred;
+    return e.asyncQueue.enqueueAndForget((async () => function __PRIVATE_executeQueryViaSnapshotListener(e, t, n, r, i) {
+        const s = new __PRIVATE_AsyncObserver({
+            next: n => {
+                // Remove query first before passing event to user to avoid
+                // user actions affecting the now stale query.
+                t.enqueueAndForget((() => __PRIVATE_eventManagerUnlisten(e, o))), n.fromCache && "server" === r.source ? i.reject(new FirestoreError(D.UNAVAILABLE, 'Failed to get documents from server. (However, these documents may exist in the local cache. Run again without setting source to "server" to retrieve the cached documents.)')) : i.resolve(n);
+            },
+            error: e => i.reject(e)
+        }), o = new __PRIVATE_QueryListener(n, s, {
+            includeMetadataChanges: !0,
+            Z_: !0
+        });
+        return __PRIVATE_eventManagerListen(e, o);
+    }(await __PRIVATE_getEventManager(e), e.asyncQueue, t, n, r))), r.promise;
+}
+
 /**
  * @license
  * Copyright 2023 Google LLC
@@ -24388,6 +21892,13 @@ function __PRIVATE_validateNonEmptyArgument(e, t, n) {
  * an even numbers of segments).
  */ function __PRIVATE_validateDocumentPath(e) {
     if (!DocumentKey.isDocumentKey(e)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid document reference. Document references must have an even number of segments, but ${e} has ${e.length}.`);
+}
+
+/**
+ * Validates that `path` refers to a collection (indicated by the fact it
+ * contains an odd numbers of segments).
+ */ function __PRIVATE_validateCollectionPath(e) {
+    if (DocumentKey.isDocumentKey(e)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid collection reference. Collection references must have an odd number of segments, but ${e} has ${e.length}.`);
 }
 
 /**
@@ -24729,6 +22240,19 @@ class Firestore$1 {
     }
     withConverter(e) {
         return new CollectionReference(this.firestore, e, this._path);
+    }
+}
+
+function collection(e, t, ...n) {
+    if (e = getModularInstance(e), __PRIVATE_validateNonEmptyArgument("collection", "path", t), e instanceof Firestore$1) {
+        const r = ResourcePath.fromString(t, ...n);
+        return __PRIVATE_validateCollectionPath(r), new CollectionReference(e, /* converter= */ null, r);
+    }
+    {
+        if (!(e instanceof DocumentReference || e instanceof CollectionReference)) throw new FirestoreError(D.INVALID_ARGUMENT, "Expected first argument to collection() to be a CollectionReference, a DocumentReference or FirebaseFirestore");
+        const r = e._path.child(ResourcePath.fromString(t, ...n));
+        return __PRIVATE_validateCollectionPath(r), new CollectionReference(e.firestore, 
+        /* converter= */ null, r);
     }
 }
 
@@ -25421,6 +22945,16 @@ class __PRIVATE_ArrayUnionFieldValueImpl extends FieldValue {
 }
 
 /**
+ * Parse a "query value" (e.g. value in a where filter or a value in a cursor
+ * bound).
+ *
+ * @param allowArrays - Whether the query value is an array that may directly
+ * contain additional arrays (e.g. the operand of an `in` query).
+ */ function __PRIVATE_parseQueryValue(e, t, n, r = !1) {
+    return __PRIVATE_parseData(n, e.Su(r ? 4 /* UserDataSource.ArrayArgument */ : 3 /* UserDataSource.Argument */ , t));
+}
+
+/**
  * Parses user data to Protobuf Values.
  *
  * @param input - Data to be parsed.
@@ -25737,6 +23271,227 @@ function __PRIVATE_createError(e, t, n, r, i) {
     return "string" == typeof t ? __PRIVATE_fieldPathFromDotSeparatedString(e, t) : t instanceof FieldPath ? t._internalPath : t._delegate._internalPath;
 }
 
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */ function __PRIVATE_validateHasExplicitOrderByForLimitToLast(e) {
+    if ("L" /* LimitType.Last */ === e.limitType && 0 === e.explicitOrderBy.length) throw new FirestoreError(D.UNIMPLEMENTED, "limitToLast() queries require specifying at least one orderBy() clause");
+}
+
+/**
+ * An `AppliableConstraint` is an abstraction of a constraint that can be applied
+ * to a Firestore query.
+ */ class AppliableConstraint {}
+
+/**
+ * A `QueryConstraint` is used to narrow the set of documents returned by a
+ * Firestore query. `QueryConstraint`s are created by invoking {@link where},
+ * {@link orderBy}, {@link (startAt:1)}, {@link (startAfter:1)}, {@link
+ * (endBefore:1)}, {@link (endAt:1)}, {@link limit}, {@link limitToLast} and
+ * can then be passed to {@link (query:1)} to create a new query instance that
+ * also contains this `QueryConstraint`.
+ */ class QueryConstraint extends AppliableConstraint {}
+
+function query(e, t, ...n) {
+    let r = [];
+    t instanceof AppliableConstraint && r.push(t), r = r.concat(n), function __PRIVATE_validateQueryConstraintArray(e) {
+        const t = e.filter((e => e instanceof QueryCompositeFilterConstraint)).length, n = e.filter((e => e instanceof QueryFieldFilterConstraint)).length;
+        if (t > 1 || t > 0 && n > 0) throw new FirestoreError(D.INVALID_ARGUMENT, "InvalidQuery. When using composite filters, you cannot use more than one filter at the top level. Consider nesting the multiple filters within an `and(...)` statement. For example: change `query(query, where(...), or(...))` to `query(query, and(where(...), or(...)))`.");
+    }
+    /**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+    /**
+ * Converts Firestore's internal types to the JavaScript types that we expose
+ * to the user.
+ *
+ * @internal
+ */ (r);
+    for (const t of r) e = t._apply(e);
+    return e;
+}
+
+/**
+ * A `QueryFieldFilterConstraint` is used to narrow the set of documents returned by
+ * a Firestore query by filtering on one or more document fields.
+ * `QueryFieldFilterConstraint`s are created by invoking {@link where} and can then
+ * be passed to {@link (query:1)} to create a new query instance that also contains
+ * this `QueryFieldFilterConstraint`.
+ */ class QueryFieldFilterConstraint extends QueryConstraint {
+    /**
+     * @internal
+     */
+    constructor(e, t, n) {
+        super(), this._field = e, this._op = t, this._value = n, 
+        /** The type of this query constraint */
+        this.type = "where";
+    }
+    static _create(e, t, n) {
+        return new QueryFieldFilterConstraint(e, t, n);
+    }
+    _apply(e) {
+        const t = this._parse(e);
+        return __PRIVATE_validateNewFieldFilter(e._query, t), new Query(e.firestore, e.converter, __PRIVATE_queryWithAddedFilter(e._query, t));
+    }
+    _parse(e) {
+        const t = __PRIVATE_newUserDataReader(e.firestore), n = function __PRIVATE_newQueryFilter(e, t, n, r, i, s, o) {
+            let _;
+            if (i.isKeyField()) {
+                if ("array-contains" /* Operator.ARRAY_CONTAINS */ === s || "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ === s) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid Query. You can't perform '${s}' queries on documentId().`);
+                if ("in" /* Operator.IN */ === s || "not-in" /* Operator.NOT_IN */ === s) {
+                    __PRIVATE_validateDisjunctiveFilterElements(o, s);
+                    const t = [];
+                    for (const n of o) t.push(__PRIVATE_parseDocumentIdValue(r, e, n));
+                    _ = {
+                        arrayValue: {
+                            values: t
+                        }
+                    };
+                } else _ = __PRIVATE_parseDocumentIdValue(r, e, o);
+            } else "in" /* Operator.IN */ !== s && "not-in" /* Operator.NOT_IN */ !== s && "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ !== s || __PRIVATE_validateDisjunctiveFilterElements(o, s), 
+            _ = __PRIVATE_parseQueryValue(n, t, o, 
+            /* allowArrays= */ "in" /* Operator.IN */ === s || "not-in" /* Operator.NOT_IN */ === s);
+            return FieldFilter.create(i, s, _);
+        }(e._query, "where", t, e.firestore._databaseId, this._field, this._op, this._value);
+        return n;
+    }
+}
+
+/**
+ * Creates a {@link QueryFieldFilterConstraint} that enforces that documents
+ * must contain the specified field and that the value should satisfy the
+ * relation constraint provided.
+ *
+ * @param fieldPath - The path to compare
+ * @param opStr - The operation string (e.g "&lt;", "&lt;=", "==", "&lt;",
+ *   "&lt;=", "!=").
+ * @param value - The value for comparison
+ * @returns The created {@link QueryFieldFilterConstraint}.
+ */ function where(e, t, n) {
+    const r = t, i = __PRIVATE_fieldPathFromArgument("where", e);
+    return QueryFieldFilterConstraint._create(i, r, n);
+}
+
+/**
+ * A `QueryCompositeFilterConstraint` is used to narrow the set of documents
+ * returned by a Firestore query by performing the logical OR or AND of multiple
+ * {@link QueryFieldFilterConstraint}s or {@link QueryCompositeFilterConstraint}s.
+ * `QueryCompositeFilterConstraint`s are created by invoking {@link or} or
+ * {@link and} and can then be passed to {@link (query:1)} to create a new query
+ * instance that also contains the `QueryCompositeFilterConstraint`.
+ */ class QueryCompositeFilterConstraint extends AppliableConstraint {
+    /**
+     * @internal
+     */
+    constructor(
+    /** The type of this query constraint */
+    e, t) {
+        super(), this.type = e, this._queryConstraints = t;
+    }
+    static _create(e, t) {
+        return new QueryCompositeFilterConstraint(e, t);
+    }
+    _parse(e) {
+        const t = this._queryConstraints.map((t => t._parse(e))).filter((e => e.getFilters().length > 0));
+        return 1 === t.length ? t[0] : CompositeFilter.create(t, this._getOperator());
+    }
+    _apply(e) {
+        const t = this._parse(e);
+        return 0 === t.getFilters().length ? e : (function __PRIVATE_validateNewFilter(e, t) {
+            let n = e;
+            const r = t.getFlattenedFilters();
+            for (const e of r) __PRIVATE_validateNewFieldFilter(n, e), n = __PRIVATE_queryWithAddedFilter(n, e);
+        }
+        // Checks if any of the provided filter operators are included in the given list of filters and
+        // returns the first one that is, or null if none are.
+        (e._query, t), new Query(e.firestore, e.converter, __PRIVATE_queryWithAddedFilter(e._query, t)));
+    }
+    _getQueryConstraints() {
+        return this._queryConstraints;
+    }
+    _getOperator() {
+        return "and" === this.type ? "and" /* CompositeOperator.AND */ : "or" /* CompositeOperator.OR */;
+    }
+}
+
+function __PRIVATE_parseDocumentIdValue(e, t, n) {
+    if ("string" == typeof (n = getModularInstance(n))) {
+        if ("" === n) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. When querying with documentId(), you must provide a valid document ID, but it was an empty string.");
+        if (!__PRIVATE_isCollectionGroupQuery(t) && -1 !== n.indexOf("/")) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection by documentId(), you must provide a plain document ID, but '${n}' contains a '/' character.`);
+        const r = t.path.child(ResourcePath.fromString(n));
+        if (!DocumentKey.isDocumentKey(r)) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying a collection group by documentId(), the value provided must result in a valid document path, but '${r}' is not because it has an odd number of segments (${r.length}).`);
+        return __PRIVATE_refValue(e, new DocumentKey(r));
+    }
+    if (n instanceof DocumentReference) return __PRIVATE_refValue(e, n._key);
+    throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. When querying with documentId(), you must provide a valid string or a DocumentReference, but it was: ${__PRIVATE_valueDescription(n)}.`);
+}
+
+/**
+ * Validates that the value passed into a disjunctive filter satisfies all
+ * array requirements.
+ */ function __PRIVATE_validateDisjunctiveFilterElements(e, t) {
+    if (!Array.isArray(e) || 0 === e.length) throw new FirestoreError(D.INVALID_ARGUMENT, `Invalid Query. A non-empty array is required for '${t.toString()}' filters.`);
+}
+
+/**
+ * Given an operator, returns the set of operators that cannot be used with it.
+ *
+ * This is not a comprehensive check, and this function should be removed in the
+ * long term. Validations should occur in the Firestore backend.
+ *
+ * Operators in a query must adhere to the following set of rules:
+ * 1. Only one inequality per query.
+ * 2. `NOT_IN` cannot be used with array, disjunctive, or `NOT_EQUAL` operators.
+ */ function __PRIVATE_validateNewFieldFilter(e, t) {
+    const n = function __PRIVATE_findOpInsideFilters(e, t) {
+        for (const n of e) for (const e of n.getFlattenedFilters()) if (t.indexOf(e.op) >= 0) return e.op;
+        return null;
+    }(e.filters, function __PRIVATE_conflictingOps(e) {
+        switch (e) {
+          case "!=" /* Operator.NOT_EQUAL */ :
+            return [ "!=" /* Operator.NOT_EQUAL */ , "not-in" /* Operator.NOT_IN */ ];
+
+          case "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ :
+          case "in" /* Operator.IN */ :
+            return [ "not-in" /* Operator.NOT_IN */ ];
+
+          case "not-in" /* Operator.NOT_IN */ :
+            return [ "array-contains-any" /* Operator.ARRAY_CONTAINS_ANY */ , "in" /* Operator.IN */ , "not-in" /* Operator.NOT_IN */ , "!=" /* Operator.NOT_EQUAL */ ];
+
+          default:
+            return [];
+        }
+    }(t.op));
+    if (null !== n) 
+    // Special case when it's a duplicate op to give a slightly clearer error message.
+    throw n === t.op ? new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You cannot use more than one '${t.op.toString()}' filter.`) : new FirestoreError(D.INVALID_ARGUMENT, `Invalid query. You cannot use '${t.op.toString()}' filters with '${n.toString()}' filters.`);
+}
+
 class AbstractUserDataWriter {
     convertValue(e, t = "none") {
         switch (__PRIVATE_typeOrder(e)) {
@@ -25987,6 +23742,103 @@ class AbstractUserDataWriter {
 }
 
 /**
+ * A `QuerySnapshot` contains zero or more `DocumentSnapshot` objects
+ * representing the results of a query. The documents can be accessed as an
+ * array via the `docs` property or enumerated using the `forEach` method. The
+ * number of documents can be determined via the `empty` and `size`
+ * properties.
+ */ class QuerySnapshot {
+    /** @hideconstructor */
+    constructor(e, t, n, r) {
+        this._firestore = e, this._userDataWriter = t, this._snapshot = r, this.metadata = new SnapshotMetadata(r.hasPendingWrites, r.fromCache), 
+        this.query = n;
+    }
+    /** An array of all the documents in the `QuerySnapshot`. */    get docs() {
+        const e = [];
+        return this.forEach((t => e.push(t))), e;
+    }
+    /** The number of documents in the `QuerySnapshot`. */    get size() {
+        return this._snapshot.docs.size;
+    }
+    /** True if there are no documents in the `QuerySnapshot`. */    get empty() {
+        return 0 === this.size;
+    }
+    /**
+     * Enumerates all of the documents in the `QuerySnapshot`.
+     *
+     * @param callback - A callback to be called with a `QueryDocumentSnapshot` for
+     * each document in the snapshot.
+     * @param thisArg - The `this` binding for the callback.
+     */    forEach(e, t) {
+        this._snapshot.docs.forEach((n => {
+            e.call(t, new QueryDocumentSnapshot(this._firestore, this._userDataWriter, n.key, n, new SnapshotMetadata(this._snapshot.mutatedKeys.has(n.key), this._snapshot.fromCache), this.query.converter));
+        }));
+    }
+    /**
+     * Returns an array of the documents changes since the last snapshot. If this
+     * is the first snapshot, all documents will be in the list as 'added'
+     * changes.
+     *
+     * @param options - `SnapshotListenOptions` that control whether metadata-only
+     * changes (i.e. only `DocumentSnapshot.metadata` changed) should trigger
+     * snapshot events.
+     */    docChanges(e = {}) {
+        const t = !!e.includeMetadataChanges;
+        if (t && this._snapshot.excludesMetadataChanges) throw new FirestoreError(D.INVALID_ARGUMENT, "To include metadata changes with your document changes, you must also pass { includeMetadataChanges:true } to onSnapshot().");
+        return this._cachedChanges && this._cachedChangesIncludeMetadataChanges === t || (this._cachedChanges = 
+        /** Calculates the array of `DocumentChange`s for a given `ViewSnapshot`. */
+        function __PRIVATE_changesFromSnapshot(e, t) {
+            if (e._snapshot.oldDocs.isEmpty()) {
+                let t = 0;
+                return e._snapshot.docChanges.map((n => {
+                    const r = new QueryDocumentSnapshot(e._firestore, e._userDataWriter, n.doc.key, n.doc, new SnapshotMetadata(e._snapshot.mutatedKeys.has(n.doc.key), e._snapshot.fromCache), e.query.converter);
+                    return n.doc, {
+                        type: "added",
+                        doc: r,
+                        oldIndex: -1,
+                        newIndex: t++
+                    };
+                }));
+            }
+            {
+                // A `DocumentSet` that is updated incrementally as changes are applied to use
+                // to lookup the index of a document.
+                let n = e._snapshot.oldDocs;
+                return e._snapshot.docChanges.filter((e => t || 3 /* ChangeType.Metadata */ !== e.type)).map((t => {
+                    const r = new QueryDocumentSnapshot(e._firestore, e._userDataWriter, t.doc.key, t.doc, new SnapshotMetadata(e._snapshot.mutatedKeys.has(t.doc.key), e._snapshot.fromCache), e.query.converter);
+                    let i = -1, s = -1;
+                    return 0 /* ChangeType.Added */ !== t.type && (i = n.indexOf(t.doc.key), n = n.delete(t.doc.key)), 
+                    1 /* ChangeType.Removed */ !== t.type && (n = n.add(t.doc), s = n.indexOf(t.doc.key)), 
+                    {
+                        type: __PRIVATE_resultChangeType(t.type),
+                        doc: r,
+                        oldIndex: i,
+                        newIndex: s
+                    };
+                }));
+            }
+        }(this, t), this._cachedChangesIncludeMetadataChanges = t), this._cachedChanges;
+    }
+}
+
+function __PRIVATE_resultChangeType(e) {
+    switch (e) {
+      case 0 /* ChangeType.Added */ :
+        return "added";
+
+      case 2 /* ChangeType.Modified */ :
+      case 3 /* ChangeType.Metadata */ :
+        return "modified";
+
+      case 1 /* ChangeType.Removed */ :
+        return "removed";
+
+      default:
+        return fail();
+    }
+}
+
+/**
  * @license
  * Copyright 2020 Google LLC
  *
@@ -26030,6 +23882,21 @@ class __PRIVATE_ExpUserDataWriter extends AbstractUserDataWriter {
         const t = this.convertDocumentKey(e, this.firestore._databaseId);
         return new DocumentReference(this.firestore, /* converter= */ null, t);
     }
+}
+
+/**
+ * Executes the query and returns the results as a `QuerySnapshot`.
+ *
+ * Note: `getDocs()` attempts to provide up-to-date data when possible by
+ * waiting for data from the server, but it may return cached data or fail if
+ * you are offline and the server cannot be reached. To specify this behavior,
+ * invoke {@link getDocsFromCache} or {@link getDocsFromServer}.
+ *
+ * @returns A `Promise` that will be resolved with the results of the query.
+ */ function getDocs(e) {
+    e = __PRIVATE_cast(e, Query);
+    const t = __PRIVATE_cast(e.firestore, Firestore), n = ensureFirestoreConfigured(t), r = new __PRIVATE_ExpUserDataWriter(t);
+    return __PRIVATE_validateHasExplicitOrderByForLimitToLast(e._query), __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(n, e._query).then((n => new QuerySnapshot(t, r, e, n)));
 }
 
 function setDoc(e, t, n) {
@@ -26094,7 +23961,2562 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.1", "esm2017");
 }();
 
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
+
 const ENV = 'development';
+
+const MyMilongas = async () => {
+	
+	const auth = getAuth();
+
+	const db = getFirestore();
+	const q = query(collection(db, `${ENV}.milongas`), where('createdBy', '==', auth.currentUser.uid));
+	const qSnap = await getDocs(q);
+
+	qSnap.forEach((doc) => {
+		console.log(doc.id, " => ", doc.data());
+	});
+
+	return x$1`
+		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
+			<header>
+				<h6>내 밀롱가 (${x$1`${qSnap.size})`}</h6>
+			</header>
+			<ul>
+				${ o(qSnap.docs, (doc) => x$1`<li>${doc.data().name}</li>`) }
+			</ul>
+		</section>
+	`
+};
+
+const Me = async () => {
+	
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	const user = auth.currentUser;
+
+	if (!user) {
+		location.replace('#');
+		return;
+	}
+
+	function logout() {
+		if (confirm('로그아웃 하시겠습니까?')) {
+            signOut(getAuth())
+                .then(() => {
+                    location.replace('#');
+					return;
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+        }
+	}
+
+	j$1(h(x$1`
+		<div class="me main p-5" role="document">
+			<header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">프로필</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+			<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#me/edit_profile">
+				<div>
+					<div class="size-12 empty:rounded-full empty:bg-slate-200">${
+						user?.photoURL
+							? x$1`<img class="rounded-full" src=${user.photoURL}>`
+							: x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-12' })}</span>`
+					}</div>
+				</div>
+				<div class="px-3 flex-1">
+					<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
+						user
+							? x$1`${user.displayName}`
+							: x$1`${T$1}`
+					}</h4>
+					<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
+						user
+							? x$1`${user.email}`
+							: x$1`${T$1}`
+					}</div>
+				</div>
+				<div id="edit-profile-icon" class="text-slate-400">
+                    ${ChevronRightIcon()}
+                </div>
+			</a>
+			${ await MyMilongas() }
+			<!-- <a href="#me/new_milonga" class="block mb-3 p-3 bg-slate-200 text-purple-700 text-center rounded-lg">밀롱가 만들기</a> -->
+			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
+		</div>
+	`), document.getElementById('app'));
+};
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @fileoverview Constants used in the Firebase Storage library.
+ */
+/**
+ * Domain name for firebase storage.
+ */
+const DEFAULT_HOST = 'firebasestorage.googleapis.com';
+/**
+ * The key in Firebase config json for the storage bucket.
+ */
+const CONFIG_STORAGE_BUCKET_KEY = 'storageBucket';
+/**
+ * 2 minutes
+ *
+ * The timeout for all operations except upload.
+ */
+const DEFAULT_MAX_OPERATION_RETRY_TIME = 2 * 60 * 1000;
+/**
+ * 10 minutes
+ *
+ * The timeout for upload.
+ */
+const DEFAULT_MAX_UPLOAD_RETRY_TIME = 10 * 60 * 1000;
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * An error returned by the Firebase Storage SDK.
+ * @public
+ */
+class StorageError extends FirebaseError {
+    /**
+     * @param code - A `StorageErrorCode` string to be prefixed with 'storage/' and
+     *  added to the end of the message.
+     * @param message  - Error message.
+     * @param status_ - Corresponding HTTP Status Code
+     */
+    constructor(code, message, status_ = 0) {
+        super(prependCode(code), `Firebase Storage: ${message} (${prependCode(code)})`);
+        this.status_ = status_;
+        /**
+         * Stores custom error data unique to the `StorageError`.
+         */
+        this.customData = { serverResponse: null };
+        this._baseMessage = this.message;
+        // Without this, `instanceof StorageError`, in tests for example,
+        // returns false.
+        Object.setPrototypeOf(this, StorageError.prototype);
+    }
+    get status() {
+        return this.status_;
+    }
+    set status(status) {
+        this.status_ = status;
+    }
+    /**
+     * Compares a `StorageErrorCode` against this error's code, filtering out the prefix.
+     */
+    _codeEquals(code) {
+        return prependCode(code) === this.code;
+    }
+    /**
+     * Optional response message that was added by the server.
+     */
+    get serverResponse() {
+        return this.customData.serverResponse;
+    }
+    set serverResponse(serverResponse) {
+        this.customData.serverResponse = serverResponse;
+        if (this.customData.serverResponse) {
+            this.message = `${this._baseMessage}\n${this.customData.serverResponse}`;
+        }
+        else {
+            this.message = this._baseMessage;
+        }
+    }
+}
+/**
+ * @public
+ * Error codes that can be attached to `StorageError` objects.
+ */
+var StorageErrorCode;
+(function (StorageErrorCode) {
+    // Shared between all platforms
+    StorageErrorCode["UNKNOWN"] = "unknown";
+    StorageErrorCode["OBJECT_NOT_FOUND"] = "object-not-found";
+    StorageErrorCode["BUCKET_NOT_FOUND"] = "bucket-not-found";
+    StorageErrorCode["PROJECT_NOT_FOUND"] = "project-not-found";
+    StorageErrorCode["QUOTA_EXCEEDED"] = "quota-exceeded";
+    StorageErrorCode["UNAUTHENTICATED"] = "unauthenticated";
+    StorageErrorCode["UNAUTHORIZED"] = "unauthorized";
+    StorageErrorCode["UNAUTHORIZED_APP"] = "unauthorized-app";
+    StorageErrorCode["RETRY_LIMIT_EXCEEDED"] = "retry-limit-exceeded";
+    StorageErrorCode["INVALID_CHECKSUM"] = "invalid-checksum";
+    StorageErrorCode["CANCELED"] = "canceled";
+    // JS specific
+    StorageErrorCode["INVALID_EVENT_NAME"] = "invalid-event-name";
+    StorageErrorCode["INVALID_URL"] = "invalid-url";
+    StorageErrorCode["INVALID_DEFAULT_BUCKET"] = "invalid-default-bucket";
+    StorageErrorCode["NO_DEFAULT_BUCKET"] = "no-default-bucket";
+    StorageErrorCode["CANNOT_SLICE_BLOB"] = "cannot-slice-blob";
+    StorageErrorCode["SERVER_FILE_WRONG_SIZE"] = "server-file-wrong-size";
+    StorageErrorCode["NO_DOWNLOAD_URL"] = "no-download-url";
+    StorageErrorCode["INVALID_ARGUMENT"] = "invalid-argument";
+    StorageErrorCode["INVALID_ARGUMENT_COUNT"] = "invalid-argument-count";
+    StorageErrorCode["APP_DELETED"] = "app-deleted";
+    StorageErrorCode["INVALID_ROOT_OPERATION"] = "invalid-root-operation";
+    StorageErrorCode["INVALID_FORMAT"] = "invalid-format";
+    StorageErrorCode["INTERNAL_ERROR"] = "internal-error";
+    StorageErrorCode["UNSUPPORTED_ENVIRONMENT"] = "unsupported-environment";
+})(StorageErrorCode || (StorageErrorCode = {}));
+function prependCode(code) {
+    return 'storage/' + code;
+}
+function unknown() {
+    const message = 'An unknown error occurred, please check the error payload for ' +
+        'server response.';
+    return new StorageError(StorageErrorCode.UNKNOWN, message);
+}
+function objectNotFound(path) {
+    return new StorageError(StorageErrorCode.OBJECT_NOT_FOUND, "Object '" + path + "' does not exist.");
+}
+function quotaExceeded(bucket) {
+    return new StorageError(StorageErrorCode.QUOTA_EXCEEDED, "Quota for bucket '" +
+        bucket +
+        "' exceeded, please view quota on " +
+        'https://firebase.google.com/pricing/.');
+}
+function unauthenticated() {
+    const message = 'User is not authenticated, please authenticate using Firebase ' +
+        'Authentication and try again.';
+    return new StorageError(StorageErrorCode.UNAUTHENTICATED, message);
+}
+function unauthorizedApp() {
+    return new StorageError(StorageErrorCode.UNAUTHORIZED_APP, 'This app does not have permission to access Firebase Storage on this project.');
+}
+function unauthorized(path) {
+    return new StorageError(StorageErrorCode.UNAUTHORIZED, "User does not have permission to access '" + path + "'.");
+}
+function retryLimitExceeded() {
+    return new StorageError(StorageErrorCode.RETRY_LIMIT_EXCEEDED, 'Max retry time for operation exceeded, please try again.');
+}
+function canceled() {
+    return new StorageError(StorageErrorCode.CANCELED, 'User canceled the upload/download.');
+}
+function invalidUrl(url) {
+    return new StorageError(StorageErrorCode.INVALID_URL, "Invalid URL '" + url + "'.");
+}
+function invalidDefaultBucket(bucket) {
+    return new StorageError(StorageErrorCode.INVALID_DEFAULT_BUCKET, "Invalid default bucket '" + bucket + "'.");
+}
+function noDefaultBucket() {
+    return new StorageError(StorageErrorCode.NO_DEFAULT_BUCKET, 'No default bucket ' +
+        "found. Did you set the '" +
+        CONFIG_STORAGE_BUCKET_KEY +
+        "' property when initializing the app?");
+}
+function cannotSliceBlob() {
+    return new StorageError(StorageErrorCode.CANNOT_SLICE_BLOB, 'Cannot slice blob for upload. Please retry the upload.');
+}
+function noDownloadURL() {
+    return new StorageError(StorageErrorCode.NO_DOWNLOAD_URL, 'The given file does not have any download URLs.');
+}
+function missingPolyFill(polyFill) {
+    return new StorageError(StorageErrorCode.UNSUPPORTED_ENVIRONMENT, `${polyFill} is missing. Make sure to install the required polyfills. See https://firebase.google.com/docs/web/environments-js-sdk#polyfills for more information.`);
+}
+/**
+ * @internal
+ */
+function invalidArgument(message) {
+    return new StorageError(StorageErrorCode.INVALID_ARGUMENT, message);
+}
+function appDeleted() {
+    return new StorageError(StorageErrorCode.APP_DELETED, 'The Firebase app was deleted.');
+}
+/**
+ * @param name - The name of the operation that was invalid.
+ *
+ * @internal
+ */
+function invalidRootOperation(name) {
+    return new StorageError(StorageErrorCode.INVALID_ROOT_OPERATION, "The operation '" +
+        name +
+        "' cannot be performed on a root reference, create a non-root " +
+        "reference using child, such as .child('file.png').");
+}
+/**
+ * @param format - The format that was not valid.
+ * @param message - A message describing the format violation.
+ */
+function invalidFormat(format, message) {
+    return new StorageError(StorageErrorCode.INVALID_FORMAT, "String does not match format '" + format + "': " + message);
+}
+/**
+ * @param message - A message describing the internal error.
+ */
+function internalError(message) {
+    throw new StorageError(StorageErrorCode.INTERNAL_ERROR, 'Internal error: ' + message);
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Firebase Storage location data.
+ *
+ * @internal
+ */
+class Location {
+    constructor(bucket, path) {
+        this.bucket = bucket;
+        this.path_ = path;
+    }
+    get path() {
+        return this.path_;
+    }
+    get isRoot() {
+        return this.path.length === 0;
+    }
+    fullServerUrl() {
+        const encode = encodeURIComponent;
+        return '/b/' + encode(this.bucket) + '/o/' + encode(this.path);
+    }
+    bucketOnlyServerUrl() {
+        const encode = encodeURIComponent;
+        return '/b/' + encode(this.bucket) + '/o';
+    }
+    static makeFromBucketSpec(bucketString, host) {
+        let bucketLocation;
+        try {
+            bucketLocation = Location.makeFromUrl(bucketString, host);
+        }
+        catch (e) {
+            // Not valid URL, use as-is. This lets you put bare bucket names in
+            // config.
+            return new Location(bucketString, '');
+        }
+        if (bucketLocation.path === '') {
+            return bucketLocation;
+        }
+        else {
+            throw invalidDefaultBucket(bucketString);
+        }
+    }
+    static makeFromUrl(url, host) {
+        let location = null;
+        const bucketDomain = '([A-Za-z0-9.\\-_]+)';
+        function gsModify(loc) {
+            if (loc.path.charAt(loc.path.length - 1) === '/') {
+                loc.path_ = loc.path_.slice(0, -1);
+            }
+        }
+        const gsPath = '(/(.*))?$';
+        const gsRegex = new RegExp('^gs://' + bucketDomain + gsPath, 'i');
+        const gsIndices = { bucket: 1, path: 3 };
+        function httpModify(loc) {
+            loc.path_ = decodeURIComponent(loc.path);
+        }
+        const version = 'v[A-Za-z0-9_]+';
+        const firebaseStorageHost = host.replace(/[.]/g, '\\.');
+        const firebaseStoragePath = '(/([^?#]*).*)?$';
+        const firebaseStorageRegExp = new RegExp(`^https?://${firebaseStorageHost}/${version}/b/${bucketDomain}/o${firebaseStoragePath}`, 'i');
+        const firebaseStorageIndices = { bucket: 1, path: 3 };
+        const cloudStorageHost = host === DEFAULT_HOST
+            ? '(?:storage.googleapis.com|storage.cloud.google.com)'
+            : host;
+        const cloudStoragePath = '([^?#]*)';
+        const cloudStorageRegExp = new RegExp(`^https?://${cloudStorageHost}/${bucketDomain}/${cloudStoragePath}`, 'i');
+        const cloudStorageIndices = { bucket: 1, path: 2 };
+        const groups = [
+            { regex: gsRegex, indices: gsIndices, postModify: gsModify },
+            {
+                regex: firebaseStorageRegExp,
+                indices: firebaseStorageIndices,
+                postModify: httpModify
+            },
+            {
+                regex: cloudStorageRegExp,
+                indices: cloudStorageIndices,
+                postModify: httpModify
+            }
+        ];
+        for (let i = 0; i < groups.length; i++) {
+            const group = groups[i];
+            const captures = group.regex.exec(url);
+            if (captures) {
+                const bucketValue = captures[group.indices.bucket];
+                let pathValue = captures[group.indices.path];
+                if (!pathValue) {
+                    pathValue = '';
+                }
+                location = new Location(bucketValue, pathValue);
+                group.postModify(location);
+                break;
+            }
+        }
+        if (location == null) {
+            throw invalidUrl(url);
+        }
+        return location;
+    }
+}
+
+/**
+ * A request whose promise always fails.
+ */
+class FailRequest {
+    constructor(error) {
+        this.promise_ = Promise.reject(error);
+    }
+    /** @inheritDoc */
+    getPromise() {
+        return this.promise_;
+    }
+    /** @inheritDoc */
+    cancel(_appDelete = false) { }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Accepts a callback for an action to perform (`doRequest`),
+ * and then a callback for when the backoff has completed (`backoffCompleteCb`).
+ * The callback sent to start requires an argument to call (`onRequestComplete`).
+ * When `start` calls `doRequest`, it passes a callback for when the request has
+ * completed, `onRequestComplete`. Based on this, the backoff continues, with
+ * another call to `doRequest` and the above loop continues until the timeout
+ * is hit, or a successful response occurs.
+ * @description
+ * @param doRequest Callback to perform request
+ * @param backoffCompleteCb Callback to call when backoff has been completed
+ */
+function start(doRequest, 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+backoffCompleteCb, timeout) {
+    // TODO(andysoto): make this code cleaner (probably refactor into an actual
+    // type instead of a bunch of functions with state shared in the closure)
+    let waitSeconds = 1;
+    // Would type this as "number" but that doesn't work for Node so ¯\_(ツ)_/¯
+    // TODO: find a way to exclude Node type definition for storage because storage only works in browser
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let retryTimeoutId = null;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    let globalTimeoutId = null;
+    let hitTimeout = false;
+    let cancelState = 0;
+    function canceled() {
+        return cancelState === 2;
+    }
+    let triggeredCallback = false;
+    function triggerCallback(...args) {
+        if (!triggeredCallback) {
+            triggeredCallback = true;
+            backoffCompleteCb.apply(null, args);
+        }
+    }
+    function callWithDelay(millis) {
+        retryTimeoutId = setTimeout(() => {
+            retryTimeoutId = null;
+            doRequest(responseHandler, canceled());
+        }, millis);
+    }
+    function clearGlobalTimeout() {
+        if (globalTimeoutId) {
+            clearTimeout(globalTimeoutId);
+        }
+    }
+    function responseHandler(success, ...args) {
+        if (triggeredCallback) {
+            clearGlobalTimeout();
+            return;
+        }
+        if (success) {
+            clearGlobalTimeout();
+            triggerCallback.call(null, success, ...args);
+            return;
+        }
+        const mustStop = canceled() || hitTimeout;
+        if (mustStop) {
+            clearGlobalTimeout();
+            triggerCallback.call(null, success, ...args);
+            return;
+        }
+        if (waitSeconds < 64) {
+            /* TODO(andysoto): don't back off so quickly if we know we're offline. */
+            waitSeconds *= 2;
+        }
+        let waitMillis;
+        if (cancelState === 1) {
+            cancelState = 2;
+            waitMillis = 0;
+        }
+        else {
+            waitMillis = (waitSeconds + Math.random()) * 1000;
+        }
+        callWithDelay(waitMillis);
+    }
+    let stopped = false;
+    function stop(wasTimeout) {
+        if (stopped) {
+            return;
+        }
+        stopped = true;
+        clearGlobalTimeout();
+        if (triggeredCallback) {
+            return;
+        }
+        if (retryTimeoutId !== null) {
+            if (!wasTimeout) {
+                cancelState = 2;
+            }
+            clearTimeout(retryTimeoutId);
+            callWithDelay(0);
+        }
+        else {
+            if (!wasTimeout) {
+                cancelState = 1;
+            }
+        }
+    }
+    callWithDelay(0);
+    globalTimeoutId = setTimeout(() => {
+        hitTimeout = true;
+        stop(true);
+    }, timeout);
+    return stop;
+}
+/**
+ * Stops the retry loop from repeating.
+ * If the function is currently "in between" retries, it is invoked immediately
+ * with the second parameter as "true". Otherwise, it will be invoked once more
+ * after the current invocation finishes iff the current invocation would have
+ * triggered another retry.
+ */
+function stop(id) {
+    id(false);
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function isJustDef(p) {
+    return p !== void 0;
+}
+function isNonArrayObject(p) {
+    return typeof p === 'object' && !Array.isArray(p);
+}
+function isString(p) {
+    return typeof p === 'string' || p instanceof String;
+}
+function isNativeBlob(p) {
+    return isNativeBlobDefined() && p instanceof Blob;
+}
+function isNativeBlobDefined() {
+    return typeof Blob !== 'undefined';
+}
+function validateNumber(argument, minValue, maxValue, value) {
+    if (value < minValue) {
+        throw invalidArgument(`Invalid value for '${argument}'. Expected ${minValue} or greater.`);
+    }
+    if (value > maxValue) {
+        throw invalidArgument(`Invalid value for '${argument}'. Expected ${maxValue} or less.`);
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function makeUrl(urlPart, host, protocol) {
+    let origin = host;
+    if (protocol == null) {
+        origin = `https://${host}`;
+    }
+    return `${protocol}://${origin}/v0${urlPart}`;
+}
+function makeQueryString(params) {
+    const encode = encodeURIComponent;
+    let queryPart = '?';
+    for (const key in params) {
+        if (params.hasOwnProperty(key)) {
+            const nextPart = encode(key) + '=' + encode(params[key]);
+            queryPart = queryPart + nextPart + '&';
+        }
+    }
+    // Chop off the extra '&' or '?' on the end
+    queryPart = queryPart.slice(0, -1);
+    return queryPart;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Error codes for requests made by the the XhrIo wrapper.
+ */
+var ErrorCode;
+(function (ErrorCode) {
+    ErrorCode[ErrorCode["NO_ERROR"] = 0] = "NO_ERROR";
+    ErrorCode[ErrorCode["NETWORK_ERROR"] = 1] = "NETWORK_ERROR";
+    ErrorCode[ErrorCode["ABORT"] = 2] = "ABORT";
+})(ErrorCode || (ErrorCode = {}));
+
+/**
+ * @license
+ * Copyright 2022 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Checks the status code to see if the action should be retried.
+ *
+ * @param status Current HTTP status code returned by server.
+ * @param additionalRetryCodes additional retry codes to check against
+ */
+function isRetryStatusCode(status, additionalRetryCodes) {
+    // The codes for which to retry came from this page:
+    // https://cloud.google.com/storage/docs/exponential-backoff
+    const isFiveHundredCode = status >= 500 && status < 600;
+    const extraRetryCodes = [
+        // Request Timeout: web server didn't receive full request in time.
+        408,
+        // Too Many Requests: you're getting rate-limited, basically.
+        429
+    ];
+    const isExtraRetryCode = extraRetryCodes.indexOf(status) !== -1;
+    const isAdditionalRetryCode = additionalRetryCodes.indexOf(status) !== -1;
+    return isFiveHundredCode || isExtraRetryCode || isAdditionalRetryCode;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Handles network logic for all Storage Requests, including error reporting and
+ * retries with backoff.
+ *
+ * @param I - the type of the backend's network response.
+ * @param - O the output type used by the rest of the SDK. The conversion
+ * happens in the specified `callback_`.
+ */
+class NetworkRequest {
+    constructor(url_, method_, headers_, body_, successCodes_, additionalRetryCodes_, callback_, errorCallback_, timeout_, progressCallback_, connectionFactory_, retry = true) {
+        this.url_ = url_;
+        this.method_ = method_;
+        this.headers_ = headers_;
+        this.body_ = body_;
+        this.successCodes_ = successCodes_;
+        this.additionalRetryCodes_ = additionalRetryCodes_;
+        this.callback_ = callback_;
+        this.errorCallback_ = errorCallback_;
+        this.timeout_ = timeout_;
+        this.progressCallback_ = progressCallback_;
+        this.connectionFactory_ = connectionFactory_;
+        this.retry = retry;
+        this.pendingConnection_ = null;
+        this.backoffId_ = null;
+        this.canceled_ = false;
+        this.appDelete_ = false;
+        this.promise_ = new Promise((resolve, reject) => {
+            this.resolve_ = resolve;
+            this.reject_ = reject;
+            this.start_();
+        });
+    }
+    /**
+     * Actually starts the retry loop.
+     */
+    start_() {
+        const doTheRequest = (backoffCallback, canceled) => {
+            if (canceled) {
+                backoffCallback(false, new RequestEndStatus(false, null, true));
+                return;
+            }
+            const connection = this.connectionFactory_();
+            this.pendingConnection_ = connection;
+            const progressListener = progressEvent => {
+                const loaded = progressEvent.loaded;
+                const total = progressEvent.lengthComputable ? progressEvent.total : -1;
+                if (this.progressCallback_ !== null) {
+                    this.progressCallback_(loaded, total);
+                }
+            };
+            if (this.progressCallback_ !== null) {
+                connection.addUploadProgressListener(progressListener);
+            }
+            // connection.send() never rejects, so we don't need to have a error handler or use catch on the returned promise.
+            // eslint-disable-next-line @typescript-eslint/no-floating-promises
+            connection
+                .send(this.url_, this.method_, this.body_, this.headers_)
+                .then(() => {
+                if (this.progressCallback_ !== null) {
+                    connection.removeUploadProgressListener(progressListener);
+                }
+                this.pendingConnection_ = null;
+                const hitServer = connection.getErrorCode() === ErrorCode.NO_ERROR;
+                const status = connection.getStatus();
+                if (!hitServer ||
+                    (isRetryStatusCode(status, this.additionalRetryCodes_) &&
+                        this.retry)) {
+                    const wasCanceled = connection.getErrorCode() === ErrorCode.ABORT;
+                    backoffCallback(false, new RequestEndStatus(false, null, wasCanceled));
+                    return;
+                }
+                const successCode = this.successCodes_.indexOf(status) !== -1;
+                backoffCallback(true, new RequestEndStatus(successCode, connection));
+            });
+        };
+        /**
+         * @param requestWentThrough - True if the request eventually went
+         *     through, false if it hit the retry limit or was canceled.
+         */
+        const backoffDone = (requestWentThrough, status) => {
+            const resolve = this.resolve_;
+            const reject = this.reject_;
+            const connection = status.connection;
+            if (status.wasSuccessCode) {
+                try {
+                    const result = this.callback_(connection, connection.getResponse());
+                    if (isJustDef(result)) {
+                        resolve(result);
+                    }
+                    else {
+                        resolve();
+                    }
+                }
+                catch (e) {
+                    reject(e);
+                }
+            }
+            else {
+                if (connection !== null) {
+                    const err = unknown();
+                    err.serverResponse = connection.getErrorText();
+                    if (this.errorCallback_) {
+                        reject(this.errorCallback_(connection, err));
+                    }
+                    else {
+                        reject(err);
+                    }
+                }
+                else {
+                    if (status.canceled) {
+                        const err = this.appDelete_ ? appDeleted() : canceled();
+                        reject(err);
+                    }
+                    else {
+                        const err = retryLimitExceeded();
+                        reject(err);
+                    }
+                }
+            }
+        };
+        if (this.canceled_) {
+            backoffDone(false, new RequestEndStatus(false, null, true));
+        }
+        else {
+            this.backoffId_ = start(doTheRequest, backoffDone, this.timeout_);
+        }
+    }
+    /** @inheritDoc */
+    getPromise() {
+        return this.promise_;
+    }
+    /** @inheritDoc */
+    cancel(appDelete) {
+        this.canceled_ = true;
+        this.appDelete_ = appDelete || false;
+        if (this.backoffId_ !== null) {
+            stop(this.backoffId_);
+        }
+        if (this.pendingConnection_ !== null) {
+            this.pendingConnection_.abort();
+        }
+    }
+}
+/**
+ * A collection of information about the result of a network request.
+ * @param opt_canceled - Defaults to false.
+ */
+class RequestEndStatus {
+    constructor(wasSuccessCode, connection, canceled) {
+        this.wasSuccessCode = wasSuccessCode;
+        this.connection = connection;
+        this.canceled = !!canceled;
+    }
+}
+function addAuthHeader_(headers, authToken) {
+    if (authToken !== null && authToken.length > 0) {
+        headers['Authorization'] = 'Firebase ' + authToken;
+    }
+}
+function addVersionHeader_(headers, firebaseVersion) {
+    headers['X-Firebase-Storage-Version'] =
+        'webjs/' + (firebaseVersion !== null && firebaseVersion !== void 0 ? firebaseVersion : 'AppManager');
+}
+function addGmpidHeader_(headers, appId) {
+    if (appId) {
+        headers['X-Firebase-GMPID'] = appId;
+    }
+}
+function addAppCheckHeader_(headers, appCheckToken) {
+    if (appCheckToken !== null) {
+        headers['X-Firebase-AppCheck'] = appCheckToken;
+    }
+}
+function makeRequest(requestInfo, appId, authToken, appCheckToken, requestFactory, firebaseVersion, retry = true) {
+    const queryPart = makeQueryString(requestInfo.urlParams);
+    const url = requestInfo.url + queryPart;
+    const headers = Object.assign({}, requestInfo.headers);
+    addGmpidHeader_(headers, appId);
+    addAuthHeader_(headers, authToken);
+    addVersionHeader_(headers, firebaseVersion);
+    addAppCheckHeader_(headers, appCheckToken);
+    return new NetworkRequest(url, requestInfo.method, headers, requestInfo.body, requestInfo.successCodes, requestInfo.additionalRetryCodes, requestInfo.handler, requestInfo.errorHandler, requestInfo.timeout, requestInfo.progressCallback, requestFactory, retry);
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function getBlobBuilder() {
+    if (typeof BlobBuilder !== 'undefined') {
+        return BlobBuilder;
+    }
+    else if (typeof WebKitBlobBuilder !== 'undefined') {
+        return WebKitBlobBuilder;
+    }
+    else {
+        return undefined;
+    }
+}
+/**
+ * Concatenates one or more values together and converts them to a Blob.
+ *
+ * @param args The values that will make up the resulting blob.
+ * @return The blob.
+ */
+function getBlob$1(...args) {
+    const BlobBuilder = getBlobBuilder();
+    if (BlobBuilder !== undefined) {
+        const bb = new BlobBuilder();
+        for (let i = 0; i < args.length; i++) {
+            bb.append(args[i]);
+        }
+        return bb.getBlob();
+    }
+    else {
+        if (isNativeBlobDefined()) {
+            return new Blob(args);
+        }
+        else {
+            throw new StorageError(StorageErrorCode.UNSUPPORTED_ENVIRONMENT, "This browser doesn't seem to support creating Blobs");
+        }
+    }
+}
+/**
+ * Slices the blob. The returned blob contains data from the start byte
+ * (inclusive) till the end byte (exclusive). Negative indices cannot be used.
+ *
+ * @param blob The blob to be sliced.
+ * @param start Index of the starting byte.
+ * @param end Index of the ending byte.
+ * @return The blob slice or null if not supported.
+ */
+function sliceBlob(blob, start, end) {
+    if (blob.webkitSlice) {
+        return blob.webkitSlice(start, end);
+    }
+    else if (blob.mozSlice) {
+        return blob.mozSlice(start, end);
+    }
+    else if (blob.slice) {
+        return blob.slice(start, end);
+    }
+    return null;
+}
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/** Converts a Base64 encoded string to a binary string. */
+function decodeBase64(encoded) {
+    if (typeof atob === 'undefined') {
+        throw missingPolyFill('base-64');
+    }
+    return atob(encoded);
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * An enumeration of the possible string formats for upload.
+ * @public
+ */
+const StringFormat = {
+    /**
+     * Indicates the string should be interpreted "raw", that is, as normal text.
+     * The string will be interpreted as UTF-16, then uploaded as a UTF-8 byte
+     * sequence.
+     * Example: The string 'Hello! \\ud83d\\ude0a' becomes the byte sequence
+     * 48 65 6c 6c 6f 21 20 f0 9f 98 8a
+     */
+    RAW: 'raw',
+    /**
+     * Indicates the string should be interpreted as base64-encoded data.
+     * Padding characters (trailing '='s) are optional.
+     * Example: The string 'rWmO++E6t7/rlw==' becomes the byte sequence
+     * ad 69 8e fb e1 3a b7 bf eb 97
+     */
+    BASE64: 'base64',
+    /**
+     * Indicates the string should be interpreted as base64url-encoded data.
+     * Padding characters (trailing '='s) are optional.
+     * Example: The string 'rWmO--E6t7_rlw==' becomes the byte sequence
+     * ad 69 8e fb e1 3a b7 bf eb 97
+     */
+    BASE64URL: 'base64url',
+    /**
+     * Indicates the string is a data URL, such as one obtained from
+     * canvas.toDataURL().
+     * Example: the string 'data:application/octet-stream;base64,aaaa'
+     * becomes the byte sequence
+     * 69 a6 9a
+     * (the content-type "application/octet-stream" is also applied, but can
+     * be overridden in the metadata object).
+     */
+    DATA_URL: 'data_url'
+};
+class StringData {
+    constructor(data, contentType) {
+        this.data = data;
+        this.contentType = contentType || null;
+    }
+}
+/**
+ * @internal
+ */
+function dataFromString(format, stringData) {
+    switch (format) {
+        case StringFormat.RAW:
+            return new StringData(utf8Bytes_(stringData));
+        case StringFormat.BASE64:
+        case StringFormat.BASE64URL:
+            return new StringData(base64Bytes_(format, stringData));
+        case StringFormat.DATA_URL:
+            return new StringData(dataURLBytes_(stringData), dataURLContentType_(stringData));
+        // do nothing
+    }
+    // assert(false);
+    throw unknown();
+}
+function utf8Bytes_(value) {
+    const b = [];
+    for (let i = 0; i < value.length; i++) {
+        let c = value.charCodeAt(i);
+        if (c <= 127) {
+            b.push(c);
+        }
+        else {
+            if (c <= 2047) {
+                b.push(192 | (c >> 6), 128 | (c & 63));
+            }
+            else {
+                if ((c & 64512) === 55296) {
+                    // The start of a surrogate pair.
+                    const valid = i < value.length - 1 && (value.charCodeAt(i + 1) & 64512) === 56320;
+                    if (!valid) {
+                        // The second surrogate wasn't there.
+                        b.push(239, 191, 189);
+                    }
+                    else {
+                        const hi = c;
+                        const lo = value.charCodeAt(++i);
+                        c = 65536 | ((hi & 1023) << 10) | (lo & 1023);
+                        b.push(240 | (c >> 18), 128 | ((c >> 12) & 63), 128 | ((c >> 6) & 63), 128 | (c & 63));
+                    }
+                }
+                else {
+                    if ((c & 64512) === 56320) {
+                        // Invalid low surrogate.
+                        b.push(239, 191, 189);
+                    }
+                    else {
+                        b.push(224 | (c >> 12), 128 | ((c >> 6) & 63), 128 | (c & 63));
+                    }
+                }
+            }
+        }
+    }
+    return new Uint8Array(b);
+}
+function percentEncodedBytes_(value) {
+    let decoded;
+    try {
+        decoded = decodeURIComponent(value);
+    }
+    catch (e) {
+        throw invalidFormat(StringFormat.DATA_URL, 'Malformed data URL.');
+    }
+    return utf8Bytes_(decoded);
+}
+function base64Bytes_(format, value) {
+    switch (format) {
+        case StringFormat.BASE64: {
+            const hasMinus = value.indexOf('-') !== -1;
+            const hasUnder = value.indexOf('_') !== -1;
+            if (hasMinus || hasUnder) {
+                const invalidChar = hasMinus ? '-' : '_';
+                throw invalidFormat(format, "Invalid character '" +
+                    invalidChar +
+                    "' found: is it base64url encoded?");
+            }
+            break;
+        }
+        case StringFormat.BASE64URL: {
+            const hasPlus = value.indexOf('+') !== -1;
+            const hasSlash = value.indexOf('/') !== -1;
+            if (hasPlus || hasSlash) {
+                const invalidChar = hasPlus ? '+' : '/';
+                throw invalidFormat(format, "Invalid character '" + invalidChar + "' found: is it base64 encoded?");
+            }
+            value = value.replace(/-/g, '+').replace(/_/g, '/');
+            break;
+        }
+        // do nothing
+    }
+    let bytes;
+    try {
+        bytes = decodeBase64(value);
+    }
+    catch (e) {
+        if (e.message.includes('polyfill')) {
+            throw e;
+        }
+        throw invalidFormat(format, 'Invalid character found');
+    }
+    const array = new Uint8Array(bytes.length);
+    for (let i = 0; i < bytes.length; i++) {
+        array[i] = bytes.charCodeAt(i);
+    }
+    return array;
+}
+class DataURLParts {
+    constructor(dataURL) {
+        this.base64 = false;
+        this.contentType = null;
+        const matches = dataURL.match(/^data:([^,]+)?,/);
+        if (matches === null) {
+            throw invalidFormat(StringFormat.DATA_URL, "Must be formatted 'data:[<mediatype>][;base64],<data>");
+        }
+        const middle = matches[1] || null;
+        if (middle != null) {
+            this.base64 = endsWith(middle, ';base64');
+            this.contentType = this.base64
+                ? middle.substring(0, middle.length - ';base64'.length)
+                : middle;
+        }
+        this.rest = dataURL.substring(dataURL.indexOf(',') + 1);
+    }
+}
+function dataURLBytes_(dataUrl) {
+    const parts = new DataURLParts(dataUrl);
+    if (parts.base64) {
+        return base64Bytes_(StringFormat.BASE64, parts.rest);
+    }
+    else {
+        return percentEncodedBytes_(parts.rest);
+    }
+}
+function dataURLContentType_(dataUrl) {
+    const parts = new DataURLParts(dataUrl);
+    return parts.contentType;
+}
+function endsWith(s, end) {
+    const longEnough = s.length >= end.length;
+    if (!longEnough) {
+        return false;
+    }
+    return s.substring(s.length - end.length) === end;
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @param opt_elideCopy - If true, doesn't copy mutable input data
+ *     (e.g. Uint8Arrays). Pass true only if you know the objects will not be
+ *     modified after this blob's construction.
+ *
+ * @internal
+ */
+class FbsBlob {
+    constructor(data, elideCopy) {
+        let size = 0;
+        let blobType = '';
+        if (isNativeBlob(data)) {
+            this.data_ = data;
+            size = data.size;
+            blobType = data.type;
+        }
+        else if (data instanceof ArrayBuffer) {
+            if (elideCopy) {
+                this.data_ = new Uint8Array(data);
+            }
+            else {
+                this.data_ = new Uint8Array(data.byteLength);
+                this.data_.set(new Uint8Array(data));
+            }
+            size = this.data_.length;
+        }
+        else if (data instanceof Uint8Array) {
+            if (elideCopy) {
+                this.data_ = data;
+            }
+            else {
+                this.data_ = new Uint8Array(data.length);
+                this.data_.set(data);
+            }
+            size = data.length;
+        }
+        this.size_ = size;
+        this.type_ = blobType;
+    }
+    size() {
+        return this.size_;
+    }
+    type() {
+        return this.type_;
+    }
+    slice(startByte, endByte) {
+        if (isNativeBlob(this.data_)) {
+            const realBlob = this.data_;
+            const sliced = sliceBlob(realBlob, startByte, endByte);
+            if (sliced === null) {
+                return null;
+            }
+            return new FbsBlob(sliced);
+        }
+        else {
+            const slice = new Uint8Array(this.data_.buffer, startByte, endByte - startByte);
+            return new FbsBlob(slice, true);
+        }
+    }
+    static getBlob(...args) {
+        if (isNativeBlobDefined()) {
+            const blobby = args.map((val) => {
+                if (val instanceof FbsBlob) {
+                    return val.data_;
+                }
+                else {
+                    return val;
+                }
+            });
+            return new FbsBlob(getBlob$1.apply(null, blobby));
+        }
+        else {
+            const uint8Arrays = args.map((val) => {
+                if (isString(val)) {
+                    return dataFromString(StringFormat.RAW, val).data;
+                }
+                else {
+                    // Blobs don't exist, so this has to be a Uint8Array.
+                    return val.data_;
+                }
+            });
+            let finalLength = 0;
+            uint8Arrays.forEach((array) => {
+                finalLength += array.byteLength;
+            });
+            const merged = new Uint8Array(finalLength);
+            let index = 0;
+            uint8Arrays.forEach((array) => {
+                for (let i = 0; i < array.length; i++) {
+                    merged[index++] = array[i];
+                }
+            });
+            return new FbsBlob(merged, true);
+        }
+    }
+    uploadData() {
+        return this.data_;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Returns the Object resulting from parsing the given JSON, or null if the
+ * given string does not represent a JSON object.
+ */
+function jsonObjectOrNull(s) {
+    let obj;
+    try {
+        obj = JSON.parse(s);
+    }
+    catch (e) {
+        return null;
+    }
+    if (isNonArrayObject(obj)) {
+        return obj;
+    }
+    else {
+        return null;
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * @fileoverview Contains helper methods for manipulating paths.
+ */
+/**
+ * @return Null if the path is already at the root.
+ */
+function parent(path) {
+    if (path.length === 0) {
+        return null;
+    }
+    const index = path.lastIndexOf('/');
+    if (index === -1) {
+        return '';
+    }
+    const newPath = path.slice(0, index);
+    return newPath;
+}
+function child(path, childPath) {
+    const canonicalChildPath = childPath
+        .split('/')
+        .filter(component => component.length > 0)
+        .join('/');
+    if (path.length === 0) {
+        return canonicalChildPath;
+    }
+    else {
+        return path + '/' + canonicalChildPath;
+    }
+}
+/**
+ * Returns the last component of a path.
+ * '/foo/bar' -> 'bar'
+ * '/foo/bar/baz/' -> 'baz/'
+ * '/a' -> 'a'
+ */
+function lastComponent(path) {
+    const index = path.lastIndexOf('/', path.length - 2);
+    if (index === -1) {
+        return path;
+    }
+    else {
+        return path.slice(index + 1);
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function noXform_(metadata, value) {
+    return value;
+}
+class Mapping {
+    constructor(server, local, writable, xform) {
+        this.server = server;
+        this.local = local || server;
+        this.writable = !!writable;
+        this.xform = xform || noXform_;
+    }
+}
+let mappings_ = null;
+function xformPath(fullPath) {
+    if (!isString(fullPath) || fullPath.length < 2) {
+        return fullPath;
+    }
+    else {
+        return lastComponent(fullPath);
+    }
+}
+function getMappings() {
+    if (mappings_) {
+        return mappings_;
+    }
+    const mappings = [];
+    mappings.push(new Mapping('bucket'));
+    mappings.push(new Mapping('generation'));
+    mappings.push(new Mapping('metageneration'));
+    mappings.push(new Mapping('name', 'fullPath', true));
+    function mappingsXformPath(_metadata, fullPath) {
+        return xformPath(fullPath);
+    }
+    const nameMapping = new Mapping('name');
+    nameMapping.xform = mappingsXformPath;
+    mappings.push(nameMapping);
+    /**
+     * Coerces the second param to a number, if it is defined.
+     */
+    function xformSize(_metadata, size) {
+        if (size !== undefined) {
+            return Number(size);
+        }
+        else {
+            return size;
+        }
+    }
+    const sizeMapping = new Mapping('size');
+    sizeMapping.xform = xformSize;
+    mappings.push(sizeMapping);
+    mappings.push(new Mapping('timeCreated'));
+    mappings.push(new Mapping('updated'));
+    mappings.push(new Mapping('md5Hash', null, true));
+    mappings.push(new Mapping('cacheControl', null, true));
+    mappings.push(new Mapping('contentDisposition', null, true));
+    mappings.push(new Mapping('contentEncoding', null, true));
+    mappings.push(new Mapping('contentLanguage', null, true));
+    mappings.push(new Mapping('contentType', null, true));
+    mappings.push(new Mapping('metadata', 'customMetadata', true));
+    mappings_ = mappings;
+    return mappings_;
+}
+function addRef(metadata, service) {
+    function generateRef() {
+        const bucket = metadata['bucket'];
+        const path = metadata['fullPath'];
+        const loc = new Location(bucket, path);
+        return service._makeStorageReference(loc);
+    }
+    Object.defineProperty(metadata, 'ref', { get: generateRef });
+}
+function fromResource(service, resource, mappings) {
+    const metadata = {};
+    metadata['type'] = 'file';
+    const len = mappings.length;
+    for (let i = 0; i < len; i++) {
+        const mapping = mappings[i];
+        metadata[mapping.local] = mapping.xform(metadata, resource[mapping.server]);
+    }
+    addRef(metadata, service);
+    return metadata;
+}
+function fromResourceString(service, resourceString, mappings) {
+    const obj = jsonObjectOrNull(resourceString);
+    if (obj === null) {
+        return null;
+    }
+    const resource = obj;
+    return fromResource(service, resource, mappings);
+}
+function downloadUrlFromResourceString(metadata, resourceString, host, protocol) {
+    const obj = jsonObjectOrNull(resourceString);
+    if (obj === null) {
+        return null;
+    }
+    if (!isString(obj['downloadTokens'])) {
+        // This can happen if objects are uploaded through GCS and retrieved
+        // through list, so we don't want to throw an Error.
+        return null;
+    }
+    const tokens = obj['downloadTokens'];
+    if (tokens.length === 0) {
+        return null;
+    }
+    const encode = encodeURIComponent;
+    const tokensList = tokens.split(',');
+    const urls = tokensList.map((token) => {
+        const bucket = metadata['bucket'];
+        const path = metadata['fullPath'];
+        const urlPart = '/b/' + encode(bucket) + '/o/' + encode(path);
+        const base = makeUrl(urlPart, host, protocol);
+        const queryString = makeQueryString({
+            alt: 'media',
+            token
+        });
+        return base + queryString;
+    });
+    return urls[0];
+}
+function toResourceString(metadata, mappings) {
+    const resource = {};
+    const len = mappings.length;
+    for (let i = 0; i < len; i++) {
+        const mapping = mappings[i];
+        if (mapping.writable) {
+            resource[mapping.server] = metadata[mapping.local];
+        }
+    }
+    return JSON.stringify(resource);
+}
+
+/**
+ * Contains a fully specified request.
+ *
+ * @param I - the type of the backend's network response.
+ * @param O - the output response type used by the rest of the SDK.
+ */
+class RequestInfo {
+    constructor(url, method, 
+    /**
+     * Returns the value with which to resolve the request's promise. Only called
+     * if the request is successful. Throw from this function to reject the
+     * returned Request's promise with the thrown error.
+     * Note: The XhrIo passed to this function may be reused after this callback
+     * returns. Do not keep a reference to it in any way.
+     */
+    handler, timeout) {
+        this.url = url;
+        this.method = method;
+        this.handler = handler;
+        this.timeout = timeout;
+        this.urlParams = {};
+        this.headers = {};
+        this.body = null;
+        this.errorHandler = null;
+        /**
+         * Called with the current number of bytes uploaded and total size (-1 if not
+         * computable) of the request body (i.e. used to report upload progress).
+         */
+        this.progressCallback = null;
+        this.successCodes = [200];
+        this.additionalRetryCodes = [];
+    }
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Throws the UNKNOWN StorageError if cndn is false.
+ */
+function handlerCheck(cndn) {
+    if (!cndn) {
+        throw unknown();
+    }
+}
+function metadataHandler(service, mappings) {
+    function handler(xhr, text) {
+        const metadata = fromResourceString(service, text, mappings);
+        handlerCheck(metadata !== null);
+        return metadata;
+    }
+    return handler;
+}
+function downloadUrlHandler(service, mappings) {
+    function handler(xhr, text) {
+        const metadata = fromResourceString(service, text, mappings);
+        handlerCheck(metadata !== null);
+        return downloadUrlFromResourceString(metadata, text, service.host, service._protocol);
+    }
+    return handler;
+}
+function sharedErrorHandler(location) {
+    function errorHandler(xhr, err) {
+        let newErr;
+        if (xhr.getStatus() === 401) {
+            if (
+            // This exact message string is the only consistent part of the
+            // server's error response that identifies it as an App Check error.
+            xhr.getErrorText().includes('Firebase App Check token is invalid')) {
+                newErr = unauthorizedApp();
+            }
+            else {
+                newErr = unauthenticated();
+            }
+        }
+        else {
+            if (xhr.getStatus() === 402) {
+                newErr = quotaExceeded(location.bucket);
+            }
+            else {
+                if (xhr.getStatus() === 403) {
+                    newErr = unauthorized(location.path);
+                }
+                else {
+                    newErr = err;
+                }
+            }
+        }
+        newErr.status = xhr.getStatus();
+        newErr.serverResponse = err.serverResponse;
+        return newErr;
+    }
+    return errorHandler;
+}
+function objectErrorHandler(location) {
+    const shared = sharedErrorHandler(location);
+    function errorHandler(xhr, err) {
+        let newErr = shared(xhr, err);
+        if (xhr.getStatus() === 404) {
+            newErr = objectNotFound(location.path);
+        }
+        newErr.serverResponse = err.serverResponse;
+        return newErr;
+    }
+    return errorHandler;
+}
+function getDownloadUrl(service, location, mappings) {
+    const urlPart = location.fullServerUrl();
+    const url = makeUrl(urlPart, service.host, service._protocol);
+    const method = 'GET';
+    const timeout = service.maxOperationRetryTime;
+    const requestInfo = new RequestInfo(url, method, downloadUrlHandler(service, mappings), timeout);
+    requestInfo.errorHandler = objectErrorHandler(location);
+    return requestInfo;
+}
+function determineContentType_(metadata, blob) {
+    return ((metadata && metadata['contentType']) ||
+        (blob && blob.type()) ||
+        'application/octet-stream');
+}
+function metadataForUpload_(location, blob, metadata) {
+    const metadataClone = Object.assign({}, metadata);
+    metadataClone['fullPath'] = location.path;
+    metadataClone['size'] = blob.size();
+    if (!metadataClone['contentType']) {
+        metadataClone['contentType'] = determineContentType_(null, blob);
+    }
+    return metadataClone;
+}
+/**
+ * Prepare RequestInfo for uploads as Content-Type: multipart.
+ */
+function multipartUpload(service, location, mappings, blob, metadata) {
+    const urlPart = location.bucketOnlyServerUrl();
+    const headers = {
+        'X-Goog-Upload-Protocol': 'multipart'
+    };
+    function genBoundary() {
+        let str = '';
+        for (let i = 0; i < 2; i++) {
+            str = str + Math.random().toString().slice(2);
+        }
+        return str;
+    }
+    const boundary = genBoundary();
+    headers['Content-Type'] = 'multipart/related; boundary=' + boundary;
+    const metadata_ = metadataForUpload_(location, blob, metadata);
+    const metadataString = toResourceString(metadata_, mappings);
+    const preBlobPart = '--' +
+        boundary +
+        '\r\n' +
+        'Content-Type: application/json; charset=utf-8\r\n\r\n' +
+        metadataString +
+        '\r\n--' +
+        boundary +
+        '\r\n' +
+        'Content-Type: ' +
+        metadata_['contentType'] +
+        '\r\n\r\n';
+    const postBlobPart = '\r\n--' + boundary + '--';
+    const body = FbsBlob.getBlob(preBlobPart, blob, postBlobPart);
+    if (body === null) {
+        throw cannotSliceBlob();
+    }
+    const urlParams = { name: metadata_['fullPath'] };
+    const url = makeUrl(urlPart, service.host, service._protocol);
+    const method = 'POST';
+    const timeout = service.maxUploadRetryTime;
+    const requestInfo = new RequestInfo(url, method, metadataHandler(service, mappings), timeout);
+    requestInfo.urlParams = urlParams;
+    requestInfo.headers = headers;
+    requestInfo.body = body.uploadData();
+    requestInfo.errorHandler = sharedErrorHandler(location);
+    return requestInfo;
+}
+/**
+ * Network layer for browsers. We use this instead of goog.net.XhrIo because
+ * goog.net.XhrIo is hyuuuuge and doesn't work in React Native on Android.
+ */
+class XhrConnection {
+    constructor() {
+        this.sent_ = false;
+        this.xhr_ = new XMLHttpRequest();
+        this.initXhr();
+        this.errorCode_ = ErrorCode.NO_ERROR;
+        this.sendPromise_ = new Promise(resolve => {
+            this.xhr_.addEventListener('abort', () => {
+                this.errorCode_ = ErrorCode.ABORT;
+                resolve();
+            });
+            this.xhr_.addEventListener('error', () => {
+                this.errorCode_ = ErrorCode.NETWORK_ERROR;
+                resolve();
+            });
+            this.xhr_.addEventListener('load', () => {
+                resolve();
+            });
+        });
+    }
+    send(url, method, body, headers) {
+        if (this.sent_) {
+            throw internalError('cannot .send() more than once');
+        }
+        this.sent_ = true;
+        this.xhr_.open(method, url, true);
+        if (headers !== undefined) {
+            for (const key in headers) {
+                if (headers.hasOwnProperty(key)) {
+                    this.xhr_.setRequestHeader(key, headers[key].toString());
+                }
+            }
+        }
+        if (body !== undefined) {
+            this.xhr_.send(body);
+        }
+        else {
+            this.xhr_.send();
+        }
+        return this.sendPromise_;
+    }
+    getErrorCode() {
+        if (!this.sent_) {
+            throw internalError('cannot .getErrorCode() before sending');
+        }
+        return this.errorCode_;
+    }
+    getStatus() {
+        if (!this.sent_) {
+            throw internalError('cannot .getStatus() before sending');
+        }
+        try {
+            return this.xhr_.status;
+        }
+        catch (e) {
+            return -1;
+        }
+    }
+    getResponse() {
+        if (!this.sent_) {
+            throw internalError('cannot .getResponse() before sending');
+        }
+        return this.xhr_.response;
+    }
+    getErrorText() {
+        if (!this.sent_) {
+            throw internalError('cannot .getErrorText() before sending');
+        }
+        return this.xhr_.statusText;
+    }
+    /** Aborts the request. */
+    abort() {
+        this.xhr_.abort();
+    }
+    getResponseHeader(header) {
+        return this.xhr_.getResponseHeader(header);
+    }
+    addUploadProgressListener(listener) {
+        if (this.xhr_.upload != null) {
+            this.xhr_.upload.addEventListener('progress', listener);
+        }
+    }
+    removeUploadProgressListener(listener) {
+        if (this.xhr_.upload != null) {
+            this.xhr_.upload.removeEventListener('progress', listener);
+        }
+    }
+}
+class XhrTextConnection extends XhrConnection {
+    initXhr() {
+        this.xhr_.responseType = 'text';
+    }
+}
+function newTextConnection() {
+    return new XhrTextConnection();
+}
+
+/**
+ * @license
+ * Copyright 2019 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Provides methods to interact with a bucket in the Firebase Storage service.
+ * @internal
+ * @param _location - An fbs.location, or the URL at
+ *     which to base this object, in one of the following forms:
+ *         gs://<bucket>/<object-path>
+ *         http[s]://firebasestorage.googleapis.com/
+ *                     <api-version>/b/<bucket>/o/<object-path>
+ *     Any query or fragment strings will be ignored in the http[s]
+ *     format. If no value is passed, the storage object will use a URL based on
+ *     the project ID of the base firebase.App instance.
+ */
+class Reference {
+    constructor(_service, location) {
+        this._service = _service;
+        if (location instanceof Location) {
+            this._location = location;
+        }
+        else {
+            this._location = Location.makeFromUrl(location, _service.host);
+        }
+    }
+    /**
+     * Returns the URL for the bucket and path this object references,
+     *     in the form gs://<bucket>/<object-path>
+     * @override
+     */
+    toString() {
+        return 'gs://' + this._location.bucket + '/' + this._location.path;
+    }
+    _newRef(service, location) {
+        return new Reference(service, location);
+    }
+    /**
+     * A reference to the root of this object's bucket.
+     */
+    get root() {
+        const location = new Location(this._location.bucket, '');
+        return this._newRef(this._service, location);
+    }
+    /**
+     * The name of the bucket containing this reference's object.
+     */
+    get bucket() {
+        return this._location.bucket;
+    }
+    /**
+     * The full path of this object.
+     */
+    get fullPath() {
+        return this._location.path;
+    }
+    /**
+     * The short name of this object, which is the last component of the full path.
+     * For example, if fullPath is 'full/path/image.png', name is 'image.png'.
+     */
+    get name() {
+        return lastComponent(this._location.path);
+    }
+    /**
+     * The `StorageService` instance this `StorageReference` is associated with.
+     */
+    get storage() {
+        return this._service;
+    }
+    /**
+     * A `StorageReference` pointing to the parent location of this `StorageReference`, or null if
+     * this reference is the root.
+     */
+    get parent() {
+        const newPath = parent(this._location.path);
+        if (newPath === null) {
+            return null;
+        }
+        const location = new Location(this._location.bucket, newPath);
+        return new Reference(this._service, location);
+    }
+    /**
+     * Utility function to throw an error in methods that do not accept a root reference.
+     */
+    _throwIfRoot(name) {
+        if (this._location.path === '') {
+            throw invalidRootOperation(name);
+        }
+    }
+}
+/**
+ * Uploads data to this object's location.
+ * The upload is not resumable.
+ *
+ * @param ref - StorageReference where data should be uploaded.
+ * @param data - The data to upload.
+ * @param metadata - Metadata for the newly uploaded data.
+ * @returns A Promise containing an UploadResult
+ */
+function uploadBytes$1(ref, data, metadata) {
+    ref._throwIfRoot('uploadBytes');
+    const requestInfo = multipartUpload(ref.storage, ref._location, getMappings(), new FbsBlob(data, true), metadata);
+    return ref.storage
+        .makeRequestWithTokens(requestInfo, newTextConnection)
+        .then(finalMetadata => {
+        return {
+            metadata: finalMetadata,
+            ref
+        };
+    });
+}
+/**
+ * Returns the download URL for the given Reference.
+ * @public
+ * @returns A `Promise` that resolves with the download
+ *     URL for this object.
+ */
+function getDownloadURL$1(ref) {
+    ref._throwIfRoot('getDownloadURL');
+    const requestInfo = getDownloadUrl(ref.storage, ref._location, getMappings());
+    return ref.storage
+        .makeRequestWithTokens(requestInfo, newTextConnection)
+        .then(url => {
+        if (url === null) {
+            throw noDownloadURL();
+        }
+        return url;
+    });
+}
+/**
+ * Returns reference for object obtained by appending `childPath` to `ref`.
+ *
+ * @param ref - StorageReference to get child of.
+ * @param childPath - Child path from provided ref.
+ * @returns A reference to the object obtained by
+ * appending childPath, removing any duplicate, beginning, or trailing
+ * slashes.
+ *
+ */
+function _getChild$1(ref, childPath) {
+    const newPath = child(ref._location.path, childPath);
+    const location = new Location(ref._location.bucket, newPath);
+    return new Reference(ref.storage, location);
+}
+
+/**
+ * @license
+ * Copyright 2017 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+function isUrl(path) {
+    return /^[A-Za-z]+:\/\//.test(path);
+}
+/**
+ * Returns a firebaseStorage.Reference for the given url.
+ */
+function refFromURL(service, url) {
+    return new Reference(service, url);
+}
+/**
+ * Returns a firebaseStorage.Reference for the given path in the default
+ * bucket.
+ */
+function refFromPath(ref, path) {
+    if (ref instanceof FirebaseStorageImpl) {
+        const service = ref;
+        if (service._bucket == null) {
+            throw noDefaultBucket();
+        }
+        const reference = new Reference(service, service._bucket);
+        if (path != null) {
+            return refFromPath(reference, path);
+        }
+        else {
+            return reference;
+        }
+    }
+    else {
+        // ref is a Reference
+        if (path !== undefined) {
+            return _getChild$1(ref, path);
+        }
+        else {
+            return ref;
+        }
+    }
+}
+function ref$1(serviceOrRef, pathOrUrl) {
+    if (pathOrUrl && isUrl(pathOrUrl)) {
+        if (serviceOrRef instanceof FirebaseStorageImpl) {
+            return refFromURL(serviceOrRef, pathOrUrl);
+        }
+        else {
+            throw invalidArgument('To use ref(service, url), the first argument must be a Storage instance.');
+        }
+    }
+    else {
+        return refFromPath(serviceOrRef, pathOrUrl);
+    }
+}
+function extractBucket(host, config) {
+    const bucketString = config === null || config === void 0 ? void 0 : config[CONFIG_STORAGE_BUCKET_KEY];
+    if (bucketString == null) {
+        return null;
+    }
+    return Location.makeFromBucketSpec(bucketString, host);
+}
+function connectStorageEmulator$1(storage, host, port, options = {}) {
+    storage.host = `${host}:${port}`;
+    storage._protocol = 'http';
+    const { mockUserToken } = options;
+    if (mockUserToken) {
+        storage._overrideAuthToken =
+            typeof mockUserToken === 'string'
+                ? mockUserToken
+                : createMockUserToken(mockUserToken, storage.app.options.projectId);
+    }
+}
+/**
+ * A service that provides Firebase Storage Reference instances.
+ * @param opt_url - gs:// url to a custom Storage Bucket
+ *
+ * @internal
+ */
+class FirebaseStorageImpl {
+    constructor(
+    /**
+     * FirebaseApp associated with this StorageService instance.
+     */
+    app, _authProvider, 
+    /**
+     * @internal
+     */
+    _appCheckProvider, 
+    /**
+     * @internal
+     */
+    _url, _firebaseVersion) {
+        this.app = app;
+        this._authProvider = _authProvider;
+        this._appCheckProvider = _appCheckProvider;
+        this._url = _url;
+        this._firebaseVersion = _firebaseVersion;
+        this._bucket = null;
+        /**
+         * This string can be in the formats:
+         * - host
+         * - host:port
+         */
+        this._host = DEFAULT_HOST;
+        this._protocol = 'https';
+        this._appId = null;
+        this._deleted = false;
+        this._maxOperationRetryTime = DEFAULT_MAX_OPERATION_RETRY_TIME;
+        this._maxUploadRetryTime = DEFAULT_MAX_UPLOAD_RETRY_TIME;
+        this._requests = new Set();
+        if (_url != null) {
+            this._bucket = Location.makeFromBucketSpec(_url, this._host);
+        }
+        else {
+            this._bucket = extractBucket(this._host, this.app.options);
+        }
+    }
+    /**
+     * The host string for this service, in the form of `host` or
+     * `host:port`.
+     */
+    get host() {
+        return this._host;
+    }
+    set host(host) {
+        this._host = host;
+        if (this._url != null) {
+            this._bucket = Location.makeFromBucketSpec(this._url, host);
+        }
+        else {
+            this._bucket = extractBucket(host, this.app.options);
+        }
+    }
+    /**
+     * The maximum time to retry uploads in milliseconds.
+     */
+    get maxUploadRetryTime() {
+        return this._maxUploadRetryTime;
+    }
+    set maxUploadRetryTime(time) {
+        validateNumber('time', 
+        /* minValue=*/ 0, 
+        /* maxValue= */ Number.POSITIVE_INFINITY, time);
+        this._maxUploadRetryTime = time;
+    }
+    /**
+     * The maximum time to retry operations other than uploads or downloads in
+     * milliseconds.
+     */
+    get maxOperationRetryTime() {
+        return this._maxOperationRetryTime;
+    }
+    set maxOperationRetryTime(time) {
+        validateNumber('time', 
+        /* minValue=*/ 0, 
+        /* maxValue= */ Number.POSITIVE_INFINITY, time);
+        this._maxOperationRetryTime = time;
+    }
+    async _getAuthToken() {
+        if (this._overrideAuthToken) {
+            return this._overrideAuthToken;
+        }
+        const auth = this._authProvider.getImmediate({ optional: true });
+        if (auth) {
+            const tokenData = await auth.getToken();
+            if (tokenData !== null) {
+                return tokenData.accessToken;
+            }
+        }
+        return null;
+    }
+    async _getAppCheckToken() {
+        const appCheck = this._appCheckProvider.getImmediate({ optional: true });
+        if (appCheck) {
+            const result = await appCheck.getToken();
+            // TODO: What do we want to do if there is an error getting the token?
+            // Context: appCheck.getToken() will never throw even if an error happened. In the error case, a dummy token will be
+            // returned along with an error field describing the error. In general, we shouldn't care about the error condition and just use
+            // the token (actual or dummy) to send requests.
+            return result.token;
+        }
+        return null;
+    }
+    /**
+     * Stop running requests and prevent more from being created.
+     */
+    _delete() {
+        if (!this._deleted) {
+            this._deleted = true;
+            this._requests.forEach(request => request.cancel());
+            this._requests.clear();
+        }
+        return Promise.resolve();
+    }
+    /**
+     * Returns a new firebaseStorage.Reference object referencing this StorageService
+     * at the given Location.
+     */
+    _makeStorageReference(loc) {
+        return new Reference(this, loc);
+    }
+    /**
+     * @param requestInfo - HTTP RequestInfo object
+     * @param authToken - Firebase auth token
+     */
+    _makeRequest(requestInfo, requestFactory, authToken, appCheckToken, retry = true) {
+        if (!this._deleted) {
+            const request = makeRequest(requestInfo, this._appId, authToken, appCheckToken, requestFactory, this._firebaseVersion, retry);
+            this._requests.add(request);
+            // Request removes itself from set when complete.
+            request.getPromise().then(() => this._requests.delete(request), () => this._requests.delete(request));
+            return request;
+        }
+        else {
+            return new FailRequest(appDeleted());
+        }
+    }
+    async makeRequestWithTokens(requestInfo, requestFactory) {
+        const [authToken, appCheckToken] = await Promise.all([
+            this._getAuthToken(),
+            this._getAppCheckToken()
+        ]);
+        return this._makeRequest(requestInfo, requestFactory, authToken, appCheckToken).getPromise();
+    }
+}
+
+const name$3 = "@firebase/storage";
+const version$3 = "0.12.0";
+
+/**
+ * @license
+ * Copyright 2020 Google LLC
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *   http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+/**
+ * Type constant for Firebase Storage.
+ */
+const STORAGE_TYPE = 'storage';
+/**
+ * Uploads data to this object's location.
+ * The upload is not resumable.
+ * @public
+ * @param ref - {@link StorageReference} where data should be uploaded.
+ * @param data - The data to upload.
+ * @param metadata - Metadata for the data to upload.
+ * @returns A Promise containing an UploadResult
+ */
+function uploadBytes(ref, data, metadata) {
+    ref = getModularInstance(ref);
+    return uploadBytes$1(ref, data, metadata);
+}
+/**
+ * Returns the download URL for the given {@link StorageReference}.
+ * @public
+ * @param ref - {@link StorageReference} to get the download URL for.
+ * @returns A `Promise` that resolves with the download
+ *     URL for this object.
+ */
+function getDownloadURL(ref) {
+    ref = getModularInstance(ref);
+    return getDownloadURL$1(ref);
+}
+function ref(serviceOrRef, pathOrUrl) {
+    serviceOrRef = getModularInstance(serviceOrRef);
+    return ref$1(serviceOrRef, pathOrUrl);
+}
+/**
+ * Gets a {@link FirebaseStorage} instance for the given Firebase app.
+ * @public
+ * @param app - Firebase app to get {@link FirebaseStorage} instance for.
+ * @param bucketUrl - The gs:// url to your Firebase Storage Bucket.
+ * If not passed, uses the app's default Storage Bucket.
+ * @returns A {@link FirebaseStorage} instance.
+ */
+function getStorage(app = getApp(), bucketUrl) {
+    app = getModularInstance(app);
+    const storageProvider = _getProvider(app, STORAGE_TYPE);
+    const storageInstance = storageProvider.getImmediate({
+        identifier: bucketUrl
+    });
+    const emulator = getDefaultEmulatorHostnameAndPort('storage');
+    if (emulator) {
+        connectStorageEmulator(storageInstance, ...emulator);
+    }
+    return storageInstance;
+}
+/**
+ * Modify this {@link FirebaseStorage} instance to communicate with the Cloud Storage emulator.
+ *
+ * @param storage - The {@link FirebaseStorage} instance
+ * @param host - The emulator host (ex: localhost)
+ * @param port - The emulator port (ex: 5001)
+ * @param options - Emulator options. `options.mockUserToken` is the mock auth
+ * token to use for unit testing Security Rules.
+ * @public
+ */
+function connectStorageEmulator(storage, host, port, options = {}) {
+    connectStorageEmulator$1(storage, host, port, options);
+}
+
+/**
+ * Cloud Storage for Firebase
+ *
+ * @packageDocumentation
+ */
+function factory$1(container, { instanceIdentifier: url }) {
+    const app = container.getProvider('app').getImmediate();
+    const authProvider = container.getProvider('auth-internal');
+    const appCheckProvider = container.getProvider('app-check-internal');
+    return new FirebaseStorageImpl(app, authProvider, appCheckProvider, url, SDK_VERSION);
+}
+function registerStorage() {
+    _registerComponent(new Component(STORAGE_TYPE, factory$1, "PUBLIC" /* ComponentType.PUBLIC */).setMultipleInstances(true));
+    //RUNTIME_ENV will be replaced during the compilation to "node" for nodejs and an empty string for browser
+    registerVersion(name$3, version$3, '');
+    // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
+    registerVersion(name$3, version$3, 'esm2017');
+}
+registerStorage();
+
+function resizeImage(file, width, height, quality) {
+	return new Promise((resolve, reject) => {
+
+		if (isNaN(width)) {
+			reject('넓이를 숫자로 입력하세요.');
+		}
+
+		if (isNaN(height)) {
+			reject('높이를 숫자로 입력하세요.');	
+		}
+
+		const reader = new FileReader();
+
+		reader.readAsDataURL(file);
+
+		reader.onload = function() {
+			const image = new Image();
+
+			image.src = reader.result;
+
+			image.onload = function() {
+				const canvas = document.createElement('canvas');
+				canvas.width = width;
+				canvas.height = height;
+				const ctx = canvas.getContext('2d');
+				if (image.width / image.height >= width / height) {
+					const w = width * image.width / image.height;
+					const x = (w - width) / 2 * -1;
+					ctx.drawImage(image, x, 0, w, height);
+				} else {
+					const h = height * image.height / image.width;
+					const y = (h - height) / 2 * -1;
+					ctx.drawImage(image, 0, y, width, h);
+				}
+				try {
+					canvas.toBlob(blob => {
+						resolve(blob);
+					}, file.type, !quality ? .8 : quality);
+				} catch(error) {
+					reject(error);
+				}
+			};
+
+			image.onerror = function(event) {
+				reject(event);
+			};
+		};
+
+		reader.onerror = function(event) {
+			reject(event);
+		};
+	})
+}
+
+const EditProfile = async () => {
+
+    const auth = getAuth();
+    
+    await auth.authStateReady();
+    
+    const currentUser = auth.currentUser;
+
+    console.log('currentUser => ', currentUser.photoURL);
+
+    function editProfile(e) {
+        e.preventDefault();
+        if (!currentUser) return;
+        updateProfile(currentUser, {
+            photoURL: document.forms['edit-profile-form'].elements['photo-url'].value,
+            displayName: document.forms['edit-profile-form'].elements['display-name'].value
+        })
+        .then(() => {
+            alert('수정되었습니다.');
+            // location.reload('#me')
+            // location.href = '#me'
+            history.back();
+        })
+        .catch(error => { console.log(error); });
+    }
+
+    function uploadPhoto(e) {
+
+        if (e.target.files.length !== 1) return false;
+        const file = e.target.files[0];
+
+        // 이미지인지 확인
+        if (file.type.indexOf('image') !== 0) {
+            alert('이미지가 아닙니다.');
+            return
+        }
+
+        const ext = file.type.split('/').at(-1);
+
+        resizeImage(file, 300, 300)
+            .then(data => {
+                const storage = getStorage();
+                const storageRef = ref(storage, `users/profile/${dayjs().format('YYYYMMDD_HHmmss_SSS')}_${currentUser.uid}.${ext}`);
+                //uploadBytes(storageRef, data, { cacheControl: 'private, max-age=108000' })
+                uploadBytes(storageRef, data)
+                    .then(() => {
+                        getDownloadURL(storageRef)
+                            .then((url) => {
+                                document.querySelector('#profile-preview img')?.remove();
+                                document.querySelector('#profile-preview span')?.remove();
+                                j$1(
+                                    x$1`<img src="${url}" class="rounded-full w-full h-full block">`,
+                                    document.querySelector('#profile-preview')
+                                );
+                                document.querySelector('[name="photo-url"]').setAttribute('value', url);
+                            });
+                    });
+            })
+            .catch(error => {
+                console.log(error);
+            });
+            
+    }
+
+    function deletePhoto() {
+        document.querySelector('#profile-preview img')?.remove();
+        j$1(
+            x$1`<span class="text-slate-400">${ UserCircleSolidIcon({ classList: 'size-32' }) }</span>`,
+            document.getElementById('profile-preview')
+        );
+        document.querySelector('[name="photo-url"]').setAttribute('value', "");
+    }
+
+    j$1((x$1`
+        <div class="me edit-profile p-5">
+            <header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => {
+                    e.preventDefault();
+                    history.back();
+                }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">프로필 수정</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+            <form action="#" method="post" id="edit-profile-form" @submit=${editProfile}>
+                <div class="mb-3">
+                    <div id="profile-preview" class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden">${
+                        currentUser
+                            ? currentUser.photoURL
+                                ? x$1`<img src=${currentUser.photoURL} class="rounded-full w-full h-full block">`
+                                : x$1`<span class="text-slate-400">${ UserCircleSolidIcon({ classList: 'size-32' }) }</span>`
+                            : x$1`${T$1}`
+                    }</div>
+                    <div class="flex justify-center mt-4 mx-auto">
+                        <button type="button" class="bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
+                        <button type="button" class="cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
+                            <span>업로드</span>
+                        </button>
+                        <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${ uploadPhoto }>
+                    </div>
+                    <input type="hidden" name="photo-url" value="${currentUser.photoURL}">
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="text" name="display-name" class="border-slate-200 w-full rounded-lg" placeholder="이름 또는 닉네임" required value="${currentUser.displayName}">
+                    </label>
+                </div>
+                <div class="mb-3">
+                    <label>
+                        <input type="email" name="email" class="border-slate-200 w-full rounded-lg disabled:bg-slate-100" placeholder="이메일" disabled value="${currentUser.email}">
+                    </label>
+                </div>
+                <div class="mt-5">
+                    <button type="submit" class="p-3 bg-purple-500 text-white rounded-lg w-full">저장</button>
+                </div>
+            </form>
+        </div>
+    `), document.getElementById('app'));
+};
 
 const NewMilonga = async () => {
 
@@ -28498,7 +28920,7 @@ onAuthStateChanged(getAuth(), async user => {
 getAuth().authStateReady()
     .then(() => {
         document.body.classList.remove('overflow-hidden');
-        document.getElementById('loading').classList.add('hidden');
+        document.getElementById('loading')?.classList.add('hidden');
     });
 
 window.addEventListener('DOMContentLoaded', e => {

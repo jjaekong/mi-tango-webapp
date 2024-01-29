@@ -9141,6 +9141,10 @@ registerAuth("Browser" /* ClientPlatform.BROWSER */);
 
 const ArrowLeftIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
 
+const AtSymbolIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
+<path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" />
+</svg>`;
+
 const UserCircleOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
   <path stroke-linecap="round" stroke-linejoin="round" d="M17.982 18.725A7.488 7.488 0 0 0 12 15.75a7.488 7.488 0 0 0-5.982 2.975m11.963 0a9 9 0 1 0-11.963 0m11.963 0A8.966 8.966 0 0 1 12 21a8.966 8.966 0 0 1-5.982-2.275M15 9.75a3 3 0 1 1-6 0 3 3 0 0 1 6 0Z" />
 </svg>`;
@@ -9978,7 +9982,7 @@ const djItem = (item) => {
                 <h6 class="font-bold">에르난</h6>
                 <div class="text-slate-500 flex flex-wrap text-sm">
                     <time class="me-2">1월 14일 수요일</time>
-                    <span>까사</span>
+                    <span class="flex items-center">${AtSymbolIcon({ classList: 'size-4' })}까사</span>
                 </div>
             </div>
             <div class="ms-auto text-slate-400">
@@ -26661,7 +26665,24 @@ const Milonga = async () => {
     const milongaData = milongaSnap.data();
 
 	j$1(h(x$1`
-		${milongaData.name}
+        <div class="milonga p-5" role="document">
+            <header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 홈</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+            <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100">
+                <div>
+                    <img src="https://picsum.photos/100/100" class="block size-16">
+                </div>
+                <div class="flex-1 mx-3">${milongaData.name}</div>
+            </div>
+            <section>
+                <header>
+                    <h4>다가오는 밀롱가 이벤트</h4>
+                </header>
+            </section>
+        </div>
 	`), document.getElementById('app'));
 };
 

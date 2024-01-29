@@ -1,5 +1,5 @@
 import { html } from "lit-html"
-import { ChevronRightIcon } from "../icons"
+import { AtSymbolIcon, ChevronRightIcon } from "../icons"
 
 export const djItem = (item) => {
     return html`
@@ -11,7 +11,7 @@ export const djItem = (item) => {
                 <h6 class="font-bold">에르난</h6>
                 <div class="text-slate-500 flex flex-wrap text-sm">
                     <time class="me-2">1월 14일 수요일</time>
-                    <span>까사</span>
+                    <span class="flex items-center">${AtSymbolIcon({ classList: 'size-4' })}까사</span>
                 </div>
             </div>
             <div class="ms-auto text-slate-400">

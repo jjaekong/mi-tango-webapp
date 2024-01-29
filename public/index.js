@@ -9977,7 +9977,7 @@ const djItem = (item) => {
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
                 <div class="text-slate-500 flex flex-wrap text-sm">
-                    <time class="font-bold me-2">1월 14일 수요일</time>
+                    <time class="me-2">1월 14일 수요일</time>
                     <span>까사</span>
                 </div>
             </div>
@@ -10011,7 +10011,7 @@ const Home = async () => {
                                         ? x$1`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
                                         : x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
                                 }</a>`
-						: x$1`<a href="#login" @click=${ navigator.vibrate(200) }>${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
 
@@ -23982,31 +23982,48 @@ const MyMilongas = async (currentUser) => {
 
 	return x$1`
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
-			<header class="mb-4">
-				<h6 class="font-bold text-lg">내 밀롱가 (${x$1`${qSnap.size})`}</h6>
+			<header class="mb-4 flex items-center flex-wrap justify-between">
+				<h6 class="font-bold text-lg">내 밀롱가</h6>
+                ${
+                    qSnap.empty
+                        ? T$1
+                        : x$1`<a href="#me/new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
+                }
 			</header>
-			<ul>
-				${
-					o(qSnap.docs, (doc) => {
-						const data = {
-							id: doc.id,
-							...doc.data()
-						};
-						return x$1`
-							<li class="mt-3">
-								<a href="#milonga/${data.id}" class="flex items-center">
-									<div class="flex-0">
-										${data.logoURL ? x$1`AA` : x$1`<div class="size-12 bg-slate-100 rounded-xl"></div>` }
-									</div>
-									<div class="mx-3">
-										${data.name}
-									</div>
-								</a>
-							</li>
-						`
-					})
-				}
-			</ul>
+            ${
+                qSnap.empty
+                    ? x$1`<p>아직 밀롱가를 만들지 않았습니다</p>`
+                    : x$1`
+                        <ul>
+                            ${
+                                o(qSnap.docs, (doc) => {
+                                    const data = doc.data();
+                                    const milongaData = {
+                                        id: doc.id,
+                                        name: data.name,
+                                        logoURL: data.logoURL
+                                    };
+                                    return x$1`
+                                        <li class="mt-3">
+                                            <a href="#milonga/${milongaData.id}" class="flex items-center">
+                                                <div class="flex-0 self-start">
+                                                    ${
+                                                        data.logoURL
+                                                            ? x$1`<img src="${data.logoURL}" class="size-12 rounded-xl">`
+                                                            : x$1`<div class="size-12 bg-slate-100 rounded-xl"></div>`
+                                                    }
+                                                </div>
+                                                <div class="mx-3">
+                                                    <span class="font-bold">${data.name}</span>
+                                                </div>
+                                            </a>
+                                        </li>
+                                    `
+                                })
+                            }
+                        </ul>`
+            }
+			
 		</section>
 	`
 };

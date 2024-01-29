@@ -32,7 +32,7 @@ export const Home = async () => {
                                         ? html`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
                                         : html`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
                                 }</a>`
-						: html`<a href="#login" @click=${ navigator.vibrate(200) }>${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+						: html`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
 

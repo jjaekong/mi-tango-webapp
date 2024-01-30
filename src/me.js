@@ -1,7 +1,7 @@
 import { getAuth, signOut } from 'firebase/auth'
-import { render, html, nothing } from 'lit-html'
+import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { ArrowLeftIcon, ChevronRightIcon, UserCircleSolidIcon, UserCircleOutlineIcon } from './icons.js'
+import { ArrowLeftIcon } from './icons.js'
 import { MyMilongas } from './me/main/my_milongas.js'
 import { UserProfile } from './me/main/user_profile.js'
 

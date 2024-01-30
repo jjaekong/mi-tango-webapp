@@ -2,7 +2,6 @@ import { getAuth } from 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { ENV } from './config'
 import { ArrowLeftIcon } from './icons'
 
 export const Milonga = async () => {
@@ -16,7 +15,7 @@ export const Milonga = async () => {
     console.log('milonga id ', milongaId)
 
     const db = getFirestore()
-    const milongaRef = doc(db, `${ENV}.milongas`, milongaId)
+    const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
     const milongaSnap = await getDoc(milongaRef)
 
     if (!milongaSnap.exists()) {

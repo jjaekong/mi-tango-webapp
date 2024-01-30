@@ -3,7 +3,6 @@ import { cache } from 'lit-html/directives/cache.js'
 import { ArrowLeftIcon } from '../icons'
 import { getAuth } from "firebase/auth"
 import { arrayUnion, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"
-import { ENV } from "../config"
 
 export const NewMilonga = async () => {
 
@@ -25,7 +24,7 @@ export const NewMilonga = async () => {
         if (!milongaId) return
 
         const db = getFirestore()
-        const milongaRef = doc(db, `${ENV}.milongas`, milongaId)
+        const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
         const milongaSnap = await getDoc(milongaRef)
         if (milongaSnap.exists()) {
             alert('이미 사용 중인 밀롱가 아이디입니다.')
@@ -41,7 +40,7 @@ export const NewMilonga = async () => {
             name: milongaName
         })
 
-        const promise2 = setDoc(doc(db, `${ENV}.users`, currentUser.uid), {
+        const promise2 = setDoc(doc(db, `${process.env.MODE}.users`, currentUser.uid), {
             createdMilongas: arrayUnion(milongaId)
         }, { merge: true })
 

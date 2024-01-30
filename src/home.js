@@ -24,7 +24,7 @@ export const Home = async () => {
 	render(cache(html`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
-				<h1 class="font-bold">Mi Vida</h1>
+				<h1 class="font-bold">Mi Vida (${process.env.MODE})</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? html `<a href="#me">${

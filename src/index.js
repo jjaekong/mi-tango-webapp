@@ -3,7 +3,6 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
-import { ENV } from "./config";
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
@@ -23,7 +22,7 @@ onAuthStateChanged(getAuth(), async user => {
     if (user) {
 		const auth = getAuth()
 		const db = getFirestore()
-		const userRef = doc(db, `${ENV}.users`, user.uid)
+		const userRef = doc(db, `${process.env.MODE}.users`, user.uid)
 		const userSanp = await getDoc(userRef)
         const userData = {
             email: user.email,

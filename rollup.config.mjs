@@ -1,13 +1,21 @@
 import resolve from '@rollup/plugin-node-resolve';
+import replace from '@rollup/plugin-replace';
+
+// console.log('process.env', process.env)
+console.log('process.env.MODE', process.env.MODE)
 
 export default {
 	input: './src/index.js',
 	output: {
 		file: "./public/index.js",
 		format: 'esm',
-        sourcemap: true
+        sourcemap: true,
 	},
 	plugins: [
-        resolve()
+        resolve(),
+		replace({
+			preventAssignment: true,
+			'process.env.MODE': JSON.stringify(process.env.MODE)
+		})
     ]
 }

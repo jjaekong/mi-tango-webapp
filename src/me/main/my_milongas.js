@@ -1,13 +1,11 @@
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { html, nothing } from "lit-html"
 import { map } from 'lit-html/directives/map.js'
-import { until } from 'lit-html/directives/until.js'
-import { ENV } from "../../config"
 
 export const MyMilongas = async (currentUser) => {
 
 	const db = getFirestore()
-	const q = query(collection(db, `${ENV}.milongas`), where('createdBy', '==', currentUser.uid))
+	const q = query(collection(db, `${process.env.MODE}.milongas`), where('createdBy', '==', currentUser.uid))
 	const qSnap = await getDocs(q)
 
 	qSnap.forEach((doc) => {

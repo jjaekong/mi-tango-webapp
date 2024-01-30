@@ -10007,7 +10007,7 @@ const Home = async () => {
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
-				<h1 class="font-bold">Mi Vida</h1>
+				<h1 class="font-bold">Mi Vida (${"development"})</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
@@ -23972,12 +23972,10 @@ function setDoc(e, t, n) {
  */
 function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
 
-const ENV = 'development';
-
 const MyMilongas = async (currentUser) => {
 
 	const db = getFirestore();
-	const q = query(collection(db, `${ENV}.milongas`), where('createdBy', '==', currentUser.uid));
+	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.uid));
 	const qSnap = await getDocs(q);
 
 	qSnap.forEach((doc) => {
@@ -26582,7 +26580,7 @@ const NewMilonga = async () => {
         if (!milongaId) return
 
         const db = getFirestore();
-        const milongaRef = doc(db, `${ENV}.milongas`, milongaId);
+        const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
         const milongaSnap = await getDoc(milongaRef);
         if (milongaSnap.exists()) {
             alert('이미 사용 중인 밀롱가 아이디입니다.');
@@ -26598,7 +26596,7 @@ const NewMilonga = async () => {
             name: milongaName
         });
 
-        const promise2 = setDoc(doc(db, `${ENV}.users`, currentUser.uid), {
+        const promise2 = setDoc(doc(db, `${"development"}.users`, currentUser.uid), {
             createdMilongas: arrayUnion(milongaId)
         }, { merge: true });
 
@@ -26655,7 +26653,7 @@ const Milonga = async () => {
     console.log('milonga id ', milongaId);
 
     const db = getFirestore();
-    const milongaRef = doc(db, `${ENV}.milongas`, milongaId);
+    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
     const milongaSnap = await getDoc(milongaRef);
 
     if (!milongaSnap.exists()) {
@@ -28972,7 +28970,7 @@ onAuthStateChanged(getAuth(), async user => {
     if (user) {
 		getAuth();
 		const db = getFirestore();
-		const userRef = doc(db, `${ENV}.users`, user.uid);
+		const userRef = doc(db, `${"development"}.users`, user.uid);
 		const userSanp = await getDoc(userRef);
         const userData = {
             email: user.email,

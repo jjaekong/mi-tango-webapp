@@ -26747,7 +26747,7 @@ const showPageByHash = () => {
         Club();
     } else if (location.hash === '#new_milonga') {
         NewMilonga();
-    } else if (location.hash === '#add_milonga_event') { // #milonga/fdsafdsafdsa232432
+    } else if (location.hash === '#add_milonga_event') {
         AddMilongaEvent();
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga();
@@ -28983,6 +28983,14 @@ function registerAnalytics() {
     }
 }
 registerAnalytics();
+
+// console.log(navigator.)
+// const navi = navigator.language.split('-')
+document.querySelector('html').setAttribute('lang', navigator.language);
+const naviLang = navigator.language.split('-');
+if (naviLang.length === 2) {
+    localStorage.setItem('country_code', naviLang[1]);
+}
 
 const firebaseConfig = {
 	apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",

@@ -7,7 +7,7 @@ console.log('process.env.MODE', process.env.MODE)
 export default {
 	input: './src/index.js',
 	output: {
-		file: "./public/index.js",
+		dir: "./public",
 		format: 'esm',
         sourcemap: true,
 	},

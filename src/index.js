@@ -4,6 +4,14 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 
+// console.log(navigator.)
+// const navi = navigator.language.split('-')
+document.querySelector('html').setAttribute('lang', navigator.language)
+const naviLang = navigator.language.split('-')
+if (naviLang.length === 2) {
+    localStorage.setItem('country_code', naviLang[1])
+}
+
 const firebaseConfig = {
 	apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
 	authDomain: "mi-tango-365.firebaseapp.com",

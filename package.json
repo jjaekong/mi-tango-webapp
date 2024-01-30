@@ -1,12 +1,12 @@
 {
     "main": "./public/index.js",
     "scripts": {
-		"build:rollup": "rollup -c --compact --environment MODE:production --validate",
-		"build:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --minify",
+        "build:rollup": "rollup -c --compact --environment MODE:production --validate",
+        "build:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --minify",
         "watch:rollup": "rollup -c -w --environment MODE:development --validate",
         "watch:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --watch",
         "dev": "concurrently \"npm run watch:tailwindcss\" \"npm run watch:rollup\"",
-		"bfd": "npm run build:rollup && npm run build:tailwindcss"
+        "bfd": "npm run build:rollup && npm run build:tailwindcss"
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^15.2.3",

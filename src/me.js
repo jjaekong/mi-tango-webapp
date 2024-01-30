@@ -40,7 +40,6 @@ export const Me = async () => {
 			</header>
 			${ UserProfile(currentUser)}
 			${ await MyMilongas(currentUser) }
-			<!-- <a href="#me/new_milonga" class="block mb-3 p-3 bg-slate-200 text-purple-700 text-center rounded-lg">밀롱가 만들기</a> -->
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>
 	`), document.getElementById('app'))

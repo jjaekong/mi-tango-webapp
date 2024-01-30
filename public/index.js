@@ -9169,29 +9169,6 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
-const MilongaEventItem = (item) => {
-    return x$1`
-        <a href="#milonga_event" class="flex w-100 items-center">
-            <div class="self-start">
-                <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-                    <span class="font-bold">8</span>
-                    <span class="text-slate-400 text-xs">PM</span>
-                </time>
-            </div>
-            <div class="mx-3">
-                <h6 class="font-extrabold">루미노소</h6>
-                <div class="flex items-center text-slate-400">
-                    ${ HeadphonesIcon({ classList: 'size-4' }) }
-                    <span class="ms-1 text-sm">시스루</span>
-                </div>
-            </div>
-            <div class="ms-auto self-start">
-                <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
-            </div>
-        </a>
-    `
-};
-
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -9972,6 +9949,53 @@ var advancedFormat = (function (o, c) {
   };
 });
 
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
+
+const MilongaEventItem = (item) => {
+    return x$1`
+        <a href="#milonga_event" class="flex w-100 items-center">
+            <div class="self-start">
+                <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+                    <span class="font-bold">8</span>
+                    <span class="text-slate-400 text-xs">PM</span>
+                </time>
+            </div>
+            <div class="mx-3">
+                <h6 class="font-extrabold">루미노소</h6>
+                <div class="flex items-center text-slate-400">
+                    ${ HeadphonesIcon({ classList: 'size-4' }) }
+                    <span class="ms-1 text-sm">시스루</span>
+                </div>
+            </div>
+            <div class="ms-auto self-start">
+                <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
+            </div>
+        </a>
+    `
+};
+
+const TodayMilongas = () => {
+	return x$1`
+		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
+			<header class="mb-4 flex flex-wrap justify-between items-end">
+				<h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
+				<time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
+			</header>
+			<ul>
+				${
+					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${MilongaEventItem(item)}</li>`)
+				}
+			</ul>
+			<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
+		</section>
+	`
+};
+
 const djItem = (item) => {
     return x$1`
         <a href="#dj" class="flex w-full items-center">
@@ -9980,7 +10004,7 @@ const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-                <div class="text-slate-500 flex flex-wrap text-sm">
+                <div class="text-slate-400 flex flex-wrap text-sm">
                     <time class="me-2">1월 14일 수요일</time>
                     <span class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}IF밀롱가</span>
                 </div>
@@ -9990,6 +10014,23 @@ const djItem = (item) => {
             </div>
         </a>
     `
+};
+
+const DJs = () => {
+	return x$1`
+		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
+			<header class="mb-4">
+				<h2 class="text-xl font-bold">DJ</h2>
+				<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
+			</header>
+			<ul>
+				${
+					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${djItem(item)}</li>`)
+				}
+			</ul>
+			<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
+		</section>
+	`
 };
 
 dayjs.locale('ko');
@@ -10007,7 +10048,7 @@ const Home = async () => {
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
-				<h1 class="font-bold">Mi Vida (${"development"})</h1>
+				<h1 class="font-bold">Mi Vida</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
@@ -10019,35 +10060,9 @@ const Home = async () => {
 				}</div>
 			</header>
 
-			<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-                <header class="mb-4 flex flex-wrap justify-between items-end">
-                    <h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
-                    <time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
-                </header>
-                <ul>
-                    ${
-                        [10, 100, 1000, 1050, 550].map(item => x$1`
-                            <li class="mt-3">${MilongaEventItem(item)}</li>
-                        `)
-                    }
-                </ul>
-                <a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
-            </section>
+			${ TodayMilongas() }
 
-			<section id="dj" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-				<header class="mb-4">
-					<h2 class="text-xl font-bold">DJ</h2>
-					<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
-				</header>
-				<ul>
-                    ${
-                        [10, 100, 1000, 1050, 550].map((item) => x$1`
-                            <li class="mt-3">${djItem(item)}</li>
-                        `)
-                    }
-				</ul>
-				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
-			</section>
+			${ DJs() }
 
 			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">
@@ -23965,13 +23980,6 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.1", "esm2017");
 }();
 
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
-
 const MyMilongas = async (currentUser) => {
 
 	const db = getFirestore();
@@ -23989,7 +23997,7 @@ const MyMilongas = async (currentUser) => {
                 ${
                     qSnap.empty
                         ? T$1
-                        : x$1`<a href="#me/new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
+                        : x$1`<a href="#new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
                 }
 			</header>
             ${
@@ -24032,7 +24040,7 @@ const MyMilongas = async (currentUser) => {
 
 const UserProfile = (currentUser) => {
 	return h(x$1`
-		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#me/edit_profile">
+		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#edit_user_profile">
 			<div>
 				<div class="size-12 empty:rounded-full empty:bg-slate-200">${
 					currentUser?.photoURL
@@ -24094,7 +24102,6 @@ const Me = async () => {
 			</header>
 			${ UserProfile(currentUser)}
 			${ await MyMilongas(currentUser) }
-			<!-- <a href="#me/new_milonga" class="block mb-3 p-3 bg-slate-200 text-purple-700 text-center rounded-lg">밀롱가 만들기</a> -->
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>
 	`), document.getElementById('app'));
@@ -26441,7 +26448,7 @@ function resizeImage(file, width, height, quality) {
 	})
 }
 
-const EditProfile = async () => {
+const EditUserProfile = async () => {
 
     const auth = getAuth();
     
@@ -26675,6 +26682,7 @@ const Milonga = async () => {
                 </div>
                 <div class="flex-1 mx-3">${milongaData.name}</div>
             </div>
+			<a href="#add_milonga_event">밀롱가 이벤트 등록하기</a>
             <section>
                 <header>
                     <h4>다가오는 밀롱가 이벤트</h4>
@@ -26696,6 +26704,28 @@ const NotFound = () => {
 	`), document.getElementById('app'));
 };
 
+const AddMilongaEvent = async () => {
+
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	auth.currentUser;
+
+	j$1(x$1`
+		<div class="add-milonga-event p-5">
+            <header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => {
+                    e.preventDefault();
+                    history.back();
+                }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 이벤트 추가</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+        </div>
+	`, document.getElementById('app'));
+};
+
 const showPageByHash = () => {
 	console.log('showPageByHash');
     const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/;
@@ -26705,8 +26735,8 @@ const showPageByHash = () => {
 		Login();
 	} else if (location.hash === '#me') {
 		Me();
-    } else if (location.hash === '#me/edit_profile') {
-		EditProfile();
+    } else if (location.hash === '#edit_user_profile') {
+		EditUserProfile();
     } else if (location.hash === '#milonga') {
         Milonga();
     } else if (location.hash === '#dj') {
@@ -26715,8 +26745,10 @@ const showPageByHash = () => {
 		MilongaEvent();
     } else if (location.hash === '#club') {
         Club();
-    } else if (location.hash === '#me/new_milonga') {
+    } else if (location.hash === '#new_milonga') {
         NewMilonga();
+    } else if (location.hash === '#add_milonga_event') { // #milonga/fdsafdsafdsa232432
+        AddMilongaEvent();
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga();
     } else {

@@ -3,11 +3,12 @@ import { DJ } from './dj.js'
 import { Home } from './home.js'
 import { Login } from './login.js'
 import { Me } from './me.js'
-import { EditProfile } from './me/edit_profile.js'
-import { NewMilonga } from './me/new_milonga.js'
+import { EditUserProfile } from './edit_user_profile.js'
+import { NewMilonga } from './new_milonga.js'
 import { Milonga } from './milonga.js'
 import { MilongaEvent } from './milonga_event.js'
 import { NotFound } from './not_found.js'
+import { AddMilongaEvent } from './add_milonga_event.js'
 
 export const showPageByHash = () => {
 	console.log('showPageByHash')
@@ -18,8 +19,8 @@ export const showPageByHash = () => {
 		Login()
 	} else if (location.hash === '#me') {
 		Me()
-    } else if (location.hash === '#me/edit_profile') {
-		EditProfile()
+    } else if (location.hash === '#edit_user_profile') {
+		EditUserProfile()
     } else if (location.hash === '#milonga') {
         Milonga()
     } else if (location.hash === '#dj') {
@@ -28,8 +29,10 @@ export const showPageByHash = () => {
 		MilongaEvent()
     } else if (location.hash === '#club') {
         Club()
-    } else if (location.hash === '#me/new_milonga') {
+    } else if (location.hash === '#new_milonga') {
         NewMilonga()
+    } else if (location.hash === '#add_milonga_event') { // #milonga/fdsafdsafdsa232432
+        AddMilongaEvent()
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga()
     } else {

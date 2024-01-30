@@ -1,4 +1,4 @@
-import { showPageByHash } from "./pages";
+import { showPageByHash } from "./router";
 import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";

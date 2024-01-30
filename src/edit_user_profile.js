@@ -1,12 +1,12 @@
 import { html, nothing, render } from "lit-html"
 import { cache } from 'lit-html/directives/cache.js'
-import { ArrowLeftIcon, UserCircleSolidIcon } from "../icons";
+import { ArrowLeftIcon, UserCircleSolidIcon } from "./icons";
 import { getAuth, updateProfile } from "firebase/auth";
 import { getDownloadURL, getStorage, ref as getStorageRef, uploadBytes } from "firebase/storage";
-import { resizeImage } from "../util";
+import { resizeImage } from "./util";
 import dayjs from "dayjs/esm";
 
-export const EditProfile = async () => {
+export const EditUserProfile = async () => {
 
     const auth = getAuth()
     

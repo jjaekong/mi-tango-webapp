@@ -37,6 +37,7 @@ export const Milonga = async () => {
                 </div>
                 <div class="flex-1 mx-3">${milongaData.name}</div>
             </div>
+			<a href="#add_milonga_event">밀롱가 이벤트 등록하기</a>
             <section>
                 <header>
                     <h4>다가오는 밀롱가 이벤트</h4>

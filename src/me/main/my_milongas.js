@@ -19,7 +19,7 @@ export const MyMilongas = async (currentUser) => {
                 ${
                     qSnap.empty
                         ? nothing
-                        : html`<a href="#me/new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
+                        : html`<a href="#new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
                 }
 			</header>
             ${

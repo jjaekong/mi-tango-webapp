@@ -1,6 +1,6 @@
 import { render, html } from "lit-html"
 import { cache } from 'lit-html/directives/cache.js'
-import { ArrowLeftIcon } from '../icons'
+import { ArrowLeftIcon } from './icons'
 import { getAuth } from "firebase/auth"
 import { arrayUnion, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"
 

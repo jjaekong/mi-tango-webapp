@@ -3,40 +3,28 @@
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const t$2=globalThis,i$1=t$2.trustedTypes,s$1=i$1?i$1.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$2="$lit$",h$1=`lit$${(Math.random()+"").slice(9)}$`,o$1="?"+h$1,n=`<${o$1}>`,r$2=document,l$2=()=>r$2.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$2=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d$1="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v$2=/-->/g,_=/>/g,m$1=RegExp(`>|${d$1}(?:([^\\s"'>=/]+)(${d$1}*=${d$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p$2=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y$1=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x$1=y$1(1),w$2=Symbol.for("lit-noChange"),T$1=Symbol.for("lit-nothing"),A$1=new WeakMap,E$1=r$2.createTreeWalker(r$2,129);function C$2(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const P$1=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v$2:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p$2):c===g||c===p$2?c=m$1:c===v$2||c===_?c=f:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e$2+s.slice(d)+h$1+x):s+h$1+(-2===d?i:x);}return [C$2(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};let V$1 = class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P$1(t,s);if(this.el=V.createElement(f,n),E$1.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E$1.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$2)){const i=v[a++],s=r.getAttribute(t).split(h$1),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k$1:"?"===e[1]?H$2:"@"===e[1]?I$1:R$1}),r.removeAttribute(t);}else t.startsWith(h$1)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h$1),s=t.length-1;if(s>0){r.textContent=i$1?i$1.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),E$1.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o$1)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h$1,t+1));)d.push({type:7,index:c}),t+=h$1.length-1;}c++;}}static createElement(t,i){const s=r$2.createElement("template");return s.innerHTML=t,s}};function N$1(t,i,s=t,e){if(i===w$2)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N$1(t,h._$AS(t,i.values),h,e)),i}let S$3 = class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$2).importNode(i,!0);E$1.currentNode=e;let h=E$1.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$2(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E$1.nextNode(),o++);}return E$1.currentNode=r$2,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$2 = class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T$1,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N$1(this,t,i),c(t)?t===T$1||null==t||""===t?(this._$AH!==T$1&&this._$AR(),this._$AH=T$1):t!==this._$AH&&t!==w$2&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$2(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T$1&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r$2.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V$1.createElement(C$2(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$3(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A$1.get(t.strings);return void 0===i&&A$1.set(t.strings,i=new V$1(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l$2()),this.k(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};let R$1 = class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T$1,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T$1;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N$1(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w$2,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N$1(this,e[s+n],i,n),r===w$2&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T$1?t=T$1:t!==T$1&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T$1?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}};let k$1 = class k extends R$1{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T$1?void 0:t;}};let H$2 = class H extends R$1{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T$1);}};let I$1 = class I extends R$1{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N$1(this,t,i,0)??T$1)===w$2)return;const s=this._$AH,e=t===T$1&&s!==T$1||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T$1&&(s===T$1||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}};let L$1 = class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N$1(this,t);}};const z$1={j:e$2,P:h$1,A:o$1,C:1,M:P$1,L:S$3,R:u$2,V:N$1,D:M$2,I:R$1,H: H$2,N:I$1,U:k$1,B:L$1},Z$1=t$2.litHtmlPolyfillSupport;Z$1?.(V$1,M$2),(t$2.litHtmlVersions??=[]).push("3.1.1");const j$1=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$2(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};
-
-/**
+const t$2=globalThis,i$1=t$2.trustedTypes,s$1=i$1?i$1.createPolicy("lit-html",{createHTML:t=>t}):void 0,e$2="$lit$",h$1=`lit$${(Math.random()+"").slice(9)}$`,o$1="?"+h$1,n=`<${o$1}>`,r$2=document,l$2=()=>r$2.createComment(""),c=t=>null===t||"object"!=typeof t&&"function"!=typeof t,a=Array.isArray,u$2=t=>a(t)||"function"==typeof t?.[Symbol.iterator],d$1="[ \t\n\f\r]",f=/<(?:(!--|\/[^a-zA-Z])|(\/?[a-zA-Z][^>\s]*)|(\/?$))/g,v$2=/-->/g,_=/>/g,m$1=RegExp(`>|${d$1}(?:([^\\s"'>=/]+)(${d$1}*=${d$1}*(?:[^ \t\n\f\r"'\`<>=]|("|')|))|$)`,"g"),p$2=/'/g,g=/"/g,$=/^(?:script|style|textarea|title)$/i,y$1=t=>(i,...s)=>({_$litType$:t,strings:i,values:s}),x$1=y$1(1),w$2=Symbol.for("lit-noChange"),T$1=Symbol.for("lit-nothing"),A$1=new WeakMap,E$1=r$2.createTreeWalker(r$2,129);function C$2(t,i){if(!Array.isArray(t)||!t.hasOwnProperty("raw"))throw Error("invalid template strings array");return void 0!==s$1?s$1.createHTML(i):i}const P$1=(t,i)=>{const s=t.length-1,o=[];let r,l=2===i?"<svg>":"",c=f;for(let i=0;i<s;i++){const s=t[i];let a,u,d=-1,y=0;for(;y<s.length&&(c.lastIndex=y,u=c.exec(s),null!==u);)y=c.lastIndex,c===f?"!--"===u[1]?c=v$2:void 0!==u[1]?c=_:void 0!==u[2]?($.test(u[2])&&(r=RegExp("</"+u[2],"g")),c=m$1):void 0!==u[3]&&(c=m$1):c===m$1?">"===u[0]?(c=r??f,d=-1):void 0===u[1]?d=-2:(d=c.lastIndex-u[2].length,a=u[1],c=void 0===u[3]?m$1:'"'===u[3]?g:p$2):c===g||c===p$2?c=m$1:c===v$2||c===_?c=f:(c=m$1,r=void 0);const x=c===m$1&&t[i+1].startsWith("/>")?" ":"";l+=c===f?s+n:d>=0?(o.push(a),s.slice(0,d)+e$2+s.slice(d)+h$1+x):s+h$1+(-2===d?i:x);}return [C$2(t,l+(t[s]||"<?>")+(2===i?"</svg>":"")),o]};let V$1=class V{constructor({strings:t,_$litType$:s},n){let r;this.parts=[];let c=0,a=0;const u=t.length-1,d=this.parts,[f,v]=P$1(t,s);if(this.el=V.createElement(f,n),E$1.currentNode=this.el.content,2===s){const t=this.el.content.firstChild;t.replaceWith(...t.childNodes);}for(;null!==(r=E$1.nextNode())&&d.length<u;){if(1===r.nodeType){if(r.hasAttributes())for(const t of r.getAttributeNames())if(t.endsWith(e$2)){const i=v[a++],s=r.getAttribute(t).split(h$1),e=/([.?@])?(.*)/.exec(i);d.push({type:1,index:c,name:e[2],strings:s,ctor:"."===e[1]?k$1:"?"===e[1]?H$2:"@"===e[1]?I$1:R$1}),r.removeAttribute(t);}else t.startsWith(h$1)&&(d.push({type:6,index:c}),r.removeAttribute(t));if($.test(r.tagName)){const t=r.textContent.split(h$1),s=t.length-1;if(s>0){r.textContent=i$1?i$1.emptyScript:"";for(let i=0;i<s;i++)r.append(t[i],l$2()),E$1.nextNode(),d.push({type:2,index:++c});r.append(t[s],l$2());}}}else if(8===r.nodeType)if(r.data===o$1)d.push({type:2,index:c});else {let t=-1;for(;-1!==(t=r.data.indexOf(h$1,t+1));)d.push({type:7,index:c}),t+=h$1.length-1;}c++;}}static createElement(t,i){const s=r$2.createElement("template");return s.innerHTML=t,s}};function N$1(t,i,s=t,e){if(i===w$2)return i;let h=void 0!==e?s._$Co?.[e]:s._$Cl;const o=c(i)?void 0:i._$litDirective$;return h?.constructor!==o&&(h?._$AO?.(!1),void 0===o?h=void 0:(h=new o(t),h._$AT(t,s,e)),void 0!==e?(s._$Co??=[])[e]=h:s._$Cl=h),void 0!==h&&(i=N$1(t,h._$AS(t,i.values),h,e)),i}let S$3=class S{constructor(t,i){this._$AV=[],this._$AN=void 0,this._$AD=t,this._$AM=i;}get parentNode(){return this._$AM.parentNode}get _$AU(){return this._$AM._$AU}u(t){const{el:{content:i},parts:s}=this._$AD,e=(t?.creationScope??r$2).importNode(i,!0);E$1.currentNode=e;let h=E$1.nextNode(),o=0,n=0,l=s[0];for(;void 0!==l;){if(o===l.index){let i;2===l.type?i=new M$2(h,h.nextSibling,this,t):1===l.type?i=new l.ctor(h,l.name,l.strings,this,t):6===l.type&&(i=new L$1(h,this,t)),this._$AV.push(i),l=s[++n];}o!==l?.index&&(h=E$1.nextNode(),o++);}return E$1.currentNode=r$2,e}p(t){let i=0;for(const s of this._$AV)void 0!==s&&(void 0!==s.strings?(s._$AI(t,s,i),i+=s.strings.length-2):s._$AI(t[i])),i++;}};let M$2=class M{get _$AU(){return this._$AM?._$AU??this._$Cv}constructor(t,i,s,e){this.type=2,this._$AH=T$1,this._$AN=void 0,this._$AA=t,this._$AB=i,this._$AM=s,this.options=e,this._$Cv=e?.isConnected??!0;}get parentNode(){let t=this._$AA.parentNode;const i=this._$AM;return void 0!==i&&11===t?.nodeType&&(t=i.parentNode),t}get startNode(){return this._$AA}get endNode(){return this._$AB}_$AI(t,i=this){t=N$1(this,t,i),c(t)?t===T$1||null==t||""===t?(this._$AH!==T$1&&this._$AR(),this._$AH=T$1):t!==this._$AH&&t!==w$2&&this._(t):void 0!==t._$litType$?this.g(t):void 0!==t.nodeType?this.$(t):u$2(t)?this.T(t):this._(t);}k(t){return this._$AA.parentNode.insertBefore(t,this._$AB)}$(t){this._$AH!==t&&(this._$AR(),this._$AH=this.k(t));}_(t){this._$AH!==T$1&&c(this._$AH)?this._$AA.nextSibling.data=t:this.$(r$2.createTextNode(t)),this._$AH=t;}g(t){const{values:i,_$litType$:s}=t,e="number"==typeof s?this._$AC(t):(void 0===s.el&&(s.el=V$1.createElement(C$2(s.h,s.h[0]),this.options)),s);if(this._$AH?._$AD===e)this._$AH.p(i);else {const t=new S$3(e,this),s=t.u(this.options);t.p(i),this.$(s),this._$AH=t;}}_$AC(t){let i=A$1.get(t.strings);return void 0===i&&A$1.set(t.strings,i=new V$1(t)),i}T(t){a(this._$AH)||(this._$AH=[],this._$AR());const i=this._$AH;let s,e=0;for(const h of t)e===i.length?i.push(s=new M(this.k(l$2()),this.k(l$2()),this,this.options)):s=i[e],s._$AI(h),e++;e<i.length&&(this._$AR(s&&s._$AB.nextSibling,e),i.length=e);}_$AR(t=this._$AA.nextSibling,i){for(this._$AP?.(!1,!0,i);t&&t!==this._$AB;){const i=t.nextSibling;t.remove(),t=i;}}setConnected(t){void 0===this._$AM&&(this._$Cv=t,this._$AP?.(t));}};let R$1=class R{get tagName(){return this.element.tagName}get _$AU(){return this._$AM._$AU}constructor(t,i,s,e,h){this.type=1,this._$AH=T$1,this._$AN=void 0,this.element=t,this.name=i,this._$AM=e,this.options=h,s.length>2||""!==s[0]||""!==s[1]?(this._$AH=Array(s.length-1).fill(new String),this.strings=s):this._$AH=T$1;}_$AI(t,i=this,s,e){const h=this.strings;let o=!1;if(void 0===h)t=N$1(this,t,i,0),o=!c(t)||t!==this._$AH&&t!==w$2,o&&(this._$AH=t);else {const e=t;let n,r;for(t=h[0],n=0;n<h.length-1;n++)r=N$1(this,e[s+n],i,n),r===w$2&&(r=this._$AH[n]),o||=!c(r)||r!==this._$AH[n],r===T$1?t=T$1:t!==T$1&&(t+=(r??"")+h[n+1]),this._$AH[n]=r;}o&&!e&&this.O(t);}O(t){t===T$1?this.element.removeAttribute(this.name):this.element.setAttribute(this.name,t??"");}};let k$1=class k extends R$1{constructor(){super(...arguments),this.type=3;}O(t){this.element[this.name]=t===T$1?void 0:t;}};let H$2=class H extends R$1{constructor(){super(...arguments),this.type=4;}O(t){this.element.toggleAttribute(this.name,!!t&&t!==T$1);}};let I$1=class I extends R$1{constructor(t,i,s,e,h){super(t,i,s,e,h),this.type=5;}_$AI(t,i=this){if((t=N$1(this,t,i,0)??T$1)===w$2)return;const s=this._$AH,e=t===T$1&&s!==T$1||t.capture!==s.capture||t.once!==s.once||t.passive!==s.passive,h=t!==T$1&&(s===T$1||e);e&&this.element.removeEventListener(this.name,this,s),h&&this.element.addEventListener(this.name,this,t),this._$AH=t;}handleEvent(t){"function"==typeof this._$AH?this._$AH.call(this.options?.host??this.element,t):this._$AH.handleEvent(t);}};let L$1=class L{constructor(t,i,s){this.element=t,this.type=6,this._$AN=void 0,this._$AM=i,this.options=s;}get _$AU(){return this._$AM._$AU}_$AI(t){N$1(this,t);}};const z$1={j:e$2,P:h$1,A:o$1,C:1,M:P$1,L:S$3,R:u$2,V:N$1,D:M$2,I:R$1,H: H$2,N:I$1,U:k$1,B:L$1},Z$1=t$2.litHtmlPolyfillSupport;Z$1?.(V$1,M$2),(t$2.litHtmlVersions??=[]).push("3.1.1");const j$1=(t,i,s)=>{const e=s?.renderBefore??i;let h=e._$litPart$;if(void 0===h){const t=s?.renderBefore??null;e._$litPart$=h=new M$2(i.insertBefore(l$2(),t),t,void 0,s??{});}return h._$AI(t),h};/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-const e$1=t=>(...e)=>({_$litDirective$:t,values:e});class i{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e,i){this._$Ct=t,this._$AM=e,this._$Ci=i;}_$AS(t,e){return this.update(t,e)}update(t,e){return this.render(...e)}}
-
-/**
+const e$1=t=>(...e)=>({_$litDirective$:t,values:e});class i{constructor(t){}get _$AU(){return this._$AM._$AU}_$AT(t,e,i){this._$Ct=t,this._$AM=e,this._$Ci=i;}_$AS(t,e){return this.update(t,e)}update(t,e){return this.render(...e)}}/**
  * @license
  * Copyright 2020 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const {D:t$1}=z$1,e=(o,t)=>void 0===t?void 0!==o?._$litType$:o?._$litType$===t,l$1=o=>null!=o?._$litType$?.h,s=()=>document.createComment(""),r$1=(o,i,n)=>{const e=o._$AA.parentNode,l=void 0===i?o._$AB:i._$AA;if(void 0===n){const i=e.insertBefore(s(),l),c=e.insertBefore(s(),l);n=new t$1(i,c,o,o.options);}else {const t=n._$AB.nextSibling,i=n._$AM,c=i!==o;if(c){let t;n._$AQ?.(o),n._$AM=o,void 0!==n._$AP&&(t=o._$AU)!==i._$AU&&n._$AP(t);}if(t!==l||c){let o=n._$AA;for(;o!==t;){const t=o.nextSibling;e.insertBefore(o,l),o=t;}}}return n},u$1={},m=(o,t=u$1)=>o._$AH=t,p$1=o=>o._$AH,j=o=>{o._$AR();};
-
-/**
+ */const {D:t$1}=z$1,e=(o,t)=>void 0===t?void 0!==o?._$litType$:o?._$litType$===t,l$1=o=>null!=o?._$litType$?.h,s=()=>document.createComment(""),r$1=(o,i,n)=>{const e=o._$AA.parentNode,l=void 0===i?o._$AB:i._$AA;if(void 0===n){const i=e.insertBefore(s(),l),c=e.insertBefore(s(),l);n=new t$1(i,c,o,o.options);}else {const t=n._$AB.nextSibling,i=n._$AM,c=i!==o;if(c){let t;n._$AQ?.(o),n._$AM=o,void 0!==n._$AP&&(t=o._$AU)!==i._$AU&&n._$AP(t);}if(t!==l||c){let o=n._$AA;for(;o!==t;){const t=o.nextSibling;e.insertBefore(o,l),o=t;}}}return n},u$1={},m=(o,t=u$1)=>o._$AH=t,p$1=o=>o._$AH,j=o=>{o._$AR();};/**
  * @license
  * Copyright 2017 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
- */const d=t=>l$1(t)?t._$litType$.h:t.strings,h=e$1(class extends i{constructor(t){super(t),this.tt=new WeakMap;}render(t){return [t]}update(s,[e$1]){const u=e(this.et)?d(this.et):null,h=e(e$1)?d(e$1):null;if(null!==u&&(null===h||u!==h)){const e=p$1(s).pop();let o=this.tt.get(u);if(void 0===o){const s=document.createDocumentFragment();o=j$1(T$1,s),o.setConnected(!1),this.tt.set(u,o);}m(o,[e]),r$1(o,void 0,e);}if(null!==h){if(null===u||u!==h){const t=this.tt.get(h);if(void 0!==t){const i=p$1(t).pop();j(s),r$1(s,void 0,i),m(s,[i]);}}this.et=e$1;}else this.et=void 0;return this.render(e$1)}});
-
-const Club = () => {
+ */const d=t=>l$1(t)?t._$litType$.h:t.strings,h=e$1(class extends i{constructor(t){super(t),this.tt=new WeakMap;}render(t){return [t]}update(s,[e$1]){const u=e(this.et)?d(this.et):null,h=e(e$1)?d(e$1):null;if(null!==u&&(null===h||u!==h)){const e=p$1(s).pop();let o=this.tt.get(u);if(void 0===o){const s=document.createDocumentFragment();o=j$1(T$1,s),o.setConnected(!1),this.tt.set(u,o);}m(o,[e]),r$1(o,void 0,e);}if(null!==h){if(null===u||u!==h){const t=this.tt.get(h);if(void 0!==t){const i=p$1(t).pop();j(s),r$1(s,void 0,i),m(s,[i]);}}this.et=e$1;}else this.et=void 0;return this.render(e$1)}});const Club = () => {
 	j$1(h(x$1`
 		Club
 	`), document.getElementById('app'));
-};
-
-const DJ = () => {
+};const DJ = () => {
 	j$1(h(x$1`
 		DJ
 	`), document.getElementById('app'));
-};
-
-/**
+};/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -1246,9 +1234,7 @@ function getModularInstance(service) {
     else {
         return service;
     }
-}
-
-/**
+}/**
  * Component for service name T, e.g. `auth`, `auth-internal`
  */
 class Component {
@@ -1651,9 +1637,7 @@ class ComponentContainer {
     getProviders() {
         return Array.from(this.providers.values());
     }
-}
-
-/**
+}/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -1810,9 +1794,7 @@ class Logger {
         this._userLogHandler && this._userLogHandler(this, LogLevel.ERROR, ...args);
         this._logHandler(this, LogLevel.ERROR, ...args);
     }
-}
-
-const instanceOfAny$1 = (object, constructors) => constructors.some((c) => object instanceof c);
+}const instanceOfAny$1 = (object, constructors) => constructors.some((c) => object instanceof c);
 
 let idbProxyableTypes$1;
 let cursorAdvanceMethods$1;
@@ -1994,9 +1976,7 @@ function wrap$1(value) {
     }
     return newValue;
 }
-const unwrap$1 = (value) => reverseTransformCache$1.get(value);
-
-/**
+const unwrap$1 = (value) => reverseTransformCache$1.get(value);/**
  * Open a database.
  *
  * @param name Name of the database.
@@ -2071,9 +2051,7 @@ replaceTraps$1((oldTraps) => ({
     ...oldTraps,
     get: (target, prop, receiver) => getMethod$1(target, prop) || oldTraps.get(target, prop, receiver),
     has: (target, prop) => !!getMethod$1(target, prop) || oldTraps.has(target, prop),
-}));
-
-/**
+}));/**
  * @license
  * Copyright 2019 Google LLC
  *
@@ -2931,9 +2909,7 @@ function registerCoreComponents(variant) {
  * @remarks This package coordinates the communication between the different Firebase components
  * @packageDocumentation
  */
-registerCoreComponents('');
-
-/******************************************************************************
+registerCoreComponents('');/******************************************************************************
 Copyright (c) Microsoft Corporation.
 
 Permission to use, copy, modify, and/or distribute this software for any
@@ -2965,9 +2941,7 @@ function __rest(s, e) {
 typeof SuppressedError === "function" ? SuppressedError : function (error, suppressed, message) {
   var e = new Error(message);
   return e.name = "SuppressedError", e.error = error, e.suppressed = suppressed, e;
-};
-
-function _prodErrorMap() {
+};function _prodErrorMap() {
     // We will include this one message in the prod error map since by the very
     // nature of this error, developers will never be able to see the message
     // using the debugErrorMap (which is installed during auth initialization).
@@ -9137,9 +9111,7 @@ function getAuth(app = getApp()) {
     }
     return auth;
 }
-registerAuth("Browser" /* ClientPlatform.BROWSER */);
-
-const ArrowLeftIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
+registerAuth("Browser" /* ClientPlatform.BROWSER */);const ArrowLeftIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}"><path stroke-linecap="round" stroke-linejoin="round" d="M10.5 19.5 3 12m0 0 7.5-7.5M3 12h18" /></svg>`;
 
 const AtSymbolIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
 <path stroke-linecap="round" stroke-linejoin="round" d="M16.5 12a4.5 4.5 0 1 1-9 0 4.5 4.5 0 0 1 9 0Zm0 0c0 1.657 1.007 3 2.25 3S21 13.657 21 12a9 9 0 1 0-2.636 6.364M16.5 12V8.25" />
@@ -9167,9 +9139,7 @@ const GoogleLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width="
 
 const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
-</svg>`;
-
-const MilongaEventItem = (item) => {
+</svg>`;const MilongaEventItem = (item) => {
     return x$1`
         <a href="#milonga_event" class="flex w-100 items-center">
             <div class="self-start">
@@ -9190,9 +9160,7 @@ const MilongaEventItem = (item) => {
             </div>
         </a>
     `
-};
-
-var SECONDS_A_MINUTE = 60;
+};var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
 var SECONDS_A_WEEK = SECONDS_A_DAY * 7;
@@ -9216,9 +9184,7 @@ var FORMAT_DEFAULT = 'YYYY-MM-DDTHH:mm:ssZ';
 var INVALID_DATE_STRING = 'Invalid Date'; // regex
 
 var REGEX_PARSE = /^(\d{4})[-/]?(\d{1,2})?[-/]?(\d{0,2})[Tt\s]*(\d{1,2})?:?(\d{1,2})?:?(\d{1,2})?[.:]?(\d+)?$/;
-var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g;
-
-// English [en]
+var REGEX_FORMAT = /\[([^\]]+)]|Y{1,4}|M{1,4}|D{1,2}|d{1,4}|H{1,2}|h{1,2}|a|A|m{1,2}|s{1,2}|Z{1,2}|SSS/g;// English [en]
 // We don't need weekdaysShort, weekdaysMin, monthsShort in en.js locale
 var en = {
   name: 'en',
@@ -9229,9 +9195,7 @@ var en = {
     var v = n % 100;
     return "[" + n + (s[(v - 20) % 10] || s[v] || s[0]) + "]";
   }
-};
-
-var padStart = function padStart(string, length, pad) {
+};var padStart = function padStart(string, length, pad) {
   var s = String(string);
   if (!s || s.length >= length) return string;
   return "" + Array(length + 1 - s.length).join(pad) + string;
@@ -9286,9 +9250,7 @@ var U$1 = {
   a: absFloor,
   p: prettyUnit,
   u: isUndefined
-};
-
-var L = 'en'; // global locale
+};var L = 'en'; // global locale
 
 var Ls = {}; // global loaded locale
 
@@ -9820,9 +9782,7 @@ dayjs.unix = function (timestamp) {
 
 dayjs.en = Ls[L];
 dayjs.Ls = Ls;
-dayjs.p = {};
-
-// Korean [ko]
+dayjs.p = {};// Korean [ko]
 var locale = {
   name: 'ko',
   weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
@@ -9864,9 +9824,7 @@ var locale = {
     yy: '%d년'
   }
 };
-dayjs.locale(locale, null, true);
-
-// eslint-disable-next-line import/prefer-default-export
+dayjs.locale(locale, null, true);// eslint-disable-next-line import/prefer-default-export
 var t = function t(format) {
   return format.replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g, function (_, a, b) {
     return a || b.slice(1);
@@ -9885,9 +9843,7 @@ var u = function u(formatStr, formats) {
     var B = b && b.toUpperCase();
     return a || formats[b] || englishFormats[b] || t(formats[B]);
   });
-};
-
-var localizedFormat = (function (o, c, d) {
+};var localizedFormat = (function (o, c, d) {
   var proto = c.prototype;
   var oldFormat = proto.format;
   d.en.formats = englishFormats;
@@ -9904,9 +9860,7 @@ var localizedFormat = (function (o, c, d) {
     var result = u(formatStr, formats);
     return oldFormat.call(this, result);
   };
-});
-
-var advancedFormat = (function (o, c) {
+});var advancedFormat = (function (o, c) {
   // locale needed later
   var proto = c.prototype;
   var oldFormat = proto.format;
@@ -9970,9 +9924,7 @@ var advancedFormat = (function (o, c) {
     });
     return oldFormat.bind(this)(result);
   };
-});
-
-const djItem = (item) => {
+});const djItem = (item) => {
     return x$1`
         <a href="#dj" class="flex w-full items-center">
             <div class="self-start">
@@ -9990,9 +9942,7 @@ const djItem = (item) => {
             </div>
         </a>
     `
-};
-
-dayjs.locale('ko');
+};dayjs.locale('ko');
 dayjs.extend(localizedFormat);
 dayjs.extend(advancedFormat);
 
@@ -10007,7 +9957,7 @@ const Home = async () => {
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5">
-				<h1 class="font-bold">Mi Vida (${"development"})</h1>
+				<h1 class="font-bold">Mi Vida (${"production"})</h1>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
@@ -10076,9 +10026,7 @@ const Home = async () => {
 	`), document.getElementById('app'));
 
     
-};
-
-const Login = async () => {
+};const Login = async () => {
 
 	const auth = getAuth();
 
@@ -10122,9 +10070,7 @@ const Login = async () => {
 			</div>
 		</div>
 	`), document.getElementById('app'));
-};
-
-var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
+};var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /*
 
@@ -10230,9 +10176,7 @@ function Yd(a,b){if(Y(b))throw Error("division by zero");if(Y(a))return new ae$1
 b.ea()));d=Math.ceil(Math.log(c)/Math.LN2);d=48>=d?1:Math.pow(2,d-48);f=U(c);for(h=f.R(b);X(h)||0<h.X(a);)c-=d,f=U(c),h=f.R(b);Y(f)&&(f=Wd);e=e.add(f);a=Zd(a,h);}return new ae$1(e,a)}k.gb=function(a){return Yd(this,a).h};k.and=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)&a.D(d);return new T(c,this.h&a.h)};k.or=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)|a.D(d);return new T(c,this.h|a.h)};
 k.xor=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)^a.D(d);return new T(c,this.h^a.h)};function be(a){for(var b=a.g.length+1,c=[],d=0;d<b;d++)c[d]=a.D(d)<<1|a.D(d-1)>>>31;return new T(c,a.h)}function Z(a,b){var c=b>>5;b%=32;for(var d=a.g.length-c,e=[],f=0;f<d;f++)e[f]=0<b?a.D(f+c)>>>b|a.D(f+c+1)<<32-b:a.D(f+c);return new T(e,a.h)}Od.prototype.createWebChannel=Od.prototype.g;Q.prototype.send=Q.prototype.u;Q.prototype.open=Q.prototype.m;Q.prototype.close=Q.prototype.close;Sb.NO_ERROR=0;Sb.TIMEOUT=8;Sb.HTTP_ERROR=6;Tb.COMPLETE="complete";Wb.EventType=Xb;Xb.OPEN="a";Xb.CLOSE="b";Xb.ERROR="c";Xb.MESSAGE="d";B.prototype.listen=B.prototype.O;P.prototype.listenOnce=P.prototype.P;P.prototype.getLastError=P.prototype.Sa;P.prototype.getLastErrorCode=P.prototype.Ia;P.prototype.getStatus=P.prototype.da;P.prototype.getResponseJson=P.prototype.Wa;
 P.prototype.getResponseText=P.prototype.ja;P.prototype.send=P.prototype.ha;P.prototype.setWithCredentials=P.prototype.Oa;S$1.prototype.digest=S$1.prototype.l;S$1.prototype.reset=S$1.prototype.reset;S$1.prototype.update=S$1.prototype.j;T.prototype.add=T.prototype.add;T.prototype.multiply=T.prototype.R;T.prototype.modulo=T.prototype.gb;T.prototype.compare=T.prototype.X;T.prototype.toNumber=T.prototype.ea;T.prototype.toString=T.prototype.toString;T.prototype.getBits=T.prototype.D;T.fromNumber=U;T.fromString=Vd;
-var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;
-
-const w = "@firebase/firestore";
+var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;const w = "@firebase/firestore";
 
 /**
  * @license
@@ -23963,19 +23907,15 @@ function setDoc(e, t, n) {
     }), "PUBLIC").setMultipleInstances(!0)), registerVersion(w, "4.4.1", e), 
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     registerVersion(w, "4.4.1", "esm2017");
-}();
-
-/**
+}();/**
  * @license
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
-
-const MyMilongas = async (currentUser) => {
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const MyMilongas = async (currentUser) => {
 
 	const db = getFirestore();
-	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.uid));
+	const q = query(collection(db, `${"production"}.milongas`), where('createdBy', '==', currentUser.uid));
 	const qSnap = await getDocs(q);
 
 	qSnap.forEach((doc) => {
@@ -24028,9 +23968,7 @@ const MyMilongas = async (currentUser) => {
 			
 		</section>
 	`
-};
-
-const UserProfile = (currentUser) => {
+};const UserProfile = (currentUser) => {
 	return h(x$1`
 		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#me/edit_profile">
 			<div>
@@ -24057,9 +23995,7 @@ const UserProfile = (currentUser) => {
 			</div>
 		</a>
 	`)
-};
-
-const Me = async () => {
+};const Me = async () => {
 	
 	const auth = getAuth();
 
@@ -24098,9 +24034,7 @@ const Me = async () => {
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>
 	`), document.getElementById('app'));
-};
-
-/**
+};/**
  * @license
  * Copyright 2017 Google LLC
  *
@@ -26385,9 +26319,7 @@ function registerStorage() {
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     registerVersion(name$3, version$3, 'esm2017');
 }
-registerStorage();
-
-function resizeImage(file, width, height, quality) {
+registerStorage();function resizeImage(file, width, height, quality) {
 	return new Promise((resolve, reject) => {
 
 		if (isNaN(width)) {
@@ -26439,9 +26371,7 @@ function resizeImage(file, width, height, quality) {
 			reject(event);
 		};
 	})
-}
-
-const EditProfile = async () => {
+}const EditProfile = async () => {
 
     const auth = getAuth();
     
@@ -26558,9 +26488,7 @@ const EditProfile = async () => {
             </form>
         </div>
     `), document.getElementById('app'));
-};
-
-const NewMilonga = async () => {
+};const NewMilonga = async () => {
 
     const auth = getAuth();
 
@@ -26580,7 +26508,7 @@ const NewMilonga = async () => {
         if (!milongaId) return
 
         const db = getFirestore();
-        const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+        const milongaRef = doc(db, `${"production"}.milongas`, milongaId);
         const milongaSnap = await getDoc(milongaRef);
         if (milongaSnap.exists()) {
             alert('이미 사용 중인 밀롱가 아이디입니다.');
@@ -26596,7 +26524,7 @@ const NewMilonga = async () => {
             name: milongaName
         });
 
-        const promise2 = setDoc(doc(db, `${"development"}.users`, currentUser.uid), {
+        const promise2 = setDoc(doc(db, `${"production"}.users`, currentUser.uid), {
             createdMilongas: arrayUnion(milongaId)
         }, { merge: true });
 
@@ -26640,9 +26568,7 @@ const NewMilonga = async () => {
             </form>
         </div>
     `), document.getElementById('app'));
-};
-
-const Milonga = async () => {
+};const Milonga = async () => {
 
 	// const auth = getAuth()
 
@@ -26653,7 +26579,7 @@ const Milonga = async () => {
     console.log('milonga id ', milongaId);
 
     const db = getFirestore();
-    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+    const milongaRef = doc(db, `${"production"}.milongas`, milongaId);
     const milongaSnap = await getDoc(milongaRef);
 
     if (!milongaSnap.exists()) {
@@ -26682,21 +26608,15 @@ const Milonga = async () => {
             </section>
         </div>
 	`), document.getElementById('app'));
-};
-
-const MilongaEvent = () => {
+};const MilongaEvent = () => {
 	j$1(h(x$1`
 		MilongaEvent
 	`), document.getElementById('app'));
-};
-
-const NotFound = () => {
+};const NotFound = () => {
 	j$1(h(x$1`
 		not found
 	`), document.getElementById('app'));
-};
-
-const showPageByHash = () => {
+};const showPageByHash = () => {
 	console.log('showPageByHash');
     const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/;
     if (location.hash === '') {
@@ -26722,9 +26642,7 @@ const showPageByHash = () => {
     } else {
 		NotFound();
     }
-};
-
-var name$2 = "firebase";
+};var name$2 = "firebase";
 var version$2 = "10.7.2";
 
 /**
@@ -26743,9 +26661,7 @@ var version$2 = "10.7.2";
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-registerVersion(name$2, version$2, 'app');
-
-const instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
+registerVersion(name$2, version$2, 'app');const instanceOfAny = (object, constructors) => constructors.some((c) => object instanceof c);
 
 let idbProxyableTypes;
 let cursorAdvanceMethods;
@@ -26927,9 +26843,7 @@ function wrap(value) {
     }
     return newValue;
 }
-const unwrap = (value) => reverseTransformCache.get(value);
-
-/**
+const unwrap = (value) => reverseTransformCache.get(value);/**
  * Open a database.
  *
  * @param name Name of the database.
@@ -27000,9 +26914,7 @@ replaceTraps((oldTraps) => ({
     ...oldTraps,
     get: (target, prop, receiver) => getMethod(target, prop) || oldTraps.get(target, prop, receiver),
     has: (target, prop) => !!getMethod(target, prop) || oldTraps.has(target, prop),
-}));
-
-const name$1 = "@firebase/installations";
+}));const name$1 = "@firebase/installations";
 const version$1 = "0.6.4";
 
 /**
@@ -27981,9 +27893,7 @@ function registerInstallations() {
 registerInstallations();
 registerVersion(name$1, version$1);
 // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
-registerVersion(name$1, version$1, 'esm2017');
-
-/**
+registerVersion(name$1, version$1, 'esm2017');/**
  * @license
  * Copyright 2019 Google LLC
  *
@@ -28950,9 +28860,7 @@ function registerAnalytics() {
         }
     }
 }
-registerAnalytics();
-
-const firebaseConfig = {
+registerAnalytics();const firebaseConfig = {
 	apiKey: "AIzaSyBjlBi8FCJF2CHKQcOx7OrN9J3PFM7_iyg",
 	authDomain: "mi-tango-365.firebaseapp.com",
 	databaseURL: "https://mi-tango-365-default-rtdb.firebaseio.com",
@@ -28970,7 +28878,7 @@ onAuthStateChanged(getAuth(), async user => {
     if (user) {
 		getAuth();
 		const db = getFirestore();
-		const userRef = doc(db, `${"development"}.users`, user.uid);
+		const userRef = doc(db, `${"production"}.users`, user.uid);
 		const userSanp = await getDoc(userRef);
         const userData = {
             email: user.email,
@@ -29003,5 +28911,4 @@ window.addEventListener('DOMContentLoaded', e => {
 window.addEventListener("hashchange", e => {
 	console.log('hashchange', location);
     showPageByHash();
-}, false);
-//# sourceMappingURL=index.js.map
+}, false);//# sourceMappingURL=index.js.map

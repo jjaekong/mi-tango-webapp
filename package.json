@@ -6,7 +6,7 @@
         "watch:rollup": "rollup -c -w --environment MODE:development --validate",
         "watch:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --watch",
         "dev": "concurrently \"npm run watch:tailwindcss\" \"npm run watch:rollup\"",
-		"build": "npm run build:rollup && npm run build:tailwindcss"
+		"bfd": "npm run build:rollup && npm run build:tailwindcss"
     },
     "devDependencies": {
         "@rollup/plugin-node-resolve": "^15.2.3",

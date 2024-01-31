@@ -1,7 +1,7 @@
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { html, nothing } from "lit-html"
 import { map } from 'lit-html/directives/map.js'
-import { AtSymbolIcon, CalendarDaysSolidIcon, ForwardOutlineIcon } from "../../icons"
+import { AtSymbolIcon, CalendarDaysSolidIcon, ForwardOutlineIcon } from "../icons"
 
 export const MyMilongas = async (currentUser) => {
 
@@ -24,7 +24,7 @@ export const MyMilongas = async (currentUser) => {
 			</header>
             ${
                 qSnap.empty
-                    ? html`<p>아직 밀롱가를 만들지 않았습니다</p>`
+                    ? html`<p class="text-slate-500 text-sm">아직 밀롱가를 만들지 않았습니다</p>`
                     : html`
                         <ul>
                             ${

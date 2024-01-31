@@ -1,6 +1,6 @@
 import { html, render } from "lit-html"
 import { map } from "lit-html/directives/map.js"
-import { list } from "./country"
+import { getCountries } from "./country"
 
 export const ChooseCountry = () => {
 
@@ -17,7 +17,7 @@ export const ChooseCountry = () => {
 			<form name="choose-country-form" @submit=${chooseCountry}>
 				<div class="mb-3">
 					${
-						map(list, item => html`
+						map(getCountries(), item => html`
 							<label class="flex items-center">
 								<input type="radio" name="country-code" value=${item.code} required>
 								<span class="ms-1">${item.name}</span>

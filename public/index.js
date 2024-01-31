@@ -10027,7 +10027,7 @@ const djItem = (item) => {
 				</dl>
             </div>
             <div class="ms-auto text-slate-400">
-                ${ChevronRightIcon({ classList: 'size-4' })}
+                ${ChevronRightIcon({ classList: 'size-5' })}
             </div>
         </a>
     `
@@ -10056,12 +10056,16 @@ const list = [
     { code: 'AR', name: 'Argentina', english: 'Argentina' },
 ];
 
-function exist(code) {
-	return list.findIndex(country => country.code === code) > -1 ? true : false;
+function getCountries() {
+    return list
 }
 
-function getName(code) {
-	return list.find(country => country.code === code).name
+function existCountry(code) {
+    return list.findIndex(country => country.code === code) > -1 ? true : false;
+}
+
+function getCountryName(code) {
+    return list.find(country => country.code === code).name
 }
 
 dayjs.locale('ko');
@@ -10083,7 +10087,7 @@ const Home = async () => {
 			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
 					<h1 class="font-bold">Mi Vida</h1>
-					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getName(countryCode)}</span></a>
+					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
@@ -24037,7 +24041,7 @@ const MyMilongas = async (currentUser) => {
 			</header>
             ${
                 qSnap.empty
-                    ? x$1`<p>아직 밀롱가를 만들지 않았습니다</p>`
+                    ? x$1`<p class="text-slate-500 text-sm">아직 밀롱가를 만들지 않았습니다</p>`
                     : x$1`
                         <ul>
                             ${
@@ -24108,7 +24112,7 @@ const UserProfile = (currentUser) => {
 				}</div>
 			</div>
 			<div id="edit-profile-icon" class="text-slate-400">
-				${ChevronRightIcon({ classList: 'size-4' })}
+				${ChevronRightIcon({ classList: 'size-5' })}
 			</div>
 		</a>
 	`)
@@ -26806,7 +26810,7 @@ const ChooseCountry = () => {
 			<form name="choose-country-form" @submit=${chooseCountry}>
 				<div class="mb-3">
 					${
-						o(list, item => x$1`
+						o(getCountries(), item => x$1`
 							<label class="flex items-center">
 								<input type="radio" name="country-code" value=${item.code} required>
 								<span class="ms-1">${item.name}</span>
@@ -29108,12 +29112,24 @@ registerAnalytics();
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')
-document.querySelector('html').setAttribute('lang', navigator.language);
-const naviLang = navigator.language.split('-');
-if (naviLang.length === 2) {
-	if (exist(naviLang[1])) {
-		localStorage.setItem('country_code', naviLang[1]);
-	}
+const countryCode = localStorage.getItem("country_code");
+if (countryCode) {
+    if (!existCountry(countryCode)) {
+        setCountryCode();
+    }
+} else {
+    setCountryCode();
+}
+
+function setCountryCode() {
+    document.querySelector('html').setAttribute('lang', navigator.language);
+    // document.querySelector('html').setAttribute('lang', "es-ES")
+    const naviLang = navigator.language.split('-');
+    if (naviLang.length === 2) {
+        if (existCountry(naviLang[1])) {
+            localStorage.setItem('country_code', naviLang[1]);
+        }
+    }
 }
 
 const firebaseConfig = {

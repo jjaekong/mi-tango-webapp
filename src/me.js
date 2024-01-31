@@ -2,8 +2,8 @@ import { getAuth, signOut } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { ArrowLeftIcon } from './icons.js'
-import { MyMilongas } from './me/main/my_milongas.js'
-import { UserProfile } from './me/main/user_profile.js'
+import { MyMilongas } from './me/my_milongas.js'
+import { UserProfile } from './me/user_profile.js'
 
 export const Me = async () => {
 	

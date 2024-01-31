@@ -23,7 +23,7 @@ export const djItem = (item) => {
 				</dl>
             </div>
             <div class="ms-auto text-slate-400">
-                ${ChevronRightIcon({ classList: 'size-4' })}
+                ${ChevronRightIcon({ classList: 'size-5' })}
             </div>
         </a>
     `

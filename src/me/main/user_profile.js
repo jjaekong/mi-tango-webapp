@@ -1,4 +1,4 @@
-import { html } from "lit-html"
+import { html, nothing } from "lit-html"
 import { cache } from 'lit-html/directives/cache.js'
 import { ChevronRightIcon, UserCircleSolidIcon } from "../../icons"
 
@@ -18,7 +18,7 @@ export const UserProfile = (currentUser) => {
 						? html`${currentUser.displayName}`
 						: nothing
 				}</h4>
-				<div id="user-email" class="text-xs text-slate-500 empty:bg-slate-100 empty:h-4 empty:mt-1">${
+				<div id="user-email" class="text-sm text-slate-500 empty:bg-slate-100 empty:h-4 empty:mt-1">${
 					currentUser
 						? html`${currentUser.email}`
 						: nothing

@@ -12,7 +12,7 @@ export const MilongaEventItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">루미노소</h6>
-				<ul class="inline-flex flex-wrap text-slate-500 text-xs">
+				<ul class="inline-flex flex-wrap text-slate-500 text-sm">
 					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>시스루</li>
 					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>예약가능</li>
 				</ul>

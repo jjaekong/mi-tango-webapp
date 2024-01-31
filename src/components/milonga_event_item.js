@@ -14,9 +14,7 @@ export const MilongaEventItem = (item) => {
                 <h6 class="font-bold">루미노소</h6>
 				<ul class="inline-flex flex-wrap text-slate-500 text-xs">
 					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>시스루</li>
-					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>벤자민</li>
 					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>예약가능</li>
-					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>공연</li>
 				</ul>
             </div>
             <div class="ms-auto self-start">

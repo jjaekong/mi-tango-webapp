@@ -9973,9 +9973,7 @@ const MilongaEventItem = (item) => {
                 <h6 class="font-bold">루미노소</h6>
 				<ul class="inline-flex flex-wrap text-slate-500 text-xs">
 					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>시스루</li>
-					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>벤자민</li>
 					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>예약가능</li>
-					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>공연</li>
 				</ul>
             </div>
             <div class="ms-auto self-start">
@@ -10010,13 +10008,13 @@ const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-                <div class="text-slate-400 flex flex-wrap text-sm">
-                    <time class="me-2">1월 14일 수요일</time>
-                    <span class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}IF밀롱가</span>
+                <div class="inline-flex flex-wrap text-xs text-slate-500">
+                    <time class="me-1">1월 14일 수요일</time>
+                    <span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}IF밀롱가</span>
                 </div>
             </div>
             <div class="ms-auto text-slate-400">
-                ${ChevronRightIcon()}
+                ${ChevronRightIcon({ classList: 'size-4' })}
             </div>
         </a>
     `
@@ -24078,14 +24076,14 @@ const UserProfile = (currentUser) => {
 						? x$1`${currentUser.displayName}`
 						: nothing
 				}</h4>
-				<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
+				<div id="user-email" class="text-xs text-slate-500 empty:bg-slate-100 empty:h-4 empty:mt-1">${
 					currentUser
 						? x$1`${currentUser.email}`
 						: nothing
 				}</div>
 			</div>
 			<div id="edit-profile-icon" class="text-slate-400">
-				${ChevronRightIcon()}
+				${ChevronRightIcon({ classList: 'size-4' })}
 			</div>
 		</a>
 	`)

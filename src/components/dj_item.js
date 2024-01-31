@@ -9,13 +9,13 @@ export const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-                <div class="text-slate-400 flex flex-wrap text-sm">
-                    <time class="me-2">1월 14일 수요일</time>
-                    <span class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}IF밀롱가</span>
+                <div class="inline-flex flex-wrap text-xs text-slate-500">
+                    <time class="me-1">1월 14일 수요일</time>
+                    <span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}IF밀롱가</span>
                 </div>
             </div>
             <div class="ms-auto text-slate-400">
-                ${ChevronRightIcon()}
+                ${ChevronRightIcon({ classList: 'size-4' })}
             </div>
         </a>
     `

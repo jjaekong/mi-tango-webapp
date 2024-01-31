@@ -18,14 +18,14 @@ export const UserProfile = (currentUser) => {
 						? html`${currentUser.displayName}`
 						: nothing
 				}</h4>
-				<div id="user-email" class="text-sm text-slate-400 empty:bg-slate-100 empty:h-4 empty:mt-1">${
+				<div id="user-email" class="text-xs text-slate-500 empty:bg-slate-100 empty:h-4 empty:mt-1">${
 					currentUser
 						? html`${currentUser.email}`
 						: nothing
 				}</div>
 			</div>
 			<div id="edit-profile-icon" class="text-slate-400">
-				${ChevronRightIcon()}
+				${ChevronRightIcon({ classList: 'size-4' })}
 			</div>
 		</a>
 	`)

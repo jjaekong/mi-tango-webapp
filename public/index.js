@@ -9987,8 +9987,8 @@ const TodayMilongas = () => {
 	return x$1`
 		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-4 flex flex-wrap justify-between items-end">
-				<h2 class="text-2xl font-bold">오늘의 밀롱가</h2>
-				<time class="font-bold text-slate-500">${x$1`${dayjs().format("MMM Do dddd")}`}</time>
+				<h2 class="text-xl font-bold">오늘의 밀롱가</h2>
+				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
 			<ul>
 				${

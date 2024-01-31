@@ -877,6 +877,11 @@ select {
   height: 1.25rem;
 }
 
+.size-10 {
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
 .h-10 {
   height: 2.5rem;
 }
@@ -895,6 +900,10 @@ select {
 
 .h-full {
   height: 100%;
+}
+
+.h-12 {
+  height: 3rem;
 }
 
 .w-10 {
@@ -1179,6 +1188,11 @@ html, body {
 .empty\:size-8:empty {
   width: 2rem;
   height: 2rem;
+}
+
+.empty\:size-10:empty {
+  width: 2.5rem;
+  height: 2.5rem;
 }
 
 .empty\:h-4:empty {

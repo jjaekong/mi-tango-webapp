@@ -26778,6 +26778,12 @@ const AddMilongaEvent = async () => {
 
 	auth.currentUser;
 
+    const url = new URL(location.href);
+
+    console.log(url);
+
+    console.log('mid', url.searchParams.get('mid'));
+
 	// 권한이 있는지 체크
 	// 1. 밀롱가를 생성한 사람인지, 2. 오거나이저 인지, 3. 에디터로 등록된 사람인지
 
@@ -26868,7 +26874,7 @@ const showPageByHash = () => {
         Club();
     } else if (location.hash === '#new_milonga') {
         NewMilonga();
-    } else if (location.hash === '#add_milonga_event') {
+    } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent();
     } else if (location.hash === '#all_milonga_events') {
         AllMilongaEvents();
@@ -29122,8 +29128,8 @@ if (countryCode) {
 }
 
 function setCountryCode() {
-    document.querySelector('html').setAttribute('lang', navigator.language);
-    // document.querySelector('html').setAttribute('lang', "es-ES")
+    // document.querySelector('html').setAttribute('lang', navigator.language)
+    document.querySelector('html').setAttribute('lang', "es-ES");
     const naviLang = navigator.language.split('-');
     if (naviLang.length === 2) {
         if (existCountry(naviLang[1])) {

@@ -17,8 +17,8 @@ if (countryCode) {
 }
 
 function setCountryCode() {
-    document.querySelector('html').setAttribute('lang', navigator.language)
-    // document.querySelector('html').setAttribute('lang', "es-ES")
+    // document.querySelector('html').setAttribute('lang', navigator.language)
+    document.querySelector('html').setAttribute('lang', "es-ES")
     const naviLang = navigator.language.split('-')
     if (naviLang.length === 2) {
         if (existCountry(naviLang[1])) {

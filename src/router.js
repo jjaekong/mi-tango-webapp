@@ -10,6 +10,8 @@ import { MilongaEvent } from './milonga_event.js'
 import { NotFound } from './not_found.js'
 import { AddMilongaEvent } from './add_milonga_event.js'
 import { ChooseCountry } from './choose_country.js'
+import { AllMilongaEvents } from './all_milonga_events.js'
+import { AllDJs } from './all_djs.js'
 
 export const showPageByHash = () => {
 	console.log('showPageByHash')
@@ -43,6 +45,10 @@ export const showPageByHash = () => {
         NewMilonga()
     } else if (location.hash === '#add_milonga_event') {
         AddMilongaEvent()
+    } else if (location.hash === '#all_milonga_events') {
+        AllMilongaEvents()
+    } else if (location.hash === '#all_djs') {
+        AllDJs()
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga()
     } else {

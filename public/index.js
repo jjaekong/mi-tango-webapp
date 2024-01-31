@@ -26822,6 +26822,18 @@ const ChooseCountry = () => {
 	`, document.getElementById('app'));
 };
 
+const AllMilongaEvents = async () => {
+	j$1(x$1`
+	a	ll milonga events
+	`, document.getElementById('app'));
+};
+
+const AllDJs = async () => {
+	j$1(x$1`
+		all djs
+	`, document.getElementById('app'));
+};
+
 const showPageByHash = () => {
 	console.log('showPageByHash');
 
@@ -26854,6 +26866,10 @@ const showPageByHash = () => {
         NewMilonga();
     } else if (location.hash === '#add_milonga_event') {
         AddMilongaEvent();
+    } else if (location.hash === '#all_milonga_events') {
+        AllMilongaEvents();
+    } else if (location.hash === '#all_djs') {
+        AllDJs();
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga();
     } else {

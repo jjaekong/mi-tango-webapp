@@ -9967,10 +9967,19 @@ const MilongaEventItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-extrabold">루미노소</h6>
-                <div class="flex items-center text-slate-400">
-                    ${ HeadphonesIcon({ classList: 'size-4' }) }
-                    <span class="ms-1 text-sm">시스루</span>
-                </div>
+				<dl class="flex items-center text-slate-500 text-sm">
+					<dt>${ HeadphonesIcon({ classList: 'size-4' }) }<span class="sr-only">디제이</span></dt>
+					<dd>
+						<ul class="flex flex-wrap">
+							<li>시스루</li>
+						</ul>		
+					</dd>
+				</dl>
+				<ul class="flex flex-wrap text-slate-400 text-xs">
+					<li class="me-1">#예약가능</li>
+					<li class="me-1">#공연</li>
+					<li class="me-1">#오픈마켓</li>
+				</ul>
             </div>
             <div class="ms-auto self-start">
                 <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">

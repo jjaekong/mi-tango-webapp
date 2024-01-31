@@ -43,14 +43,14 @@ export const showPageByHash = () => {
         Club()
     } else if (location.hash === '#new_milonga') {
         NewMilonga()
-    } else if (location.hash.indexOf("#add_milonga_event") === 0) {
-        AddMilongaEvent()
     } else if (location.hash === '#all_milonga_events') {
         AllMilongaEvents()
     } else if (location.hash === '#all_djs') {
         AllDJs()
     } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga()
+    } else if (location.hash.indexOf("#add_milonga_event") === 0) {
+        AddMilongaEvent()
     } else {
 		NotFound()
     }

@@ -5,3 +5,11 @@
 html, body {
 	background: #fafafa;
 }
+
+@media (min-width: 768px) {
+	#app {
+		overflow: auto;
+		margin: 0 auto;
+		max-width: 30rem;
+	}
+}

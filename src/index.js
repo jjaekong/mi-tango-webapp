@@ -3,13 +3,16 @@ import { initializeApp } from "firebase/app";
 import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
+import { exist } from "./country";
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')
 document.querySelector('html').setAttribute('lang', navigator.language)
 const naviLang = navigator.language.split('-')
 if (naviLang.length === 2) {
-    localStorage.setItem('country_code', naviLang[1])
+	if (exist(naviLang[1])) {
+		localStorage.setItem('country_code', naviLang[1])
+	}
 }
 
 const firebaseConfig = {

@@ -1,13 +1,14 @@
 import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
-import { UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
+import { GlobaAltOutlineIcon, UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
 import dayjs from "dayjs/esm"
 import 'dayjs/esm/locale/ko'
 import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
 import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
 import { TodayMilongas } from './home/today_milongas.js'
 import { DJs } from './home/djs.js'
+import { getName } from './country.js'
 
 dayjs.locale('ko')
 dayjs.extend(localizedFormat)
@@ -20,11 +21,14 @@ export const Home = async () => {
 	await auth.authStateReady()
 
 	const currentUser = auth.currentUser
+
+	const countryCode = localStorage.getItem('country_code')
 	
 	render(cache(html`
 		<div class="home p-5" role="document">
-			<header class="h-10 px-5 flex items-center mb-5">
+			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
 				<h1 class="font-bold">Mi Vida</h1>
+				<button class="font-bold flex items-center" @click=${ e => { location.href = '#choose_country' }}>, ${getName(countryCode)} <span class="ms-1">${GlobaAltOutlineIcon()}</span></button>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? html `<a href="#me">${

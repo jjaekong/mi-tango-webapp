@@ -829,6 +829,10 @@ select {
   display: block;
 }
 
+.inline {
+  display: inline;
+}
+
 .flex {
   display: flex;
 }
@@ -865,6 +869,11 @@ select {
 .size-8 {
   width: 2rem;
   height: 2rem;
+}
+
+.size-6 {
+  width: 1.5rem;
+  height: 1.5rem;
 }
 
 .h-10 {
@@ -1137,6 +1146,14 @@ select {
 
 html, body {
   background: #fafafa;
+}
+
+@media (min-width: 768px) {
+  #app {
+    overflow: auto;
+    margin: 0 auto;
+    max-width: 30rem;
+  }
 }
 
 .empty\:mt-1:empty {

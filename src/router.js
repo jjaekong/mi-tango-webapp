@@ -9,13 +9,23 @@ import { Milonga } from './milonga.js'
 import { MilongaEvent } from './milonga_event.js'
 import { NotFound } from './not_found.js'
 import { AddMilongaEvent } from './add_milonga_event.js'
+import { ChooseCountry } from './choose_country.js'
 
 export const showPageByHash = () => {
 	console.log('showPageByHash')
-    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/;
+
+	const countryCode = localStorage.getItem('country_code')
+	if (!countryCode) {
+		ChooseCountry()
+		return;
+	}
+
+    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
     if (location.hash === '') {
         Home()
-    } else if (location.hash === '#login') {
+    } else if (location.hash === '#choose_country') {
+		ChooseCountry()
+	} else if (location.hash === '#login') {
 		Login()
 	} else if (location.hash === '#me') {
 		Me()
@@ -38,4 +48,5 @@ export const showPageByHash = () => {
     } else {
 		NotFound()
     }
+	return;
 }

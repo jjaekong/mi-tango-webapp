@@ -9169,6 +9169,10 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
+const GlobaAltOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
+<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
+</svg>`;
+
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -10033,6 +10037,20 @@ const DJs = () => {
 	`
 };
 
+const list = [
+    { code: 'KR', name: '한국', english: 'South Korea' },
+    { code: 'CN', name: '中国', english: 'China' },
+    { code: 'AR', name: 'Argentina', english: 'Argentina' },
+];
+
+function exist(code) {
+	return list.findIndex(country => country.code === code) > -1 ? true : false;
+}
+
+function getName(code) {
+	return list.find(country => country.code === code).name
+}
+
 dayjs.locale('ko');
 dayjs.extend(localizedFormat);
 dayjs.extend(advancedFormat);
@@ -10044,11 +10062,14 @@ const Home = async () => {
 	await auth.authStateReady();
 
 	const currentUser = auth.currentUser;
+
+	const countryCode = localStorage.getItem('country_code');
 	
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
-			<header class="h-10 px-5 flex items-center mb-5">
+			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
 				<h1 class="font-bold">Mi Vida</h1>
+				<button class="font-bold flex items-center" @click=${ e => { location.href = '#choose_country'; }}>, ${getName(countryCode)} <span class="ms-1">${GlobaAltOutlineIcon()}</span></button>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
@@ -26726,12 +26747,52 @@ const AddMilongaEvent = async () => {
 	`, document.getElementById('app'));
 };
 
+const ChooseCountry = () => {
+
+	const chooseCountry = (e) => {
+		e.preventDefault();
+		localStorage.setItem("country_code", document.forms['choose-country-form'].elements['country-code'].value);
+		location.replace('#');
+	};
+
+	j$1(x$1`
+		<div class="choose-country p-5">
+			<h1>Mi Vida</h1>
+			<p>국가를 선택하세요.</p>
+			<form name="choose-country-form" @submit=${chooseCountry}>
+				<div class="mb-3">
+					${
+						o(list, item => x$1`
+							<label class="flex items-center">
+								<input type="radio" name="country-code" value=${item.code} required>
+								<span class="ms-1">${item.name}</span>
+							</label>
+						`)
+					}
+				</div>
+				<div class="mt-4">
+					<button type="submit" class="bg-purple-500 p-3 text-white rounded-lg block">저장</button>
+				</div>
+			</form>
+		</div>
+	`, document.getElementById('app'));
+};
+
 const showPageByHash = () => {
 	console.log('showPageByHash');
-    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/;
+
+	const countryCode = localStorage.getItem('country_code');
+	if (!countryCode) {
+		ChooseCountry();
+		return;
+	}
+
+    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
     if (location.hash === '') {
         Home();
-    } else if (location.hash === '#login') {
+    } else if (location.hash === '#choose_country') {
+		ChooseCountry();
+	} else if (location.hash === '#login') {
 		Login();
 	} else if (location.hash === '#me') {
 		Me();
@@ -26754,6 +26815,7 @@ const showPageByHash = () => {
     } else {
 		NotFound();
     }
+	return;
 };
 
 var name$2 = "firebase";
@@ -28989,7 +29051,9 @@ registerAnalytics();
 document.querySelector('html').setAttribute('lang', navigator.language);
 const naviLang = navigator.language.split('-');
 if (naviLang.length === 2) {
-    localStorage.setItem('country_code', naviLang[1]);
+	if (exist(naviLang[1])) {
+		localStorage.setItem('country_code', naviLang[1]);
+	}
 }
 
 const firebaseConfig = {

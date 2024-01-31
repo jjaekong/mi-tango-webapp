@@ -34,11 +34,11 @@ export const Milonga = async () => {
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 홈</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
-                <div>
+                <div >
                     <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
                 </div>
                 <div class="mx-3">

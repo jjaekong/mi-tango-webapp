@@ -7,7 +7,7 @@ import { MilongaEventItem } from './components/milonga_event_item'
 import { ArrowLeftIcon } from './icons'
 
 export const hasPermitToEditMilonga = () => {
-	
+
 }
 
 export const Milonga = async () => {
@@ -39,14 +39,17 @@ export const Milonga = async () => {
 			</header>
             <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
                 <div>
-                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-lg">
+                    <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
                 </div>
-                <div class="flex-1 mx-3 font-bold">${milongaData.name}</div>
+                <div class="mx-3">
+					<h4 class="font-bold">${milongaData.name}</h4>
+					<span class="text-slate-500 text-sm text-wrap break-words">${location.href}</span>
+				</div>
             </div>
 			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>
-            <section class="mb-4">
-                <header>
-                    <h4>다가오는 밀롱가 이벤트</h4>
+            <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
+                <header class="mb-4">
+                    <h4 class="font-bold">밀롱가 이벤트</h4>
                 </header>
 				<ul>
 					${

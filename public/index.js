@@ -9995,7 +9995,7 @@ const TodayMilongas = () => {
 					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${MilongaEventItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 밀롱가 이벤트 보기</a>
+			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 밀롱가 이벤트 보기</a>
 		</section>
 	`
 };
@@ -10008,10 +10008,13 @@ const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-                <div class="inline-flex flex-wrap text-sm text-slate-500">
-                    <time class="me-1">1월 14일 수요일</time>
-                    <span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}IF밀롱가</span>
-                </div>
+				<dl class="inline-flex flex-wrap text-sm text-slate-500">
+					<dt class="me-1">다음:</dt>
+					<dd class="inline-flex flex-wrap">
+						<time class="me-1">1월 14일 수요일</time>
+						<span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}IF밀롱가</span>
+					</dd>
+				</dl>
             </div>
             <div class="ms-auto text-slate-400">
                 ${ChevronRightIcon({ classList: 'size-4' })}
@@ -10032,7 +10035,7 @@ const DJs = () => {
 					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${djItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
+			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 DJ 보기</a>
 		</section>
 	`
 };
@@ -24020,7 +24023,7 @@ const MyMilongas = async (currentUser) => {
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
 			<header class="mb-4 flex items-center flex-wrap justify-between">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
-				<a href="#new_milonga" class="font-bold text-blue-500">만들기</a>
+				<a href="#new_milonga" class="font-bold text-purple-500">만들기</a>
 			</header>
             ${
                 qSnap.empty
@@ -24045,9 +24048,16 @@ const MyMilongas = async (currentUser) => {
                                                             : x$1`<div class="size-12 bg-slate-100 rounded-xl"></div>`
                                                     }
                                                 </div>
-                                                <div class="mx-3">
-                                                    <span class="font-bold">${data.name}</span>
-                                                </div>
+												<div class="mx-3">
+													<h6 class="font-bold">${data.name}</h6>
+													<dl class="inline-flex flex-wrap text-sm text-slate-500">
+														<dt class="me-1">다음:</dt>
+														<dd class="inline-flex flex-wrap">
+															<time class="me-1">1월 14일 수요일</time>
+															<span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}오초</span>
+														</dd>
+													</dl>
+												</div>
                                             </a>
                                         </li>
                                     `
@@ -26654,7 +26664,7 @@ const NewMilonga = async () => {
 				<div class="mb-3">
                     <label>
                         <div class="sr-only">국가코드</div>
-                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100 disabled:text-slate-700" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100 disabled:text-slate-900 disabled:border-slate-500" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
                     </label>
                 </div>
                 <div class="mb-3">
@@ -26707,14 +26717,17 @@ const Milonga = async () => {
 			</header>
             <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
                 <div>
-                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-lg">
+                    <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
                 </div>
-                <div class="flex-1 mx-3 font-bold">${milongaData.name}</div>
+                <div class="mx-3">
+					<h4 class="font-bold">${milongaData.name}</h4>
+					<span class="text-slate-500 text-sm text-wrap break-words">${location.href}</span>
+				</div>
             </div>
 			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>
-            <section class="mb-4">
-                <header>
-                    <h4>다가오는 밀롱가 이벤트</h4>
+            <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
+                <header class="mb-4">
+                    <h4 class="font-bold">밀롱가 이벤트</h4>
                 </header>
 				<ul>
 					${

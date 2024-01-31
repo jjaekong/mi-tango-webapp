@@ -14,7 +14,7 @@ export const DJs = () => {
 					map([10, 100, 1000, 1050, 550], item => html`<li class="mt-3">${djItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 DJ 보기</a>
+			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 DJ 보기</a>
 		</section>
 	`
 }

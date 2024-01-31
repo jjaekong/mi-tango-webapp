@@ -7,7 +7,7 @@ export const ChooseCountry = () => {
 	const chooseCountry = (e) => {
 		e.preventDefault()
 		localStorage.setItem("country_code", document.forms['choose-country-form'].elements['country-code'].value)
-		location.replace('#')
+		location.replace('/#')
 	}
 
 	render(html`

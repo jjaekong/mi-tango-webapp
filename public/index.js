@@ -9169,6 +9169,10 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
+const HashtagIcon =  (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
+<path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
+</svg>`;
+
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -9966,19 +9970,12 @@ const MilongaEventItem = (item) => {
                 </time>
             </div>
             <div class="mx-3">
-                <h6 class="font-extrabold">루미노소</h6>
-				<dl class="flex items-center text-slate-500 text-sm">
-					<dt>${ HeadphonesIcon({ classList: 'size-4' }) }<span class="sr-only">디제이</span></dt>
-					<dd>
-						<ul class="flex flex-wrap">
-							<li>시스루</li>
-						</ul>		
-					</dd>
-				</dl>
-				<ul class="flex flex-wrap text-slate-400 text-xs">
-					<li class="me-1">#예약가능</li>
-					<li class="me-1">#공연</li>
-					<li class="me-1">#오픈마켓</li>
+                <h6 class="font-bold">루미노소</h6>
+				<ul class="inline-flex flex-wrap text-slate-500 text-xs">
+					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>시스루</li>
+					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>벤자민</li>
+					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>예약가능</li>
+					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>공연</li>
 				</ul>
             </div>
             <div class="ms-auto self-start">
@@ -26773,7 +26770,7 @@ const ChooseCountry = () => {
 	const chooseCountry = (e) => {
 		e.preventDefault();
 		localStorage.setItem("country_code", document.forms['choose-country-form'].elements['country-code'].value);
-		location.replace('#');
+		location.replace('/#');
 	};
 
 	j$1(x$1`

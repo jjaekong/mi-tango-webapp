@@ -9169,10 +9169,6 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
-const GlobaAltOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
-<path stroke-linecap="round" stroke-linejoin="round" d="M12 21a9.004 9.004 0 0 0 8.716-6.747M12 21a9.004 9.004 0 0 1-8.716-6.747M12 21c2.485 0 4.5-4.03 4.5-9S14.485 3 12 3m0 18c-2.485 0-4.5-4.03-4.5-9S9.515 3 12 3m0 0a8.997 8.997 0 0 1 7.843 4.582M12 3a8.997 8.997 0 0 0-7.843 4.582m15.686 0A11.953 11.953 0 0 1 12 10.5c-2.998 0-5.74-1.1-7.843-2.918m15.686 0A8.959 8.959 0 0 1 21 12c0 .778-.099 1.533-.284 2.253m0 0A17.919 17.919 0 0 1 12 16.5c-3.162 0-6.133-.815-8.716-2.247m0 0A9.015 9.015 0 0 1 3 12c0-1.605.42-3.113 1.157-4.418" />
-</svg>`;
-
 var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -10068,8 +10064,10 @@ const Home = async () => {
 	j$1(h(x$1`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
-				<h1 class="font-bold">Mi Vida</h1>
-				<button class="font-bold flex items-center" @click=${ e => { location.href = '#choose_country'; }}>, ${getName(countryCode)} <span class="ms-1">${GlobaAltOutlineIcon()}</span></button>
+				<div class="flex ai">
+					<h1 class="font-bold">Mi Vida</h1>
+					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getName(countryCode)}</span></a>
+				</div>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
@@ -24003,9 +24001,12 @@ function setDoc(e, t, n) {
 
 const MyMilongas = async (currentUser) => {
 
+	localStorage.getItem('country_code');
 	const db = getFirestore();
 	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.uid));
 	const qSnap = await getDocs(q);
+
+	console.log(qSnap);
 
 	qSnap.forEach((doc) => {
 		console.log(doc.id, " => ", doc.data());
@@ -24015,11 +24016,7 @@ const MyMilongas = async (currentUser) => {
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
 			<header class="mb-4 flex items-center flex-wrap justify-between">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
-                ${
-                    qSnap.empty
-                        ? T$1
-                        : x$1`<a href="#new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
-                }
+				<a href="#new_milonga" class="font-bold text-blue-500">만들기</a>
 			</header>
             ${
                 qSnap.empty
@@ -24045,7 +24042,8 @@ const MyMilongas = async (currentUser) => {
                                                     }
                                                 </div>
                                                 <div class="mx-3">
-                                                    <span class="font-bold">${data.name}</span>
+                                                    <span class="font-bold">${data.name}</span>'
+													<span class="fi fi-${data.countyCode}"></span>
                                                 </div>
                                             </a>
                                         </li>
@@ -26617,6 +26615,7 @@ const NewMilonga = async () => {
         }
 
         const promise1 = setDoc(milongaRef, {
+			countryCode: localStorage.getItem('country_code'),
             createdBy: currentUser.uid,
             createdAt: new Date(),
             organizers: [currentUser.uid],
@@ -26649,6 +26648,12 @@ const NewMilonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form action="#" method="post" @submit=${newMilonga} id="new-milonga-form">
+				<div class="mb-3">
+                    <label>
+                        <div class="sr-only">국가코드</div>
+                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                    </label>
+                </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가명</div>

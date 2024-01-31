@@ -33,6 +33,7 @@ export const NewMilonga = async () => {
         }
 
         const promise1 = setDoc(milongaRef, {
+			countryCode: localStorage.getItem('country_code'),
             createdBy: currentUser.uid,
             createdAt: new Date(),
             organizers: [currentUser.uid],
@@ -65,6 +66,12 @@ export const NewMilonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form action="#" method="post" @submit=${newMilonga} id="new-milonga-form">
+				<div class="mb-3">
+                    <label>
+                        <div class="sr-only">국가코드</div>
+                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                    </label>
+                </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가명</div>

@@ -27,8 +27,10 @@ export const Home = async () => {
 	render(cache(html`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
-				<h1 class="font-bold">Mi Vida</h1>
-				<button class="font-bold flex items-center" @click=${ e => { location.href = '#choose_country' }}>, ${getName(countryCode)} <span class="ms-1">${GlobaAltOutlineIcon()}</span></button>
+				<div class="flex ai">
+					<h1 class="font-bold">Mi Vida</h1>
+					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getName(countryCode)}</span></a>
+				</div>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? html `<a href="#me">${

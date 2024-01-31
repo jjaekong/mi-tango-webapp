@@ -4,9 +4,12 @@ import { map } from 'lit-html/directives/map.js'
 
 export const MyMilongas = async (currentUser) => {
 
+	const countryCode = localStorage.getItem('country_code')
 	const db = getFirestore()
 	const q = query(collection(db, `${process.env.MODE}.milongas`), where('createdBy', '==', currentUser.uid))
 	const qSnap = await getDocs(q)
+
+	console.log(qSnap)
 
 	qSnap.forEach((doc) => {
 		console.log(doc.id, " => ", doc.data());
@@ -16,11 +19,7 @@ export const MyMilongas = async (currentUser) => {
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
 			<header class="mb-4 flex items-center flex-wrap justify-between">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
-                ${
-                    qSnap.empty
-                        ? nothing
-                        : html`<a href="#new_milonga" class="font-bold text-blue-500">밀롱가 만들기</a>`
-                }
+				<a href="#new_milonga" class="font-bold text-blue-500">만들기</a>
 			</header>
             ${
                 qSnap.empty
@@ -46,7 +45,8 @@ export const MyMilongas = async (currentUser) => {
                                                     }
                                                 </div>
                                                 <div class="mx-3">
-                                                    <span class="font-bold">${data.name}</span>
+                                                    <span class="font-bold">${data.name}</span>'
+													<span class="fi fi-${data.countyCode}"></span>
                                                 </div>
                                             </a>
                                         </li>

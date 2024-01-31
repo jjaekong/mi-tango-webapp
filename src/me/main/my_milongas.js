@@ -1,7 +1,7 @@
 import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { html, nothing } from "lit-html"
 import { map } from 'lit-html/directives/map.js'
-import { AtSymbolIcon } from "../../icons"
+import { AtSymbolIcon, CalendarDaysSolidIcon, ForwardOutlineIcon } from "../../icons"
 
 export const MyMilongas = async (currentUser) => {
 
@@ -47,8 +47,8 @@ export const MyMilongas = async (currentUser) => {
                                                 </div>
 												<div class="mx-3">
 													<h6 class="font-bold">${data.name}</h6>
-													<dl class="inline-flex flex-wrap text-sm text-slate-500">
-														<dt class="me-1">다음:</dt>
+													<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
+														<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
 														<dd class="inline-flex flex-wrap">
 															<time class="me-1">1월 14일 수요일</time>
 															<span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}오초</span>

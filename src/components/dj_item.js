@@ -1,5 +1,5 @@
 import { html } from "lit-html"
-import { AtSymbolIcon, ChevronRightIcon } from "../icons"
+import { AtSymbolIcon, CalendarDaysSolidIcon, ChevronRightIcon, ForwardSolidIcon } from "../icons"
 
 export const djItem = (item) => {
     return html`
@@ -9,8 +9,8 @@ export const djItem = (item) => {
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
-				<dl class="inline-flex flex-wrap text-sm text-slate-500">
-					<dt class="me-1">다음:</dt>
+				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
+					<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
 					<dd class="inline-flex flex-wrap">
 						<time class="me-1">1월 14일 수요일</time>
 						<span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}IF밀롱가</span>

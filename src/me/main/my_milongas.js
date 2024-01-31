@@ -48,10 +48,15 @@ export const MyMilongas = async (currentUser) => {
 												<div class="mx-3">
 													<h6 class="font-bold">${data.name}</h6>
 													<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
-														<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
+														<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-3'}) }</dt>
 														<dd class="inline-flex flex-wrap">
 															<time class="me-1">1월 14일 수요일</time>
-															<span class="inline-flex items-center">${AtSymbolIcon({ classList: 'size-3 me-1' })}오초</span>
+														</dd>
+													</dl>
+													<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
+														<dt class="me-1">${ AtSymbolIcon({ classList: 'size-3' }) }</dt>
+														<dd class="inline-flex flex-wrap">
+															오초
 														</dd>
 													</dl>
 												</div>

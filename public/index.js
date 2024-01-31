@@ -24042,8 +24042,7 @@ const MyMilongas = async (currentUser) => {
                                                     }
                                                 </div>
                                                 <div class="mx-3">
-                                                    <span class="font-bold">${data.name}</span>'
-													<span class="fi fi-${data.countyCode}"></span>
+                                                    <span class="font-bold">${data.name}</span>
                                                 </div>
                                             </a>
                                         </li>
@@ -26651,7 +26650,7 @@ const NewMilonga = async () => {
 				<div class="mb-3">
                     <label>
                         <div class="sr-only">국가코드</div>
-                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100 disabled:text-slate-700" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
                     </label>
                 </div>
                 <div class="mb-3">
@@ -26702,17 +26701,22 @@ const Milonga = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 홈</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-            <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100">
+            <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
                 <div>
-                    <img src="https://picsum.photos/100/100" class="block size-16">
+                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-lg">
                 </div>
-                <div class="flex-1 mx-3">${milongaData.name}</div>
+                <div class="flex-1 mx-3 font-bold">${milongaData.name}</div>
             </div>
-			<a href="#add_milonga_event">밀롱가 이벤트 등록하기</a>
-            <section>
+			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>
+            <section class="mb-4">
                 <header>
                     <h4>다가오는 밀롱가 이벤트</h4>
                 </header>
+				<ul>
+					${
+						o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${MilongaEventItem(item)}</li>`)
+					}
+				</ul>
             </section>
         </div>
 	`), document.getElementById('app'));
@@ -26737,6 +26741,9 @@ const AddMilongaEvent = async () => {
 	await auth.authStateReady();
 
 	auth.currentUser;
+
+	// 권한이 있는지 체크
+	// 1. 밀롱가를 생성한 사람인지, 2. 오거나이저 인지, 3. 에디터로 등록된 사람인지
 
 	j$1(x$1`
 		<div class="add-milonga-event p-5">

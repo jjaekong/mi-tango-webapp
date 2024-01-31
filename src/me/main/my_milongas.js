@@ -45,8 +45,7 @@ export const MyMilongas = async (currentUser) => {
                                                     }
                                                 </div>
                                                 <div class="mx-3">
-                                                    <span class="font-bold">${data.name}</span>'
-													<span class="fi fi-${data.countyCode}"></span>
+                                                    <span class="font-bold">${data.name}</span>
                                                 </div>
                                             </a>
                                         </li>

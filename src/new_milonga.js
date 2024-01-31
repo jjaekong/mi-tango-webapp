@@ -69,7 +69,7 @@ export const NewMilonga = async () => {
 				<div class="mb-3">
                     <label>
                         <div class="sr-only">국가코드</div>
-                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg border-slate-200 block w-full disabled:bg-slate-100 disabled:text-slate-700" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
                     </label>
                 </div>
                 <div class="mb-3">

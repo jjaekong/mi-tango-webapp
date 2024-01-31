@@ -38,12 +38,12 @@ export const Milonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
-                <div >
+                <div class="flex-1 w-16">
                     <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
                 </div>
-                <div class="mx-3">
+                <div class="mx-3 flex-none">
 					<h4 class="font-bold">${milongaData.name}</h4>
-					<span class="text-slate-500 text-sm text-wrap break-words">${location.href}</span>
+					<span class="text-slate-500 text-sm text-wrap break-all">${location.href}</span>
 				</div>
             </div>
 			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>

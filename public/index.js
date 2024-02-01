@@ -9991,7 +9991,7 @@ const MilongaEventItem = (item) => {
 const TodayMilongas = () => {
 	return x$1`
 		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="mb-4 flex flex-wrap justify-between items-end">
+			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-xl font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
@@ -10036,7 +10036,7 @@ const djItem = (item) => {
 const DJs = () => {
 	return x$1`
 		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="mb-4">
+			<header class="mb-5">
 				<h2 class="text-xl font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
 			</header>
@@ -24035,7 +24035,7 @@ const MyMilongas = async (currentUser) => {
 
 	return x$1`
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
-			<header class="mb-4 flex items-center flex-wrap justify-between">
+			<header class="mb-5 flex items-center flex-wrap justify-between">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
 				<a href="#new_milonga" class="font-bold text-purple-500">만들기</a>
 			</header>
@@ -26817,7 +26817,7 @@ const AddMilongaEvent = async () => {
 					<label class="block mb-1 px-2 text-sm" for="poster-file">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
-					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg font-bold">포스터 업로드</button>
+					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
@@ -26858,7 +26858,7 @@ const AddMilongaEvent = async () => {
 					</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg font-bold">추가</button>
+                    <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">추가</button>
                 </div>
             </form>
         </div>

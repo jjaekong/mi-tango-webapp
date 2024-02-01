@@ -51,7 +51,7 @@ export const Milonga = async () => {
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">밀롱가</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <div class="milonga-profile flex mb-4">

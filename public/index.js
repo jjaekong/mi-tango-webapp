@@ -9967,7 +9967,7 @@ function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
 
 const MilongaEventItem = (item) => {
     return x$1`
-        <a href="#milonga_event" class="flex w-100 items-center">
+        <a href="#milonga_event" class="flex w-100 items-center px-5 py-2 active:bg-blue-100">
             <div class="self-start">
                 <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
                     <span class="font-bold">8</span>
@@ -9977,8 +9977,8 @@ const MilongaEventItem = (item) => {
             <div class="mx-3">
                 <h6 class="font-bold">루미노소</h6>
 				<ul class="inline-flex flex-wrap text-slate-500 text-sm">
-					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-3' }) }</span>시스루</li>
-					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-3' }) }</span>예약가능</li>
+					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
+					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
 				</ul>
             </div>
             <div class="ms-auto self-start">
@@ -9990,17 +9990,17 @@ const MilongaEventItem = (item) => {
 
 const TodayMilongas = () => {
 	return x$1`
-		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="mb-5 flex flex-wrap justify-between items-end">
+		<section id="today-milongas" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-100 overflow-hidden">
+			<header class="p-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
 			<ul>
 				${
-					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${MilongaEventItem(item)}</li>`)
+					o([10, 100, 1000, 1050, 550], item => x$1`<li>${MilongaEventItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 밀롱가 이벤트 보기</a>
+			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 active:bg-blue-100">전체 밀롱가 이벤트 보기</a>
 		</section>
 	`
 };
@@ -26783,7 +26783,7 @@ const Milonga = async () => {
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">밀롱가</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <div class="milonga-profile flex mb-4">

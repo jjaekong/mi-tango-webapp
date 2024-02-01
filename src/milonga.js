@@ -39,21 +39,21 @@ export const Milonga = async () => {
 			</header>
             <div class="milonga-profile flex mb-4">
                 <div class="flex-none">
-                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-xl">
+                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-xl">
                 </div>
                 <div class="mx-3 flex-1">
 					<h4 class="font-bold">${milongaData.name}</h4>
 					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
 				</div>
             </div>
-			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>
+			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4 font-bold">밀롱가 이벤트 추가</a>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-4">
-                    <h4 class="font-bold">밀롱가 이벤트</h4>
+                    <h4 class="font-bold">다가오는 밀롱가 이벤트</h4>
                 </header>
 				<ul>
 					${
-						map([10, 100, 1000, 1050, 550], item => html`<li class="mt-3">${MilongaEventItem(item)}</li>`)
+						map([10, 100], item => html`<li class="mt-3">${MilongaEventItem(item)}</li>`)
 					}
 				</ul>
             </section>

@@ -55,7 +55,7 @@ export const AddMilongaEvent = async () => {
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
                 <div class="mb-3">
-					<label class="block mb-1 px-2 text-sm" for="poster-file">포스터</label>
+					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
 					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
@@ -76,25 +76,25 @@ export const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">장소</label>
-                        <input class="w-full rounded-lg border-slate-200" id="place" type="search" placeholder="장소 검색/입력" required>
+                        <label class="block mb-1 px-2 text-sm" for="search-place">장소</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-place" type="search" placeholder="장소 검색">
 					</div>
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">디제이</label>
-                        <input class="w-full rounded-lg border-slate-200" id="djs[]" type="search" placeholder="디제이 검색/입력">
+                        <label class="block mb-1 px-2 text-sm" for="search-dj">디제이</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="디제이 검색">
 					</div>
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">공연</label>
-                        <input class="w-full rounded-lg border-slate-200" id="performers[]" type="search" placeholder="공연자 검색/입력">
+                        <label class="block mb-1 px-2 text-sm" for="search-performer">공연</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-performer" type="search" placeholder="공연자 검색">
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">설명</label>
+                        <label class="block mb-1 px-2 text-sm" for="description">설명</label>
 						<textarea placeholder="설명" id="description" class="w-full rounded-lg border-slate-200"></textarea>
 					</div>
                 </div>

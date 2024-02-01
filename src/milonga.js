@@ -39,7 +39,7 @@ export const Milonga = async () => {
 			</header>
             <div class="milonga-profile flex mb-4">
                 <div class="flex-none">
-                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-2xl">
+                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl">
                 </div>
                 <div class="mx-3 flex-1">
 					<h4 class="font-bold">${milongaData.name}</h4>
@@ -48,7 +48,7 @@ export const Milonga = async () => {
             </div>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
-                    <h4 class="font-bold text-lg">다가오는 이벤트</h4>
+                    <h4 class="font-bold">다가오는 이벤트</h4>
 					<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500 font-bold">이벤트 추가</a>
                 </header>
 				<ul>

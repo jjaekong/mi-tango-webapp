@@ -9992,7 +9992,7 @@ const TodayMilongas = () => {
 	return x$1`
 		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
-				<h2 class="text-xl font-bold">오늘의 밀롱가</h2>
+				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
 			<ul>
@@ -10037,7 +10037,7 @@ const DJs = () => {
 	return x$1`
 		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-5">
-				<h2 class="text-xl font-bold">DJ</h2>
+				<h2 class="text-lg font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
 			</header>
 			<ul>
@@ -24036,7 +24036,7 @@ const MyMilongas = async (currentUser) => {
 	return x$1`
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
 			<header class="mb-5 flex items-center flex-wrap justify-between">
-				<h6 class="font-bold text-lg">내 밀롱가</h6>
+				<h6 class="font-bold">내 밀롱가</h6>
 				<a href="#new_milonga" class="font-bold text-purple-500">만들기</a>
 			</header>
             ${
@@ -26736,7 +26736,7 @@ const Milonga = async () => {
 			</header>
             <div class="milonga-profile flex mb-4">
                 <div class="flex-none">
-                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-2xl">
+                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl">
                 </div>
                 <div class="mx-3 flex-1">
 					<h4 class="font-bold">${milongaData.name}</h4>
@@ -26745,7 +26745,7 @@ const Milonga = async () => {
             </div>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
-                    <h4 class="font-bold text-lg">다가오는 이벤트</h4>
+                    <h4 class="font-bold">다가오는 이벤트</h4>
 					<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500 font-bold">이벤트 추가</a>
                 </header>
 				<ul>
@@ -26814,7 +26814,7 @@ const AddMilongaEvent = async () => {
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
                 <div class="mb-3">
-					<label class="block mb-1 px-2 text-sm" for="poster-file">포스터</label>
+					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
 					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
@@ -26835,25 +26835,25 @@ const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">장소</label>
-                        <input class="w-full rounded-lg border-slate-200" id="place" type="search" placeholder="장소 검색/입력" required>
+                        <label class="block mb-1 px-2 text-sm" for="search-place">장소</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-place" type="search" placeholder="장소 검색">
 					</div>
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">디제이</label>
-                        <input class="w-full rounded-lg border-slate-200" id="djs[]" type="search" placeholder="디제이 검색/입력">
+                        <label class="block mb-1 px-2 text-sm" for="search-dj">디제이</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="디제이 검색">
 					</div>
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">공연</label>
-                        <input class="w-full rounded-lg border-slate-200" id="performers[]" type="search" placeholder="공연자 검색/입력">
+                        <label class="block mb-1 px-2 text-sm" for="search-performer">공연</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-performer" type="search" placeholder="공연자 검색">
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm">설명</label>
+                        <label class="block mb-1 px-2 text-sm" for="description">설명</label>
 						<textarea placeholder="설명" id="description" class="w-full rounded-lg border-slate-200"></textarea>
 					</div>
                 </div>

@@ -7,7 +7,7 @@ export const TodayMilongas = () => {
 	return html`
 		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
-				<h2 class="text-xl font-bold">오늘의 밀롱가</h2>
+				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
 			<ul>

@@ -9,6 +9,7 @@ import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
 import { TodayMilongas } from './home/today_milongas.js'
 import { DJs } from './home/djs.js'
 import { getCountryName } from './country.js'
+import { LocalMilongas } from './home/local_milongas.js'
 
 dayjs.locale('ko')
 dayjs.extend(localizedFormat)
@@ -45,6 +46,8 @@ export const Home = async () => {
 			${ TodayMilongas() }
 
 			${ DJs() }
+
+			${ await LocalMilongas() }
 
 			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
 				<header class="mb-4">

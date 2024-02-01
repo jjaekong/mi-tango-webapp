@@ -10068,117 +10068,6 @@ function getCountryName(code) {
     return list.find(country => country.code === code).name
 }
 
-dayjs.locale('ko');
-dayjs.extend(localizedFormat);
-dayjs.extend(advancedFormat);
-
-const Home = async () => {
-	
-	const auth = getAuth();
-
-	await auth.authStateReady();
-
-	const currentUser = auth.currentUser;
-
-	const countryCode = localStorage.getItem('country_code');
-	
-	j$1(h(x$1`
-		<div class="home p-5" role="document">
-			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
-				<div class="flex ai">
-					<h1 class="font-bold">Mi Vida</h1>
-					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
-				</div>
-				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
-					currentUser
-						? x$1 `<a href="#me">${
-                                    currentUser.photoURL
-                                        ? x$1`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
-                                        : x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
-                                }</a>`
-						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
-				}</div>
-			</header>
-
-			${ TodayMilongas() }
-
-			${ DJs() }
-
-			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
-				<header class="mb-4">
-					<h2 class="text-xl font-bold">Poll</h2>
-				</header>
-				<div id="poll-question">
-					<div>당신은 아브라소 파? 피구라 파?</div>
-				</div>
-				<ul id="poll-answers">
-					<li class="mt-3">
-						<label class="border p-3 flex items-center rounded-lg">
-							<input type="radio" name="poll-answer">
-							<span class="ms-2">아브라소 파</span>
-						</label>
-					</li>
-					<li class="mt-3">
-						<label class="border p-3 flex items-center rounded-lg">
-							<input type="radio" name="poll-answer">
-							<span class="ms-2">피구라 파</span>
-						</label>
-					</li>
-				</ul>
-				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 Poll 보기</a>
-			</section> -->
-		</div>
-	`), document.getElementById('app'));
-
-    
-};
-
-const Login = async () => {
-
-	const auth = getAuth();
-
-	await auth.authStateReady();
-
-	function login() {
-
-		const provider = new GoogleAuthProvider();
-		
-		signInWithPopup(auth, provider)
-			.then(() => {
-				location.replace('#');
-			})
-			.catch(error => {
-				console.log(error);
-			});
-	}
-
-	j$1(h(x$1`
-		<div class="login p-5 pt-15" role="document">
-            <header class="flex items-center h-10 fixed inset-5">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">로그인</h1></div>
-				<div class="min-w-[20%] flex justify-end"></div>
-			</header>
-			<div class="h-dvh flex justify-center items-center">
-				<ul>
-					<li class="mt-4">
-						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" @click=${login}>
-							${GoogleLogoIcon()}
-							<span class="ms-2">구글로 로그인</span>
-						</button>
-					</li>
-					<li class="mt-4">
-						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white">
-							${FacebookLogoIcon()}
-							<span class="ms-2">페이스북으로 로그인</span>
-						</button>
-					</li>
-				</ul>
-			</div>
-		</div>
-	`), document.getElementById('app'));
-};
-
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /*
@@ -24020,6 +23909,148 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.1", "esm2017");
 }();
 
+const LocalMilongas = async () => {
+
+	const db = getFirestore();
+	const milongasCol = collection(db, `${"development"}.milongas`);
+	const milongasSnap = await getDocs(milongasCol);
+	const milongas = [];
+
+	milongasSnap.forEach(doc => {
+		milongas.push({
+			id: doc.id,
+			...doc.data()
+		});
+	});
+	
+	return x$1`
+		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
+			<header class="mb-5">
+				<h2 class="text-lg font-bold">${getCountryName(localStorage.getItem('country_code'))}의 밀롱가</h2>
+			</header>
+			<ul>
+				${
+					o(milongas, m => x$1`<li class="mt-3"><a href="#milonga/${m.id}">${m.name}</a></li>`)
+				}
+			</ul>
+			<!-- <a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 밀롱가 이벤트 보기</a> -->
+		</section>
+	`
+};
+
+dayjs.locale('ko');
+dayjs.extend(localizedFormat);
+dayjs.extend(advancedFormat);
+
+const Home = async () => {
+	
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	const currentUser = auth.currentUser;
+
+	const countryCode = localStorage.getItem('country_code');
+	
+	j$1(h(x$1`
+		<div class="home p-5" role="document">
+			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
+				<div class="flex ai">
+					<h1 class="font-bold">Mi Vida</h1>
+					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
+				</div>
+				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
+					currentUser
+						? x$1 `<a href="#me">${
+                                    currentUser.photoURL
+                                        ? x$1`<img src="${currentUser.photoURL}" class="size-8 rounded-full">`
+                                        : x$1`<span class="text-slate-400">${UserCircleSolidIcon({ classList: 'size-8' })}</span>`
+                                }</a>`
+						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
+				}</div>
+			</header>
+
+			${ TodayMilongas() }
+
+			${ DJs() }
+
+			${ await LocalMilongas() }
+
+			<!-- <section id="poll" class="mb-4 rounded-lg bg-white shadow-lg shadow-slate-100 p-5">
+				<header class="mb-4">
+					<h2 class="text-xl font-bold">Poll</h2>
+				</header>
+				<div id="poll-question">
+					<div>당신은 아브라소 파? 피구라 파?</div>
+				</div>
+				<ul id="poll-answers">
+					<li class="mt-3">
+						<label class="border p-3 flex items-center rounded-lg">
+							<input type="radio" name="poll-answer">
+							<span class="ms-2">아브라소 파</span>
+						</label>
+					</li>
+					<li class="mt-3">
+						<label class="border p-3 flex items-center rounded-lg">
+							<input type="radio" name="poll-answer">
+							<span class="ms-2">피구라 파</span>
+						</label>
+					</li>
+				</ul>
+				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 Poll 보기</a>
+			</section> -->
+		</div>
+	`), document.getElementById('app'));
+
+    
+};
+
+const Login = async () => {
+
+	const auth = getAuth();
+
+	await auth.authStateReady();
+
+	function login() {
+
+		const provider = new GoogleAuthProvider();
+		
+		signInWithPopup(auth, provider)
+			.then(() => {
+				location.replace('#');
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
+	j$1(h(x$1`
+		<div class="login p-5 pt-15" role="document">
+            <header class="flex items-center h-10 fixed inset-5">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">로그인</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+			<div class="h-dvh flex justify-center items-center">
+				<ul>
+					<li class="mt-4">
+						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white" @click=${login}>
+							${GoogleLogoIcon()}
+							<span class="ms-2">구글로 로그인</span>
+						</button>
+					</li>
+					<li class="mt-4">
+						<button type="button" class="border border-slate-100 rounded-lg py-3 px-4 w-full flex items-center justify-center bg-white">
+							${FacebookLogoIcon()}
+							<span class="ms-2">페이스북으로 로그인</span>
+						</button>
+					</li>
+				</ul>
+			</div>
+		</div>
+	`), document.getElementById('app'));
+};
+
 const MyMilongas = async (currentUser) => {
 
 	localStorage.getItem('country_code');
@@ -26711,6 +26742,9 @@ const hasPermitToEditMilonga = async (milongaId) => {
 	const auth = getAuth();
 	await auth.authStateReady();
 	const currentUser = auth.currentUser;
+	if (!currentUser) {
+		return false;
+	}
 	const db = getFirestore();
 	const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
 	const milongaSnap = await getDoc(milongaRef);
@@ -26730,10 +26764,6 @@ const hasPermitToEditMilonga = async (milongaId) => {
 };
 
 const Milonga = async () => {
-
-	// const auth = getAuth()
-
-	// await auth.authStateReady()
 
     const milongaId = location.hash.split('/')[1];
 
@@ -26769,7 +26799,7 @@ const Milonga = async () => {
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold">다가오는 이벤트</h4>
 					${
-						hasPermitToEditMilonga()
+						await hasPermitToEditMilonga(milongaId)
 							? x$1`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
 							: T$1
 					}

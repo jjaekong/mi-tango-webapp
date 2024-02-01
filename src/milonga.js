@@ -10,6 +10,9 @@ export const hasPermitToEditMilonga = async (milongaId) => {
 	const auth = getAuth()
 	await auth.authStateReady()
 	const currentUser = auth.currentUser;
+	if (!currentUser) {
+		return false;
+	}
 	const db = getFirestore()
 	const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
 	const milongaSnap = await getDoc(milongaRef)
@@ -29,10 +32,6 @@ export const hasPermitToEditMilonga = async (milongaId) => {
 }
 
 export const Milonga = async () => {
-
-	// const auth = getAuth()
-
-	// await auth.authStateReady()
 
     const milongaId = location.hash.split('/')[1]
 
@@ -68,7 +67,7 @@ export const Milonga = async () => {
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold">다가오는 이벤트</h4>
 					${
-						hasPermitToEditMilonga()
+						await hasPermitToEditMilonga(milongaId)
 							? html`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
 							: nothing
 					}

@@ -2,6 +2,7 @@ import { getAuth } from "firebase/auth"
 import { html, render } from "lit-html"
 import { ArrowLeftIcon } from "./icons"
 import dayjs from "dayjs/esm"
+import { hasPermitToEditMilonga } from "./milonga"
 
 export const AddMilongaEvent = async () => {
 
@@ -21,27 +22,26 @@ export const AddMilongaEvent = async () => {
 
     console.log("mid:", mid)
 
+	const hasPermit = await hasPermitToEditMilonga(mid)
+
+	console.log('has permit: ', hasPermit)
+
+	if (!hasPermit) {
+		alert('권한이 없습니다.');
+		history.back()
+		return
+	}
+
 	const auth = getAuth()
 
 	await auth.authStateReady()
 
 	const currentUser = auth.currentUser
 
-	// 권한이 있는지 체크
-	// 1. 밀롱가를 생성한 사람인지, 2. 오거나이저 인지, 3. 에디터로 등록된 사람인지
-
     function addMilongaEvent(e) {
         e.preventDefault()
         console.log('add milonga event')
     }
-
-	let canReserve = false
-
-	function changeCanReserve(e) {
-		e.target.checked
-			? render(html`ok`, document.getElementById('reserve-items'))
-			: render(html`no`, document.getElementById('reserve-items'))
-	}
 
 	render(html`
 		<div class="add-milonga-event p-5">
@@ -50,7 +50,7 @@ export const AddMilongaEvent = async () => {
                     e.preventDefault();
                     history.back()
                 }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 이벤트 추가</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center">이벤트 추가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>

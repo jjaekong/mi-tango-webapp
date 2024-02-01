@@ -24037,7 +24037,7 @@ const MyMilongas = async (currentUser) => {
 		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
 			<header class="mb-5 flex items-center flex-wrap justify-between">
 				<h6 class="font-bold">내 밀롱가</h6>
-				<a href="#new_milonga" class="font-bold text-purple-500">만들기</a>
+				<a href="#new_milonga" class="text-purple-500">만들기</a>
 			</header>
             ${
                 qSnap.empty
@@ -26707,6 +26707,28 @@ const NewMilonga = async () => {
     `), document.getElementById('app'));
 };
 
+const hasPermitToEditMilonga = async (milongaId) => {
+	const auth = getAuth();
+	await auth.authStateReady();
+	const currentUser = auth.currentUser;
+	const db = getFirestore();
+	const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+	const milongaSnap = await getDoc(milongaRef);
+	if (milongaSnap.exists()) {
+		const milongaData = milongaSnap.data();
+		if (milongaData?.createdBy === currentUser.uid) {
+			return true
+		}
+		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer === currentUser.uid) > -1) {
+			return true;
+		}
+		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.uid) > -1) {
+			return true;
+		}
+	}
+	return false;
+};
+
 const Milonga = async () => {
 
 	// const auth = getAuth()
@@ -26746,7 +26768,11 @@ const Milonga = async () => {
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold">다가오는 이벤트</h4>
-					<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500 font-bold">이벤트 추가</a>
+					${
+						hasPermitToEditMilonga()
+							? x$1`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
+							: T$1
+					}
                 </header>
 				<ul>
 					${
@@ -26788,14 +26814,21 @@ const AddMilongaEvent = async () => {
 
     console.log("mid:", mid);
 
+	const hasPermit = await hasPermitToEditMilonga(mid);
+
+	console.log('has permit: ', hasPermit);
+
+	if (!hasPermit) {
+		alert('권한이 없습니다.');
+		history.back();
+		return
+	}
+
 	const auth = getAuth();
 
 	await auth.authStateReady();
 
 	auth.currentUser;
-
-	// 권한이 있는지 체크
-	// 1. 밀롱가를 생성한 사람인지, 2. 오거나이저 인지, 3. 에디터로 등록된 사람인지
 
     function addMilongaEvent(e) {
         e.preventDefault();
@@ -26809,7 +26842,7 @@ const AddMilongaEvent = async () => {
                     e.preventDefault();
                     history.back();
                 }}>${ArrowLeftIcon()}</a></div>
-				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 이벤트 추가</h1></div>
+				<div class="flex-1"><h1 class="font-bold text-center">이벤트 추가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>

@@ -1,13 +1,31 @@
 import { getAuth } from 'firebase/auth'
 import { doc, getDoc, getFirestore } from 'firebase/firestore'
-import { render, html } from 'lit-html'
+import { render, html, nothing } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { map } from 'lit-html/directives/map.js'
 import { MilongaEventItem } from './components/milonga_event_item'
 import { ArrowLeftIcon, AtSymbolIcon } from './icons'
 
-export const hasPermitToEditMilonga = () => {
-
+export const hasPermitToEditMilonga = async (milongaId) => {
+	const auth = getAuth()
+	await auth.authStateReady()
+	const currentUser = auth.currentUser;
+	const db = getFirestore()
+	const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
+	const milongaSnap = await getDoc(milongaRef)
+	if (milongaSnap.exists()) {
+		const milongaData = milongaSnap.data()
+		if (milongaData?.createdBy === currentUser.uid) {
+			return true
+		}
+		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer === currentUser.uid) > -1) {
+			return true;
+		}
+		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.uid) > -1) {
+			return true;
+		}
+	}
+	return false;
 }
 
 export const Milonga = async () => {
@@ -49,7 +67,11 @@ export const Milonga = async () => {
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold">다가오는 이벤트</h4>
-					<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500 font-bold">이벤트 추가</a>
+					${
+						hasPermitToEditMilonga()
+							? html`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
+							: nothing
+					}
                 </header>
 				<ul>
 					${

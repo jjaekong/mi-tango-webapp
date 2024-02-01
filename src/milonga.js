@@ -4,7 +4,7 @@ import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { map } from 'lit-html/directives/map.js'
 import { MilongaEventItem } from './components/milonga_event_item'
-import { ArrowLeftIcon } from './icons'
+import { ArrowLeftIcon, AtSymbolIcon } from './icons'
 
 export const hasPermitToEditMilonga = () => {
 
@@ -37,13 +37,13 @@ export const Milonga = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-            <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
-                <div class="flex-1 w-16">
-                    <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
+            <div class="milonga-profile flex mb-4">
+                <div class="flex-none">
+                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-xl">
                 </div>
-                <div class="mx-3 flex-none">
+                <div class="mx-3 flex-1">
 					<h4 class="font-bold">${milongaData.name}</h4>
-					<span class="text-slate-500 text-sm text-wrap break-all">${location.href}</span>
+					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
 				</div>
             </div>
 			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>

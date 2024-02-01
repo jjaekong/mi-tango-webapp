@@ -7,7 +7,7 @@ export const DJs = () => {
 		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-4">
 				<h2 class="text-xl font-bold">DJ</h2>
-				<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
+				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
 			</header>
 			<ul>
 				${

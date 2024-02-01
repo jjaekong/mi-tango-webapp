@@ -10038,7 +10038,7 @@ const DJs = () => {
 		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
 			<header class="mb-4">
 				<h2 class="text-xl font-bold">DJ</h2>
-				<small class="text-slate-400">DJ의 밀롱가 일정을 확인하세요.</small>
+				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
 			</header>
 			<ul>
 				${
@@ -26734,13 +26734,13 @@ const Milonga = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-            <div class="milonga-profile p-5 flex bg-white rounded-xl shadow-xl shadow-slate-100 mb-4">
-                <div class="flex-1 w-16">
-                    <img src="https://picsum.photos/id/300/100/100" class="block size-16 rounded-xl">
+            <div class="milonga-profile flex mb-4">
+                <div class="flex-none">
+                    <img src="https://picsum.photos/100/100" class="block size-16 rounded-xl">
                 </div>
-                <div class="mx-3 flex-none">
+                <div class="mx-3 flex-1">
 					<h4 class="font-bold">${milongaData.name}</h4>
-					<span class="text-slate-500 text-sm text-wrap break-all">${location.href}</span>
+					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
 				</div>
             </div>
 			<a href="#add_milonga_event?mid=${milongaId}" class="block p-3 bg-purple-500 text-white rounded-lg text-center mb-4">밀롱가 이벤트 추가</a>
@@ -26814,49 +26814,48 @@ const AddMilongaEvent = async () => {
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
                 <div class="mb-3">
-					<div id="posters"></div>
-					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
+					<label class="block mb-1 px-2 text-sm" for="poster-file">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
+					<div id="posters"></div>
+					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg font-bold">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
-                    <label>
-                        <div class="mb-1 px-2 text-sm">날짜</div>
-                        <input class="w-full rounded-lg border-slate-200" name="date" type="date" required min="${dayjs().format('YYYY-MM-DD')}" value="${dayjs().format('YYYY-MM-DD')}">
-                    </label>
+					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
+					<input class="w-full rounded-lg border-slate-200" id="date" type="date" required min="${dayjs().format('YYYY-MM-DD')}" value="${dayjs().format('YYYY-MM-DD')}">
                 </div>
                 <div class="mb-3 flex">
-                    <label class="flex-1">
-                        <div class="mb-1 px-2 text-sm">시작시간</div>
-                        <input class="w-full rounded-lg border-slate-200" name="start-time" type="time" step="600" required value="19:00">
-                    </label>
-                    <label class="flex-1 ms-2">
-                        <div class="mb-1 px-2 text-sm">종료시간</div>
-                        <input class="w-full rounded-lg border-slate-200" name="end-time" type="time" step="600" required value="00:00">
-                    </label>
+                    <div class="flex-1">
+                        <label class="block mb-1 px-2 text-sm" for="start-time">시작시간</label>
+                        <input class="w-full rounded-lg border-slate-200" id="start-time" type="time" step="600" required value="19:00">
+					</div>
+                    <div class="flex-1 ms-2">
+                        <label class="block mb-1 px-2 text-sm" for="end-time">종료시간</label>
+                        <input class="w-full rounded-lg border-slate-200" id="end-time" type="time" step="600" required value="00:00">
+					</div>
                 </div>
 				<div class="mb-3">
-                    <label>
-                        <div class="mb-1 px-2 text-sm sr-only">장소</div>
-                        <input class="w-full rounded-lg border-slate-200" name="place" type="search" placeholder="장소" required>
-                    </label>
+                    <div>
+                        <label class="block mb-1 px-2 text-sm">장소</label>
+                        <input class="w-full rounded-lg border-slate-200" id="place" type="search" placeholder="장소 검색/입력" required>
+					</div>
                 </div>
                 <div class="mb-3">
-                    <label>
-                        <div class="mb-1 px-2 text-sm sr-only">디제이</div>
-                        <input class="w-full rounded-lg border-slate-200" name="djs[]" type="search" placeholder="디제이">
-                    </label>
+                    <div>
+                        <label class="block mb-1 px-2 text-sm">디제이</label>
+                        <input class="w-full rounded-lg border-slate-200" id="djs[]" type="search" placeholder="디제이 검색/입력">
+					</div>
                 </div>
                 <div class="mb-3">
-                    <label>
-                        <div class="mb-1 px-2 text-sm sr-only">공연</div>
-                        <input class="w-full rounded-lg border-slate-200" name="performers[]" type="search" placeholder="공연자">
-                    </label>
+                    <div>
+                        <label class="block mb-1 px-2 text-sm">공연</label>
+                        <input class="w-full rounded-lg border-slate-200" id="performers[]" type="search" placeholder="공연자 검색/입력">
+					</div>
                 </div>
 				<div class="mb-3">
-                    <label>
-                        <div class="mb-1 px-2 text-sm sr-only">설명</div>
-						<textarea placeholder="설명" name="description" class="w-full rounded-lg border-slate-200"></textarea>
-                    </label>
+                    <div>
+                        <label class="block mb-1 px-2 text-sm">설명</label>
+						<textarea placeholder="설명" id="description" class="w-full rounded-lg border-slate-200"></textarea>
+					</div>
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg font-bold">추가</button>

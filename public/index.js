@@ -9967,7 +9967,7 @@ function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
 
 const MilongaEventItem = (item) => {
     return x$1`
-        <a href="#milonga_event" class="flex w-100 items-center px-5 py-2 active:bg-blue-100">
+        <a href="#milonga_event" class="flex w-100 items-center px-5 py-2 active:bg-blue-100 focus:bg-blue-100">
             <div class="self-start">
                 <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
                     <span class="font-bold">8</span>
@@ -10000,27 +10000,27 @@ const TodayMilongas = () => {
 					o([10, 100, 1000, 1050, 550], item => x$1`<li>${MilongaEventItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 active:bg-blue-100">전체 밀롱가 이벤트 보기</a>
+			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 active:bg-blue-100 focus:bg-blue-100">전체 밀롱가 이벤트 보기</a>
 		</section>
 	`
 };
 
 const djItem = (item) => {
     return x$1`
-        <a href="#dj" class="flex w-full items-center">
+        <a href="#dj" class="flex w-full items-center px-5 py-2 focus:bg-blue-100 active:bg-blue-100">
             <div class="self-start">
                 <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
             </div>
             <div class="mx-3">
                 <h6 class="font-bold">에르난</h6>
 				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
-					<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-3'}) }</dt>
+					<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
 					<dd class="inline-flex flex-wrap">
 						<time class="me-1">1월 14일 수요일</time>
 					</dd>
 				</dl>
 				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
-					<dt class="me-1">${ AtSymbolIcon({ classList: 'size-3' }) }</dt>
+					<dt class="me-1">${ AtSymbolIcon({ classList: 'size-4' }) }</dt>
 					<dd class="inline-flex flex-wrap">
 						IF밀롱가
 					</dd>
@@ -10035,17 +10035,17 @@ const djItem = (item) => {
 
 const DJs = () => {
 	return x$1`
-		<section id="djs" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="mb-5">
+		<section id="djs" class="mb-4 rounded-2xl bg-white shadow-xl shadow-slate-100 overflow-hidden">
+			<header class="p-5">
 				<h2 class="text-lg font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
 			</header>
 			<ul>
 				${
-					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-3">${djItem(item)}</li>`)
+					o([10, 100, 1000, 1050, 550], item => x$1`<li>${djItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">전체 DJ 보기</a>
+			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 focus:bg-blue-100 active:bg-blue-100">전체 DJ 보기</a>
 		</section>
 	`
 };

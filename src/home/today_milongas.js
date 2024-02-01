@@ -15,7 +15,7 @@ export const TodayMilongas = () => {
 					map([10, 100, 1000, 1050, 550], item => html`<li>${MilongaEventItem(item)}</li>`)
 				}
 			</ul>
-			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 active:bg-blue-100">전체 밀롱가 이벤트 보기</a>
+			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 active:bg-blue-100 focus:bg-blue-100">전체 밀롱가 이벤트 보기</a>
 		</section>
 	`
 }

@@ -3,7 +3,7 @@ import { AtSymbolIcon, CalendarDaysSolidIcon, ChevronRightIcon, ForwardSolidIcon
 
 export const djItem = (item) => {
     return html`
-        <a href="#dj" class="flex w-full items-center px-5 py-2 focus:bg-blue-100 active:bg-blue-100">
+        <a href="#dj" class="flex w-full items-center">
             <div class="self-start">
                 <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
             </div>

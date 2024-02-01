@@ -19,7 +19,7 @@ export const LocalMilongas = async () => {
 	
 	return html`
 		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="mb-5">
+			<header class="p-5">
 				<h2 class="text-lg font-bold">${getCountryName(localStorage.getItem('country_code'))}의 밀롱가</h2>
 			</header>
 			<ul>

@@ -3,7 +3,7 @@ import { HashtagIcon, HeadphonesIcon } from "../icons"
 
 export const MilongaEventItem = (item) => {
     return html`
-        <a href="#milonga_event" class="flex w-100 items-center px-5 py-2 active:bg-blue-100 focus:bg-blue-100">
+        <a href="#milonga_event" class="flex w-100 items-center">
             <div class="self-start">
                 <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
                     <span class="font-bold">8</span>

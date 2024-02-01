@@ -17,9 +17,9 @@ export const MyMilongas = async (currentUser) => {
 	});
 
 	return html`
-		<section class="mb-4 bg-white p-5 rounded-xl shadow-xl shadow-slate-100">
-			<header class="mb-5 flex items-center flex-wrap justify-between">
-				<h6 class="font-bold">내 밀롱가</h6>
+		<section class="mb-4 p-5 bg-white rounded-xl shadow-xl shadow-slate-100">
+			<header class="flex items-center flex-wrap justify-between mb-5">
+				<h6 class="font-bold text-lg">내 밀롱가</h6>
 				<a href="#new_milonga" class="text-purple-500">만들기</a>
 			</header>
             ${
@@ -36,7 +36,7 @@ export const MyMilongas = async (currentUser) => {
                                         logoURL: data.logoURL
                                     }
                                     return html`
-                                        <li class="mt-3">
+                                        <li class="mt-4">
                                             <a href="#milonga/${milongaData.id}" class="flex items-center">
                                                 <div class="flex-0 self-start">
                                                     ${

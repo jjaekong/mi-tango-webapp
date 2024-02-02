@@ -20,7 +20,7 @@ export const MyMilongas = async (currentUser) => {
 		<section class="mb-4 p-5 bg-white rounded-xl shadow-xl shadow-slate-100">
 			<header class="flex items-center flex-wrap justify-between mb-5">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
-				<a href="#new_milonga" class="text-purple-500">만들기</a>
+				<a href="#new_milonga" class="text-blue-500 font-bold">만들기</a>
 			</header>
             ${
                 qSnap.empty

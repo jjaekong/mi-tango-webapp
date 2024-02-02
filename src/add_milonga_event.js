@@ -3,6 +3,7 @@ import { html, render } from "lit-html"
 import { ArrowLeftIcon } from "./icons"
 import dayjs from "dayjs/esm"
 import { hasPermitToEditMilonga } from "./milonga"
+import { addDoc, collection, getFirestore } from "firebase/firestore"
 
 export const AddMilongaEvent = async () => {
 
@@ -24,8 +25,6 @@ export const AddMilongaEvent = async () => {
 
 	const hasPermit = await hasPermitToEditMilonga(mid)
 
-	console.log('has permit: ', hasPermit)
-
 	if (!hasPermit) {
 		alert('권한이 없습니다.');
 		history.back()
@@ -38,9 +37,49 @@ export const AddMilongaEvent = async () => {
 
 	const currentUser = auth.currentUser
 
-    function addMilongaEvent(e) {
+	const milongaEventData = {
+		countryCode: localStorage.getItem('country_code'),
+		milongaId: mid,
+		posters: [],
+		date: dayjs().format('YYYY-MM-DD'),
+		startAt: '19:00',
+		endAt: '00:00',
+		place: null,
+		organizers: [],
+		djs: [],
+		performers: [],
+		entranceFee: null,
+		description: null,
+		createdAt: dayjs().toDate(),
+		createdBy: currentUser.uid
+	}
+
+	function addMilongaEvent(e) {
         e.preventDefault()
-        console.log('add milonga event')
+		// if (!milongaEventData.place) {
+		// 	alert('장소를 입력하지 않았습니다.');
+		// 	document.getElementById('search-place').focus()
+		// 	return;
+		// }
+		milongaEventData.date = document.getElementById('date').value
+		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`)
+		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`)
+		milongaEventData.startAt = startAt.toDate()		
+		milongaEventData.endAt = startAt > endAt ? endAt.add(1, 'day').toDate() : endAt.toDate()
+		milongaEventData.entranceFee = document.getElementById('entrance-fee').value
+		milongaEventData.description = document.getElementById('description').value
+
+		console.log('event data ', milongaEventData)
+
+		const db = getFirestore()
+		const millongaEventCol = collection(db, `${process.env.MODE}.milonga_events`)
+		addDoc(millongaEventCol, milongaEventData)
+			.then(milongaEventRef => {
+				location.replace(`#milonga_event/${milongaEventRef.id}`)
+			})
+			.catch(error => {
+				console.log(error)
+			})
     }
 
 	render(html`
@@ -94,8 +133,14 @@ export const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
                     <div>
+                        <label class="block mb-1 px-2 text-sm sr-only" for="entrance-fee">입장료</label>
+                        <input class="w-full rounded-lg border-slate-200" id="entrance-fee" type="text" placeholder="입장료" required>
+					</div>
+                </div>
+				<div class="mb-3">
+                    <div>
                         <label class="block mb-1 px-2 text-sm" for="description">설명</label>
-						<textarea placeholder="설명" id="description" class="w-full rounded-lg border-slate-200"></textarea>
+						<textarea placeholder="설명" id="description" class="w-full rounded border-slate-200" rows="5"></textarea>
 					</div>
                 </div>
                 <div class="mt-4">

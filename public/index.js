@@ -23854,6 +23854,20 @@ function setDoc(e, t, n) {
 }
 
 /**
+ * Add a new document to specified `CollectionReference` with the given data,
+ * assigning it a document ID automatically.
+ *
+ * @param reference - A reference to the collection to add this document to.
+ * @param data - An Object containing the data for the new document.
+ * @returns A `Promise` resolved with a `DocumentReference` pointing to the
+ * newly created document after it has been written to the backend (Note that it
+ * won't resolve while you're offline).
+ */ function addDoc(e, t) {
+    const n = __PRIVATE_cast(e.firestore, Firestore), r = doc(e), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t);
+    return executeWrite(n, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(e.firestore), "addDoc", r._key, i, null !== e.converter, {}).toMutation(r._key, Precondition.exists(!1)) ]).then((() => r));
+}
+
+/**
  * Locally writes `mutations` on the async queue.
  * @internal
  */ function executeWrite(e, t) {
@@ -23924,8 +23938,8 @@ const LocalMilongas = async () => {
 	});
 	
 	return x$1`
-		<section id="today-milongas" class="mb-4 rounded-3xl bg-white shadow-xl shadow-slate-100 p-5">
-			<header class="p-5">
+		<section id="today-milongas" class="mb-4 p-5 rounded-3xl bg-white shadow-xl shadow-slate-100">
+			<header>
 				<h2 class="text-lg font-bold">${getCountryName(localStorage.getItem('country_code'))}의 밀롱가</h2>
 			</header>
 			<ul>
@@ -24068,7 +24082,7 @@ const MyMilongas = async (currentUser) => {
 		<section class="mb-4 p-5 bg-white rounded-xl shadow-xl shadow-slate-100">
 			<header class="flex items-center flex-wrap justify-between mb-5">
 				<h6 class="font-bold text-lg">내 밀롱가</h6>
-				<a href="#new_milonga" class="text-purple-500">만들기</a>
+				<a href="#new_milonga" class="text-blue-500 font-bold">만들기</a>
 			</header>
             ${
                 qSnap.empty
@@ -26791,16 +26805,16 @@ const Milonga = async () => {
                     <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl">
                 </div>
                 <div class="mx-3 flex-1">
-					<h4 class="font-bold">${milongaData.name}</h4>
+					<h4 class="font-bold text-lg">${milongaData.name}</h4>
 					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
 				</div>
             </div>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
-                    <h4 class="font-bold">다가오는 이벤트</h4>
+                    <h4 class="font-bold text-lg">다가오는 이벤트</h4>
 					${
 						await hasPermitToEditMilonga(milongaId)
-							? x$1`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
+							? x$1`<a href="#add_milonga_event?mid=${milongaId}" class="text-blue-500 font-bold">이벤트 추가</a>`
 							: T$1
 					}
                 </header>
@@ -26846,8 +26860,6 @@ const AddMilongaEvent = async () => {
 
 	const hasPermit = await hasPermitToEditMilonga(mid);
 
-	console.log('has permit: ', hasPermit);
-
 	if (!hasPermit) {
 		alert('권한이 없습니다.');
 		history.back();
@@ -26858,11 +26870,51 @@ const AddMilongaEvent = async () => {
 
 	await auth.authStateReady();
 
-	auth.currentUser;
+	const currentUser = auth.currentUser;
 
-    function addMilongaEvent(e) {
+	const milongaEventData = {
+		countryCode: localStorage.getItem('country_code'),
+		milongaId: mid,
+		posters: [],
+		date: dayjs().format('YYYY-MM-DD'),
+		startAt: '19:00',
+		endAt: '00:00',
+		place: null,
+		organizers: [],
+		djs: [],
+		performers: [],
+		entranceFee: null,
+		description: null,
+		createdAt: dayjs().toDate(),
+		createdBy: currentUser.uid
+	};
+
+	function addMilongaEvent(e) {
         e.preventDefault();
-        console.log('add milonga event');
+		// if (!milongaEventData.place) {
+		// 	alert('장소를 입력하지 않았습니다.');
+		// 	document.getElementById('search-place').focus()
+		// 	return;
+		// }
+		milongaEventData.date = document.getElementById('date').value;
+		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`);
+		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`);
+		milongaEventData.startAt = startAt.toDate();		
+		milongaEventData.endAt = startAt > endAt ? endAt.add(1, 'day').toDate() : endAt.toDate();
+		milongaEventData.entranceFee = document.getElementById('entrance-fee').value;
+		milongaEventData.description = document.getElementById('description').value;
+
+		console.log('event data ', milongaEventData);
+
+		const db = getFirestore();
+		const millongaEventCol = collection(db, `${"development"}.milonga_events`);
+		addDoc(millongaEventCol, milongaEventData)
+			.then(milongaEventRef => {
+				location.replace(`#milonga_event/${milongaEventRef.id}`);
+			})
+			.catch(error => {
+				console.log(error);
+			});
     }
 
 	j$1(x$1`
@@ -26916,8 +26968,14 @@ const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
                     <div>
+                        <label class="block mb-1 px-2 text-sm sr-only" for="entrance-fee">입장료</label>
+                        <input class="w-full rounded-lg border-slate-200" id="entrance-fee" type="text" placeholder="입장료" required>
+					</div>
+                </div>
+				<div class="mb-3">
+                    <div>
                         <label class="block mb-1 px-2 text-sm" for="description">설명</label>
-						<textarea placeholder="설명" id="description" class="w-full rounded-lg border-slate-200"></textarea>
+						<textarea placeholder="설명" id="description" class="w-full rounded border-slate-200" rows="5"></textarea>
 					</div>
                 </div>
                 <div class="mt-4">
@@ -26988,7 +27046,9 @@ const showPageByHash = () => {
 		return;
 	}
 
-    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
+    const regexMilonga = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
+	const regexMilongaEvent = /^\#milonga_event\/[a-zA-Z0-9]{20,}$/g;
+
     if (location.hash === '') {
         Home();
     } else if (location.hash === '#choose_country') {
@@ -27003,7 +27063,7 @@ const showPageByHash = () => {
         Milonga();
     } else if (location.hash === '#dj') {
 		DJ();
-    } else if (location.hash === '#milonga_event') {
+    } else if (regexMilongaEvent.test(location.hash)) {
 		MilongaEvent();
     } else if (location.hash === '#club') {
         Club();
@@ -27013,7 +27073,7 @@ const showPageByHash = () => {
         AllMilongaEvents();
     } else if (location.hash === '#all_djs') {
         AllDJs();
-    } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
+    } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga();
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent();

@@ -59,16 +59,16 @@ export const Milonga = async () => {
                     <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl">
                 </div>
                 <div class="mx-3 flex-1">
-					<h4 class="font-bold">${milongaData.name}</h4>
+					<h4 class="font-bold text-lg">${milongaData.name}</h4>
 					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
 				</div>
             </div>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
                 <header class="mb-5 flex items-center justify-between">
-                    <h4 class="font-bold">다가오는 이벤트</h4>
+                    <h4 class="font-bold text-lg">다가오는 이벤트</h4>
 					${
 						await hasPermitToEditMilonga(milongaId)
-							? html`<a href="#add_milonga_event?mid=${milongaId}" class="text-purple-500">이벤트 추가</a>`
+							? html`<a href="#add_milonga_event?mid=${milongaId}" class="text-blue-500 font-bold">이벤트 추가</a>`
 							: nothing
 					}
                 </header>

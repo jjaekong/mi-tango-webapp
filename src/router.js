@@ -22,7 +22,9 @@ export const showPageByHash = () => {
 		return;
 	}
 
-    const regexMilongaId = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
+    const regexMilonga = /^\#milonga\/[a-zA-Z0-9_\-]{8,}$/g;
+	const regexMilongaEvent = /^\#milonga_event\/[a-zA-Z0-9]{20,}$/g;
+
     if (location.hash === '') {
         Home()
     } else if (location.hash === '#choose_country') {
@@ -37,7 +39,7 @@ export const showPageByHash = () => {
         Milonga()
     } else if (location.hash === '#dj') {
 		DJ()
-    } else if (location.hash === '#milonga_event') {
+    } else if (regexMilongaEvent.test(location.hash)) {
 		MilongaEvent()
     } else if (location.hash === '#club') {
         Club()
@@ -47,7 +49,7 @@ export const showPageByHash = () => {
         AllMilongaEvents()
     } else if (location.hash === '#all_djs') {
         AllDJs()
-    } else if (regexMilongaId.test(location.hash)) { // #milonga/fdsafdsafdsa232432
+    } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432
         Milonga()
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent()

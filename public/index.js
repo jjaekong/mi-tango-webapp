@@ -26791,7 +26791,7 @@ const Milonga = async () => {
         location.replace('#');
     }
 
-    const milongaData = milongaSnap.data();
+    const milongaData = milongaSnap.data(); 
 
 	j$1(h(x$1`
         <div class="milonga p-5" role="document">

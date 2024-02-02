@@ -45,7 +45,7 @@ export const Milonga = async () => {
         location.replace('#')
     }
 
-    const milongaData = milongaSnap.data()
+    const milongaData = milongaSnap.data() 
 
 	render(cache(html`
         <div class="milonga p-5" role="document">

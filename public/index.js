@@ -24145,7 +24145,7 @@ const UserProfile = (currentUser) => {
 				}</div>
 			</div>
 			<div class="px-3 flex-1">
-				<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
+				<h4 class="text-lg font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
 					currentUser
 						? x$1`${currentUser.displayName}`
 						: T$1

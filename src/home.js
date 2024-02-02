@@ -3,17 +3,10 @@ import { render, html } from 'lit-html'
 import { cache } from 'lit-html/directives/cache.js'
 import { GlobaAltOutlineIcon, UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
 import dayjs from "dayjs/esm"
-import 'dayjs/esm/locale/ko'
-import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
-import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
 import { TodayMilongas } from './home/today_milongas.js'
 import { DJs } from './home/djs.js'
 import { getCountryName } from './country.js'
 import { LocalMilongas } from './home/local_milongas.js'
-
-dayjs.locale('ko')
-dayjs.extend(localizedFormat)
-dayjs.extend(advancedFormat)
 
 export const Home = async () => {
 	

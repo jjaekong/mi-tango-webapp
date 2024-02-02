@@ -4,6 +4,14 @@ import { getAnalytics } from "firebase/analytics";
 import { getAuth, onAuthStateChanged } from "firebase/auth";
 import { doc, getDoc, getFirestore, setDoc } from "firebase/firestore";
 import { existCountry } from "./country";
+import dayjs from "dayjs/esm"
+import 'dayjs/esm/locale/ko'
+import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
+import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
+
+dayjs.locale('ko')
+dayjs.extend(localizedFormat)
+dayjs.extend(advancedFormat)
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')

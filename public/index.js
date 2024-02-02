@@ -9808,156 +9808,6 @@ dayjs.en = Ls[L];
 dayjs.Ls = Ls;
 dayjs.p = {};
 
-// Korean [ko]
-var locale = {
-  name: 'ko',
-  weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
-  weekdaysShort: '일_월_화_수_목_금_토'.split('_'),
-  weekdaysMin: '일_월_화_수_목_금_토'.split('_'),
-  months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-  monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
-  ordinal: function ordinal(n) {
-    return n + "\uC77C";
-  },
-  formats: {
-    LT: 'A h:mm',
-    LTS: 'A h:mm:ss',
-    L: 'YYYY.MM.DD.',
-    LL: 'YYYY년 MMMM D일',
-    LLL: 'YYYY년 MMMM D일 A h:mm',
-    LLLL: 'YYYY년 MMMM D일 dddd A h:mm',
-    l: 'YYYY.MM.DD.',
-    ll: 'YYYY년 MMMM D일',
-    lll: 'YYYY년 MMMM D일 A h:mm',
-    llll: 'YYYY년 MMMM D일 dddd A h:mm'
-  },
-  meridiem: function meridiem(hour) {
-    return hour < 12 ? '오전' : '오후';
-  },
-  relativeTime: {
-    future: '%s 후',
-    past: '%s 전',
-    s: '몇 초',
-    m: '1분',
-    mm: '%d분',
-    h: '한 시간',
-    hh: '%d시간',
-    d: '하루',
-    dd: '%d일',
-    M: '한 달',
-    MM: '%d달',
-    y: '일 년',
-    yy: '%d년'
-  }
-};
-dayjs.locale(locale, null, true);
-
-// eslint-disable-next-line import/prefer-default-export
-var t = function t(format) {
-  return format.replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g, function (_, a, b) {
-    return a || b.slice(1);
-  });
-};
-var englishFormats = {
-  LTS: 'h:mm:ss A',
-  LT: 'h:mm A',
-  L: 'MM/DD/YYYY',
-  LL: 'MMMM D, YYYY',
-  LLL: 'MMMM D, YYYY h:mm A',
-  LLLL: 'dddd, MMMM D, YYYY h:mm A'
-};
-var u = function u(formatStr, formats) {
-  return formatStr.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g, function (_, a, b) {
-    var B = b && b.toUpperCase();
-    return a || formats[b] || englishFormats[b] || t(formats[B]);
-  });
-};
-
-var localizedFormat = (function (o, c, d) {
-  var proto = c.prototype;
-  var oldFormat = proto.format;
-  d.en.formats = englishFormats;
-
-  proto.format = function (formatStr) {
-    if (formatStr === void 0) {
-      formatStr = FORMAT_DEFAULT;
-    }
-
-    var _this$$locale = this.$locale(),
-        _this$$locale$formats = _this$$locale.formats,
-        formats = _this$$locale$formats === void 0 ? {} : _this$$locale$formats;
-
-    var result = u(formatStr, formats);
-    return oldFormat.call(this, result);
-  };
-});
-
-var advancedFormat = (function (o, c) {
-  // locale needed later
-  var proto = c.prototype;
-  var oldFormat = proto.format;
-
-  proto.format = function (formatStr) {
-    var _this = this;
-
-    var locale = this.$locale();
-
-    if (!this.isValid()) {
-      return oldFormat.bind(this)(formatStr);
-    }
-
-    var utils = this.$utils();
-    var str = formatStr || FORMAT_DEFAULT;
-    var result = str.replace(/\[([^\]]+)]|Q|wo|ww|w|WW|W|zzz|z|gggg|GGGG|Do|X|x|k{1,2}|S/g, function (match) {
-      switch (match) {
-        case 'Q':
-          return Math.ceil((_this.$M + 1) / 3);
-
-        case 'Do':
-          return locale.ordinal(_this.$D);
-
-        case 'gggg':
-          return _this.weekYear();
-
-        case 'GGGG':
-          return _this.isoWeekYear();
-
-        case 'wo':
-          return locale.ordinal(_this.week(), 'W');
-        // W for week
-
-        case 'w':
-        case 'ww':
-          return utils.s(_this.week(), match === 'w' ? 1 : 2, '0');
-
-        case 'W':
-        case 'WW':
-          return utils.s(_this.isoWeek(), match === 'W' ? 1 : 2, '0');
-
-        case 'k':
-        case 'kk':
-          return utils.s(String(_this.$H === 0 ? 24 : _this.$H), match === 'k' ? 1 : 2, '0');
-
-        case 'X':
-          return Math.floor(_this.$d.getTime() / 1000);
-
-        case 'x':
-          return _this.$d.getTime();
-
-        case 'z':
-          return "[" + _this.offsetName() + "]";
-
-        case 'zzz':
-          return "[" + _this.offsetName('long') + "]";
-
-        default:
-          return match;
-      }
-    });
-    return oldFormat.bind(this)(result);
-  };
-});
-
 /**
  * @license
  * Copyright 2021 Google LLC
@@ -23952,10 +23802,6 @@ const LocalMilongas = async () => {
 	`
 };
 
-dayjs.locale('ko');
-dayjs.extend(localizedFormat);
-dayjs.extend(advancedFormat);
-
 const Home = async () => {
 	
 	const auth = getAuth();
@@ -26779,21 +26625,7 @@ const hasPermitToEditMilonga = async (milongaId) => {
 
 const Milonga = async () => {
 
-    const milongaId = location.hash.split('/')[1];
-
-    console.log('milonga id ', milongaId);
-
-    const db = getFirestore();
-    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
-    const milongaSnap = await getDoc(milongaRef);
-
-    if (!milongaSnap.exists()) {
-        location.replace('#');
-    }
-
-    const milongaData = milongaSnap.data(); 
-
-	j$1(h(x$1`
+	j$1((x$1`
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
@@ -26802,30 +26634,80 @@ const Milonga = async () => {
 			</header>
             <div class="milonga-profile flex mb-4">
                 <div class="flex-none">
-                    <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl">
+                    <!-- <img src="https://picsum.photos/100/100" class="block size-24 rounded-3xl"> -->
+                    <div class="size-24 rounded-3xl empty:bg-slate-200" id="milonga-logo"></div>
                 </div>
                 <div class="mx-3 flex-1">
-					<h4 class="font-bold text-lg">${milongaData.name}</h4>
-					<span class="text-slate-500 text-sm flex items-center">${AtSymbolIcon({ 'classList': 'size-4 me-1'})} ${milongaId}</span>
+					<h4 class="font-bold text-lg empty:bg-slate-200 empty:h-6 empty:w-[50%]" id="milonga-name"></h4>
 				</div>
             </div>
-            <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100">
+            <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100" id="upcoming-milonga-events">
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
-					${
-						await hasPermitToEditMilonga(milongaId)
-							? x$1`<a href="#add_milonga_event?mid=${milongaId}" class="text-blue-500 font-bold">이벤트 추가</a>`
-							: T$1
-					}
                 </header>
-				<ul>
-					${
-						o([10], item => x$1`<li class="mt-3">${MilongaEventItem(item)}</li>`)
-					}
-				</ul>
             </section>
         </div>
 	`), document.getElementById('app'));
+
+    const milongaId = location.hash.split('/')[1];
+
+    console.log('milonga id ', milongaId);
+
+    const db = getFirestore();
+    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+    getDoc(milongaRef)
+        .then(doc => {
+            if (doc.exists()) {
+                const milongaData = doc.data();
+                j$1(x$1`${milongaData.name}`, document.getElementById('milonga-name'));
+            } else {
+                location.replace('#');     
+            }
+        });
+    const milongaEventsQuery = query(collection(db, `${"development"}.milonga_events`), where('milongaId', '==', milongaId), where("startAt", ">=", dayjs().hour(6).minute(0).second(0).toDate()));
+    getDocs(milongaEventsQuery)
+        .then(snap => {
+            if (snap.empty) {
+                j$1(x$1`<p class="text-slate-500">등록된 밀롱가 이벤트가 없습니다.</p>`, document.getElementById('upcoming-milonga-events'));
+            } else {
+                const milongaEvents = [];
+                snap.forEach(doc => {
+                    const data = doc.data();
+                    console.log(data.startAt.seconds);
+                    milongaEvents.push(x$1`
+                        <li>
+                            <a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
+                                <div class="self-start">
+                                    ${
+                                        data.posters?.length > 0
+                                            ? x$1`<img class="block size-14 bg-slate-100 rounded-xl" src="${data.posters[0]}">`
+                                            : x$1`<div class="size-14 bg-slate-100 rounded-xl"></div>`
+                                    }    
+                                </div>
+                                <div class="px-3">
+                                    <h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd a h:mm")}</time></h6>
+                                    <ul class="inline-flex flex-wrap text-slate-500 text-sm">
+                                        <li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
+                                        <li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
+                                    </ul>
+                                </div>
+                            </a>
+                        </li>
+                    `);
+                });
+                j$1(x$1`<ul>${milongaEvents}</ul>`, document.getElementById('upcoming-milonga-events'));
+            } 
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+    hasPermitToEditMilonga(milongaId)
+        .then(has => {
+            if (has) {
+                j$1(x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`, document.querySelector('#upcoming-milonga-events header'));
+            }
+        });
 };
 
 const MilongaEvent = () => {
@@ -29310,6 +29192,160 @@ function registerAnalytics() {
     }
 }
 registerAnalytics();
+
+// Korean [ko]
+var locale = {
+  name: 'ko',
+  weekdays: '일요일_월요일_화요일_수요일_목요일_금요일_토요일'.split('_'),
+  weekdaysShort: '일_월_화_수_목_금_토'.split('_'),
+  weekdaysMin: '일_월_화_수_목_금_토'.split('_'),
+  months: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
+  monthsShort: '1월_2월_3월_4월_5월_6월_7월_8월_9월_10월_11월_12월'.split('_'),
+  ordinal: function ordinal(n) {
+    return n + "\uC77C";
+  },
+  formats: {
+    LT: 'A h:mm',
+    LTS: 'A h:mm:ss',
+    L: 'YYYY.MM.DD.',
+    LL: 'YYYY년 MMMM D일',
+    LLL: 'YYYY년 MMMM D일 A h:mm',
+    LLLL: 'YYYY년 MMMM D일 dddd A h:mm',
+    l: 'YYYY.MM.DD.',
+    ll: 'YYYY년 MMMM D일',
+    lll: 'YYYY년 MMMM D일 A h:mm',
+    llll: 'YYYY년 MMMM D일 dddd A h:mm'
+  },
+  meridiem: function meridiem(hour) {
+    return hour < 12 ? '오전' : '오후';
+  },
+  relativeTime: {
+    future: '%s 후',
+    past: '%s 전',
+    s: '몇 초',
+    m: '1분',
+    mm: '%d분',
+    h: '한 시간',
+    hh: '%d시간',
+    d: '하루',
+    dd: '%d일',
+    M: '한 달',
+    MM: '%d달',
+    y: '일 년',
+    yy: '%d년'
+  }
+};
+dayjs.locale(locale, null, true);
+
+// eslint-disable-next-line import/prefer-default-export
+var t = function t(format) {
+  return format.replace(/(\[[^\]]+])|(MMMM|MM|DD|dddd)/g, function (_, a, b) {
+    return a || b.slice(1);
+  });
+};
+var englishFormats = {
+  LTS: 'h:mm:ss A',
+  LT: 'h:mm A',
+  L: 'MM/DD/YYYY',
+  LL: 'MMMM D, YYYY',
+  LLL: 'MMMM D, YYYY h:mm A',
+  LLLL: 'dddd, MMMM D, YYYY h:mm A'
+};
+var u = function u(formatStr, formats) {
+  return formatStr.replace(/(\[[^\]]+])|(LTS?|l{1,4}|L{1,4})/g, function (_, a, b) {
+    var B = b && b.toUpperCase();
+    return a || formats[b] || englishFormats[b] || t(formats[B]);
+  });
+};
+
+var localizedFormat = (function (o, c, d) {
+  var proto = c.prototype;
+  var oldFormat = proto.format;
+  d.en.formats = englishFormats;
+
+  proto.format = function (formatStr) {
+    if (formatStr === void 0) {
+      formatStr = FORMAT_DEFAULT;
+    }
+
+    var _this$$locale = this.$locale(),
+        _this$$locale$formats = _this$$locale.formats,
+        formats = _this$$locale$formats === void 0 ? {} : _this$$locale$formats;
+
+    var result = u(formatStr, formats);
+    return oldFormat.call(this, result);
+  };
+});
+
+var advancedFormat = (function (o, c) {
+  // locale needed later
+  var proto = c.prototype;
+  var oldFormat = proto.format;
+
+  proto.format = function (formatStr) {
+    var _this = this;
+
+    var locale = this.$locale();
+
+    if (!this.isValid()) {
+      return oldFormat.bind(this)(formatStr);
+    }
+
+    var utils = this.$utils();
+    var str = formatStr || FORMAT_DEFAULT;
+    var result = str.replace(/\[([^\]]+)]|Q|wo|ww|w|WW|W|zzz|z|gggg|GGGG|Do|X|x|k{1,2}|S/g, function (match) {
+      switch (match) {
+        case 'Q':
+          return Math.ceil((_this.$M + 1) / 3);
+
+        case 'Do':
+          return locale.ordinal(_this.$D);
+
+        case 'gggg':
+          return _this.weekYear();
+
+        case 'GGGG':
+          return _this.isoWeekYear();
+
+        case 'wo':
+          return locale.ordinal(_this.week(), 'W');
+        // W for week
+
+        case 'w':
+        case 'ww':
+          return utils.s(_this.week(), match === 'w' ? 1 : 2, '0');
+
+        case 'W':
+        case 'WW':
+          return utils.s(_this.isoWeek(), match === 'W' ? 1 : 2, '0');
+
+        case 'k':
+        case 'kk':
+          return utils.s(String(_this.$H === 0 ? 24 : _this.$H), match === 'k' ? 1 : 2, '0');
+
+        case 'X':
+          return Math.floor(_this.$d.getTime() / 1000);
+
+        case 'x':
+          return _this.$d.getTime();
+
+        case 'z':
+          return "[" + _this.offsetName() + "]";
+
+        case 'zzz':
+          return "[" + _this.offsetName('long') + "]";
+
+        default:
+          return match;
+      }
+    });
+    return oldFormat.bind(this)(result);
+  };
+});
+
+dayjs.locale('ko');
+dayjs.extend(localizedFormat);
+dayjs.extend(advancedFormat);
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')

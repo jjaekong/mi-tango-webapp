@@ -23704,20 +23704,6 @@ function setDoc(e, t, n) {
 }
 
 /**
- * Add a new document to specified `CollectionReference` with the given data,
- * assigning it a document ID automatically.
- *
- * @param reference - A reference to the collection to add this document to.
- * @param data - An Object containing the data for the new document.
- * @returns A `Promise` resolved with a `DocumentReference` pointing to the
- * newly created document after it has been written to the backend (Note that it
- * won't resolve while you're offline).
- */ function addDoc(e, t) {
-    const n = __PRIVATE_cast(e.firestore, Firestore), r = doc(e), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t);
-    return executeWrite(n, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(e.firestore), "addDoc", r._key, i, null !== e.converter, {}).toMutation(r._key, Precondition.exists(!1)) ]).then((() => r));
-}
-
-/**
  * Locally writes `mutations` on the async queue.
  * @internal
  */ function executeWrite(e, t) {
@@ -26685,7 +26671,7 @@ const Milonga = async () => {
                                     }    
                                 </div>
                                 <div class="px-3">
-                                    <h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd a h:mm")}</time></h6>
+                                    <h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time></h6>
                                     <ul class="inline-flex flex-wrap text-slate-500 text-sm">
                                         <li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
                                         <li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
@@ -26696,7 +26682,7 @@ const Milonga = async () => {
                     `);
                 });
                 j$1(x$1`<ul>${milongaEvents}</ul>`, document.getElementById('upcoming-milonga-events'));
-            } 
+            }
         })
         .catch(error => {
             console.log(error);
@@ -26736,11 +26722,11 @@ const AddMilongaEvent = async () => {
         return
     }
 
-    const mid = searchParams.get('mid');
+    const milongaId = searchParams.get('mid');
 
-    console.log("mid:", mid);
+    console.log("milongaId:", milongaId);
 
-	const hasPermit = await hasPermitToEditMilonga(mid);
+	const hasPermit = await hasPermitToEditMilonga(milongaId);
 
 	if (!hasPermit) {
 		alert('권한이 없습니다.');
@@ -26749,14 +26735,20 @@ const AddMilongaEvent = async () => {
 	}
 
 	const auth = getAuth();
-
 	await auth.authStateReady();
-
-	const currentUser = auth.currentUser;
+    const currentUser = auth.currentUser;
+    
+    const db = getFirestore();
+    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+    const milongaSnap = await getDoc(milongaRef);
+    const milongaData = milongaSnap.exists()
+        ? { id: milongaSnap.id, ...milongaSnap.data() }
+        : null;
 
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
-		milongaId: mid,
+		milongaId: milongaId,
+        name: milongaData.name,
 		posters: [],
 		date: dayjs().format('YYYY-MM-DD'),
 		startAt: '19:00',
@@ -26785,18 +26777,10 @@ const AddMilongaEvent = async () => {
 		milongaEventData.endAt = startAt > endAt ? endAt.add(1, 'day').toDate() : endAt.toDate();
 		milongaEventData.entranceFee = document.getElementById('entrance-fee').value;
 		milongaEventData.description = document.getElementById('description').value;
+        milongaEventData.name = document.getElementById('name').value;
 
 		console.log('event data ', milongaEventData);
-
-		const db = getFirestore();
-		const millongaEventCol = collection(db, `${"development"}.milonga_events`);
-		addDoc(millongaEventCol, milongaEventData)
-			.then(milongaEventRef => {
-				location.replace(`#milonga_event/${milongaEventRef.id}`);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+        return
     }
 
 	j$1(x$1`
@@ -26817,6 +26801,10 @@ const AddMilongaEvent = async () => {
 					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
+					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
+					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaEventData.name}" required>
+                </div>
+                <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
 					<input class="w-full rounded-lg border-slate-200" id="date" type="date" required min="${dayjs().format('YYYY-MM-DD')}" value="${dayjs().format('YYYY-MM-DD')}">
                 </div>
@@ -26833,7 +26821,12 @@ const AddMilongaEvent = async () => {
 				<div class="mb-3">
                     <div>
                         <label class="block mb-1 px-2 text-sm" for="search-place">장소</label>
-                        <input class="w-full rounded-lg border-slate-200" id="search-place" type="search" placeholder="장소 검색">
+                        <input class="w-full rounded-lg border-slate-200" id="search-place" type="search" placeholder="장소 검색" list="place-list" @input=${e => { console.log('ok'); }}>
+                        <datalist id="place-list">
+                            <option value="onada">오나다</option>
+                            <option value="ocho">오초</option>
+                            <option value="otra">오뜨라</option>
+                        </datalist>
 					</div>
                 </div>
                 <div class="mb-3">
@@ -26850,7 +26843,7 @@ const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm sr-only" for="entrance-fee">입장료</label>
+                        <label class="block mb-1 px-2 text-sm" for="entrance-fee">입장료</label>
                         <input class="w-full rounded-lg border-slate-200" id="entrance-fee" type="text" placeholder="입장료" required>
 					</div>
                 </div>

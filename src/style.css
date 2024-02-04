@@ -6,7 +6,7 @@ html, body {
 	background: #fafafa;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 540px) {
 	#app {
 		overflow: auto;
 		margin: 0 auto;

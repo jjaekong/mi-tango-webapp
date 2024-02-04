@@ -917,10 +917,6 @@ select {
   width: 100%;
 }
 
-.w-\[50\%\] {
-  width: 50%;
-}
-
 .min-w-\[20\%\] {
   min-width: 20%;
 }
@@ -1178,7 +1174,7 @@ html, body {
   background: #fafafa;
 }
 
-@media (min-width: 768px) {
+@media (min-width: 540px) {
   #app {
     overflow: auto;
     margin: 0 auto;
@@ -1201,14 +1197,6 @@ html, body {
 
 .empty\:h-6:empty {
   height: 1.5rem;
-}
-
-.empty\:h-10:empty {
-  height: 2.5rem;
-}
-
-.empty\:h-8:empty {
-  height: 2rem;
 }
 
 .empty\:w-\[50\%\]:empty {

@@ -44,7 +44,12 @@ export const AddMilongaEvent = async () => {
 
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
-		milongaId: milongaId,
+		// milongaId: milongaId,
+		milonga: {
+			name: milongaData.name || null,
+			id: milongaId,
+			logoURL: milongaData.logoURL || null
+		},
         name: milongaData.name,
 		posters: [],
 		date: dayjs().format('YYYY-MM-DD'),
@@ -83,7 +88,6 @@ export const AddMilongaEvent = async () => {
         milongaEventData.name = document.getElementById('name').value
 
 		console.log('event data ', milongaEventData)
-        return
 
 		const db = getFirestore()
 		const millongaEventCol = collection(db, `${process.env.MODE}.milonga_events`)

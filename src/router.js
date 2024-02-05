@@ -13,7 +13,7 @@ import { ChooseCountry } from './choose_country.js'
 import { AllMilongaEvents } from './all_milonga_events.js'
 import { AllDJs } from './all_djs.js'
 
-export const showPageByHash = () => {
+export const showPageByHash = async () => {
 	console.log('showPageByHash')
 
 	const countryCode = localStorage.getItem('country_code')
@@ -26,7 +26,7 @@ export const showPageByHash = () => {
 	const regexMilongaEvent = /^\#milonga_event\/[a-zA-Z0-9]{20,}$/g;
 
     if (location.hash === '') {
-        Home()
+        await Home()
     } else if (location.hash === '#choose_country') {
 		ChooseCountry()
 	} else if (location.hash === '#login') {
@@ -56,5 +56,6 @@ export const showPageByHash = () => {
     } else {
 		NotFound()
     }
+
 	return;
 }

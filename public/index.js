@@ -9808,116 +9808,6 @@ dayjs.en = Ls[L];
 dayjs.Ls = Ls;
 dayjs.p = {};
 
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
-
-const MilongaEventItem = (item) => {
-    return x$1`
-        <a href="#milonga_event" class="flex w-100 items-center">
-            <div class="self-start">
-                <time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-                    <span class="font-bold">8</span>
-                    <span class="text-slate-400 text-xs">PM</span>
-                </time>
-            </div>
-            <div class="mx-3">
-                <h6 class="font-bold">루미노소</h6>
-				<ul class="inline-flex flex-wrap text-slate-500 text-sm">
-					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
-					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
-				</ul>
-            </div>
-            <div class="ms-auto self-start">
-                <img class="block size-14 rounded-xl" src="https://picsum.photos/id/${item}/100/100">
-            </div>
-        </a>
-    `
-};
-
-const TodayMilongas = () => {
-	return x$1`
-		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
-			<header class="mb-5 flex flex-wrap justify-between items-end">
-				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
-				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
-			</header>
-			<ul>
-				${
-					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-4">${MilongaEventItem(item)}</li>`)
-				}
-			</ul>
-			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 밀롱가 이벤트 보기</a>
-		</section>
-	`
-};
-
-const djItem = (item) => {
-    return x$1`
-        <a href="#dj" class="flex w-full items-center">
-            <div class="self-start">
-                <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
-            </div>
-            <div class="mx-3">
-                <h6 class="font-bold">에르난</h6>
-				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
-					<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
-					<dd class="inline-flex flex-wrap">
-						<time class="me-1">1월 14일 수요일</time>
-					</dd>
-				</dl>
-				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
-					<dt class="me-1">${ AtSymbolIcon({ classList: 'size-4' }) }</dt>
-					<dd class="inline-flex flex-wrap">
-						IF밀롱가
-					</dd>
-				</dl>
-            </div>
-            <div class="ms-auto text-slate-400">
-                ${ChevronRightIcon({ classList: 'size-5' })}
-            </div>
-        </a>
-    `
-};
-
-const DJs = () => {
-	return x$1`
-		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
-			<header class="mb-5">
-				<h2 class="text-lg font-bold">DJ</h2>
-				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
-			</header>
-			<ul>
-				${
-					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-4">${djItem(item)}</li>`)
-				}
-			</ul>
-			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 DJ 보기</a>
-		</section>
-	`
-};
-
-const list = [
-    { code: 'KR', name: '한국', english: 'South Korea' },
-    { code: 'CN', name: '中国', english: 'China' },
-    { code: 'AR', name: 'Argentina', english: 'Argentina' },
-];
-
-function getCountries() {
-    return list
-}
-
-function existCountry(code) {
-    return list.findIndex(country => country.code === code) > -1 ? true : false;
-}
-
-function getCountryName(code) {
-    return list.find(country => country.code === code).name
-}
-
 var commonjsGlobal = typeof globalThis !== 'undefined' ? globalThis : typeof window !== 'undefined' ? window : typeof global !== 'undefined' ? global : typeof self !== 'undefined' ? self : {};
 
 /*
@@ -23704,6 +23594,20 @@ function setDoc(e, t, n) {
 }
 
 /**
+ * Add a new document to specified `CollectionReference` with the given data,
+ * assigning it a document ID automatically.
+ *
+ * @param reference - A reference to the collection to add this document to.
+ * @param data - An Object containing the data for the new document.
+ * @returns A `Promise` resolved with a `DocumentReference` pointing to the
+ * newly created document after it has been written to the backend (Note that it
+ * won't resolve while you're offline).
+ */ function addDoc(e, t) {
+    const n = __PRIVATE_cast(e.firestore, Firestore), r = doc(e), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t);
+    return executeWrite(n, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(e.firestore), "addDoc", r._key, i, null !== e.converter, {}).toMutation(r._key, Precondition.exists(!1)) ]).then((() => r));
+}
+
+/**
  * Locally writes `mutations` on the async queue.
  * @internal
  */ function executeWrite(e, t) {
@@ -23758,6 +23662,130 @@ function setDoc(e, t, n) {
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     registerVersion(w, "4.4.1", "esm2017");
 }();
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
+
+const TodayMilongas = async () => {
+
+	const countryCode = localStorage.getItem('country_code');
+	const milongaEvents = [];
+	const db = getFirestore();
+	const q = query(
+		collection(db, `${"development"}.milonga_events`),
+		where('countryCode', '==', countryCode),
+		where('date', '==', dayjs().format('YYYY-MM-DD')),
+	);
+	const snap = await getDocs(q);
+	// console.log('snap', snap)
+	snap.forEach(doc => {
+		const data = doc.data();
+		milongaEvents.push(x$1`
+			<li>
+				<a href="#milonga_event/${doc.id}" class="flex w-100 items-center">
+					<div class="self-start">
+						<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+							<span class="font-bold">8</span>
+							<span class="text-slate-400 text-xs">PM</span>
+						</time>
+					</div>
+					<div class="mx-3">
+						<h6 class="font-bold">${data.name}</h6>
+						<ul class="inline-flex flex-wrap text-slate-500 text-sm">
+							<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
+							<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
+						</ul>
+					</div>
+					<div class="ms-auto self-start">
+						<img class="block size-14 rounded-xl" src="https://picsum.photos/100/100">
+					</div>
+				</a>
+			</li>
+		`);
+	});
+
+	return x$1`
+		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+			<header class="mb-5 flex flex-wrap justify-between items-end">
+				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
+				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
+			</header>
+			${
+				snap.empty
+					? x$1`<p>오늘은 밀롱가가 없어요</p>`
+					: x$1`<ul>${milongaEvents}</ul>`
+			}
+			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 밀롱가 이벤트 보기</a>
+		</section>
+	`
+};
+
+const djItem = (item) => {
+    return x$1`
+        <a href="#dj" class="flex w-full items-center">
+            <div class="self-start">
+                <img class="block w-10 h-10 rounded-full" src="https://picsum.photos/id/${item}/100/100">
+            </div>
+            <div class="mx-3">
+                <h6 class="font-bold">에르난</h6>
+				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
+					<dt class="me-1">${ CalendarDaysSolidIcon({ classList: 'size-4'}) }</dt>
+					<dd class="inline-flex flex-wrap">
+						<time class="me-1">1월 14일 수요일</time>
+					</dd>
+				</dl>
+				<dl class="inline-flex items-center flex-wrap text-sm text-slate-500">
+					<dt class="me-1">${ AtSymbolIcon({ classList: 'size-4' }) }</dt>
+					<dd class="inline-flex flex-wrap">
+						IF밀롱가
+					</dd>
+				</dl>
+            </div>
+            <div class="ms-auto text-slate-400">
+                ${ChevronRightIcon({ classList: 'size-5' })}
+            </div>
+        </a>
+    `
+};
+
+const DJs = () => {
+	return x$1`
+		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+			<header class="mb-5">
+				<h2 class="text-lg font-bold">DJ</h2>
+				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
+			</header>
+			<ul>
+				${
+					o([10, 100, 1000, 1050, 550], item => x$1`<li class="mt-4">${djItem(item)}</li>`)
+				}
+			</ul>
+			<a href="#all_djs" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 DJ 보기</a>
+		</section>
+	`
+};
+
+const list = [
+    { code: 'KR', name: '한국', english: 'South Korea' },
+    { code: 'CN', name: '中国', english: 'China' },
+    { code: 'AR', name: 'Argentina', english: 'Argentina' },
+];
+
+function getCountries() {
+    return list
+}
+
+function existCountry(code) {
+    return list.findIndex(country => country.code === code) > -1 ? true : false;
+}
+
+function getCountryName(code) {
+    return list.find(country => country.code === code).name
+}
 
 const LocalMilongas = async () => {
 
@@ -23816,7 +23844,7 @@ const Home = async () => {
 				}</div>
 			</header>
 
-			${ TodayMilongas() }
+			${ await TodayMilongas() }
 
 			${ DJs() }
 
@@ -26659,7 +26687,6 @@ const Milonga = async () => {
                 const milongaEvents = [];
                 snap.forEach(doc => {
                     const data = doc.data();
-                    console.log(data.startAt.seconds);
                     milongaEvents.push(x$1`
                         <li>
                             <a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
@@ -26747,7 +26774,12 @@ const AddMilongaEvent = async () => {
 
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
-		milongaId: milongaId,
+		// milongaId: milongaId,
+		milonga: {
+			name: milongaData.name || null,
+			id: milongaId,
+			logoURL: milongaData.logoURL || null
+		},
         name: milongaData.name,
 		posters: [],
 		date: dayjs().format('YYYY-MM-DD'),
@@ -26780,7 +26812,16 @@ const AddMilongaEvent = async () => {
         milongaEventData.name = document.getElementById('name').value;
 
 		console.log('event data ', milongaEventData);
-        return
+
+		const db = getFirestore();
+		const millongaEventCol = collection(db, `${"development"}.milonga_events`);
+		addDoc(millongaEventCol, milongaEventData)
+			.then(milongaEventRef => {
+				location.replace(`#milonga_event/${milongaEventRef.id}`);
+			})
+			.catch(error => {
+				console.log(error);
+			});
     }
 
 	j$1(x$1`
@@ -26902,7 +26943,7 @@ const ChooseCountry = () => {
 
 const AllMilongaEvents = async () => {
 	j$1(x$1`
-	a	ll milonga events
+	all milonga events
 	`, document.getElementById('app'));
 };
 
@@ -26912,7 +26953,7 @@ const AllDJs = async () => {
 	`, document.getElementById('app'));
 };
 
-const showPageByHash = () => {
+const showPageByHash = async () => {
 	console.log('showPageByHash');
 
 	const countryCode = localStorage.getItem('country_code');
@@ -26925,7 +26966,7 @@ const showPageByHash = () => {
 	const regexMilongaEvent = /^\#milonga_event\/[a-zA-Z0-9]{20,}$/g;
 
     if (location.hash === '') {
-        Home();
+        await Home();
     } else if (location.hash === '#choose_country') {
 		ChooseCountry();
 	} else if (location.hash === '#login') {
@@ -26955,6 +26996,7 @@ const showPageByHash = () => {
     } else {
 		NotFound();
     }
+
 	return;
 };
 

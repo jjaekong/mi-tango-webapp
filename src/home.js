@@ -36,7 +36,7 @@ export const Home = async () => {
 				}</div>
 			</header>
 
-			${ TodayMilongas() }
+			${ await TodayMilongas() }
 
 			${ DJs() }
 

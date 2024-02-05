@@ -1,20 +1,59 @@
 import dayjs from "dayjs/esm"
+import { collection, getFirestore, query, where, getDocs } from "firebase/firestore"
 import { html } from "lit-html"
 import { map } from 'lit-html/directives/map.js'
 import { MilongaEventItem } from "../components/milonga_event_item.js"
+import { HashtagIcon, HeadphonesIcon } from "../icons.js"
 
-export const TodayMilongas = () => {
+export const TodayMilongas = async () => {
+
+	const countryCode = localStorage.getItem('country_code')
+	const milongaEvents = []
+	const db = getFirestore()
+	const q = query(
+		collection(db, `${process.env.MODE}.milonga_events`),
+		where('countryCode', '==', countryCode),
+		where('date', '==', dayjs().format('YYYY-MM-DD')),
+	)
+	const snap = await getDocs(q)
+	// console.log('snap', snap)
+	snap.forEach(doc => {
+		const data = doc.data()
+		milongaEvents.push(html`
+			<li>
+				<a href="#milonga_event/${doc.id}" class="flex w-100 items-center">
+					<div class="self-start">
+						<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+							<span class="font-bold">8</span>
+							<span class="text-slate-400 text-xs">PM</span>
+						</time>
+					</div>
+					<div class="mx-3">
+						<h6 class="font-bold">${data.name}</h6>
+						<ul class="inline-flex flex-wrap text-slate-500 text-sm">
+							<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
+							<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
+						</ul>
+					</div>
+					<div class="ms-auto self-start">
+						<img class="block size-14 rounded-xl" src="https://picsum.photos/100/100">
+					</div>
+				</a>
+			</li>
+		`)
+	})
+
 	return html`
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
 			</header>
-			<ul>
-				${
-					map([10, 100, 1000, 1050, 550], item => html`<li class="mt-4">${MilongaEventItem(item)}</li>`)
-				}
-			</ul>
+			${
+				snap.empty
+					? html`<p>오늘은 밀롱가가 없어요</p>`
+					: html`<ul>${milongaEvents}</ul>`
+			}
 			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 밀롱가 이벤트 보기</a>
 		</section>
 	`

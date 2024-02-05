@@ -80,7 +80,6 @@ export const Milonga = async () => {
                 const milongaEvents = []
                 snap.forEach(doc => {
                     const data = doc.data()
-                    console.log(data.startAt.seconds)
                     milongaEvents.push(html`
                         <li>
                             <a href=#milonga_event/${doc.id} class="mt-3 flex items-center">

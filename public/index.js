@@ -23685,7 +23685,7 @@ const TodayMilongas = async () => {
 	snap.forEach(doc => {
 		const data = doc.data();
 		milongaEvents.push(x$1`
-			<li>
+			<li class="mt-3">
 				<a href="#milonga_event/${doc.id}" class="flex w-100 items-center">
 					<div class="self-start">
 						<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">

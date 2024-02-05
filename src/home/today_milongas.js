@@ -6,9 +6,10 @@ import { MilongaEventItem } from "../components/milonga_event_item.js"
 import { HashtagIcon, HeadphonesIcon } from "../icons.js"
 
 export const TodayMilongas = async () => {
-
-	const countryCode = localStorage.getItem('country_code')
+	
 	const milongaEvents = []
+	
+	const countryCode = localStorage.getItem('country_code')
 	const db = getFirestore()
 	const q = query(
 		collection(db, `${process.env.MODE}.milonga_events`),
@@ -17,6 +18,7 @@ export const TodayMilongas = async () => {
 	)
 	const snap = await getDocs(q)
 	// console.log('snap', snap)
+
 	snap.forEach(doc => {
 		const data = doc.data()
 		milongaEvents.push(html`

@@ -15,6 +15,8 @@ import { AllDJs } from './all_djs.js'
 
 export const showPageByHash = async () => {
 	console.log('showPageByHash')
+	document.body.classList.add('overflow-hidden')
+    document.getElementById('loading')?.classList.remove('hidden')
 
 	const countryCode = localStorage.getItem('country_code')
 	if (!countryCode) {
@@ -32,7 +34,7 @@ export const showPageByHash = async () => {
 	} else if (location.hash === '#login') {
 		Login()
 	} else if (location.hash === '#me') {
-		Me()
+		await Me()
     } else if (location.hash === '#edit_user_profile') {
 		EditUserProfile()
     } else if (location.hash === '#milonga') {
@@ -50,12 +52,14 @@ export const showPageByHash = async () => {
     } else if (location.hash === '#all_djs') {
         AllDJs()
     } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432
-        Milonga()
+        await Milonga()
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent()
     } else {
 		NotFound()
     }
 
+	document.body.classList.remove('overflow-hidden')
+    document.getElementById('loading')?.classList.add('hidden')
 	return;
 }

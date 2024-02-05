@@ -23671,9 +23671,10 @@ function setDoc(e, t, n) {
 function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
 
 const TodayMilongas = async () => {
-
-	const countryCode = localStorage.getItem('country_code');
+	
 	const milongaEvents = [];
+	
+	const countryCode = localStorage.getItem('country_code');
 	const db = getFirestore();
 	const q = query(
 		collection(db, `${"development"}.milonga_events`),
@@ -23682,6 +23683,7 @@ const TodayMilongas = async () => {
 	);
 	const snap = await getDocs(q);
 	// console.log('snap', snap)
+
 	snap.forEach(doc => {
 		const data = doc.data();
 		milongaEvents.push(x$1`
@@ -26955,6 +26957,8 @@ const AllDJs = async () => {
 
 const showPageByHash = async () => {
 	console.log('showPageByHash');
+	document.body.classList.add('overflow-hidden');
+    document.getElementById('loading')?.classList.remove('hidden');
 
 	const countryCode = localStorage.getItem('country_code');
 	if (!countryCode) {
@@ -26972,7 +26976,7 @@ const showPageByHash = async () => {
 	} else if (location.hash === '#login') {
 		Login();
 	} else if (location.hash === '#me') {
-		Me();
+		await Me();
     } else if (location.hash === '#edit_user_profile') {
 		EditUserProfile();
     } else if (location.hash === '#milonga') {
@@ -26990,13 +26994,15 @@ const showPageByHash = async () => {
     } else if (location.hash === '#all_djs') {
         AllDJs();
     } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432
-        Milonga();
+        await Milonga();
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent();
     } else {
 		NotFound();
     }
 
+	document.body.classList.remove('overflow-hidden');
+    document.getElementById('loading')?.classList.add('hidden');
 	return;
 };
 
@@ -29444,8 +29450,8 @@ onAuthStateChanged(getAuth(), async user => {
 
 getAuth().authStateReady()
     .then(() => {
-        document.body.classList.remove('overflow-hidden');
-        document.getElementById('loading')?.classList.add('hidden');
+        // document.body.classList.remove('overflow-hidden')
+        // document.getElementById('loading')?.classList.add('hidden')
     });
 
 window.addEventListener('DOMContentLoaded', e => {

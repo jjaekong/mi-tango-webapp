@@ -71,7 +71,7 @@ export const Milonga = async () => {
                 location.replace('#')     
             }
         })
-    const milongaEventsQuery = query(collection(db, `${process.env.MODE}.milonga_events`), where('milongaId', '==', milongaId), where("startAt", ">=", dayjs().hour(6).minute(0).second(0).toDate()))
+    const milongaEventsQuery = query(collection(db, `${process.env.MODE}.milonga_events`), where('milonga.id', '==', milongaId), where("startAt", ">=", dayjs().hour(6).minute(0).second(0).toDate()))
     getDocs(milongaEventsQuery)
         .then(snap => {
             if (snap.empty) {

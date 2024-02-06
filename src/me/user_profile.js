@@ -2,7 +2,7 @@ import { html, nothing } from "lit-html"
 import { cache } from 'lit-html/directives/cache.js'
 import { ChevronRightIcon, UserCircleSolidIcon } from "../icons"
 
-export const UserProfile = (currentUser) => {
+export const UserProfile = async currentUser => {
 	return cache(html`
 		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#edit_user_profile">
 			<div>
@@ -13,7 +13,7 @@ export const UserProfile = (currentUser) => {
 				}</div>
 			</div>
 			<div class="px-3 flex-1">
-				<h4 class="text-lg font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
+				<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
 					currentUser
 						? html`${currentUser.displayName}`
 						: nothing

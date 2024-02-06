@@ -38,7 +38,7 @@ export const Me = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">계정</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			${ UserProfile(currentUser)}
+			${ await UserProfile(currentUser)}
 			${ await MyMilongas(currentUser) }
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>

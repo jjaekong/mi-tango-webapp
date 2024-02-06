@@ -23998,7 +23998,7 @@ const MyMilongas = async (currentUser) => {
 	`
 };
 
-const UserProfile = (currentUser) => {
+const UserProfile = async currentUser => {
 	return h(x$1`
 		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#edit_user_profile">
 			<div>
@@ -24009,7 +24009,7 @@ const UserProfile = (currentUser) => {
 				}</div>
 			</div>
 			<div class="px-3 flex-1">
-				<h4 class="text-lg font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
+				<h4 class="font-bold empty:bg-slate-100 empty:h-6 empty:w-[50%]">${
 					currentUser
 						? x$1`${currentUser.displayName}`
 						: T$1
@@ -24060,7 +24060,7 @@ const Me = async () => {
 				<div class="flex-1"><h1 class="font-bold text-center">계정</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			${ UserProfile(currentUser)}
+			${ await UserProfile(currentUser)}
 			${ await MyMilongas(currentUser) }
 			<button class="text-red-400 bg-white block mt-5 p-3 w-full rounded-xl" type="button" @click=${logout}>로그아웃</button>
 		</div>

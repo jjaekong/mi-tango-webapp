@@ -1,20 +1,20 @@
 import dayjs from "dayjs/esm"
 import { collection, getFirestore, query, where, getDocs } from "firebase/firestore"
 import { html } from "lit-html"
-import { map } from 'lit-html/directives/map.js'
-import { MilongaEventItem } from "../components/milonga_event_item.js"
 import { HashtagIcon, HeadphonesIcon } from "../icons.js"
 
 export const TodayMilongas = async () => {
 	
 	const milongaEvents = []
 	
+	console.log(dayjs().add(-6, 'hour'))
+	
 	const countryCode = localStorage.getItem('country_code')
 	const db = getFirestore()
 	const q = query(
 		collection(db, `${process.env.MODE}.milonga_events`),
 		where('countryCode', '==', countryCode),
-		where('date', '==', dayjs().format('YYYY-MM-DD')),
+		where('date', '==', dayjs().add(-6, 'hour').format('YYYY-MM-DD')),
 	)
 	const snap = await getDocs(q)
 	// console.log('snap', snap)
@@ -49,7 +49,7 @@ export const TodayMilongas = async () => {
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
-				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
+				<time class="font-bold">${dayjs().add(-6, 'hour').format("MMM Do dddd")}</time>
 			</header>
 			${
 				snap.empty

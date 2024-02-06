@@ -23663,23 +23663,18 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.1", "esm2017");
 }();
 
-/**
- * @license
- * Copyright 2021 Google LLC
- * SPDX-License-Identifier: BSD-3-Clause
- */
-function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
-
 const TodayMilongas = async () => {
 	
 	const milongaEvents = [];
+	
+	console.log(dayjs().add(-6, 'hour'));
 	
 	const countryCode = localStorage.getItem('country_code');
 	const db = getFirestore();
 	const q = query(
 		collection(db, `${"development"}.milonga_events`),
 		where('countryCode', '==', countryCode),
-		where('date', '==', dayjs().format('YYYY-MM-DD')),
+		where('date', '==', dayjs().add(-6, 'hour').format('YYYY-MM-DD')),
 	);
 	const snap = await getDocs(q);
 	// console.log('snap', snap)
@@ -23714,7 +23709,7 @@ const TodayMilongas = async () => {
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
-				<time class="font-bold">${dayjs().format("MMM Do dddd")}</time>
+				<time class="font-bold">${dayjs().add(-6, 'hour').format("MMM Do dddd")}</time>
 			</header>
 			${
 				snap.empty
@@ -23725,6 +23720,13 @@ const TodayMilongas = async () => {
 		</section>
 	`
 };
+
+/**
+ * @license
+ * Copyright 2021 Google LLC
+ * SPDX-License-Identifier: BSD-3-Clause
+ */
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}
 
 const djItem = (item) => {
     return x$1`
@@ -26641,6 +26643,57 @@ const hasPermitToEditMilonga = async (milongaId) => {
 
 const Milonga = async () => {
 
+	const milongaId = location.hash.split('/')[1];
+
+    console.log('milonga id ', milongaId);
+
+    const db = getFirestore();
+    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+	const milongaSnap = await getDoc(milongaRef);
+	if (!milongaSnap.exists()) {
+		location.replace('#');
+		return;
+	}
+	
+	const milongaData = milongaSnap.data();
+	
+	const milongaEventsQuery = query(
+		collection(
+			db,
+			`${"development"}.milonga_events`),
+			where('milonga.id', '==', milongaId),
+			where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
+	);
+	const milongaEventsSnap = await getDocs(milongaEventsQuery);
+	const milongaEventsBody = milongaEventsSnap.empty
+		? x$1`<p class="text-slate-500">등록된 밀롱가 이벤트가 없습니다.</p>`
+		: x$1`<ul>${
+			milongaEventsSnap.docs.map(doc => {
+				const data = doc.data();
+				console.log('data', data);
+				return x$1`
+					<li>
+						<a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
+							<div class="self-start">
+								${
+									data.posters?.length > 0
+										? x$1`<img class="block size-14 bg-slate-100 rounded-xl" src="${data.posters[0]}">`
+										: x$1`<div class="size-14 bg-slate-100 rounded-xl"></div>`
+								}    
+							</div>
+							<div class="px-3">
+								<h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time></h6>
+								<ul class="inline-flex flex-wrap text-slate-500 text-sm">
+									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
+									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
+								</ul>
+							</div>
+						</a>
+					</li>
+				`
+			})
+		}</ul>`;
+
 	j$1((x$1`
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full">
@@ -26654,73 +26707,27 @@ const Milonga = async () => {
                     <div class="size-24 rounded-3xl empty:bg-slate-200" id="milonga-logo"></div>
                 </div>
                 <div class="mx-3 flex-1">
-					<h4 class="font-bold text-lg empty:bg-slate-200 empty:h-6 empty:w-[50%]" id="milonga-name"></h4>
+					<h4 class="font-bold text-lg empty:bg-slate-200 empty:h-6 empty:w-[50%]" id="milonga-name">
+						${milongaData.name}
+					</h4>
 				</div>
             </div>
             <section class="p-5 mb-4 rounded-xl bg-white shadow-xl shadow-slate-100" id="upcoming-milonga-events">
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
                 </header>
+				${milongaEventsBody}
             </section>
         </div>
 	`), document.getElementById('app'));
 
-    const milongaId = location.hash.split('/')[1];
-
-    console.log('milonga id ', milongaId);
-
-    const db = getFirestore();
-    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
-    getDoc(milongaRef)
-        .then(doc => {
-            if (doc.exists()) {
-                const milongaData = doc.data();
-                j$1(x$1`${milongaData.name}`, document.getElementById('milonga-name'));
-            } else {
-                location.replace('#');     
-            }
-        });
-    const milongaEventsQuery = query(collection(db, `${"development"}.milonga_events`), where('milonga.id', '==', milongaId), where("startAt", ">=", dayjs().hour(6).minute(0).second(0).toDate()));
-    getDocs(milongaEventsQuery)
-        .then(snap => {
-            if (snap.empty) {
-                j$1(x$1`<p class="text-slate-500">등록된 밀롱가 이벤트가 없습니다.</p>`, document.getElementById('upcoming-milonga-events'));
-            } else {
-                const milongaEvents = [];
-                snap.forEach(doc => {
-                    const data = doc.data();
-                    milongaEvents.push(x$1`
-                        <li>
-                            <a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
-                                <div class="self-start">
-                                    ${
-                                        data.posters?.length > 0
-                                            ? x$1`<img class="block size-14 bg-slate-100 rounded-xl" src="${data.posters[0]}">`
-                                            : x$1`<div class="size-14 bg-slate-100 rounded-xl"></div>`
-                                    }    
-                                </div>
-                                <div class="px-3">
-                                    <h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time></h6>
-                                    <ul class="inline-flex flex-wrap text-slate-500 text-sm">
-                                        <li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
-                                        <li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
-                                    </ul>
-                                </div>
-                            </a>
-                        </li>
-                    `);
-                });
-                j$1(x$1`<ul>${milongaEvents}</ul>`, document.getElementById('upcoming-milonga-events'));
-            }
-        })
-        .catch(error => {
-            console.log(error);
-        });
-
     hasPermitToEditMilonga(milongaId)
         .then(has => {
             if (has) {
-                j$1(x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`, document.querySelector('#upcoming-milonga-events header'));
+                j$1(
+					x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`,
+					document.querySelector('#upcoming-milonga-events header')
+				);
             }
         });
 };

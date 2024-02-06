@@ -99,8 +99,8 @@ export const EditUserProfile = async () => {
                             : html`${nothing}`
                     }</div>
                     <div class="flex justify-center mt-4 mx-auto">
-                        <button type="button" class="bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
-                        <button type="button" class="cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
+                        <button type="button" class="text-sm bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
+                        <button type="button" class="text-sm cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
                             <span>업로드</span>
                         </button>
                         <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${ uploadPhoto }>

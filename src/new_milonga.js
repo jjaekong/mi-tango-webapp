@@ -81,9 +81,9 @@ export const NewMilonga = async () => {
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가 아이디</div>
-                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" class="rounded-lg border-slate-200 block w-full" required pattern="[0-9a-zA-Z_]{8,}" autocomplete="off">
+                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" class="rounded-lg border-slate-200 block w-full" required pattern="^[a-zA-Z0-9_]{8,}$" autocomplete="off">
                     </label>
-                    <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_), 대쉬(-)를 이용하여 8자 이상으로 작성하세요.</div>
+                    <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_)를 이용하여 8자 이상으로 작성하세요.</div>
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">만들기</button>

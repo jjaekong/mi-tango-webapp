@@ -26738,7 +26738,7 @@ const MilongaEvent = async () => {
 	};
 
 	j(x$1`
-		<div class="p-5">
+		<div class="milonga-event p-5">
 			<a href=#milonga/${milongaEventData.milonga.id} class="block rounded-lg bg-purple-500 text-white p-3 focus:ring focus:ring-offset-2 focus:ring-purple-300">
 				${milongaEventData.milonga.name}의 정보 보기
 			</a>

@@ -12,6 +12,7 @@ import { AddMilongaEvent } from './add_milonga_event.js'
 import { ChooseCountry } from './choose_country.js'
 import { AllMilongaEvents } from './all_milonga_events.js'
 import { AllDJs } from './all_djs.js'
+import { EditMilongaSettings } from './edit_milonga_settings.js'
 
 export const showPageByHash = async () => {
 	console.log('showPageByHash')
@@ -55,6 +56,8 @@ export const showPageByHash = async () => {
         await Milonga()
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent()
+    } else if (location.hash.indexOf("#edit_milonga_settings") === 0) {
+		await EditMilongaSettings()
     } else {
 		NotFound()
     }

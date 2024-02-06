@@ -46,7 +46,7 @@ export const Milonga = async () => {
 	}
 	
 	const milongaData = milongaSnap.data()
-	
+
 	const milongaEventsQuery = query(
 		collection(
 			db,
@@ -86,7 +86,7 @@ export const Milonga = async () => {
 
 	render((html`
         <div class="milonga p-5" role="document">
-            <header class="flex items-center mb-5 h-10 w-full">
+            <header class="flex items-center mb-5 h-10 w-full" id="toolbar">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
@@ -114,6 +114,10 @@ export const Milonga = async () => {
     hasPermitToEditMilonga(milongaId)
         .then(has => {
             if (has) {
+				render(
+					html`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?mid=${milongaId}">설정</a>`,
+					document.querySelector('#toolbar > div:nth-of-type(3)')
+				)
                 render(
 					html`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`,
 					document.querySelector('#upcoming-milonga-events header')

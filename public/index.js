@@ -26656,7 +26656,7 @@ const Milonga = async () => {
 	}
 	
 	const milongaData = milongaSnap.data();
-	
+
 	const milongaEventsQuery = query(
 		collection(
 			db,
@@ -26696,7 +26696,7 @@ const Milonga = async () => {
 
 	j$1((x$1`
         <div class="milonga p-5" role="document">
-            <header class="flex items-center mb-5 h-10 w-full">
+            <header class="flex items-center mb-5 h-10 w-full" id="toolbar">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
@@ -26724,6 +26724,10 @@ const Milonga = async () => {
     hasPermitToEditMilonga(milongaId)
         .then(has => {
             if (has) {
+				j$1(
+					x$1`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?mid=${milongaId}">설정</a>`,
+					document.querySelector('#toolbar > div:nth-of-type(3)')
+				);
                 j$1(
 					x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`,
 					document.querySelector('#upcoming-milonga-events header')
@@ -26985,6 +26989,27 @@ const AllDJs = async () => {
 	`, document.getElementById('app'));
 };
 
+const EditMilongaSettings = async () => {
+	j$1(x$1`
+		<div class="milonga edit-milonga-settings p-5">
+			<header class="flex items-center mb-5 h-10 w-full">
+				<div class="min-w-[20%]"><a href="#" @click=${e => {
+                    e.preventDefault();
+                    history.back();
+                }}>${ArrowLeftIcon()}</a></div>
+				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 설정</h1></div>
+				<div class="min-w-[20%] flex justify-end"></div>
+			</header>
+			<!-- 
+				프로필
+				로고, 밀롱가명, 설명, 오거나이저
+
+				편집권한
+			-->
+		</div>
+	`, document.getElementById('app'));
+};
+
 const showPageByHash = async () => {
 	console.log('showPageByHash');
 	document.body.classList.add('overflow-hidden');
@@ -27027,6 +27052,8 @@ const showPageByHash = async () => {
         await Milonga();
     } else if (location.hash.indexOf("#add_milonga_event") === 0) {
         AddMilongaEvent();
+    } else if (location.hash.indexOf("#edit_milonga_settings") === 0) {
+		await EditMilongaSettings();
     } else {
 		NotFound();
     }

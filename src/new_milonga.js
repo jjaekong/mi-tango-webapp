@@ -55,7 +55,7 @@ export const NewMilonga = async () => {
             })
     }
 
-    render(cache(html`
+    render(html`
         <div class="me new-milonga p-5">
             <header class="flex items-center mb-5 h-10 w-full">
 				<div class="min-w-[20%]"><a href="#" @click=${e => {
@@ -90,5 +90,5 @@ export const NewMilonga = async () => {
                 </div>
             </form>
         </div>
-    `), document.getElementById('app'))
+    `, document.getElementById('app'))
 }

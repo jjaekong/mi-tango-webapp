@@ -1,6 +1,5 @@
 import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
-import { cache } from 'lit-html/directives/cache.js'
 import { GlobaAltOutlineIcon, UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
 import dayjs from "dayjs/esm"
 import { TodayMilongas } from './home/today_milongas.js'
@@ -18,7 +17,7 @@ export const Home = async () => {
 
 	const countryCode = localStorage.getItem('country_code')
 	
-	render(cache(html`
+	render(html`
 		<div class="home p-5" role="document">
 			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
@@ -66,7 +65,7 @@ export const Home = async () => {
 				<a href="#" class="block border-t py-4 text-slate-500 text-center mt-4 -mb-5">더 많은 Poll 보기</a>
 			</section> -->
 		</div>
-	`), document.getElementById('app'))
+	`, document.getElementById('app'))
 
     
 }

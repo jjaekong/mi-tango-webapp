@@ -1,9 +1,8 @@
 import { html, nothing } from "lit-html"
-import { cache } from 'lit-html/directives/cache.js'
 import { ChevronRightIcon, UserCircleSolidIcon } from "../icons"
 
 export const UserProfile = async currentUser => {
-	return cache(html`
+	return html`
 		<a class="mb-4 flex items-center bg-white rounded-xl shadow-lg shadow-slate-100 p-5" href="#edit_user_profile">
 			<div>
 				<div class="size-12 empty:rounded-full empty:bg-slate-200">${
@@ -28,5 +27,5 @@ export const UserProfile = async currentUser => {
 				${ChevronRightIcon({ classList: 'size-5' })}
 			</div>
 		</a>
-	`)
+	`
 }

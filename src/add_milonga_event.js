@@ -14,12 +14,12 @@ export const AddMilongaEvent = async () => {
 
     const searchParams = new URLSearchParams(location.hash.split('?')[1])
 
-    if (!searchParams.get('mid')) {
+    if (!searchParams.get('milongaId')) {
         history.back()
         return
     }
 
-    const milongaId = searchParams.get('mid')
+    const milongaId = searchParams.get('milongaId')
 
     console.log("milongaId:", milongaId)
 

@@ -1179,6 +1179,11 @@ select {
   --tw-shadow: var(--tw-shadow-colored);
 }
 
+.shadow-slate-200 {
+  --tw-shadow-color: #e2e8f0;
+  --tw-shadow: var(--tw-shadow-colored);
+}
+
 html, body {
   background: #fafafa;
 }

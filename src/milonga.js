@@ -115,11 +115,11 @@ export const Milonga = async () => {
         .then(has => {
             if (has) {
 				render(
-					html`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?mid=${milongaId}">설정</a>`,
+					html`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?milongaId=${milongaId}">설정</a>`,
 					document.querySelector('#toolbar > div:nth-of-type(3)')
 				)
                 render(
-					html`<a class="text-blue-500 font-bold" href="#add_milonga_event?mid=${milongaId}">이벤트 추가</a>`,
+					html`<a class="text-blue-500 font-bold" href="#add_milonga_event?milongaId=${milongaId}">이벤트 추가</a>`,
 					document.querySelector('#upcoming-milonga-events header')
 				)
             }

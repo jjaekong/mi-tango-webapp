@@ -87,3 +87,9 @@ window.addEventListener("hashchange", e => {
 	console.log('hashchange', location)
     showPageByHash()
 }, false)
+
+window.addEventListener("beforeinstallprompt", e => {
+	// event.preventDefault();
+	// installPrompt = event;
+	console.log('install yet !!!!!!')
+});

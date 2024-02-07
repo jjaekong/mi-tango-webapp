@@ -1,9 +1,9 @@
 {
     "main": "./public/index.js",
     "scripts": {
-        "build:rollup": "rollup -c --compact --environment MODE:production --validate",
+        "build:rollup": "rollup -c --compact --environment MODE:production --validate --compact",
         "build:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --minify",
-        "watch:rollup": "rollup -c -w --environment MODE:development --validate",
+        "watch:rollup": "rollup -c -w --environment MODE:development --validate --compact",
         "watch:tailwindcss": "npx tailwindcss -i ./src/style.css -o ./public/style.css --watch",
         "dev": "concurrently \"npm run watch:tailwindcss\" \"npm run watch:rollup\"",
         "bfd": "npm run build:rollup && npm run build:tailwindcss"

@@ -1,7 +1,51 @@
+import { getAuth } from "firebase/auth";
+import { doc, getDoc, getFirestore } from "firebase/firestore";
 import { html, render } from "lit-html"
 import { ArrowLeftIcon } from "./icons";
 
 export const EditMilongaSettings = async () => {
+
+	const auth = getAuth()
+	await auth.authStateReady()
+	const currentUser = auth.currentUser
+
+	if (!currentUser) {
+		history.back()
+		return
+	}
+
+	if (location.hash.indexOf('?') === -1) {
+        history.back()
+        return
+    }
+
+    const searchParams = new URLSearchParams(location.hash.split('?')[1])
+
+    if (!searchParams.get('milongaId')) {
+        history.back()
+        return
+    }
+
+    const milongaId = searchParams.get('milongaId')
+
+    console.log("milongaId:", milongaId)
+
+	const db = getFirestore()
+    const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
+	const milongaSnap = await getDoc(milongaRef)
+	if (!milongaSnap.exists()) {
+		location.replace('#')
+		return;
+	}
+
+	const milongaData = milongaSnap.data()
+
+	const hasPermitToEdit = milongaData?.organizers?.findIndex(organizer => organizer === currentUser.uid) > -1 || milongaData?.editors?.findIndex(editor => editor === currentUser.email) > -1 ? true : false
+	const isMilongaCreator = milongaData?.createdBy === currentUser.uid ? true : false
+
+	console.log('hasPermitToEdit', hasPermitToEdit)
+	console.log('isMilongaCreator', isMilongaCreator)
+	
 	render(html`
 		<div class="milonga edit-milonga-settings p-5">
 			<header class="flex items-center mb-5 h-10 w-full">
@@ -18,7 +62,7 @@ export const EditMilongaSettings = async () => {
 
 				편집권한
 			-->
-            <form name="edit-milonga-profile" @submit="" class="p-5 bg-white rounded-xl shadow-xl shadow-slate-100">
+            <form name="edit-milonga-profile" @submit="" class="p-5 bg-white rounded-xl shadow-xl shadow-slate-200">
                 <h4 class="font-bold text-lg mb-5 px-2">밀롱가 프로필</h4>
                 <div class="mb-3">
                     <div class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden"></div>
@@ -55,6 +99,11 @@ export const EditMilongaSettings = async () => {
                     <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
                 </div>
             </form>
+			<!-- <form name="add-milonga-editor" @submit="" class="p-5 bg-white rounded-xl shadow-xl shadow-slate-200">
+				<div class="mb-3">
+                    <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
+                </div>
+			</form> -->
 		</div>
 	`, document.getElementById('app'))
 }

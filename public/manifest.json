@@ -1,0 +1,9 @@
+{
+	"name": "Mi Tango",
+	"short_name": "Mi Tango",
+	"start_url": "/",
+	"display": "standalone",
+	"background_color": "#A855F7",
+  	"description": "나의 땅고, 땅고의 모든 정보",
+	"related_applications": []
+}

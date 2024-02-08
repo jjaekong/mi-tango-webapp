@@ -26817,16 +26817,16 @@ const Milonga = async () => {
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm" for="search-dj">디제이</label>
-                        <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="디제이 검색">
+                        <label class="block mb-1 px-2 text-sm" for="search-dj">DJ</label>
+                        <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="DJ 검색">
 					</div>
                 </div>
-                <div class="mb-3">
+                <!-- <div class="mb-3">
                     <div>
                         <label class="block mb-1 px-2 text-sm" for="search-performer">공연</label>
                         <input class="w-full rounded-lg border-slate-200" id="search-performer" type="search" placeholder="공연자 검색">
 					</div>
-                </div>
+                </div> -->
 				<div class="mb-3">
                     <div>
                         <label class="block mb-1 px-2 text-sm" for="entrance-fee">입장료</label>
@@ -29484,7 +29484,7 @@ window.addEventListener("hashchange", e => {
 }, false);
 
 window.addEventListener("beforeinstallprompt", e => {
-	// event.preventDefault();
+	e.preventDefault();
 	// installPrompt = event;
-	console.log('install yet !!!!!!');
+	console.log('install yet !!!!!!', e);
 });//# sourceMappingURL=index.js.map

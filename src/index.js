@@ -89,7 +89,7 @@ window.addEventListener("hashchange", e => {
 }, false)
 
 window.addEventListener("beforeinstallprompt", e => {
-	// event.preventDefault();
+	e.preventDefault();
 	// installPrompt = event;
-	console.log('install yet !!!!!!')
+	console.log('install yet !!!!!!', e)
 });

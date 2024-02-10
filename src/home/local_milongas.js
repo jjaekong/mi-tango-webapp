@@ -1,4 +1,4 @@
-import { collection, getDocsFromCache, getDocs, getFirestore } from "firebase/firestore"
+import { collection, getDocsFromCache, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { html } from "lit-html"
 import { getCountryName } from "../country"
 import { map } from 'lit-html/directives/map.js'
@@ -6,8 +6,11 @@ import { map } from 'lit-html/directives/map.js'
 export const LocalMilongas = async () => {
 
 	const db = getFirestore()
-	const milongasCol = collection(db, `${process.env.MODE}.milongas`)
-	const milongasSnap = await getDocs(milongasCol)
+    const q = query(
+        collection(db, `${process.env.MODE}.milongas`),
+        where('countryCode', '==', localStorage.getItem('country_code') || 'KR')
+    )
+	const milongasSnap = await getDocs(q)
 	const milongas = []
 
 	milongasSnap.forEach(doc => {

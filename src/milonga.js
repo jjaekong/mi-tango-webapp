@@ -48,11 +48,9 @@ export const Milonga = async () => {
 	const milongaData = milongaSnap.data()
 
 	const milongaEventsQuery = query(
-		collection(
-			db,
-			`${process.env.MODE}.milonga_events`),
-			where('milonga.id', '==', milongaId),
-			where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
+		collection(db, `${process.env.MODE}.milonga_events`),
+        where('milonga.id', '==', milongaId),
+        where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
 	)
 	const milongaEventsSnap = await getDocs(milongaEventsQuery)
 	const milongaEventsBody = milongaEventsSnap.empty

@@ -7,33 +7,37 @@ import { addDoc, collection, doc, getDoc, getFirestore } from "firebase/firestor
 
 export const AddMilongaEvent = async () => {
 
-    if (location.hash.indexOf('?') === -1) {
-        history.back()
-        return
-    }
+    // if (location.hash.indexOf('?') === -1) {
+    //     history.back()
+    //     return
+    // }
 
-    const searchParams = new URLSearchParams(location.hash.split('?')[1])
+    // const searchParams = new URLSearchParams(location.hash.split('?')[1])
 
-    if (!searchParams.get('milongaId')) {
-        history.back()
-        return
-    }
+    // if (!searchParams.get('milongaId')) {
+    //     history.back()
+    //     return
+    // }
 
-    const milongaId = searchParams.get('milongaId')
+    // const milongaId = searchParams.get('milongaId')
 
-    console.log("milongaId:", milongaId)
+    // console.log("milongaId:", milongaId)
 
-	const hasPermit = await hasPermitToEditMilonga(milongaId)
+	// const hasPermit = await hasPermitToEditMilonga(milongaId)
 
-	if (!hasPermit) {
-		alert('권한이 없습니다.');
-		history.back()
-		return
-	}
+	// if (!hasPermit) {
+	// 	alert('권한이 없습니다.');
+	// 	history.back()
+	// 	return
+	// }
 
 	const auth = getAuth()
 	await auth.authStateReady()
     const currentUser = auth.currentUser
+
+	if (!currentUser) {
+		location.href = '#login'
+	}
     
     const db = getFirestore()
     const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)

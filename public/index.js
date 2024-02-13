@@ -9135,10 +9135,6 @@ const HashtagIcon =  (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http:/
 const CalendarDaysSolidIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="${props.classList}">
 <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
 <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
-</svg>`;
-
-const PlusCircleOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
-  <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 </svg>`;var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -23789,13 +23785,11 @@ function getCountryName(code) {
 			</header>
 
 			<div class="flex mb-4">
-				<a href="#new_milonga" class="shadow-lg flex-1 rounded-lg p-2 text-sm bg-slate-100 text-center flex items-center justify-center">
-					${ PlusCircleOutlineIcon({ classList: 'size-4' }) }
-					<span class="ms-1">밀롱가 만들기</span>
+				<a href="#new_milonga" class="shadow-2xl flex-1 rounded-lg p-3 text-sm bg-white text-slate-500 text-center flex items-center justify-center font-bold">
+					밀롱가 만들기
 				</a>
-				<a href="#add_milonga_event" class="shadow-lg flex-1 ms-2 rounded-lg p-2 text-sm bg-slate-100 text-center flex items-center justify-center">
-					${ PlusCircleOutlineIcon({ classList: 'size-4' }) }
-					<span class="ms-1">밀롱가 이벤트 추가</span>
+				<a href="#add_milonga_event" class="shadow-2xl flex-1 ms-2 rounded-lg p-3 text-sm bg-white text-slate-500 text-center flex items-center justify-center font-bold">
+					밀롱가 이벤트 추가
 				</a>
 			</div>
 
@@ -26698,33 +26692,37 @@ const Milonga = async () => {
 	`, document.getElementById('app'));
 };const AddMilongaEvent = async () => {
 
-    if (location.hash.indexOf('?') === -1) {
-        history.back();
-        return
-    }
+    // if (location.hash.indexOf('?') === -1) {
+    //     history.back()
+    //     return
+    // }
 
-    const searchParams = new URLSearchParams(location.hash.split('?')[1]);
+    // const searchParams = new URLSearchParams(location.hash.split('?')[1])
 
-    if (!searchParams.get('milongaId')) {
-        history.back();
-        return
-    }
+    // if (!searchParams.get('milongaId')) {
+    //     history.back()
+    //     return
+    // }
 
-    const milongaId = searchParams.get('milongaId');
+    // const milongaId = searchParams.get('milongaId')
 
-    console.log("milongaId:", milongaId);
+    // console.log("milongaId:", milongaId)
 
-	const hasPermit = await hasPermitToEditMilonga(milongaId);
+	// const hasPermit = await hasPermitToEditMilonga(milongaId)
 
-	if (!hasPermit) {
-		alert('권한이 없습니다.');
-		history.back();
-		return
-	}
+	// if (!hasPermit) {
+	// 	alert('권한이 없습니다.');
+	// 	history.back()
+	// 	return
+	// }
 
 	const auth = getAuth();
 	await auth.authStateReady();
     const currentUser = auth.currentUser;
+
+	if (!currentUser) {
+		location.href = '#login';
+	}
     
     const db = getFirestore();
     const milongaRef = doc(db, `${"development"}.milongas`, milongaId);

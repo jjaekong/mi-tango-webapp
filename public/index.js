@@ -26755,6 +26755,27 @@ const Milonga = async () => {
 	j(x$1`
 		not found
 	`, document.getElementById('app'));
+};const SearchMilonga = () => {
+    function closeModal() {
+        document.getElementById('search-milonga')?.close();
+    }
+    return x$1`
+        <dialog id="search-milonga" class="p-5 rounded-xl shadow-xl shadow-gray-100">
+            <div class="relative">
+                <!-- <button type="button" class="absolute top-0 right-0" @click=${closeModal}>${xCircleOutlineIcon()}</button> -->
+                <h6 class="font-bold mb-4">밀롱가 검색</h6>
+                <form name="search-milonga" class="flex items-center">
+                    <label>
+                        <input type="text" class="rounded-lg">
+                    </label>
+                    <button type="button" class="px-3 py-2 bg-gray-200 border border-gray-300 text-indigo-500 rounded-lg">검색</button>
+                </form>
+                <form name="select-milonga" method="dialog" class="block">
+                    <button class="block p-3 w-full rouned-lg bg-indigo-500 text-white">선택</button>
+                </form>
+            </div>
+		</dialog>
+    `
 };const AddMilongaEvent = async () => {
 
     // if (location.hash.indexOf('?') === -1) {
@@ -26878,13 +26899,13 @@ const Milonga = async () => {
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
-					<button type="button" class="text-indigo-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
+					<button type="button" class="text-indigo-500 p-3 bg-gray-200 w-full rounded-lg">포스터 업로드</button>
                 </div>
 				<div class="mb-3">
 					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
 					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
-					<button type="button" class="block p-3 bg-gray-200 border-gray-500 text-indigo-500 text-center rounded-lg w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
-					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트르 포함하는 밀롱가를 검색하고 선택하세요.</div>
+					<button type="button" class="block p-3 bg-gray-200 border border-gray-300 text-indigo-500 text-center rounded-lg w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
+					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트를 포함하는 밀롱가를 검색하고 선택하세요.</div>
                 </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
@@ -26944,17 +26965,7 @@ const Milonga = async () => {
                 </div>
             </form>
         </div>
-		<dialog id="search-milonga" class="fixed inset-0 z-[9999] backdrop:bg-gray-50 w-screen h-screen">
-			<div class="flex flex-col w-[50%]">
-				<button type="button" value="defualt">${xCircleOutlineIcon()}</button>
-				<form name="search-milonga">
-					<input type="text" class="rounded-lg">
-					<button type="button">검색</button>
-				</form>
-				<div></div>
-				<button type="button" class="block p-3 w-full rouned-lg bg-indigo-500 text-white">선택</button>
-			</div>
-		</dialog>
+		${ SearchMilonga() }
 	`, document.getElementById('app'));
 };
 

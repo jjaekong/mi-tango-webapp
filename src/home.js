@@ -1,6 +1,6 @@
 import { getAuth } from 'firebase/auth'
 import { render, html } from 'lit-html'
-import { GlobaAltOutlineIcon, UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
+import { GlobaAltOutlineIcon, PlusCircleOutlineIcon, UserCircleOutlineIcon, UserCircleSolidIcon } from './icons.js'
 import dayjs from "dayjs/esm"
 import { TodayMilongas } from './home/today_milongas.js'
 import { DJs } from './home/djs.js'
@@ -24,7 +24,10 @@ export const Home = async () => {
 					<h1 class="font-bold">Mi Vida</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
-				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
+				<div class="ms-auto flex items-center">
+					<a href="#add_event">${ PlusCircleOutlineIcon({ classList: 'size-8' }) }</a>
+				</div>
+				<div class="ms-2 empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? html `<a href="#me">${
                                     currentUser.photoURL

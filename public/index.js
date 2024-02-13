@@ -23777,10 +23777,7 @@ function getCountryName(code) {
 					<h1 class="font-bold">Mi Vida</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
-				<div class="ms-auto flex items-center">
-					<a href="#add_event">${ PlusCircleOutlineIcon({ classList: 'size-8' }) }</a>
-				</div>
-				<div class="ms-2 empty:size-8 empty:bg-slate-300 empty:rounded-full">${
+				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
 					currentUser
 						? x$1 `<a href="#me">${
                                     currentUser.photoURL
@@ -23790,6 +23787,17 @@ function getCountryName(code) {
 						: x$1`<a href="#login">${UserCircleOutlineIcon({classList: 'size-8'})}</a>`
 				}</div>
 			</header>
+
+			<div class="flex mb-4">
+				<a href="#new_milonga" class="shadow-lg flex-1 rounded-lg p-2 text-sm bg-slate-100 text-center flex items-center justify-center">
+					${ PlusCircleOutlineIcon({ classList: 'size-4' }) }
+					<span class="ms-1">밀롱가 만들기</span>
+				</a>
+				<a href="#add_milonga_event" class="shadow-lg flex-1 ms-2 rounded-lg p-2 text-sm bg-slate-100 text-center flex items-center justify-center">
+					${ PlusCircleOutlineIcon({ classList: 'size-4' }) }
+					<span class="ms-1">밀롱가 이벤트 추가</span>
+				</a>
+			</div>
 
 			${ await TodayMilongas() }
 
@@ -27004,7 +27012,10 @@ const Milonga = async () => {
 };const AddEvent = () => {
 	j(x$1`
 		<div class="p-5">
-			ADD EVENT
+			add milonga event
+			add pratica event
+			new milonga
+			new lesson
 		</div>
 	`, document.getElementById('app'));
 };const showPageByHash = async () => {

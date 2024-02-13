@@ -19,7 +19,7 @@ export const Home = async () => {
 	
 	render(html`
 		<div class="home p-5" role="document">
-			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
+			<header class="h-10 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
 					<h1 class="font-bold">Mi Vida</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>

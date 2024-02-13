@@ -23074,6 +23074,67 @@ function query(e, t, ...n) {
     }
 }
 
+/**
+ * A `QueryOrderByConstraint` is used to sort the set of documents returned by a
+ * Firestore query. `QueryOrderByConstraint`s are created by invoking
+ * {@link orderBy} and can then be passed to {@link (query:1)} to create a new query
+ * instance that also contains this `QueryOrderByConstraint`.
+ *
+ * Note: Documents that do not contain the orderBy field will not be present in
+ * the query result.
+ */ class QueryOrderByConstraint extends QueryConstraint {
+    /**
+     * @internal
+     */
+    constructor(e, t) {
+        super(), this._field = e, this._direction = t, 
+        /** The type of this query constraint */
+        this.type = "orderBy";
+    }
+    static _create(e, t) {
+        return new QueryOrderByConstraint(e, t);
+    }
+    _apply(e) {
+        const t = function __PRIVATE_newQueryOrderBy(e, t, n) {
+            if (null !== e.startAt) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. You must not call startAt() or startAfter() before calling orderBy().");
+            if (null !== e.endAt) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. You must not call endAt() or endBefore() before calling orderBy().");
+            return new OrderBy(t, n);
+        }
+        /**
+ * Create a `Bound` from a query and a document.
+ *
+ * Note that the `Bound` will always include the key of the document
+ * and so only the provided document will compare equal to the returned
+ * position.
+ *
+ * Will throw if the document does not contain all fields of the order by
+ * of the query or if any of the fields in the order by are an uncommitted
+ * server timestamp.
+ */ (e._query, this._field, this._direction);
+        return new Query(e.firestore, e.converter, function __PRIVATE_queryWithAddedOrderBy(e, t) {
+            // TODO(dimond): validate that orderBy does not list the same key twice.
+            const n = e.explicitOrderBy.concat([ t ]);
+            return new __PRIVATE_QueryImpl(e.path, e.collectionGroup, n, e.filters.slice(), e.limit, e.limitType, e.startAt, e.endAt);
+        }(e._query, t));
+    }
+}
+
+/**
+ * Creates a {@link QueryOrderByConstraint} that sorts the query result by the
+ * specified field, optionally in descending order instead of ascending.
+ *
+ * Note: Documents that do not contain the specified field will not be present
+ * in the query result.
+ *
+ * @param fieldPath - The field to sort by.
+ * @param directionStr - Optional direction to sort by ('asc' or 'desc'). If
+ * not specified, order will be ascending.
+ * @returns The created {@link QueryOrderByConstraint}.
+ */ function orderBy(e, t = "asc") {
+    const n = t, r = __PRIVATE_fieldPathFromArgument("orderBy", e);
+    return QueryOrderByConstraint._create(r, n);
+}
+
 function __PRIVATE_parseDocumentIdValue(e, t, n) {
     if ("string" == typeof (n = getModularInstance(n))) {
         if ("" === n) throw new FirestoreError(D.INVALID_ARGUMENT, "Invalid query. When querying with documentId(), you must provide a valid document ID, but it was an empty string.");
@@ -23768,7 +23829,7 @@ function getCountryName(code) {
 	
 	j(x$1`
 		<div class="home p-5" role="document">
-			<header class="h-10 px-5 flex items-center mb-5 flex-wrap">
+			<header class="h-10 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
 					<h1 class="font-bold">Mi Vida</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
@@ -26897,8 +26958,28 @@ const Milonga = async () => {
 		</div>
 	`, document.getElementById('app'));
 };const AllMilongaEvents = async () => {
+
+	const db = getFirestore();
+	const q = query(
+		collection(db, `${"development"}.milonga_events`),
+		where('countryCode', '==', localStorage.getItem('country_code')),
+		orderBy('startAt')
+	);
+	const qSnap = await getDocs(q);
+	console.log(qSnap);
+	// qSnap.forEach(doc => {
+	// 	console.log(doc.data())
+	// })
+	
 	j(x$1`
-	all milonga events
+		<div class="p-5">
+			<ul>${
+				qSnap.docs.map(doc => {
+					const data = doc.data();
+					return x$1`<li><a class="underline" href="#milonga_event/${doc.id}">${data.name}</a></li>`
+				})
+			}</ul>
+		</div>
 	`, document.getElementById('app'));
 };const AllDJs = async () => {
 	j(x$1`
@@ -27051,7 +27132,7 @@ const Milonga = async () => {
     } else if (location.hash === '#new_milonga') {
         NewMilonga();
     } else if (location.hash === '#all_milonga_events') {
-        AllMilongaEvents();
+        await AllMilongaEvents();
     } else if (location.hash === '#all_djs') {
         AllDJs();
     } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432

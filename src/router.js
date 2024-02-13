@@ -50,7 +50,7 @@ export const showPageByHash = async () => {
     } else if (location.hash === '#new_milonga') {
         NewMilonga()
     } else if (location.hash === '#all_milonga_events') {
-        AllMilongaEvents()
+        await AllMilongaEvents()
     } else if (location.hash === '#all_djs') {
         AllDJs()
     } else if (regexMilonga.test(location.hash)) { // #milonga/fdsafdsafdsa232432

@@ -4,7 +4,7 @@ import { djItem } from "../components/dj_item.js"
 
 export const DJs = () => {
 	return html`
-		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
 			<header class="mb-5">
 				<h2 class="text-lg font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>

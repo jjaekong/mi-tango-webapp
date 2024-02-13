@@ -23712,7 +23712,7 @@ function setDoc(e, t, n) {
 	});
 
 	return x$1`
-		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().add(-6, 'hour').format("MMM Do dddd")}</time>
@@ -23758,7 +23758,7 @@ function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const d
     `
 };const DJs = () => {
 	return x$1`
-		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
 			<header class="mb-5">
 				<h2 class="text-lg font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
@@ -23805,7 +23805,7 @@ function getCountryName(code) {
 	});
 	
 	return x$1`
-		<section id="today-milongas" class="mb-4 p-5 rounded-3xl bg-white shadow-xl shadow-slate-100">
+		<section id="today-milongas" class="mb-4 p-5 rounded-3xl bg-white shadow-xl shadow-gray-50">
 			<header>
 				<h2 class="text-lg font-bold">${getCountryName(localStorage.getItem('country_code'))}의 밀롱가</h2>
 			</header>

@@ -46,7 +46,7 @@ export const TodayMilongas = async () => {
 	})
 
 	return html`
-		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-slate-100">
+		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().add(-6, 'hour').format("MMM Do dddd")}</time>

@@ -1,6 +1,6 @@
 import { getAuth } from "firebase/auth"
 import { html, render } from "lit-html"
-import { ArrowLeftIcon } from "./icons"
+import { ArrowLeftIcon, xCircleOutlineIcon } from "./icons"
 import dayjs from "dayjs/esm"
 import { hasPermitToEditMilonga } from "./milonga"
 import { addDoc, collection, doc, getDoc, getFirestore } from "firebase/firestore"
@@ -36,44 +36,49 @@ export const AddMilongaEvent = async () => {
     const currentUser = auth.currentUser
 
 	if (!currentUser) {
-		location.href = '#login'
+		if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+			location.href = '#login'
+		} else {
+			history.back()
+		}
+		return;
 	}
     
-    const db = getFirestore()
-    const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
-    const milongaSnap = await getDoc(milongaRef)
-    const milongaData = milongaSnap.exists()
-        ? { id: milongaSnap.id, ...milongaSnap.data() }
-        : null
+    // const db = getFirestore()
+    // const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
+    // const milongaSnap = await getDoc(milongaRef)
+    // const milongaData = milongaSnap.exists()
+    //     ? { id: milongaSnap.id, ...milongaSnap.data() }
+    //     : null
 
-	const milongaEventData = {
-		countryCode: localStorage.getItem('country_code'),
-		// milongaId: milongaId,
-		milonga: {
-			name: milongaData.name || null,
-			id: milongaId,
-			logoURL: milongaData.logoURL || null
-		},
-        name: milongaData.name,
-		posters: [],
-		date: dayjs().format('YYYY-MM-DD'),
-		startAt: '19:00',
-		endAt: '00:00',
-		place: null,
-		organizers: [],
-		djs: [],
-		performers: [],
-		entranceFee: null,
-		description: null,
-		createdAt: dayjs().toDate(),
-		createdBy: currentUser.uid
-	}
+	// const milongaEventData = {
+	// 	countryCode: localStorage.getItem('country_code'),
+	// 	// milongaId: milongaId,
+	// 	milonga: {
+	// 		name: milongaData.name || null,
+	// 		id: milongaId,
+	// 		logoURL: milongaData.logoURL || null
+	// 	},
+    //     name: milongaData.name,
+	// 	posters: [],
+	// 	date: dayjs().format('YYYY-MM-DD'),
+	// 	startAt: '19:00',
+	// 	endAt: '00:00',
+	// 	place: null,
+	// 	organizers: [],
+	// 	djs: [],
+	// 	performers: [],
+	// 	entranceFee: null,
+	// 	description: null,
+	// 	createdAt: dayjs().toDate(),
+	// 	createdBy: currentUser.uid
+	// }
 
-    const placeList = [
-        { id: 'onada', name: '오나다', logoURL: 'https://picsum.photos/100/100' },
-        { id: 'ocho', name: '오초', logoURL: 'https://picsum.photos/100/100' },
-        { id: 'otra', name: '오뜨라', logoURL: 'https://picsum.photos/100/100' },
-    ]
+    // const placeList = [
+    //     { id: 'onada', name: '오나다', logoURL: 'https://picsum.photos/100/100' },
+    //     { id: 'ocho', name: '오초', logoURL: 'https://picsum.photos/100/100' },
+    //     { id: 'otra', name: '오뜨라', logoURL: 'https://picsum.photos/100/100' },
+    // ]
 
 	function addMilongaEvent(e) {
         e.preventDefault()
@@ -104,6 +109,14 @@ export const AddMilongaEvent = async () => {
 			})
     }
 
+	function openSearchMilonga() {
+		document.getElementById('search-milonga')?.showModal()
+	}
+
+	function closeSearchMilonga() {
+		document.getElementById('search-milonga')?.hideModal()
+	}
+
 	render(html`
 		<div class="add-milonga-event p-5">
             <header class="flex items-center mb-5 h-10 w-full">
@@ -121,9 +134,15 @@ export const AddMilongaEvent = async () => {
 					<div id="posters"></div>
 					<button type="button" class="text-indigo-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
                 </div>
+				<div class="mb-3">
+					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
+					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
+					<button type="button" class="block p-3 bg-gray-200 border-gray-500 text-indigo-500 text-center rounded-lg w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
+					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트르 포함하는 밀롱가를 검색하고 선택하세요.</div>
+                </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
-					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaEventData.name}" required>
+					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="" required>
                 </div>
                 <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
@@ -179,6 +198,17 @@ export const AddMilongaEvent = async () => {
                 </div>
             </form>
         </div>
+		<dialog id="search-milonga" class="fixed inset-0 z-[9999] backdrop:bg-gray-50 w-screen h-screen">
+			<div class="flex flex-col w-[50%]">
+				<button type="button" value="defualt">${xCircleOutlineIcon()}</button>
+				<form name="search-milonga">
+					<input type="text" class="rounded-lg">
+					<button type="button">검색</button>
+				</form>
+				<div></div>
+				<button type="button" class="block p-3 w-full rouned-lg bg-indigo-500 text-white">선택</button>
+			</div>
+		</dialog>
 	`, document.getElementById('app'))
 }
 

@@ -9135,6 +9135,10 @@ const HashtagIcon =  (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http:/
 const CalendarDaysSolidIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="${props.classList}">
 <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
 <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
+</svg>`;
+
+const xCircleOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
+  <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 </svg>`;var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -26782,38 +26786,49 @@ const Milonga = async () => {
     const currentUser = auth.currentUser;
 
 	if (!currentUser) {
-		location.href = '#login';
+		if (confirm('로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?')) {
+			location.href = '#login';
+		} else {
+			history.back();
+		}
+		return;
 	}
     
-    const db = getFirestore();
-    const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
-    const milongaSnap = await getDoc(milongaRef);
-    const milongaData = milongaSnap.exists()
-        ? { id: milongaSnap.id, ...milongaSnap.data() }
-        : null;
+    // const db = getFirestore()
+    // const milongaRef = doc(db, `${"development"}.milongas`, milongaId)
+    // const milongaSnap = await getDoc(milongaRef)
+    // const milongaData = milongaSnap.exists()
+    //     ? { id: milongaSnap.id, ...milongaSnap.data() }
+    //     : null
 
-	const milongaEventData = {
-		countryCode: localStorage.getItem('country_code'),
-		// milongaId: milongaId,
-		milonga: {
-			name: milongaData.name || null,
-			id: milongaId,
-			logoURL: milongaData.logoURL || null
-		},
-        name: milongaData.name,
-		posters: [],
-		date: dayjs().format('YYYY-MM-DD'),
-		startAt: '19:00',
-		endAt: '00:00',
-		place: null,
-		organizers: [],
-		djs: [],
-		performers: [],
-		entranceFee: null,
-		description: null,
-		createdAt: dayjs().toDate(),
-		createdBy: currentUser.uid
-	};
+	// const milongaEventData = {
+	// 	countryCode: localStorage.getItem('country_code'),
+	// 	// milongaId: milongaId,
+	// 	milonga: {
+	// 		name: milongaData.name || null,
+	// 		id: milongaId,
+	// 		logoURL: milongaData.logoURL || null
+	// 	},
+    //     name: milongaData.name,
+	// 	posters: [],
+	// 	date: dayjs().format('YYYY-MM-DD'),
+	// 	startAt: '19:00',
+	// 	endAt: '00:00',
+	// 	place: null,
+	// 	organizers: [],
+	// 	djs: [],
+	// 	performers: [],
+	// 	entranceFee: null,
+	// 	description: null,
+	// 	createdAt: dayjs().toDate(),
+	// 	createdBy: currentUser.uid
+	// }
+
+    // const placeList = [
+    //     { id: 'onada', name: '오나다', logoURL: 'https://picsum.photos/100/100' },
+    //     { id: 'ocho', name: '오초', logoURL: 'https://picsum.photos/100/100' },
+    //     { id: 'otra', name: '오뜨라', logoURL: 'https://picsum.photos/100/100' },
+    // ]
 
 	function addMilongaEvent(e) {
         e.preventDefault();
@@ -26844,6 +26859,10 @@ const Milonga = async () => {
 			});
     }
 
+	function openSearchMilonga() {
+		document.getElementById('search-milonga')?.showModal();
+	}
+
 	j(x$1`
 		<div class="add-milonga-event p-5">
             <header class="flex items-center mb-5 h-10 w-full">
@@ -26861,9 +26880,15 @@ const Milonga = async () => {
 					<div id="posters"></div>
 					<button type="button" class="text-indigo-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
                 </div>
+				<div class="mb-3">
+					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
+					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
+					<button type="button" class="block p-3 bg-gray-200 border-gray-500 text-indigo-500 text-center rounded-lg w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
+					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트르 포함하는 밀롱가를 검색하고 선택하세요.</div>
+                </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
-					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaEventData.name}" required>
+					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="" required>
                 </div>
                 <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
@@ -26919,6 +26944,17 @@ const Milonga = async () => {
                 </div>
             </form>
         </div>
+		<dialog id="search-milonga" class="fixed inset-0 z-[9999] backdrop:bg-gray-50 w-screen h-screen">
+			<div class="flex flex-col w-[50%]">
+				<button type="button" value="defualt">${xCircleOutlineIcon()}</button>
+				<form name="search-milonga">
+					<input type="text" class="rounded-lg">
+					<button type="button">검색</button>
+				</form>
+				<div></div>
+				<button type="button" class="block p-3 w-full rouned-lg bg-indigo-500 text-white">선택</button>
+			</div>
+		</dialog>
 	`, document.getElementById('app'));
 };
 

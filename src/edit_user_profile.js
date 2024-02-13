@@ -100,7 +100,7 @@ export const EditUserProfile = async () => {
                     }</div>
                     <div class="flex justify-center mt-4 mx-auto">
                         <button type="button" class="text-sm bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
-                        <button type="button" class="text-sm cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
+                        <button type="button" class="text-sm cursor-pointer bg-indigo-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
                             <span>업로드</span>
                         </button>
                         <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${ uploadPhoto }>
@@ -118,7 +118,7 @@ export const EditUserProfile = async () => {
                     </label>
                 </div>
                 <div class="mt-5">
-                    <button type="submit" class="p-3 bg-purple-500 text-white rounded-lg w-full">저장</button>
+                    <button type="submit" class="p-3 bg-indigo-500 text-white rounded-lg w-full">저장</button>
                 </div>
             </form>
         </div>

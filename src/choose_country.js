@@ -26,7 +26,7 @@ export const ChooseCountry = () => {
 					}
 				</div>
 				<div class="mt-4">
-					<button type="submit" class="bg-purple-500 p-3 text-white rounded-lg block">저장</button>
+					<button type="submit" class="bg-indigo-500 p-3 text-white rounded-lg block">저장</button>
 				</div>
 			</form>
 		</div>

@@ -68,7 +68,7 @@ export const EditMilongaSettings = async () => {
                     <div class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden"></div>
                     <div class="flex justify-center mt-4 mx-auto">
                         <button type="button" class="text-sm bg-slate-200 p-3 rounded-lg text-slate-700" @click=${""}>삭제</button>
-                        <button type="button" class="text-sm cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
+                        <button type="button" class="text-sm cursor-pointer bg-indigo-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click() }}>
                             <span>업로드</span>
                         </button>
                         <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${""}>
@@ -87,8 +87,8 @@ export const EditMilongaSettings = async () => {
                     <label class="block mb-1 px-2 text-sm">오거나이저</label>
                     <input type="text" class="rounded-lg border-slate-200 w-full" name="organizers[]" placeholder="오거나이저">
                     <div class="px-2 flex justify-end mt-2">
-                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-slate-200 text-purple-500">삭제</button>
-                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-purple-500 text-white">추가</button>
+                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-slate-200 text-indigo-500">삭제</button>
+                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-indigo-500 text-white">추가</button>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -96,12 +96,12 @@ export const EditMilongaSettings = async () => {
                     <textarea class="rounded-lg border-slate-200 w-full" rows="5"></textarea>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
+                    <button type="submit" class="block p-3 text-white bg-indigo-500 w-full rounded-lg">저장</button>
                 </div>
             </form>
 			<!-- <form name="add-milonga-editor" @submit="" class="p-5 bg-white rounded-xl shadow-xl shadow-slate-200">
 				<div class="mb-3">
-                    <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
+                    <button type="submit" class="block p-3 text-white bg-indigo-500 w-full rounded-lg">저장</button>
                 </div>
 			</form> -->
 		</div>

@@ -23785,10 +23785,10 @@ function getCountryName(code) {
 			</header>
 
 			<div class="flex mb-4">
-				<a href="#new_milonga" class="shadow-2xl flex-1 rounded-lg p-3 text-sm bg-white text-slate-500 text-center flex items-center justify-center font-bold">
+				<a href="#new_milonga" class="shadow-2xl flex-1 rounded-lg p-3 bg-indigo-500 text-sm text-white text-slate-500 text-center flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 만들기
 				</a>
-				<a href="#add_milonga_event" class="shadow-2xl flex-1 ms-2 rounded-lg p-3 text-sm bg-white text-slate-500 text-center flex items-center justify-center font-bold">
+				<a href="#add_milonga_event" class="shadow-2xl flex-1 ms-2 rounded-lg p-3 bg-indigo-500 text-sm text-white text-slate-500 text-center flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 이벤트 추가
 				</a>
 			</div>
@@ -26433,7 +26433,7 @@ registerStorage();function resizeImage(file, width, height, quality) {
                     }</div>
                     <div class="flex justify-center mt-4 mx-auto">
                         <button type="button" class="text-sm bg-slate-200 p-3 rounded-lg text-slate-700" @click=${deletePhoto}>삭제</button>
-                        <button type="button" class="text-sm cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
+                        <button type="button" class="text-sm cursor-pointer bg-indigo-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
                             <span>업로드</span>
                         </button>
                         <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${ uploadPhoto }>
@@ -26451,7 +26451,7 @@ registerStorage();function resizeImage(file, width, height, quality) {
                     </label>
                 </div>
                 <div class="mt-5">
-                    <button type="submit" class="p-3 bg-purple-500 text-white rounded-lg w-full">저장</button>
+                    <button type="submit" class="p-3 bg-indigo-500 text-white rounded-lg w-full">저장</button>
                 </div>
             </form>
         </div>
@@ -26538,7 +26538,7 @@ registerStorage();function resizeImage(file, width, height, quality) {
                     <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_)를 이용하여 8자 이상으로 작성하세요.</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">만들기</button>
+                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">만들기</button>
                 </div>
             </form>
         </div>
@@ -26681,7 +26681,7 @@ const Milonga = async () => {
 
 	j(x$1`
 		<div class="milonga-event p-5">
-			<a href=#milonga/${milongaEventData.milonga.id} class="block rounded-lg bg-purple-500 text-white p-3 focus:ring focus:ring-offset-2 focus:ring-purple-300">
+			<a href=#milonga/${milongaEventData.milonga.id} class="block rounded-lg bg-indigo-500 text-white p-3 focus:ring focus:ring-offset-2 focus:ring-indigo-300">
 				${milongaEventData.milonga.name}의 정보 보기
 			</a>
 		</div>
@@ -26798,7 +26798,7 @@ const Milonga = async () => {
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
-					<button type="button" class="text-purple-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
+					<button type="button" class="text-indigo-500 border-slate-200 p-3 bg-slate-100 w-full rounded-lg">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
@@ -26854,7 +26854,7 @@ const Milonga = async () => {
 					</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">추가</button>
+                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">추가</button>
                 </div>
             </form>
         </div>
@@ -26891,7 +26891,7 @@ const Milonga = async () => {
 					}
 				</div>
 				<div class="mt-4">
-					<button type="submit" class="bg-purple-500 p-3 text-white rounded-lg block">저장</button>
+					<button type="submit" class="bg-indigo-500 p-3 text-white rounded-lg block">저장</button>
 				</div>
 			</form>
 		</div>
@@ -26969,7 +26969,7 @@ const Milonga = async () => {
                     <div class="block mx-auto w-32 h-32 empty:bg-slate-200 rounded-full overflow-hidden"></div>
                     <div class="flex justify-center mt-4 mx-auto">
                         <button type="button" class="text-sm bg-slate-200 p-3 rounded-lg text-slate-700" @click=${""}>삭제</button>
-                        <button type="button" class="text-sm cursor-pointer bg-purple-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
+                        <button type="button" class="text-sm cursor-pointer bg-indigo-500 p-3 rounded-lg text-white ms-2" @click=${() => { document.getElementById('file').click(); }}>
                             <span>업로드</span>
                         </button>
                         <input type="file" class="hidden" accept="image/png, image/gif, image/jpg, image/jpeg" id="file" @input=${""}>
@@ -26988,8 +26988,8 @@ const Milonga = async () => {
                     <label class="block mb-1 px-2 text-sm">오거나이저</label>
                     <input type="text" class="rounded-lg border-slate-200 w-full" name="organizers[]" placeholder="오거나이저">
                     <div class="px-2 flex justify-end mt-2">
-                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-slate-200 text-purple-500">삭제</button>
-                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-purple-500 text-white">추가</button>
+                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-slate-200 text-indigo-500">삭제</button>
+                        <button type="button" class="text-sm ms-2 p-2 rounded-lg bg-indigo-500 text-white">추가</button>
                     </div>
                 </div>
                 <div class="mb-3">
@@ -26997,12 +26997,12 @@ const Milonga = async () => {
                     <textarea class="rounded-lg border-slate-200 w-full" rows="5"></textarea>
                 </div>
                 <div class="mb-3">
-                    <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
+                    <button type="submit" class="block p-3 text-white bg-indigo-500 w-full rounded-lg">저장</button>
                 </div>
             </form>
 			<!-- <form name="add-milonga-editor" @submit="" class="p-5 bg-white rounded-xl shadow-xl shadow-slate-200">
 				<div class="mb-3">
-                    <button type="submit" class="block p-3 text-white bg-purple-500 w-full rounded-lg">저장</button>
+                    <button type="submit" class="block p-3 text-white bg-indigo-500 w-full rounded-lg">저장</button>
                 </div>
 			</form> -->
 		</div>

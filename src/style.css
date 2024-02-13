@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-	background: #fafafa;
+	background-color: rgb(243 244 246);
 }
 
 @media (min-width: 540px) {

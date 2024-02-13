@@ -86,7 +86,7 @@ export const NewMilonga = async () => {
                     <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_)를 이용하여 8자 이상으로 작성하세요.</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-purple-500 text-white block w-full rounded-lg">만들기</button>
+                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">만들기</button>
                 </div>
             </form>
         </div>

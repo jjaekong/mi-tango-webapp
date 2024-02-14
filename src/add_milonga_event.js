@@ -113,33 +113,33 @@ export const AddMilongaEvent = async () => {
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
                 <div class="mb-3">
-					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
+					<label for="poster-file">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
 					<button type="button" class="text-indigo-500 p-3 bg-gray-200 w-full rounded-lg">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
-					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
-					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaData.name}" required>
+					<label for="name">이벤트명</label>
+					<input id="name" type="text" placeholder="이벤트명" value="${milongaData.name}" required>
                 </div>
                 <div class="mb-3">
-					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>
-					<input class="w-full rounded-lg border-slate-200" id="date" type="date" required min="${dayjs().format('YYYY-MM-DD')}" value="${dayjs().format('YYYY-MM-DD')}">
+					<label for="date">날짜</label>
+					<input id="date" type="date" required min="${dayjs().format('YYYY-MM-DD')}" value="${dayjs().format('YYYY-MM-DD')}">
                 </div>
                 <div class="mb-3 flex">
                     <div class="flex-1">
-                        <label class="block mb-1 px-2 text-sm" for="start-time">시작시간</label>
-                        <input class="w-full rounded-lg border-slate-200" id="start-time" type="time" step="600" required value="19:00">
+                        <label for="start-time">시작시간</label>
+                        <input id="start-time" type="time" step="600" required value="19:00">
 					</div>
                     <div class="flex-1 ms-2">
-                        <label class="block mb-1 px-2 text-sm" for="end-time">종료시간</label>
-                        <input class="w-full rounded-lg border-slate-200" id="end-time" type="time" step="600" required value="00:00">
+                        <label for="end-time">종료시간</label>
+                        <input id="end-time" type="time" step="600" required value="00:00">
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm" for="search-place">장소</label>
-                        <input class="w-full rounded-lg border-slate-200" id="search-place" type="search" placeholder="장소 검색" list="place-list" @input=${e => { console.log('ok') }}>
+                        <label for="search-place">장소</label>
+                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list" @input=${e => { console.log('ok') }}>
                         <datalist id="place-list">
                             <option value="onada">오나다</option>
                             <option value="ocho">오초</option>
@@ -149,19 +149,19 @@ export const AddMilongaEvent = async () => {
                 </div>
                 <div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm" for="search-dj">DJ</label>
-                        <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="DJ 검색">
+                        <label for="search-dj">DJ</label>
+                        <input id="search-dj" type="search" placeholder="DJ 검색">
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm" for="entrance-fee">입장료</label>
-                        <input class="w-full rounded-lg border-slate-200" id="entrance-fee" type="text" placeholder="입장료" required>
+                        <label for="entrance-fee">입장료</label>
+                        <input id="entrance-fee" type="text" placeholder="입장료" required>
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
-                        <label class="block mb-1 px-2 text-sm" for="description">설명</label>
+                        <label for="description">설명</label>
 						<textarea placeholder="설명" id="description" class="w-full rounded border-slate-200" rows="5"></textarea>
 					</div>
                 </div>

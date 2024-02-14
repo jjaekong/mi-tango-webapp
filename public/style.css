@@ -1258,6 +1258,15 @@ html, body {
   color: rgb(99 102 241 / var(--tw-text-opacity));
 }
 
+label {
+  margin-bottom: 0.25rem;
+  display: block;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+}
+
 input[type=text],
 input[type=search],
 input[type=date],

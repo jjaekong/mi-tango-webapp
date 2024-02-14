@@ -34,21 +34,25 @@ export const NewMilonga = async () => {
 
         const promise1 = setDoc(milongaRef, {
 			countryCode: localStorage.getItem('country_code'),
-            createdBy: currentUser.uid,
+            createdBy: currentUser.email,
             createdAt: new Date(),
-            organizers: [currentUser.uid],
+            organizers: [{
+                name: currentUser.displayName,
+                photoURL: currentUser.photoURL,
+                email: currentUser.email
+            }],
             editors: [],
             name: milongaName
         })
 
         const promise2 = setDoc(doc(db, `${process.env.MODE}.users`, currentUser.uid), {
-            createdMilongas: arrayUnion(milongaId)
+            createdMilongas: arrayUnion(currentUser.email)
         }, { merge: true })
 
         Promise.all([promise1, promise2])
             .then(() => {
-                // location.href = `#milonga/${milongaId}`
                 location.replace(`#milonga/${milongaId}`)
+                return
             })
             .catch(error => {
                 console.log(error)
@@ -69,24 +73,24 @@ export const NewMilonga = async () => {
 				<div class="mb-3">
                     <label>
                         <div class="sr-only">국가코드</div>
-                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg block w-full disabled:bg-slate-100 disabled:text-slate-900 disabled:border-slate-400" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                        <input type="text" placeholder="국가코드" name="country-code" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
                     </label>
                 </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가명</div>
-                        <input type="text" placeholder="밀롱가명" name="milonga-name" class="rounded-lg border-slate-200 block w-full" required autocomplete="off">
+                        <input type="text" placeholder="밀롱가명" name="milonga-name" required autocomplete="off">
                     </label>
                 </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가 아이디</div>
-                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" class="rounded-lg border-slate-200 block w-full" required pattern="^[a-zA-Z0-9_]{8,}$" autocomplete="off">
+                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" required pattern="^[a-zA-Z0-9_]{8,}$" autocomplete="off">
                     </label>
                     <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_)를 이용하여 8자 이상으로 작성하세요.</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">만들기</button>
+                    <button type="submit" class="btn-primary w-full">만들기</button>
                 </div>
             </form>
         </div>

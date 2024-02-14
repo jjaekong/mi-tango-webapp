@@ -5,31 +5,7 @@ import { MilongaEventItem } from './components/milonga_event_item'
 import { ArrowLeftIcon, AtSymbolIcon, HeadphonesIcon } from './icons'
 import dayjs from 'dayjs/esm'
 import { repeat } from 'lit-html/directives/repeat.js';
-
-export const hasPermitToEditMilonga = async (milongaId) => {
-	const auth = getAuth()
-	await auth.authStateReady()
-	const currentUser = auth.currentUser;
-	if (!currentUser) {
-		return false;
-	}
-	const db = getFirestore()
-	const milongaRef = doc(db, `${process.env.MODE}.milongas`, milongaId)
-	const milongaSnap = await getDoc(milongaRef)
-	if (milongaSnap.exists()) {
-		const milongaData = milongaSnap.data()
-		if (milongaData?.createdBy === currentUser.uid) {
-			return true
-		}
-		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer === currentUser.uid) > -1) {
-			return true;
-		}
-		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.uid) > -1) {
-			return true;
-		}
-	}
-	return false;
-}
+import { hasPermitToEditMilonga } from './service'
 
 export const Milonga = async () => {
 

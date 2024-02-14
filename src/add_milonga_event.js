@@ -5,6 +5,13 @@ import dayjs from "dayjs/esm"
 import { addDoc, collection, doc, getDoc, getFirestore } from "firebase/firestore"
 
 export const AddMilongaEvent = async () => {
+    
+    /**
+     * 권한 체크 순서
+     * 1. 로그인 했는지
+     * 2. 밀롱가가 존재하는지
+     * 3. 밀롱가 편집 권한이 있는지
+     */
 
 	const auth = getAuth()
 	await auth.authStateReady()
@@ -34,6 +41,14 @@ export const AddMilongaEvent = async () => {
             })()
         : null
 
+    if (!milongaData) {
+        alert('존재하지 않는 밀롱가입니다.')
+        history.back()
+        return
+    }
+
+    // const hasPermitToAddEvent = 
+
     console.log("milongaId:", milongaId)
 	console.log("milongaData:", milongaData)
 
@@ -50,13 +65,12 @@ export const AddMilongaEvent = async () => {
 		startAt: '19:00',
 		endAt: '00:00',
 		place: null,
-		organizers: [],
+		organizers: milongaData.organizers,
 		djs: [],
-		performers: [],
 		entranceFee: null,
 		description: null,
 		createdAt: dayjs().toDate(),
-		createdBy: currentUser.uid
+		createdBy: currentUser.email
 	}
 
 	function addMilongaEvent(e) {
@@ -78,8 +92,7 @@ export const AddMilongaEvent = async () => {
 		console.log('event data ', milongaEventData)
 
 		const db = getFirestore()
-		const millongaEventCol = collection(db, `${process.env.MODE}.milonga_events`)
-		addDoc(millongaEventCol, milongaEventData)
+		addDoc(collection(db, `${process.env.MODE}.milonga_events`), milongaEventData)
 			.then(milongaEventRef => {
 				location.replace(`#milonga_event/${milongaEventRef.id}`)
 			})
@@ -99,25 +112,6 @@ export const AddMilongaEvent = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
-                ${
-                    milongaData
-                        ? html`
-                            <div class="mb-3">
-                                <h6 class="mb-1 px-2 text-sm">밀롱가</h6>
-                                ${ milongaData
-                                    ? html`
-                                        <div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
-                                            ${ milongaData.logoURL
-                                                ? html`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
-                                                : html`<div class="bg-slate-200 rounded-lg size-8"></div>`
-                                            }
-                                            <span class="ms-2">${milongaData.name}</span>
-                                        </div>`
-                                    : html`TEST`
-                                }
-                            </div>`
-                        : nothing
-                }
                 <div class="mb-3">
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
@@ -126,7 +120,7 @@ export const AddMilongaEvent = async () => {
                 </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
-					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="" required>
+					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaData.name}" required>
                 </div>
                 <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>

@@ -23756,7 +23756,7 @@ function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const d
             </div>
         </a>
     `
-};const DJs = () => {
+};const DJs = async () => {
 	return x$1`
 		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
 			<header class="mb-5">
@@ -23829,8 +23829,9 @@ function getCountryName(code) {
 	
 	j(x$1`
 		<div class="home p-5" role="document">
-			<header class="h-10 flex items-center mb-5 flex-wrap">
-				<div class="flex ai">
+
+			<header class="h-10 flex items-center mb-5 px-5 flex-wrap">
+				<div class="flex items-center">
 					<h1 class="font-bold">Mi Tango</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
@@ -23845,18 +23846,9 @@ function getCountryName(code) {
 				}</div>
 			</header>
 
-			<div class="flex mb-4">
-				<a href="#new_milonga" class="btn-primary flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
-					밀롱가 만들기
-				</a>
-				<a href="#add_milonga_event" class="btn-primary flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
-					밀롱가 이벤트 추가
-				</a>
-			</div>
-
 			${ await TodayMilongas() }
 
-			${ DJs() }
+			${ await DJs() }
 
 			${ await LocalMilongas() }
 
@@ -23935,7 +23927,7 @@ function getCountryName(code) {
 
 	localStorage.getItem('country_code');
 	const db = getFirestore();
-	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.uid));
+	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.email));
 	const qSnap = await getDocs(q);
 
 	console.log(qSnap);
@@ -26547,21 +26539,25 @@ registerStorage();function resizeImage(file, width, height, quality) {
 
         const promise1 = setDoc(milongaRef, {
 			countryCode: localStorage.getItem('country_code'),
-            createdBy: currentUser.uid,
+            createdBy: currentUser.email,
             createdAt: new Date(),
-            organizers: [currentUser.uid],
+            organizers: [{
+                name: currentUser.displayName,
+                photoURL: currentUser.photoURL,
+                email: currentUser.email
+            }],
             editors: [],
             name: milongaName
         });
 
         const promise2 = setDoc(doc(db, `${"development"}.users`, currentUser.uid), {
-            createdMilongas: arrayUnion(milongaId)
+            createdMilongas: arrayUnion(currentUser.email)
         }, { merge: true });
 
         Promise.all([promise1, promise2])
             .then(() => {
-                // location.href = `#milonga/${milongaId}`
                 location.replace(`#milonga/${milongaId}`);
+                return
             })
             .catch(error => {
                 console.log(error);
@@ -26582,24 +26578,24 @@ registerStorage();function resizeImage(file, width, height, quality) {
 				<div class="mb-3">
                     <label>
                         <div class="sr-only">국가코드</div>
-                        <input type="text" placeholder="국가코드" name="country-code" class="rounded-lg block w-full disabled:bg-slate-100 disabled:text-slate-900 disabled:border-slate-400" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
+                        <input type="text" placeholder="국가코드" name="country-code" disabled autocomplete="off" value=${localStorage.getItem('country_code')}>
                     </label>
                 </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가명</div>
-                        <input type="text" placeholder="밀롱가명" name="milonga-name" class="rounded-lg border-slate-200 block w-full" required autocomplete="off">
+                        <input type="text" placeholder="밀롱가명" name="milonga-name" required autocomplete="off">
                     </label>
                 </div>
                 <div class="mb-3">
                     <label>
                         <div class="sr-only">밀롱가 아이디</div>
-                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" class="rounded-lg border-slate-200 block w-full" required pattern="^[a-zA-Z0-9_]{8,}$" autocomplete="off">
+                        <input type="text" placeholder="밀롱가 아이디" name="milonga-id" required pattern="^[a-zA-Z0-9_]{8,}$" autocomplete="off">
                     </label>
                     <div class="text-slate-500 text-xs p-2">영문, 숫자, 언더바(_)를 이용하여 8자 이상으로 작성하세요.</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">만들기</button>
+                    <button type="submit" class="btn-primary w-full">만들기</button>
                 </div>
             </form>
         </div>
@@ -26616,20 +26612,18 @@ registerStorage();function resizeImage(file, width, height, quality) {
 	const milongaSnap = await getDoc(milongaRef);
 	if (milongaSnap.exists()) {
 		const milongaData = milongaSnap.data();
-		if (milongaData?.createdBy === currentUser.uid) {
+		if (milongaData?.createdBy === currentUser.email) {
 			return true
 		}
-		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer === currentUser.uid) > -1) {
+		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
 			return true;
 		}
-		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.uid) > -1) {
+		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
 			return true;
 		}
 	}
 	return false;
-};
-
-const Milonga = async () => {
+};const Milonga = async () => {
 
 	const milongaId = location.hash.split('/')[1];
 
@@ -26758,6 +26752,13 @@ const Milonga = async () => {
 		not found
 	`, document.getElementById('app'));
 };const AddMilongaEvent = async () => {
+    
+    /**
+     * 권한 체크 순서
+     * 1. 로그인 했는지
+     * 2. 밀롱가가 존재하는지
+     * 3. 밀롱가 편집 권한이 있는지
+     */
 
 	const auth = getAuth();
 	await auth.authStateReady();
@@ -26787,6 +26788,14 @@ const Milonga = async () => {
             })()
         : null;
 
+    if (!milongaData) {
+        alert('존재하지 않는 밀롱가입니다.');
+        history.back();
+        return
+    }
+
+    // const hasPermitToAddEvent = 
+
     console.log("milongaId:", milongaId);
 	console.log("milongaData:", milongaData);
 
@@ -26803,13 +26812,12 @@ const Milonga = async () => {
 		startAt: '19:00',
 		endAt: '00:00',
 		place: null,
-		organizers: [],
+		organizers: milongaData.organizers,
 		djs: [],
-		performers: [],
 		entranceFee: null,
 		description: null,
 		createdAt: dayjs().toDate(),
-		createdBy: currentUser.uid
+		createdBy: currentUser.email
 	};
 
 	function addMilongaEvent(e) {
@@ -26831,8 +26839,7 @@ const Milonga = async () => {
 		console.log('event data ', milongaEventData);
 
 		const db = getFirestore();
-		const millongaEventCol = collection(db, `${"development"}.milonga_events`);
-		addDoc(millongaEventCol, milongaEventData)
+		addDoc(collection(db, `${"development"}.milonga_events`), milongaEventData)
 			.then(milongaEventRef => {
 				location.replace(`#milonga_event/${milongaEventRef.id}`);
 			})
@@ -26852,25 +26859,6 @@ const Milonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
-                ${
-                    milongaData
-                        ? x$1`
-                            <div class="mb-3">
-                                <h6 class="mb-1 px-2 text-sm">밀롱가</h6>
-                                ${ milongaData
-                                    ? x$1`
-                                        <div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
-                                            ${ milongaData.logoURL
-                                                ? x$1`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
-                                                : x$1`<div class="bg-slate-200 rounded-lg size-8"></div>`
-                                            }
-                                            <span class="ms-2">${milongaData.name}</span>
-                                        </div>`
-                                    : x$1`TEST`
-                                }
-                            </div>`
-                        : T$1
-                }
                 <div class="mb-3">
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
@@ -26879,7 +26867,7 @@ const Milonga = async () => {
                 </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>
-					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="" required>
+					<input class="w-full rounded-lg border-slate-200" id="name" type="text" placeholder="이벤트명" value="${milongaData.name}" required>
                 </div>
                 <div class="mb-3">
 					<label for="date" class="block mb-1 px-2 text-sm">날짜</label>

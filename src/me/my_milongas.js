@@ -7,7 +7,7 @@ export const MyMilongas = async (currentUser) => {
 
 	const countryCode = localStorage.getItem('country_code')
 	const db = getFirestore()
-	const q = query(collection(db, `${process.env.MODE}.milongas`), where('createdBy', '==', currentUser.uid))
+	const q = query(collection(db, `${process.env.MODE}.milongas`), where('createdBy', '==', currentUser.email))
 	const qSnap = await getDocs(q)
 
 	console.log(qSnap)

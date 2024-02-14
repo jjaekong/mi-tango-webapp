@@ -2,7 +2,7 @@ import { html } from "lit-html"
 import { map } from "lit-html/directives/map.js"
 import { djItem } from "../components/dj_item.js"
 
-export const DJs = () => {
+export const DJs = async () => {
 	return html`
 		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
 			<header class="mb-5">

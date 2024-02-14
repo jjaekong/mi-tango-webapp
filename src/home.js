@@ -19,8 +19,9 @@ export const Home = async () => {
 	
 	render(html`
 		<div class="home p-5" role="document">
-			<header class="h-10 flex items-center mb-5 flex-wrap">
-				<div class="flex ai">
+
+			<header class="h-10 flex items-center mb-5 px-5 flex-wrap">
+				<div class="flex items-center">
 					<h1 class="font-bold">Mi Tango</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
@@ -35,18 +36,9 @@ export const Home = async () => {
 				}</div>
 			</header>
 
-			<div class="flex mb-4">
-				<a href="#new_milonga" class="btn-primary flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
-					밀롱가 만들기
-				</a>
-				<a href="#add_milonga_event" class="btn-primary flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
-					밀롱가 이벤트 추가
-				</a>
-			</div>
-
 			${ await TodayMilongas() }
 
-			${ DJs() }
+			${ await DJs() }
 
 			${ await LocalMilongas() }
 

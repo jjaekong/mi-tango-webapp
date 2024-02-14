@@ -3,7 +3,7 @@
 @tailwind utilities;
 
 html, body {
-	background-color: rgb(243 244 246);
+	@apply bg-gray-100
 }
 
 @media (min-width: 540px) {
@@ -12,4 +12,12 @@ html, body {
 		margin: 0 auto;
 		max-width: 30rem;
 	}
+}
+
+.btn-primary {
+	@apply bg-indigo-500 text-white p-3 rounded-lg text-center border border-indigo-700
+}
+
+.btn-secondary {
+	@apply text-indigo-500 bg-gray-200 p-3 rounded-lg text-center border border-gray-300
 }

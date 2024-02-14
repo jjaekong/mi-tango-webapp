@@ -23850,10 +23850,10 @@ function getCountryName(code) {
 			</header>
 
 			<div class="flex mb-4">
-				<a href="#new_milonga" class="shadow-2xl flex-1 rounded-lg p-3 bg-indigo-500 text-sm text-white text-center flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#new_milonga" class="btn-secondary shadow-2xl flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 만들기
 				</a>
-				<a href="#add_milonga_event" class="shadow-2xl flex-1 ms-2 rounded-lg p-3 bg-indigo-500 text-sm text-white text-center flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#add_milonga_event" class="btn-primary shadow-2xl flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 이벤트 추가
 				</a>
 			</div>
@@ -26756,6 +26756,9 @@ const Milonga = async () => {
 		not found
 	`, document.getElementById('app'));
 };const SearchMilonga = () => {
+	function searchMilonga() {
+		
+	}
     function closeModal() {
         document.getElementById('search-milonga')?.close();
     }
@@ -26764,7 +26767,7 @@ const Milonga = async () => {
             <div class="relative">
                 <!-- <button type="button" class="absolute top-0 right-0" @click=${closeModal}>${xCircleOutlineIcon()}</button> -->
                 <h6 class="font-bold mb-4">밀롱가 검색</h6>
-                <form name="search-milonga" class="flex items-center">
+                <form name="search-milonga" class="flex items-center" @submit=${searchMilonga}>
                     <label>
                         <input type="text" class="rounded-lg">
                     </label>
@@ -26778,30 +26781,6 @@ const Milonga = async () => {
     `
 };const AddMilongaEvent = async () => {
 
-    // if (location.hash.indexOf('?') === -1) {
-    //     history.back()
-    //     return
-    // }
-
-    // const searchParams = new URLSearchParams(location.hash.split('?')[1])
-
-    // if (!searchParams.get('milongaId')) {
-    //     history.back()
-    //     return
-    // }
-
-    // const milongaId = searchParams.get('milongaId')
-
-    // console.log("milongaId:", milongaId)
-
-	// const hasPermit = await hasPermitToEditMilonga(milongaId)
-
-	// if (!hasPermit) {
-	// 	alert('권한이 없습니다.');
-	// 	history.back()
-	// 	return
-	// }
-
 	const auth = getAuth();
 	await auth.authStateReady();
     const currentUser = auth.currentUser;
@@ -26814,13 +26793,26 @@ const Milonga = async () => {
 		}
 		return;
 	}
-    
-    // const db = getFirestore()
-    // const milongaRef = doc(db, `${"development"}.milongas`, milongaId)
-    // const milongaSnap = await getDoc(milongaRef)
-    // const milongaData = milongaSnap.exists()
-    //     ? { id: milongaSnap.id, ...milongaSnap.data() }
-    //     : null
+
+	const searchParams = new URLSearchParams(location.hash.split('?')[1]);
+
+    const milongaId = searchParams.get('milongaId');
+
+	const milongaData = localStorage.getItem('saved_milonga')
+		? JSON.parse(localStorage.getItem('saved_milonga')) || null
+		: milongaId
+			? await (async () => {
+					const db = getFirestore();
+					const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+					const milongaSnap = await getDoc(milongaRef);
+					return milongaSnap.exists()
+						? { id: milongaSnap.id, ...milongaSnap.data() }
+						: null			
+				})()
+			: null;
+
+    console.log("milongaId:", milongaId);
+	console.log("milongaData:", milongaData);
 
 	// const milongaEventData = {
 	// 	countryCode: localStorage.getItem('country_code'),
@@ -26845,12 +26837,6 @@ const Milonga = async () => {
 	// 	createdBy: currentUser.uid
 	// }
 
-    // const placeList = [
-    //     { id: 'onada', name: '오나다', logoURL: 'https://picsum.photos/100/100' },
-    //     { id: 'ocho', name: '오초', logoURL: 'https://picsum.photos/100/100' },
-    //     { id: 'otra', name: '오뜨라', logoURL: 'https://picsum.photos/100/100' },
-    // ]
-
 	function addMilongaEvent(e) {
         e.preventDefault();
 		// if (!milongaEventData.place) {
@@ -26861,7 +26847,7 @@ const Milonga = async () => {
 		milongaEventData.date = document.getElementById('date').value;
 		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`);
 		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`);
-		milongaEventData.startAt = startAt.toDate();		
+		milongaEventData.startAt = startAt.toDate();
 		milongaEventData.endAt = startAt > endAt ? endAt.add(1, 'day').toDate() : endAt.toDate();
 		milongaEventData.entranceFee = document.getElementById('entrance-fee').value;
 		milongaEventData.description = document.getElementById('description').value;
@@ -26881,7 +26867,7 @@ const Milonga = async () => {
     }
 
 	function openSearchMilonga() {
-		document.getElementById('search-milonga')?.showModal();
+		document.getElementById('search-milonga')?.show();
 	}
 
 	j(x$1`
@@ -26895,17 +26881,28 @@ const Milonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
+				<div class="mb-3">
+					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
+					${ milongaData
+						? x$1`
+							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg">
+								${ milongaData.logoURL
+									? x$1`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
+									: x$1`<div class="bg-slate-200 rounded-lg size-8"></div>`
+								}
+								<span class="ms-2">${milongaData.name}</span>
+							</div>`
+						: T$1
+					}
+					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
+					<button type="button" class="btn-secondary w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
+					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트를 포함하는 밀롱가를 검색하고 선택하세요.</div>
+                </div>
                 <div class="mb-3">
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
 					<button type="button" class="text-indigo-500 p-3 bg-gray-200 w-full rounded-lg">포스터 업로드</button>
-                </div>
-				<div class="mb-3">
-					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
-					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
-					<button type="button" class="block p-3 bg-gray-200 border border-gray-300 text-indigo-500 text-center rounded-lg w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
-					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트를 포함하는 밀롱가를 검색하고 선택하세요.</div>
                 </div>
                 <div class="mb-3">
 					<label for="name" class="block mb-1 px-2 text-sm">이벤트명</label>

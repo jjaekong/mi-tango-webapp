@@ -2,6 +2,9 @@ import { html  } from "lit-html"
 import { xCircleOutlineIcon } from "../icons"
 
 export const SearchMilonga = () => {
+	function searchMilonga() {
+		
+	}
     function closeModal() {
         document.getElementById('search-milonga')?.close()
     }
@@ -10,7 +13,7 @@ export const SearchMilonga = () => {
             <div class="relative">
                 <!-- <button type="button" class="absolute top-0 right-0" @click=${closeModal}>${xCircleOutlineIcon()}</button> -->
                 <h6 class="font-bold mb-4">밀롱가 검색</h6>
-                <form name="search-milonga" class="flex items-center">
+                <form name="search-milonga" class="flex items-center" @submit=${searchMilonga}>
                     <label>
                         <input type="text" class="rounded-lg">
                     </label>

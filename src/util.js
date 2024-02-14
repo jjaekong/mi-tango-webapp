@@ -52,10 +52,5 @@ export function resizeImage(file, width, height, quality) {
 	})
 }
 
-export function getMilongaIdByHash() {
-	
-}
-
-export function getMilongaIdByParams() {
-
+export function goBack() {
 }

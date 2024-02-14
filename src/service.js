@@ -17,3 +17,9 @@ export const getMilonga = async (milongaId = null) => {
 
 export const getMilongaEvents = async (countryCode = 'KR') => {
 }
+
+export function getMilongaIdByHash() {
+}
+
+export function getMilongaIdByParams() {
+}

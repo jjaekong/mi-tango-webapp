@@ -36,10 +36,10 @@ export const Home = async () => {
 			</header>
 
 			<div class="flex mb-4">
-				<a href="#new_milonga" class="btn-secondary shadow-2xl flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#new_milonga" class="btn-primary flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 만들기
 				</a>
-				<a href="#add_milonga_event" class="btn-primary shadow-2xl flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#add_milonga_event" class="btn-primary flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 이벤트 추가
 				</a>
 			</div>

@@ -23716,7 +23716,7 @@ function setDoc(e, t, n) {
 	});
 
 	return x$1`
-		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
+		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
 			<header class="mb-5 flex flex-wrap justify-between items-end">
 				<h2 class="text-lg font-bold">오늘의 밀롱가</h2>
 				<time class="font-bold">${dayjs().add(-6, 'hour').format("MMM Do dddd")}</time>
@@ -23762,7 +23762,7 @@ function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const d
     `
 };const DJs = () => {
 	return x$1`
-		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl shadow-gray-50">
+		<section id="djs" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
 			<header class="mb-5">
 				<h2 class="text-lg font-bold">DJ</h2>
 				<small class="text-sm text-slate-500">DJ의 밀롱가 일정을 확인하세요.</small>
@@ -23809,7 +23809,7 @@ function getCountryName(code) {
 	});
 	
 	return x$1`
-		<section id="today-milongas" class="mb-4 p-5 rounded-3xl bg-white shadow-xl shadow-gray-50">
+		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
 			<header>
 				<h2 class="text-lg font-bold">${getCountryName(localStorage.getItem('country_code'))}의 밀롱가</h2>
 			</header>
@@ -23850,10 +23850,10 @@ function getCountryName(code) {
 			</header>
 
 			<div class="flex mb-4">
-				<a href="#new_milonga" class="btn-secondary shadow-2xl flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#new_milonga" class="btn-primary flex-1 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 만들기
 				</a>
-				<a href="#add_milonga_event" class="btn-primary shadow-2xl flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
+				<a href="#add_milonga_event" class="btn-primary flex-1 ms-2 text-sm flex items-center justify-center font-bold text-wrap break-words">
 					밀롱가 이벤트 추가
 				</a>
 			</div>
@@ -26885,7 +26885,7 @@ const Milonga = async () => {
 					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
 					${ milongaData
 						? x$1`
-							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg">
+							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
 								${ milongaData.logoURL
 									? x$1`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
 									: x$1`<div class="bg-slate-200 rounded-lg size-8"></div>`

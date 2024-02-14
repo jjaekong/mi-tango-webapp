@@ -112,7 +112,7 @@ export const AddMilongaEvent = async () => {
 					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
 					${ milongaData
 						? html`
-							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg">
+							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
 								${ milongaData.logoURL
 									? html`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
 									: html`<div class="bg-slate-200 rounded-lg size-8"></div>`

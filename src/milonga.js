@@ -70,11 +70,17 @@ export const Milonga = async () => {
 								}    
 							</div>
 							<div class="px-3">
-								<h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time></h6>
-								<ul class="inline-flex flex-wrap text-slate-500 text-sm">
+								<h6 class="font-bold">${data.name}</h6>
+                                <time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
+								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
 									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
 									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
-								</ul>
+								</ul> -->
+                                ${
+                                    data.djs.length > 0
+                                        ? html`EXIST`
+                                        : html`NONE`
+                                }
 							</div>
 						</a>
 					</li>

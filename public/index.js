@@ -9135,10 +9135,6 @@ const HashtagIcon =  (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http:/
 const CalendarDaysSolidIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="${props.classList}">
 <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
 <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
-</svg>`;
-
-const xCircleOutlineIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
-  <path stroke-linecap="round" stroke-linejoin="round" d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z" />
 </svg>`;var SECONDS_A_MINUTE = 60;
 var SECONDS_A_HOUR = SECONDS_A_MINUTE * 60;
 var SECONDS_A_DAY = SECONDS_A_HOUR * 24;
@@ -23835,7 +23831,7 @@ function getCountryName(code) {
 		<div class="home p-5" role="document">
 			<header class="h-10 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
-					<h1 class="font-bold">Mi Vida</h1>
+					<h1 class="font-bold">Mi Tango</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${
@@ -26672,11 +26668,17 @@ const Milonga = async () => {
 								}    
 							</div>
 							<div class="px-3">
-								<h6 class="font-bold"><time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time></h6>
-								<ul class="inline-flex flex-wrap text-slate-500 text-sm">
+								<h6 class="font-bold">${data.name}</h6>
+                                <time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
+								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
 									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
 									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
-								</ul>
+								</ul> -->
+                                ${
+                                    data.djs.length > 0
+                                        ? x$1`EXIST`
+                                        : x$1`NONE`
+                                }
 							</div>
 						</a>
 					</li>
@@ -26755,30 +26757,6 @@ const Milonga = async () => {
 	j(x$1`
 		not found
 	`, document.getElementById('app'));
-};const SearchMilonga = () => {
-	function searchMilonga() {
-		
-	}
-    function closeModal() {
-        document.getElementById('search-milonga')?.close();
-    }
-    return x$1`
-        <dialog id="search-milonga" class="p-5 rounded-xl shadow-xl shadow-gray-100">
-            <div class="relative">
-                <!-- <button type="button" class="absolute top-0 right-0" @click=${closeModal}>${xCircleOutlineIcon()}</button> -->
-                <h6 class="font-bold mb-4">밀롱가 검색</h6>
-                <form name="search-milonga" class="flex items-center" @submit=${searchMilonga}>
-                    <label>
-                        <input type="text" class="rounded-lg">
-                    </label>
-                    <button type="button" class="px-3 py-2 bg-gray-200 border border-gray-300 text-indigo-500 rounded-lg">검색</button>
-                </form>
-                <form name="select-milonga" method="dialog" class="block">
-                    <button class="block p-3 w-full rouned-lg bg-indigo-500 text-white">선택</button>
-                </form>
-            </div>
-		</dialog>
-    `
 };const AddMilongaEvent = async () => {
 
 	const auth = getAuth();
@@ -26798,44 +26776,41 @@ const Milonga = async () => {
 
     const milongaId = searchParams.get('milongaId');
 
-	const milongaData = localStorage.getItem('saved_milonga')
-		? JSON.parse(localStorage.getItem('saved_milonga')) || null
-		: milongaId
-			? await (async () => {
-					const db = getFirestore();
-					const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
-					const milongaSnap = await getDoc(milongaRef);
-					return milongaSnap.exists()
-						? { id: milongaSnap.id, ...milongaSnap.data() }
-						: null			
-				})()
-			: null;
+	const milongaData = milongaId
+        ? await (async () => {
+                const db = getFirestore();
+                const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+                const milongaSnap = await getDoc(milongaRef);
+                return milongaSnap.exists()
+                    ? { id: milongaSnap.id, ...milongaSnap.data() }
+                    : null			
+            })()
+        : null;
 
     console.log("milongaId:", milongaId);
 	console.log("milongaData:", milongaData);
 
-	// const milongaEventData = {
-	// 	countryCode: localStorage.getItem('country_code'),
-	// 	// milongaId: milongaId,
-	// 	milonga: {
-	// 		name: milongaData.name || null,
-	// 		id: milongaId,
-	// 		logoURL: milongaData.logoURL || null
-	// 	},
-    //     name: milongaData.name,
-	// 	posters: [],
-	// 	date: dayjs().format('YYYY-MM-DD'),
-	// 	startAt: '19:00',
-	// 	endAt: '00:00',
-	// 	place: null,
-	// 	organizers: [],
-	// 	djs: [],
-	// 	performers: [],
-	// 	entranceFee: null,
-	// 	description: null,
-	// 	createdAt: dayjs().toDate(),
-	// 	createdBy: currentUser.uid
-	// }
+	const milongaEventData = {
+		countryCode: localStorage.getItem('country_code'),
+		milonga: {
+			name: milongaData?.name || null,
+			id: milongaId,
+			logoURL: milongaData?.logoURL || null
+		},
+        name: milongaData?.name,
+		posters: [],
+		date: dayjs().format('YYYY-MM-DD'),
+		startAt: '19:00',
+		endAt: '00:00',
+		place: null,
+		organizers: [],
+		djs: [],
+		performers: [],
+		entranceFee: null,
+		description: null,
+		createdAt: dayjs().toDate(),
+		createdBy: currentUser.uid
+	};
 
 	function addMilongaEvent(e) {
         e.preventDefault();
@@ -26866,10 +26841,6 @@ const Milonga = async () => {
 			});
     }
 
-	function openSearchMilonga() {
-		document.getElementById('search-milonga')?.show();
-	}
-
 	j(x$1`
 		<div class="add-milonga-event p-5">
             <header class="flex items-center mb-5 h-10 w-full">
@@ -26881,23 +26852,25 @@ const Milonga = async () => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
             <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
-				<div class="mb-3">
-					<label for="milonga" class="block mb-1 px-2 text-sm">밀롱가 선택</label>
-					${ milongaData
-						? x$1`
-							<div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
-								${ milongaData.logoURL
-									? x$1`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
-									: x$1`<div class="bg-slate-200 rounded-lg size-8"></div>`
-								}
-								<span class="ms-2">${milongaData.name}</span>
-							</div>`
-						: T$1
-					}
-					<!-- <input class="w-full rounded-lg border-slate-200" id="milonga" type="text" placeholder="밀롱가 ㄹ" value=""> -->
-					<button type="button" class="btn-secondary w-full" @click=${openSearchMilonga}>밀롱가 선택</button>
-					<div class="text-sm text-slate-500 px-2 mt-2">이 이벤트를 포함하는 밀롱가를 검색하고 선택하세요.</div>
-                </div>
+                ${
+                    milongaData
+                        ? x$1`
+                            <div class="mb-3">
+                                <h6 class="mb-1 px-2 text-sm">밀롱가</h6>
+                                ${ milongaData
+                                    ? x$1`
+                                        <div class="flex items-center mb-2 p-2 border border-gray-200 rounded-lg bg-white">
+                                            ${ milongaData.logoURL
+                                                ? x$1`<img class="rounded-lg size-8" src=${milongaData.logoURL}>`
+                                                : x$1`<div class="bg-slate-200 rounded-lg size-8"></div>`
+                                            }
+                                            <span class="ms-2">${milongaData.name}</span>
+                                        </div>`
+                                    : x$1`TEST`
+                                }
+                            </div>`
+                        : T$1
+                }
                 <div class="mb-3">
 					<label class="block mb-1 px-2 text-sm" for="poster-file" for="">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
@@ -26939,12 +26912,6 @@ const Milonga = async () => {
                         <input class="w-full rounded-lg border-slate-200" id="search-dj" type="search" placeholder="DJ 검색">
 					</div>
                 </div>
-                <!-- <div class="mb-3">
-                    <div>
-                        <label class="block mb-1 px-2 text-sm" for="search-performer">공연</label>
-                        <input class="w-full rounded-lg border-slate-200" id="search-performer" type="search" placeholder="공연자 검색">
-					</div>
-                </div> -->
 				<div class="mb-3">
                     <div>
                         <label class="block mb-1 px-2 text-sm" for="entrance-fee">입장료</label>
@@ -26958,11 +26925,10 @@ const Milonga = async () => {
 					</div>
                 </div>
                 <div class="mt-4">
-                    <button type="submit" class="p-3 bg-indigo-500 text-white block w-full rounded-lg">추가</button>
+                    <button type="submit" class="btn-primary w-full rounded-lg">추가</button>
                 </div>
             </form>
         </div>
-		${ SearchMilonga() }
 	`, document.getElementById('app'));
 };
 

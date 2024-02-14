@@ -21,7 +21,7 @@ export const Home = async () => {
 		<div class="home p-5" role="document">
 			<header class="h-10 flex items-center mb-5 flex-wrap">
 				<div class="flex ai">
-					<h1 class="font-bold">Mi Vida</h1>
+					<h1 class="font-bold">Mi Tango</h1>
 					<a href="#choose_country" class="ms-2"><span class="font-bold underline underline-offset-4">${getCountryName(countryCode)}</span></a>
 				</div>
 				<div class="ms-auto empty:size-8 empty:bg-slate-300 empty:rounded-full">${

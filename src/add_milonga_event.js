@@ -101,21 +101,12 @@ export const AddMilongaEvent = async () => {
 			})
     }
 
-	async function searchPlace(e) {
-		console.log(e.target.value)
-		if (!e.target.value) return
-		const db = getFirestore()
-		const q = query(
-			collection(db, `${process.env.MODE}.places`),
-			where('id', 'in', e.target.value),
-			where('name', 'in', e.target.value)
-		)
-		const snap = await getDocs(q)
-		console.log(snap)
-		// if (!snap.empty) {
-			
-		// }
-	}
+	const db = getFirestore()
+	const placesQuery = query(
+		collection(db, `${process.env.MODE}.places`),
+		where('countryCode', '==', localStorage.getItem('country_code'))
+	)
+	const placesSnap = await getDocs(placesQuery)
 
 	render(html`
 		<div class="add-milonga-event p-5">
@@ -157,9 +148,9 @@ export const AddMilongaEvent = async () => {
                         <label for="end-time">종료시간</label>
                         <input id="end-time" type="time" step="600" required value="00:00" list="end-time-list">
 						<datalist id="end-time-list">
-							<option value="10:30"></option>
-							<option value="11:00"></option>
-							<option value="11:30"></option>
+							<option value="22:30"></option>
+							<option value="23:00"></option>
+							<option value="23:30"></option>
 							<option value="00:00"></option>
 							<option value="00:30"></option>
 							<option value="01:00"></option>
@@ -169,29 +160,31 @@ export const AddMilongaEvent = async () => {
 					</div>
                 </div>
 				<div class="mb-3">
-                    <div>
-                        <label for="search-place">장소</label>
-                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list">
-                        <datalist id="place-list"></datalist>
-					</div>
+					<label for="search-place">장소</label>
+					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" autocomplete="on">
+					<div class="form-help">검색어를 입력하고 오른쪽 화살표(▼)를 눌러 목록에서 선택하세요.</div>
+					<datalist id="place-list">
+						${
+							placesSnap.docs.map(doc => {
+								const data = doc.data()
+								return html`<option value="${data.name}"><img src="https://picsum.photos/100/100" class="size-6"> ${data.address}</option>`
+							})	
+						}
+					</datalist>
                 </div>
                 <div class="mb-3">
-                    <div>
-                        <label for="search-dj">DJ</label>
-                        <input id="search-dj" type="search" placeholder="DJ 검색">
-					</div>
+					<label for="search-dj">DJ</label>
+					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" autocomplete="on">
+					<div class="form-help">검색어를 입력하고 오른쪽 화살표(▼)를 눌러 목록에서 선택하세요.</div>
+					<datalist id="dj-list"></datalist>
                 </div>
 				<div class="mb-3">
-                    <div>
-                        <label for="entrance-fee">입장료</label>
-                        <input id="entrance-fee" type="text" placeholder="입장료" required>
-					</div>
+					<label for="entrance-fee">입장료</label>
+					<input id="entrance-fee" type="text" placeholder="입장료" required autocomplete="on">
                 </div>
 				<div class="mb-3">
-                    <div>
-                        <label for="description">설명</label>
-						<textarea placeholder="설명" id="description" class="w-full rounded border-slate-200" rows="5"></textarea>
-					</div>
+					<label for="description">설명</label>
+					<textarea placeholder="설명" id="description" class="w-full rounded border-slate-200" rows="5"></textarea>
                 </div>
                 <div class="mt-4">
                     <button type="submit" class="btn-primary w-full rounded-lg">추가</button>
@@ -199,21 +192,6 @@ export const AddMilongaEvent = async () => {
             </form>
         </div>
 	`, document.getElementById('app'))
-
-	const db = getFirestore()
-	const placesQuery = query(
-		collection(db, `${process.env.MODE}.places`),
-		where('countryCode', '==', localStorage.getItem('country_code'))
-	)
-	getDocs(placesQuery)
-		.then(snap => {
-			const options = []
-			snap.forEach(doc => {
-				const data = doc.data()
-				options.push(html`<option value="${data.name}"><img src="https://picsum.photos/100/100" class="size-6"> ${data.address}</option>`)
-			})
-			render(html`${options}`, document.getElementById('place-list'))
-		})
 }
 
 /**

@@ -14,6 +14,7 @@ import { AllMilongaEvents } from './all_milonga_events.js'
 import { AllDJs } from './all_djs.js'
 import { EditMilongaSettings } from './edit_milonga_settings.js'
 import { AddEvent } from './add_event.js'
+import { Empty } from './empty.js'
 
 export const showPageByHash = async () => {
 	console.log('showPageByHash')
@@ -61,6 +62,8 @@ export const showPageByHash = async () => {
         AddMilongaEvent()
     } else if (location.hash.indexOf("#edit_milonga_settings") === 0) {
 		await EditMilongaSettings()
+    } else if (location.hash === '#empty') {
+		await Empty()
     } else {
 		NotFound()
     }

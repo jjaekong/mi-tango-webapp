@@ -4,6 +4,7 @@ import { ArrowLeftIcon } from "./icons"
 import dayjs from "dayjs/esm"
 import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore"
 import { hasPermitToEditMilonga } from "./service"
+import { debounce } from "lodash-es"
 
 export const AddMilongaEvent = async () => {
     
@@ -101,12 +102,57 @@ export const AddMilongaEvent = async () => {
 			})
     }
 
-	const db = getFirestore()
-	const placesQuery = query(
-		collection(db, `${process.env.MODE}.places`),
-		where('countryCode', '==', localStorage.getItem('country_code'))
-	)
-	const placesSnap = await getDocs(placesQuery)
+	async function searchPlace(e) {
+		if (!e.target.value) return
+		render(nothing, document.getElementById("place-list"))
+		const keyword = e.target.value.split('')
+		console.log('keyword => ', keyword)
+		const db = getFirestore()
+		const q = query(
+			collection(db, `${process.env.MODE}.places`),
+			where('nameToArray', 'array-contains-any', keyword)
+		)
+		const snap = await getDocs(q)
+		if (snap.empty) {
+			render(nothing, document.getElementById('place-list'))
+		} else {
+			render(html`${
+				snap.docs.map(doc => {
+					const data = {
+						id: doc.id,
+						...doc.data()
+					}
+					return html`<option value="${data.name}">${data.nationality}</option>`
+				})
+			}`, document.getElementById('place-list'))
+		}
+	}
+
+	async function searchDJ(e) {
+		if (!e.target.value) return
+		render(nothing, document.getElementById("dj-list"))
+		const keyword = e.target.value.split('')
+		console.log('keyword => ', keyword)
+		const db = getFirestore()
+		const q = query(
+			collection(db, `${process.env.MODE}.djs`),
+			where('nameArray', 'array-contains-any', keyword)
+		)
+		const snap = await getDocs(q)
+		if (snap.empty) {
+			render(nothing, document.getElementById('dj-list'))
+		} else {
+			render(html`${
+				snap.docs.map(doc => {
+					const data = {
+						id: doc.id,
+						...doc.data()
+					}
+					return html`<option value="${data.name}">${data.nationality}</option>`
+				})
+			}`, document.getElementById('dj-list'))
+		}
+	}
 
 	render(html`
 		<div class="add-milonga-event p-5">
@@ -161,22 +207,14 @@ export const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
 					<label for="search-place">장소</label>
-					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" autocomplete="on">
-					<div class="form-help">검색어를 입력하고 오른쪽 화살표(▼)를 눌러 목록에서 선택하세요.</div>
-					<datalist id="place-list">
-						${
-							placesSnap.docs.map(doc => {
-								const data = doc.data()
-								return html`<option value="${data.name}"><img src="https://picsum.photos/100/100" class="size-6"> ${data.address}</option>`
-							})	
-						}
-					</datalist>
+					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" autocomplete="on" @input=${debounce(searchPlace, 500)}>
+					<datalist id="place-list"></datalist>
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>
-					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" autocomplete="on">
-					<div class="form-help">검색어를 입력하고 오른쪽 화살표(▼)를 눌러 목록에서 선택하세요.</div>
-					<datalist id="dj-list"></datalist>
+					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" autocomplete="on" @input=${debounce(searchDJ, 500)}>
+					<datalist id="dj-list">
+					</datalist>
                 </div>
 				<div class="mb-3">
 					<label for="entrance-fee">입장료</label>

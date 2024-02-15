@@ -3,13 +3,13 @@
 	"short_name": "Mi Tango",
 	"start_url": "/",
 	"display": "standalone",
-	"theme_color": "#A855F7",
-	"background_color": "#A855F7",
+	"theme_color": "transparent",
+	"background_color": "transparent",
   	"description": "나의 땅고, 땅고의 모든 정보",
 	"related_applications": [
 		{
 			"platform": "webapp",
-			"url": "http://mi-tango-365.web.app/manifest.json"
+			"url": "https://mi-tango-webapp.vercel.app/manifest.json"
 		}
 	]
 }

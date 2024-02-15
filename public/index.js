@@ -27333,57 +27333,55 @@ function debounce(func, wait, options) {
 			});
     }
 
-	async function searchPlace(e) {
-		if (!e.target.value) return
-		j(T$1, document.getElementById("place-list"));
-		const keyword = e.target.value.split('');
-		console.log('keyword => ', keyword);
+	async function searchPlace() {
+		document.getElementById('search-place-details').open = false;
+		j(x$1``, document.getElementById('search-place-results'));
+		const keyword = document.getElementById('search-place-keyword');
+		if (!keyword.value) {
+			alert("검색어를 입력하세요.");
+			keyword.focus();
+			return
+		}
 		const db = getFirestore();
 		const q = query(
 			collection(db, `${"development"}.places`),
-			where('nameToArray', 'array-contains-any', keyword)
+			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		);
 		const snap = await getDocs(q);
+		document.getElementById('search-place-details').open = true;
+		console.log(snap);
 		if (snap.empty) {
-			j(T$1, document.getElementById('place-list'));
+			j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
 		} else {
-			j(x$1`${
-				snap.docs.map(doc => {
-					const data = {
-						id: doc.id,
-						...doc.data()
-					};
-					return x$1`<option value="${data.name}">${data.nationality}</option>`
-				})
-			}`, document.getElementById('place-list'));
+			j(x$1`<p>있습니다.</p>`, document.getElementById('search-place-results'));
 		}
 	}
 
-	async function searchDJ(e) {
-		if (!e.target.value) return
-		j(T$1, document.getElementById("dj-list"));
-		const keyword = e.target.value.split('');
-		console.log('keyword => ', keyword);
-		const db = getFirestore();
-		const q = query(
-			collection(db, `${"development"}.djs`),
-			where('nameArray', 'array-contains-any', keyword)
-		);
-		const snap = await getDocs(q);
-		if (snap.empty) {
-			j(T$1, document.getElementById('dj-list'));
-		} else {
-			j(x$1`${
-				snap.docs.map(doc => {
-					const data = {
-						id: doc.id,
-						...doc.data()
-					};
-					return x$1`<option value="${data.name}">${data.nationality}</option>`
-				})
-			}`, document.getElementById('dj-list'));
-		}
-	}
+	// async function searchDJ(e) {
+	// 	if (!e.target.value) return
+	// 	render(nothing, document.getElementById("dj-list"))
+	// 	const keyword = e.target.value.split('')
+	// 	console.log('keyword => ', keyword)
+	// 	const db = getFirestore()
+	// 	const q = query(
+	// 		collection(db, `${"development"}.djs`),
+	// 		where('nameArray', 'array-contains-any', keyword)
+	// 	)
+	// 	const snap = await getDocs(q)
+	// 	if (snap.empty) {
+	// 		render(nothing, document.getElementById('dj-list'))
+	// 	} else {
+	// 		render(html`${
+	// 			snap.docs.map(doc => {
+	// 				const data = {
+	// 					id: doc.id,
+	// 					...doc.data()
+	// 				}
+	// 				return html`<option value="${data.name}">${data.nationality}</option>`
+	// 			})
+	// 		}`, document.getElementById('dj-list'))
+	// 	}
+	// }
 
 	j(x$1`
 		<div class="add-milonga-event p-5">
@@ -27437,15 +27435,20 @@ function debounce(func, wait, options) {
 					</div>
                 </div>
 				<div class="mb-3">
-					<label for="search-place">장소</label>
-					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" @change=${debounce(searchPlace, 500)}>
-					<datalist id="place-list"></datalist>
+					<label for="search-place-keyword">장소</label>
+					<div class="flex items-center">
+						<input id="search-place-keyword" type="search" placeholder="장소 검색">
+						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
+					</div>
+					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">
+						<summary class="text-sm">장소 검색결과</summary>
+						<div id="search-place-results" class="mt-3"></div>
+					</details>
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>
-					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" @change=${debounce(searchDJ, 500)}>
-					<datalist id="dj-list">
-					</datalist>
+					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list">
+					<details id="dj-list"></details>
                 </div>
 				<div class="mb-3">
 					<label for="entrance-fee">입장료</label>

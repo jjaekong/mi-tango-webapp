@@ -32,3 +32,10 @@ input[type=date],
 input[type=time] {
     @apply rounded-lg border-slate-200 block w-full disabled:bg-slate-100 disabled:text-slate-900 disabled:border-slate-400
 }
+
+div.form-help {
+	@apply text-slate-500 text-xs px-2 mt-2
+}
+div.form-help + div.form-help {
+	@apply mt-1
+}

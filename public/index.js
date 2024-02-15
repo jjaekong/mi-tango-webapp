@@ -26392,6 +26392,15 @@ registerStorage();function resizeImage(file, width, height, quality) {
 			reject(event);
 		};
 	})
+}
+
+function goBack(e) {
+	e.preventDefault();
+	if (history.length > 2) {
+		history.back();
+	} else {
+		location.href="#";
+	}
 }const EditUserProfile = async () => {
 
     const auth = getAuth();
@@ -26578,10 +26587,7 @@ registerStorage();function resizeImage(file, width, height, quality) {
     j(x$1`
         <div class="me new-milonga p-5">
             <header class="flex items-center mb-5 h-10 w-full">
-				<div class="min-w-[20%]"><a href="#" @click=${e => {
-                    e.preventDefault();
-                    history.back();
-                }}>${ArrowLeftIcon()}</a></div>
+				<div class="min-w-[20%]"><a href="#" @click=${goBack}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 만들기</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>

@@ -52,5 +52,11 @@ export function resizeImage(file, width, height, quality) {
 	})
 }
 
-export function goBack() {
+export function goBack(e) {
+	e.preventDefault()
+	if (history.length > 2) {
+		history.back()
+	} else {
+		location.href="#"
+	}
 }

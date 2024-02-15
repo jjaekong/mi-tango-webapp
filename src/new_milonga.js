@@ -3,6 +3,7 @@ import { cache } from 'lit-html/directives/cache.js'
 import { ArrowLeftIcon } from './icons'
 import { getAuth } from "firebase/auth"
 import { arrayUnion, doc, getDoc, getFirestore, setDoc } from "firebase/firestore"
+import { goBack } from './util'
 
 export const NewMilonga = async () => {
 
@@ -73,10 +74,7 @@ export const NewMilonga = async () => {
     render(html`
         <div class="me new-milonga p-5">
             <header class="flex items-center mb-5 h-10 w-full">
-				<div class="min-w-[20%]"><a href="#" @click=${e => {
-                    e.preventDefault();
-                    history.back()
-                }}>${ArrowLeftIcon()}</a></div>
+				<div class="min-w-[20%]"><a href="#" @click=${goBack}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center">밀롱가 만들기</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>

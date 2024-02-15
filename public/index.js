@@ -27334,8 +27334,8 @@ function debounce(func, wait, options) {
     }
 
 	async function searchPlace() {
-		document.getElementById('search-place-details').open = false;
-		j(x$1``, document.getElementById('search-place-results'));
+		// document.getElementById('search-place-details').open = false
+		j(T$1, document.getElementById('search-place-results'));
 		const keyword = document.getElementById('search-place-keyword');
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.");
@@ -27348,12 +27348,34 @@ function debounce(func, wait, options) {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		);
 		const snap = await getDocs(q);
-		document.getElementById('search-place-details').open = true;
+		// document.getElementById('search-place-details').open = true
 		console.log(snap);
 		if (snap.empty) {
 			j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
 		} else {
-			j(x$1`<p>있습니다.</p>`, document.getElementById('search-place-results'));
+            const results = snap.docs.filter(doc => {
+                const data = {
+                    id: doc.id,
+                    ...doc.data()
+                };
+                return data.name.indexOf(keyword.value) > -1
+            });
+            // console.log('results', results)
+            if (results.length > 0) {
+                j(x$1`<ul class="mt-3">
+                    ${
+                        results.map(result => {
+                            const data = {
+                                id: result.id,
+                                ...result.data()
+                            };
+                            return x$1`${data.name}`
+                        })
+                    }
+                </ul>`, document.getElementById('search-place-results'));
+            } else {
+                j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+            }
 		}
 	}
 
@@ -27442,7 +27464,7 @@ function debounce(func, wait, options) {
 					</div>
 					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">
 						<summary class="text-sm">장소 검색결과</summary>
-						<div id="search-place-results" class="mt-3"></div>
+						<div id="search-place-results"></div>
 					</details>
                 </div>
                 <div class="mb-3">

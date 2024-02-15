@@ -2,7 +2,7 @@ import { getAuth } from "firebase/auth"
 import { html, nothing, render } from "lit-html"
 import { ArrowLeftIcon } from "./icons"
 import dayjs from "dayjs/esm"
-import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, getDocs, getDocsFromCache, getDocsFromServer, getFirestore, query, where } from "firebase/firestore"
 import { hasPermitToEditMilonga } from "./service"
 import { debounce } from "lodash-es"
 
@@ -103,8 +103,8 @@ export const AddMilongaEvent = async () => {
     }
 
 	async function searchPlace() {
-		document.getElementById('search-place-details').open = false
-		render(html``, document.getElementById('search-place-results'))
+		// document.getElementById('search-place-details').open = false
+		render(nothing, document.getElementById('search-place-results'))
 		const keyword = document.getElementById('search-place-keyword')
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.")
@@ -117,12 +117,34 @@ export const AddMilongaEvent = async () => {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		)
 		const snap = await getDocs(q)
-		document.getElementById('search-place-details').open = true
+		// document.getElementById('search-place-details').open = true
 		console.log(snap)
 		if (snap.empty) {
 			render(html`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'))
 		} else {
-			render(html`<p>있습니다.</p>`, document.getElementById('search-place-results'))
+            const results = snap.docs.filter(doc => {
+                const data = {
+                    id: doc.id,
+                    ...doc.data()
+                }
+                return data.name.indexOf(keyword.value) > -1
+            })
+            // console.log('results', results)
+            if (results.length > 0) {
+                render(html`<ul class="mt-3">
+                    ${
+                        results.map(result => {
+                            const data = {
+                                id: result.id,
+                                ...result.data()
+                            }
+                            return html`${data.name}`
+                        })
+                    }
+                </ul>`, document.getElementById('search-place-results'))
+            } else {
+                render(html`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'))
+            }
 		}
 	}
 
@@ -211,7 +233,7 @@ export const AddMilongaEvent = async () => {
 					</div>
 					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">
 						<summary class="text-sm">장소 검색결과</summary>
-						<div id="search-place-results" class="mt-3"></div>
+						<div id="search-place-results"></div>
 					</details>
                 </div>
                 <div class="mb-3">

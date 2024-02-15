@@ -6,6 +6,7 @@ import { ArrowLeftIcon, AtSymbolIcon, HeadphonesIcon } from './icons'
 import dayjs from 'dayjs/esm'
 import { repeat } from 'lit-html/directives/repeat.js';
 import { hasPermitToEditMilonga } from './service'
+import { goBack } from './util'
 
 export const Milonga = async () => {
 
@@ -21,7 +22,10 @@ export const Milonga = async () => {
 		return;
 	}
 	
-	const milongaData = milongaSnap.data()
+	const milongaData = {
+		id: milongaSnap.id,
+		...milongaSnap.data()
+	}
 
 	const milongaEventsQuery = query(
 		collection(db, `${process.env.MODE}.milonga_events`),
@@ -47,7 +51,7 @@ export const Milonga = async () => {
 							</div>
 							<div class="px-3">
 								<h6 class="font-bold">${data.name}</h6>
-                                <time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
+                                <time class="text-sm text-slate-500">${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
 								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
 									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
 									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
@@ -55,7 +59,7 @@ export const Milonga = async () => {
                                 ${
                                     data.djs.length > 0
                                         ? html`EXIST`
-                                        : html`NONE`
+                                        : nothing
                                 }
 							</div>
 						</a>
@@ -67,7 +71,7 @@ export const Milonga = async () => {
 	render((html`
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full" id="toolbar">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
+				<div class="min-w-[20%]"><a href="#" @click=${goBack}}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
@@ -91,7 +95,7 @@ export const Milonga = async () => {
         </div>
 	`), document.getElementById('app'))
 
-    hasPermitToEditMilonga(milongaId)
+    hasPermitToEditMilonga(milongaData)
         .then(has => {
             if (has) {
 				render(

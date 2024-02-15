@@ -1,8 +1,9 @@
 import { getAuth } from "firebase/auth"
 import { html, nothing, render } from "lit-html"
-import { ArrowLeftIcon, xCircleOutlineIcon } from "./icons"
+import { ArrowLeftIcon } from "./icons"
 import dayjs from "dayjs/esm"
-import { addDoc, collection, doc, getDoc, getFirestore } from "firebase/firestore"
+import { addDoc, collection, doc, getDoc, getDocs, getFirestore, query, where } from "firebase/firestore"
+import { hasPermitToEditMilonga } from "./service"
 
 export const AddMilongaEvent = async () => {
     
@@ -47,10 +48,14 @@ export const AddMilongaEvent = async () => {
         return
     }
 
-    // const hasPermitToAddEvent = 
-
     console.log("milongaId:", milongaId)
 	console.log("milongaData:", milongaData)
+
+	if (!hasPermitToEditMilonga(milongaData)) {
+		alert('밀롱가 컨텐츠를 편집할 권한이 없습니다.')
+		history.back()
+		return
+	}
 
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
@@ -75,11 +80,6 @@ export const AddMilongaEvent = async () => {
 
 	function addMilongaEvent(e) {
         e.preventDefault()
-		// if (!milongaEventData.place) {
-		// 	alert('장소를 입력하지 않았습니다.');
-		// 	document.getElementById('search-place').focus()
-		// 	return;
-		// }
 		milongaEventData.date = document.getElementById('date').value
 		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`)
 		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`)
@@ -100,6 +100,22 @@ export const AddMilongaEvent = async () => {
 				console.log(error)
 			})
     }
+
+	async function searchPlace(e) {
+		console.log(e.target.value)
+		if (!e.target.value) return
+		const db = getFirestore()
+		const q = query(
+			collection(db, `${process.env.MODE}.places`),
+			where('id', 'in', e.target.value),
+			where('name', 'in', e.target.value)
+		)
+		const snap = await getDocs(q)
+		console.log(snap)
+		// if (!snap.empty) {
+			
+		// }
+	}
 
 	render(html`
 		<div class="add-milonga-event p-5">
@@ -129,22 +145,34 @@ export const AddMilongaEvent = async () => {
                 <div class="mb-3 flex">
                     <div class="flex-1">
                         <label for="start-time">시작시간</label>
-                        <input id="start-time" type="time" step="600" required value="19:00">
+                        <input id="start-time" type="time" step="600" required value="19:00" list="start-time-list">
+						<datalist id="start-time-list">
+							<option value="14:00"></option>
+							<option value="19:00"></option>
+							<option value="20:00"></option>
+							<option value="21:00"></option>
+						</datalist>
 					</div>
                     <div class="flex-1 ms-2">
                         <label for="end-time">종료시간</label>
-                        <input id="end-time" type="time" step="600" required value="00:00">
+                        <input id="end-time" type="time" step="600" required value="00:00" list="end-time-list">
+						<datalist id="end-time-list">
+							<option value="10:30"></option>
+							<option value="11:00"></option>
+							<option value="11:30"></option>
+							<option value="00:00"></option>
+							<option value="00:30"></option>
+							<option value="01:00"></option>
+							<option value="02:00"></option>
+							<option value="03:00"></option>
+						</datalist>
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
                         <label for="search-place">장소</label>
-                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list" @input=${e => { console.log('ok') }}>
-                        <datalist id="place-list">
-                            <option value="onada">오나다</option>
-                            <option value="ocho">오초</option>
-                            <option value="otra">오뜨라</option>
-                        </datalist>
+                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list">
+                        <datalist id="place-list"></datalist>
 					</div>
                 </div>
                 <div class="mb-3">
@@ -171,6 +199,21 @@ export const AddMilongaEvent = async () => {
             </form>
         </div>
 	`, document.getElementById('app'))
+
+	const db = getFirestore()
+	const placesQuery = query(
+		collection(db, `${process.env.MODE}.places`),
+		where('countryCode', '==', localStorage.getItem('country_code'))
+	)
+	getDocs(placesQuery)
+		.then(snap => {
+			const options = []
+			snap.forEach(doc => {
+				const data = doc.data()
+				options.push(html`<option value="${data.name}"><img src="https://picsum.photos/100/100" class="size-6"> ${data.address}</option>`)
+			})
+			render(html`${options}`, document.getElementById('place-list'))
+		})
 }
 
 /**

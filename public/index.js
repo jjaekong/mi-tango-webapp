@@ -26611,27 +26611,46 @@ function goBack(e) {
             </form>
         </div>
     `, document.getElementById('app'));
-};const hasPermitToEditMilonga = async (milongaId) => {
+};// export const hasPermitToEditMilonga = async (milongaId) => {
+// 	const auth = getAuth()
+// 	await auth.authStateReady()
+// 	const currentUser = auth.currentUser;
+// 	if (!currentUser) {
+// 		return false;
+// 	}
+// 	const db = getFirestore()
+// 	const milongaRef = doc(db, `${"development"}.milongas`, milongaId)
+// 	const milongaSnap = await getDoc(milongaRef)
+// 	if (milongaSnap.exists()) {
+// 		const milongaData = milongaSnap.data()
+// 		if (milongaData?.createdBy === currentUser.email) {
+// 			return true
+// 		}
+// 		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
+// 			return true;
+// 		}
+// 		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
+// 			return true;
+// 		}
+// 	}
+// 	return false;
+// }
+
+const hasPermitToEditMilonga = async (milongaData) => {
 	const auth = getAuth();
 	await auth.authStateReady();
 	const currentUser = auth.currentUser;
 	if (!currentUser) {
 		return false;
 	}
-	const db = getFirestore();
-	const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
-	const milongaSnap = await getDoc(milongaRef);
-	if (milongaSnap.exists()) {
-		const milongaData = milongaSnap.data();
-		if (milongaData?.createdBy === currentUser.email) {
-			return true
-		}
-		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
-			return true;
-		}
-		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
-			return true;
-		}
+	if (milongaData?.createdBy === currentUser.email) {
+		return true
+	}
+	if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
+		return true;
+	}
+	if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
+		return true;
 	}
 	return false;
 };const Milonga = async () => {
@@ -26648,7 +26667,10 @@ function goBack(e) {
 		return;
 	}
 	
-	const milongaData = milongaSnap.data();
+	const milongaData = {
+		id: milongaSnap.id,
+		...milongaSnap.data()
+	};
 
 	const milongaEventsQuery = query(
 		collection(db, `${"development"}.milonga_events`),
@@ -26674,7 +26696,7 @@ function goBack(e) {
 							</div>
 							<div class="px-3">
 								<h6 class="font-bold">${data.name}</h6>
-                                <time>${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
+                                <time class="text-sm text-slate-500">${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
 								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
 									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
 									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
@@ -26682,7 +26704,7 @@ function goBack(e) {
                                 ${
                                     data.djs.length > 0
                                         ? x$1`EXIST`
-                                        : x$1`NONE`
+                                        : T$1
                                 }
 							</div>
 						</a>
@@ -26694,7 +26716,7 @@ function goBack(e) {
 	j((x$1`
         <div class="milonga p-5" role="document">
             <header class="flex items-center mb-5 h-10 w-full" id="toolbar">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
+				<div class="min-w-[20%]"><a href="#" @click=${goBack}}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="font-bold text-center sr-only">밀롱가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
@@ -26718,7 +26740,7 @@ function goBack(e) {
         </div>
 	`), document.getElementById('app'));
 
-    hasPermitToEditMilonga(milongaId)
+    hasPermitToEditMilonga(milongaData)
         .then(has => {
             if (has) {
 				j(
@@ -26805,10 +26827,14 @@ function goBack(e) {
         return
     }
 
-    // const hasPermitToAddEvent = 
-
     console.log("milongaId:", milongaId);
 	console.log("milongaData:", milongaData);
+
+	if (!hasPermitToEditMilonga(milongaData)) {
+		alert('밀롱가 컨텐츠를 편집할 권한이 없습니다.');
+		history.back();
+		return
+	}
 
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
@@ -26833,11 +26859,6 @@ function goBack(e) {
 
 	function addMilongaEvent(e) {
         e.preventDefault();
-		// if (!milongaEventData.place) {
-		// 	alert('장소를 입력하지 않았습니다.');
-		// 	document.getElementById('search-place').focus()
-		// 	return;
-		// }
 		milongaEventData.date = document.getElementById('date').value;
 		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`);
 		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`);
@@ -26887,22 +26908,34 @@ function goBack(e) {
                 <div class="mb-3 flex">
                     <div class="flex-1">
                         <label for="start-time">시작시간</label>
-                        <input id="start-time" type="time" step="600" required value="19:00">
+                        <input id="start-time" type="time" step="600" required value="19:00" list="start-time-list">
+						<datalist id="start-time-list">
+							<option value="14:00"></option>
+							<option value="19:00"></option>
+							<option value="20:00"></option>
+							<option value="21:00"></option>
+						</datalist>
 					</div>
                     <div class="flex-1 ms-2">
                         <label for="end-time">종료시간</label>
-                        <input id="end-time" type="time" step="600" required value="00:00">
+                        <input id="end-time" type="time" step="600" required value="00:00" list="end-time-list">
+						<datalist id="end-time-list">
+							<option value="10:30"></option>
+							<option value="11:00"></option>
+							<option value="11:30"></option>
+							<option value="00:00"></option>
+							<option value="00:30"></option>
+							<option value="01:00"></option>
+							<option value="02:00"></option>
+							<option value="03:00"></option>
+						</datalist>
 					</div>
                 </div>
 				<div class="mb-3">
                     <div>
                         <label for="search-place">장소</label>
-                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list" @input=${e => { console.log('ok'); }}>
-                        <datalist id="place-list">
-                            <option value="onada">오나다</option>
-                            <option value="ocho">오초</option>
-                            <option value="otra">오뜨라</option>
-                        </datalist>
+                        <input id="search-place" type="search" placeholder="장소 검색" list="place-list">
+                        <datalist id="place-list"></datalist>
 					</div>
                 </div>
                 <div class="mb-3">
@@ -26929,6 +26962,21 @@ function goBack(e) {
             </form>
         </div>
 	`, document.getElementById('app'));
+
+	const db = getFirestore();
+	const placesQuery = query(
+		collection(db, `${"development"}.places`),
+		where('countryCode', '==', localStorage.getItem('country_code'))
+	);
+	getDocs(placesQuery)
+		.then(snap => {
+			const options = [];
+			snap.forEach(doc => {
+				const data = doc.data();
+				options.push(x$1`<option value="${data.name}"><img src="https://picsum.photos/100/100" class="size-6"> ${data.address}</option>`);
+			});
+			j(x$1`${options}`, document.getElementById('place-list'));
+		});
 };
 
 /**

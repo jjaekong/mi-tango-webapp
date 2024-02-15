@@ -207,12 +207,12 @@ export const AddMilongaEvent = async () => {
                 </div>
 				<div class="mb-3">
 					<label for="search-place">장소</label>
-					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" autocomplete="on" @input=${debounce(searchPlace, 500)}>
+					<input id="search-place" type="search" placeholder="장소 검색" list="place-list" @change=${debounce(searchPlace, 500)}>
 					<datalist id="place-list"></datalist>
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>
-					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" autocomplete="on" @input=${debounce(searchDJ, 500)}>
+					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list" @change=${debounce(searchDJ, 500)}>
 					<datalist id="dj-list">
 					</datalist>
                 </div>

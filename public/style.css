@@ -1084,12 +1084,21 @@ select {
   padding: 0.5rem;
 }
 
+.p-2\.5 {
+  padding: 0.625rem;
+}
+
 .p-3 {
   padding: 0.75rem;
 }
 
 .p-5 {
   padding: 1.25rem;
+}
+
+.\!px-0 {
+  padding-left: 0px !important;
+  padding-right: 0px !important;
 }
 
 .\!py-2 {
@@ -1255,7 +1264,7 @@ html, body {
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(99 102 241 / var(--tw-bg-opacity));
-  padding: 0.75rem;
+  padding: 0.625rem;
   text-align: center;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
@@ -1265,7 +1274,7 @@ html, body {
   border-radius: 0.5rem;
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
-  padding: 0.75rem;
+  padding: 0.625rem;
   text-align: center;
   --tw-text-opacity: 1;
   color: rgb(99 102 241 / var(--tw-text-opacity));

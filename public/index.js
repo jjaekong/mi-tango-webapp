@@ -27335,7 +27335,7 @@ function debounce(func, wait, options) {
 
 	async function searchPlace() {
 		// document.getElementById('search-place-details').open = false
-		j(T$1, document.getElementById('search-place-results'));
+		// render(nothing, document.getElementById('search-place-results'))
 		const keyword = document.getElementById('search-place-keyword');
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.");
@@ -27348,7 +27348,7 @@ function debounce(func, wait, options) {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		);
 		const snap = await getDocs(q);
-		// document.getElementById('search-place-details').open = true
+		document.getElementById('search-place-details').open = true;
 		console.log(snap);
 		if (snap.empty) {
 			j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
@@ -27362,17 +27362,31 @@ function debounce(func, wait, options) {
             });
             // console.log('results', results)
             if (results.length > 0) {
-                j(x$1`<ul class="mt-3">
+                j(x$1`<ul>
                     ${
                         results.map(result => {
                             const data = {
                                 id: result.id,
                                 ...result.data()
                             };
-                            return x$1`${data.name}`
+                            return x$1`
+								<li class="mt-3">
+									<label class="flex items-center !px-0">
+										<input type="radio" name="place">
+										<div class="ms-2">
+											<div>
+												<span>[${data.countryCode}]</span>
+												<span>${data.name}</span>
+												${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
+											</div>
+											${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
+										</div>
+									</label>
+								</li>`
                         })
                     }
-                </ul>`, document.getElementById('search-place-results'));
+                </ul>`,
+				document.getElementById('search-place-results'));
             } else {
                 j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
             }
@@ -27420,7 +27434,7 @@ function debounce(func, wait, options) {
 					<label for="poster-file">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
 					<div id="posters"></div>
-					<button type="button" class="text-indigo-500 p-3 bg-gray-200 w-full rounded-lg">포스터 업로드</button>
+					<button type="button" class="btn-secondary w-full">포스터 업로드</button>
                 </div>
                 <div class="mb-3">
 					<label for="name">이벤트명</label>
@@ -27459,7 +27473,7 @@ function debounce(func, wait, options) {
 				<div class="mb-3">
 					<label for="search-place-keyword">장소</label>
 					<div class="flex items-center">
-						<input id="search-place-keyword" type="search" placeholder="장소 검색">
+						<input id="search-place-keyword" type="search" placeholder="장소 검색" maxlength="30">
 						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
 					</div>
 					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">

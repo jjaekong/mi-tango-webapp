@@ -27274,7 +27274,6 @@ function debounce(func, wait, options) {
 		history.back();
 		return
 	}
-
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
 		milonga: {
@@ -27298,22 +27297,55 @@ function debounce(func, wait, options) {
 
 	function submitAddMilongaEvent(e) {
         e.preventDefault();
-		milongaEventData.date = document.getElementById('date').value;
-		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`);
-		const endAt = dayjs(`${milongaEventData.date} ${document.getElementById('end-time').value}`);
+		milongaEventData.date = document.forms['add-milonga-event-form'].elements['date'].value;
+		const startAt = dayjs(`${milongaEventData.date} ${document.forms['add-milonga-event-form'].elements['start-time'].value}`);
+		const endAt = dayjs(`${milongaEventData.date} ${document.forms['add-milonga-event-form'].elements['end-time'].value}`);
 		milongaEventData.startAt = startAt.toDate();
 		milongaEventData.endAt = startAt > endAt ? endAt.add(1, 'day').toDate() : endAt.toDate();
-		milongaEventData.entranceFee = document.getElementById('entrance-fee').value;
-		milongaEventData.description = document.getElementById('description').value;
-        milongaEventData.name = document.getElementById('name').value;
+		milongaEventData.entranceFee = document.forms['add-milonga-event-form'].elements['entrance-fee'].value;
+		milongaEventData.description = document.forms['add-milonga-event-form'].elements['description'].value;
+        milongaEventData.name = document.forms['add-milonga-event-form'].elements['name'].value;
 
 		console.log('event data ', milongaEventData);
-		console.log('place: ', document.forms["add-milonga-event-form"].elements['place'].value);
 		return;
     }
+
+    function selectPlace(data) {
+        milongaEventData.place = {
+            id: data.id,
+            name: data.name,
+            nameEn: data.nameEn || null,
+            logoURL: data.logoURL || null,
+            address: data.address || null,
+        };
+        document.getElementById('search-place-details').open = false;
+        document.getElementById('selected-place-details').open = true;
+        j(x$1`
+            <div class="flex items-center mt-3">
+                <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100" @click=${e => { unselectPlace(); }}>취소</button>
+                <div class="ms-3">
+                    <div>
+                        <span>${data.name}</span>
+                        ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
+                    </div>
+                    ${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
+                </div>
+            </div>
+        `, document.getElementById('selected-place-details'));
+    }
+
+    function unselectPlace() {
+        document.getElementById('search-place-details').open = false;
+        document.getElementById('selected-place-details').open = false;
+        j(T$1, document.getElementById('selected-place-details'));
+        milongaEventData.place = null;
+    }
+
 	async function searchPlace() {
 		document.getElementById('search-place-details').open = false;
+        document.getElementById('selected-place-details').open = false;
 		j(T$1, document.getElementById('search-place-results'));
+        milongaEventData.place = null;
 		const keyword = document.getElementById('search-place-keyword');
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.");
@@ -27343,16 +27375,16 @@ function debounce(func, wait, options) {
                             const data = { id: result.id, ...result.data() };
                             return x$1`
 								<li class="mt-3">
-									<label class="flex items-center !px-0">
-										<input type="radio" name="place" value=${data.id}>
-										<div class="ms-2">
+									<div class="flex items-center !px-0">
+										<div>
 											<div>
 												<span>${data.name}</span>
-												${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
+												${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
 											</div>
 											${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
 										</div>
-									</label>
+                                        <button type="button" class="ms-auto btn-primary !p-2 text-sm" @click=${e => { selectPlace(data); }}>선택</button>
+                                    </div>
 								</li>`
                         })
                     }
@@ -27363,6 +27395,7 @@ function debounce(func, wait, options) {
             }
 		}
 	}
+
 	async function searchDJ() {
 		document.getElementById('search-dj-details').open = false;
 		j(T$1, document.getElementById('search-dj-results'));
@@ -27395,16 +27428,13 @@ function debounce(func, wait, options) {
                             const data = { id: result.id, ...result.data() };
                             return x$1`
 								<li class="mt-3">
-									<label class="flex items-center !px-0">
-										<input type="checkbox" name="dj" value=${data.id}>
-										<div class="ms-2">
-											<div>
-												<span>${data.name}</span>
-												${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
-											</div>
-											${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
-										</div>
-									</label>
+                                    <div class="flex items-center">
+                                        <div>
+                                            <span>${data.name}</span>
+                                            ${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
+                                        </div>
+                                        <button type="button" class="btn-primary !py-2 text-sm ms-2 rounded-full">선택</button>
+                                    </div>
 								</li>`
                         })
                     }
@@ -27415,32 +27445,6 @@ function debounce(func, wait, options) {
             }
 		}
 	}
-
-	// async function searchDJ(e) {
-	// 	if (!e.target.value) return
-	// 	render(nothing, document.getElementById("dj-list"))
-	// 	const keyword = e.target.value.split('')
-	// 	console.log('keyword => ', keyword)
-	// 	const db = getFirestore()
-	// 	const q = query(
-	// 		collection(db, `${"development"}.djs`),
-	// 		where('nameArray', 'array-contains-any', keyword)
-	// 	)
-	// 	const snap = await getDocs(q)
-	// 	if (snap.empty) {
-	// 		render(nothing, document.getElementById('dj-list'))
-	// 	} else {
-	// 		render(html`${
-	// 			snap.docs.map(doc => {
-	// 				const data = {
-	// 					id: doc.id,
-	// 					...doc.data()
-	// 				}
-	// 				return html`<option value="${data.name}">${data.nationality}</option>`
-	// 			})
-	// 		}`, document.getElementById('dj-list'))
-	// 	}
-	// }
 
 	j(x$1`
 		<div class="add-milonga-event p-5">
@@ -27502,6 +27506,9 @@ function debounce(func, wait, options) {
 					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">
 						<summary class="text-sm">장소 검색결과</summary>
 						<div id="search-place-results"></div>
+					</details>
+                    <details id="selected-place-details" class="block mt-2 border bg-white rounded-lg p-3">
+						<summary class="text-sm">선택된 장소</summary>
 					</details>
                 </div>
                 <div class="mb-3">

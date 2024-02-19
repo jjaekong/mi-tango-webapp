@@ -23602,20 +23602,6 @@ function setDoc(e, t, n) {
 }
 
 /**
- * Add a new document to specified `CollectionReference` with the given data,
- * assigning it a document ID automatically.
- *
- * @param reference - A reference to the collection to add this document to.
- * @param data - An Object containing the data for the new document.
- * @returns A `Promise` resolved with a `DocumentReference` pointing to the
- * newly created document after it has been written to the backend (Note that it
- * won't resolve while you're offline).
- */ function addDoc(e, t) {
-    const n = __PRIVATE_cast(e.firestore, Firestore), r = doc(e), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t);
-    return executeWrite(n, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(e.firestore), "addDoc", r._key, i, null !== e.converter, {}).toMutation(r._key, Precondition.exists(!1)) ]).then((() => r));
-}
-
-/**
  * Locally writes `mutations` on the async queue.
  * @internal
  */ function executeWrite(e, t) {
@@ -27310,7 +27296,7 @@ function debounce(func, wait, options) {
 		createdBy: currentUser.email
 	};
 
-	function addMilongaEvent(e) {
+	function submitAddMilongaEvent(e) {
         e.preventDefault();
 		milongaEventData.date = document.getElementById('date').value;
 		const startAt = dayjs(`${milongaEventData.date} ${document.getElementById('start-time').value}`);
@@ -27322,20 +27308,12 @@ function debounce(func, wait, options) {
         milongaEventData.name = document.getElementById('name').value;
 
 		console.log('event data ', milongaEventData);
-
-		const db = getFirestore();
-		addDoc(collection(db, `${"development"}.milonga_events`), milongaEventData)
-			.then(milongaEventRef => {
-				location.replace(`#milonga_event/${milongaEventRef.id}`);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		console.log('place: ', document.forms["add-milonga-event-form"].elements['place'].value);
+		return;
     }
-
 	async function searchPlace() {
-		// document.getElementById('search-place-details').open = false
-		// render(nothing, document.getElementById('search-place-results'))
+		document.getElementById('search-place-details').open = false;
+		j(T$1, document.getElementById('search-place-results'));
 		const keyword = document.getElementById('search-place-keyword');
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.");
@@ -27351,13 +27329,10 @@ function debounce(func, wait, options) {
 		document.getElementById('search-place-details').open = true;
 		console.log(snap);
 		if (snap.empty) {
-			j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
 		} else {
             const results = snap.docs.filter(doc => {
-                const data = {
-                    id: doc.id,
-                    ...doc.data()
-                };
+                const data = { id: doc.id, ...doc.data() };
                 return data.name.indexOf(keyword.value) > -1
             });
             // console.log('results', results)
@@ -27365,17 +27340,13 @@ function debounce(func, wait, options) {
                 j(x$1`<ul>
                     ${
                         results.map(result => {
-                            const data = {
-                                id: result.id,
-                                ...result.data()
-                            };
+                            const data = { id: result.id, ...result.data() };
                             return x$1`
 								<li class="mt-3">
 									<label class="flex items-center !px-0">
-										<input type="radio" name="place">
+										<input type="radio" name="place" value=${data.id}>
 										<div class="ms-2">
 											<div>
-												<span>[${data.countryCode}]</span>
 												<span>${data.name}</span>
 												${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
 											</div>
@@ -27388,7 +27359,59 @@ function debounce(func, wait, options) {
                 </ul>`,
 				document.getElementById('search-place-results'));
             } else {
-                j(x$1`<p>검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+                j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+            }
+		}
+	}
+	async function searchDJ() {
+		document.getElementById('search-dj-details').open = false;
+		j(T$1, document.getElementById('search-dj-results'));
+		const keyword = document.getElementById('search-dj-keyword');
+		if (!keyword.value) {
+			alert("검색어를 입력하세요.");
+			keyword.focus();
+			return
+		}
+		const db = getFirestore();
+		const q = query(
+			collection(db, `${"development"}.djs`),
+			where('nameToArray', 'array-contains-any', keyword.value.split(""))
+		);
+		const snap = await getDocs(q);
+		document.getElementById('search-dj-details').open = true;
+		console.log(snap);
+		if (snap.empty) {
+			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'));
+		} else {
+            const results = snap.docs.filter(doc => {
+                const data = { id: doc.id, ...doc.data() };
+                return data.name.indexOf(keyword.value) > -1
+            });
+            // console.log('results', results)
+            if (results.length > 0) {
+                j(x$1`<ul>
+                    ${
+                        results.map(result => {
+                            const data = { id: result.id, ...result.data() };
+                            return x$1`
+								<li class="mt-3">
+									<label class="flex items-center !px-0">
+										<input type="checkbox" name="dj" value=${data.id}>
+										<div class="ms-2">
+											<div>
+												<span>${data.name}</span>
+												${ data.nameEn ? x$1`<span>${data.nameEn}</span>` : T$1 }
+											</div>
+											${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
+										</div>
+									</label>
+								</li>`
+                        })
+                    }
+                </ul>`,
+				document.getElementById('search-dj-results'));
+            } else {
+                j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'));
             }
 		}
 	}
@@ -27429,7 +27452,7 @@ function debounce(func, wait, options) {
 				<div class="flex-1"><h1 class="font-bold text-center">이벤트 추가</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-            <form name="add-milonga-event-form" @submit=${addMilongaEvent}>
+            <form name="add-milonga-event-form" @submit=${submitAddMilongaEvent}>
                 <div class="mb-3">
 					<label for="poster-file">포스터</label>
 					<input type="file" class="hidden" id="poster-file">
@@ -27483,8 +27506,14 @@ function debounce(func, wait, options) {
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>
-					<input id="search-dj" type="search" placeholder="DJ 검색" list="dj-list">
-					<details id="dj-list"></details>
+					<div class="flex items-center">
+						<input id="search-dj-keyword" type="search" placeholder="DJ 검색" maxlength="30">
+						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchDJ}>검색</button>
+					</div>
+					<details id="search-dj-details" class="block mt-2 border bg-white rounded-lg p-3">
+						<summary class="text-sm">DJ 검색결과</summary>
+						<div id="search-dj-results"></div>
+					</details>
                 </div>
 				<div class="mb-3">
 					<label for="entrance-fee">입장료</label>

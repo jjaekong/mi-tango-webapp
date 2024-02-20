@@ -93,7 +93,7 @@ export const AddMilongaEvent = async () => {
         milongaEventData.name = document.forms['add-milonga-event-form'].elements['name'].value
 
 		console.log('event data ', milongaEventData)
-		return;
+		// return;
 
 		const db = getFirestore()
 		addDoc(collection(db, `${process.env.MODE}.milonga_events`), milongaEventData)
@@ -113,13 +113,11 @@ export const AddMilongaEvent = async () => {
             logoURL: data.logoURL || null,
             address: data.address || null,
         }
-        document.getElementById('search-place-details').open = false
-        document.getElementById('selected-place-details').open = true
         render(html`
             <div class="flex items-center mt-3">
-                <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100" @click=${e => { unselectPlace() }}>취소</button>
-                <div class="ms-3">
-                    <div>
+                <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectPlace() }}>취소</button>
+                <div class="ms-2">
+                    <div class="text-sm">
                         <span>${data.name}</span>
                         ${ data.nameEn ? html`<span>(${data.nameEn})</span>` : nothing }
                     </div>
@@ -130,15 +128,11 @@ export const AddMilongaEvent = async () => {
     }
 
     function unselectPlace() {
-        document.getElementById('search-place-details').open = false
-        document.getElementById('selected-place-details').open = false
         render(nothing, document.getElementById('selected-place-details'))
         milongaEventData.place = null
     }
 
 	async function searchPlace() {
-		document.getElementById('search-place-details').open = false
-        document.getElementById('selected-place-details').open = false
 		render(nothing, document.getElementById('search-place-results'))
         milongaEventData.place = null
 		const keyword = document.getElementById('search-place-keyword')
@@ -153,7 +147,6 @@ export const AddMilongaEvent = async () => {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		)
 		const snap = await getDocs(q)
-		document.getElementById('search-place-details').open = true
 		console.log(snap)
 		if (snap.empty) {
 			render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'))
@@ -164,26 +157,25 @@ export const AddMilongaEvent = async () => {
             })
             // console.log('results', results)
             if (results.length > 0) {
-                render(html`<ul>
+                render(html`
                     ${
                         results.map(result => {
                             const data = { id: result.id, ...result.data() }
                             return html`
-								<li class="mt-3">
-									<div class="flex items-center !px-0">
-										<div>
-											<div>
-												<span>${data.name}</span>
-												${ data.nameEn ? html`<span>(${data.nameEn})</span>` : nothing }
-											</div>
-											${ data.address ? html`<div class="text-xs text-slate-500">${data.address}</div>` : nothing }
-										</div>
-                                        <button type="button" class="ms-auto btn-primary !p-2 text-sm" @click=${e => { selectPlace(data) }}>선택</button>
+                                <div class="flex items-center !px-0 mt-3">
+                                    <div class="me-2">
+                                        <div class="text-sm">
+                                            <span>${data.name}</span>
+                                            ${ data.nameEn ? html`<span>(${data.nameEn})</span>` : nothing }
+                                        </div>
+                                        ${ data.address ? html`<div class="text-xs text-slate-500">${data.address}</div>` : nothing }
                                     </div>
-								</li>`
+                                    <button type="button" class="ms-auto btn-primary !p-2 text-sm flex-none" @click=${e => { selectPlace(data) }}>선택</button>
+                                </div>
+							`
                         })
                     }
-                </ul>`,
+                `,
 				document.getElementById('search-place-results'))
             } else {
                 render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'))
@@ -191,9 +183,31 @@ export const AddMilongaEvent = async () => {
 		}
 	}
 
+    function selectDJ(data) {
+        milongaEventData.djs.push({
+            id: data.id,
+            name: data.name,
+            nameEn: data.nameEn || null,
+            photoURL: data.photoURL || null
+        })
+        render(html`
+            ${
+                milongaEventData.djs.map(dj => {
+                    return html`
+                        <div class="flex items-center mt-3">
+                            <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectDJ() }}>취소</button>
+                            <div class="ms-2 text-sm">
+                                <span>${dj.name}</span>
+                                ${ dj.nameEn ? html`<span>(${dj.nameEn})</span>` : nothing }
+                            </div>
+                        </div>
+                    `
+                })
+            }
+        `, document.getElementById('selected-dj-details'))
+    }
+
 	async function searchDJ() {
-		document.getElementById('search-dj-details').open = false
-		render(nothing, document.getElementById('search-dj-results'))
 		const keyword = document.getElementById('search-dj-keyword')
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.")
@@ -206,7 +220,6 @@ export const AddMilongaEvent = async () => {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		)
 		const snap = await getDocs(q)
-		document.getElementById('search-dj-details').open = true
 		console.log(snap)
 		if (snap.empty) {
 			render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'))
@@ -217,23 +230,22 @@ export const AddMilongaEvent = async () => {
             })
             // console.log('results', results)
             if (results.length > 0) {
-                render(html`<ul>
+                render(html`
                     ${
                         results.map(result => {
                             const data = { id: result.id, ...result.data() }
                             return html`
-								<li class="mt-3">
-                                    <div class="flex items-center">
-                                        <div>
-                                            <span>${data.name}</span>
-                                            ${ data.nameEn ? html`<span>${data.nameEn}</span>` : nothing }
-                                        </div>
-                                        <button type="button" class="btn-primary !py-2 text-sm ms-2 rounded-full">선택</button>
+                                <div class="flex items-center mt-3">
+                                    <div class="me-2 text-sm">
+                                        <span>${data.name}</span>
+                                        ${ data.nameEn ? html`<span>(${data.nameEn})</span>` : nothing }
                                     </div>
-								</li>`
+                                    <button type="button" class="btn-primary !p-2 text-sm ms-auto rounded-full flex-none" @click=${e => { selectDJ(data) }}>선택</button>
+                                </div>
+							`
                         })
                     }
-                </ul>`,
+                `,
 				document.getElementById('search-dj-results'))
             } else {
                 render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'))
@@ -298,12 +310,11 @@ export const AddMilongaEvent = async () => {
 						<input id="search-place-keyword" type="search" placeholder="장소 검색" maxlength="30">
 						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
 					</div>
-					<details id="search-place-details" class="block mt-2 border bg-white rounded-lg p-3">
+					<details id="search-place-results" class="mt-2 border bg-white rounded-lg p-3" open>
 						<summary class="text-sm">장소 검색결과</summary>
-						<div id="search-place-results"></div>
 					</details>
-                    <details id="selected-place-details" class="block mt-2 border bg-white rounded-lg p-3">
-						<summary class="text-sm">선택된 장소</summary>
+                    <details id="selected-place-details" class="mt-2 border border-slate-300 bg-white rounded-lg p-3" open>
+						<summary class="text-sm">선택한 장소</summary>
 					</details>
                 </div>
                 <div class="mb-3">
@@ -312,9 +323,11 @@ export const AddMilongaEvent = async () => {
 						<input id="search-dj-keyword" type="search" placeholder="DJ 검색" maxlength="30">
 						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchDJ}>검색</button>
 					</div>
-					<details id="search-dj-details" class="block mt-2 border bg-white rounded-lg p-3">
+					<details id="search-dj-results" class="mt-2 border bg-white rounded-lg p-3" open>
 						<summary class="text-sm">DJ 검색결과</summary>
-						<div id="search-dj-results"></div>
+					</details>
+                    <details id="selected-dj-details" class="mt-2 border border-slate-300 bg-white rounded-lg p-3" open>
+						<summary class="text-sm">선택한 DJ</summary>
 					</details>
                 </div>
 				<div class="mb-3">

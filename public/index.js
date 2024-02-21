@@ -23693,7 +23693,7 @@ function setDoc(e, t, n) {
                 ${
                     data.djs.length > 0
                         ? x$1`
-                            <dl class="inline-flex items-center text-sm text-slate-500">
+                            <dl class="inline-flex items-center text-sm text-slate-500 me-1">
                                 <dt class="me-1">${HeadphonesIcon({ classList: 'size-4' })}</dt>
                                 ${data.djs.map(dj => x$1`<dd class="before:content-[', ']">${dj.name}</dd>`)}
                             </dl>`
@@ -23702,7 +23702,7 @@ function setDoc(e, t, n) {
                 ${
                     data.place
                         ? x$1`
-                            <dl class="inline-flex items-center text-sm text-slate-500">
+                            <dl class="inline-flex items-center text-sm text-slate-500 me-1">
                                 <dt class="me-1">${AtSymbolIcon({ classList: 'size-4' })}</dt>
                                 <dd>${ data.place.name }</dd>
                             </dl>`

@@ -23669,11 +23669,49 @@ function setDoc(e, t, n) {
     }), "PUBLIC").setMultipleInstances(!0)), registerVersion(w, "4.4.1", e), 
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     registerVersion(w, "4.4.1", "esm2017");
-}();const TodayMilongas = async () => {
-	
-	const milongaEvents = [];
-	
-	console.log(dayjs().add(-6, 'hour'));
+}();const MilongaEventItem = (data) => {
+    console.log('data => ', data);
+    const datetime = dayjs(data.startAt*1000);
+    return x$1`
+        <a href="#milonga_event/${data.id}" class="flex w-100 items-center">
+            <div class="self-start">
+                <time class="flex flex-col lang:ko:flex-col-reverse rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+                    <span class="font-bold">
+                        ${
+                            datetime.format('m') > 0 ? datetime.format('h:m') : datetime.format('h')
+                        }
+                    </span>
+                    <span class="text-slate-400 text-xs">${datetime.locale('en').format('a').toUpperCase()}</span>
+                </time>
+            </div>
+            <div class="mx-3">
+                <h6 class="font-semibold">${data.name}</h6>
+				<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
+					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
+					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
+				</ul> -->
+                ${
+                    data.djs.length > 0
+                        ? x$1`
+                            <dl class="inline-flex items-center text-sm text-slate-500">
+                                <dt class="me-1">${HeadphonesIcon({ classList: 'size-4' })}</dt>
+                                ${data.djs.map(dj => x$1`<dd class="before:content-[', ']">${dj.name}</dd>`)}
+                            </dl>`
+                        : nothing
+                }
+                ${
+                    data.place
+                        ? x$1`
+                            <dl class="inline-flex items-center text-sm text-slate-500">
+                                <dt class="me-1">${AtSymbolIcon({ classList: 'size-4' })}</dt>
+                                <dd>${ data.place.name }</dd>
+                            </dl>`
+                        : nothing
+                }
+            </div>
+        </a>
+    `
+};const TodayMilongas = async () => {
 	
 	const countryCode = localStorage.getItem('country_code');
 	const db = getFirestore();
@@ -23683,33 +23721,6 @@ function setDoc(e, t, n) {
 		where('date', '==', dayjs().add(-6, 'hour').format('YYYY-MM-DD')),
 	);
 	const snap = await getDocs(q);
-	// console.log('snap', snap)
-
-	snap.forEach(doc => {
-		const data = doc.data();
-		milongaEvents.push(x$1`
-			<li class="mt-3">
-				<a href="#milonga_event/${doc.id}" class="flex w-100 items-center">
-					<div class="self-start">
-						<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-							<span class="font-bold">8</span>
-							<span class="text-slate-400 text-xs">PM</span>
-						</time>
-					</div>
-					<div class="mx-3">
-						<h6 class="font-bold">${data.name}</h6>
-						<ul class="inline-flex flex-wrap text-slate-500 text-sm">
-							<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
-							<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
-						</ul>
-					</div>
-					<div class="ms-auto self-start">
-						<img class="block size-14 rounded-xl" src="https://picsum.photos/100/100">
-					</div>
-				</a>
-			</li>
-		`);
-	});
 
 	return x$1`
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
@@ -23719,8 +23730,19 @@ function setDoc(e, t, n) {
 			</header>
 			${
 				snap.empty
-					? x$1`<p>오늘은 밀롱가가 없어요</p>`
-					: x$1`<ul>${milongaEvents}</ul>`
+					? x$1`<p class="text-slate-500">오늘은 밀롱가가 없어요</p>`
+					: x$1`
+                        <ul>
+                            ${
+                                snap.docs.map(doc => x$1`<li class="mb-3">
+                                    ${
+                                        MilongaEventItem({
+                                            id: doc.id, ...doc.data()
+                                        })
+                                    }
+                                </li>`)
+                            }
+                        </ul>`
 			}
 			<a href="#all_milonga_events" class="block border-t py-4 text-slate-500 text-center mt-4 p-5 -mb-5">전체 밀롱가 이벤트 보기</a>
 		</section>
@@ -26678,40 +26700,6 @@ const hasPermitToEditMilonga = async (milongaData) => {
         where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
 	);
 	const milongaEventsSnap = await getDocs(milongaEventsQuery);
-	const milongaEventsBody = milongaEventsSnap.empty
-		? x$1`<p class="text-slate-500">등록된 밀롱가 이벤트가 없습니다.</p>`
-		: x$1`<ul>${
-			milongaEventsSnap.docs.map(doc => {
-				const data = doc.data();
-				console.log('data', data);
-				return x$1`
-					<li>
-						<a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
-							<div class="self-start">
-								${
-									data.posters?.length > 0
-										? x$1`<img class="block size-14 bg-slate-100 rounded-xl" src="${data.posters[0]}">`
-										: x$1`<div class="size-14 bg-slate-100 rounded-xl"></div>`
-								}    
-							</div>
-							<div class="px-3">
-								<h6 class="font-bold">${data.name}</h6>
-                                <time class="text-sm text-slate-500">${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
-								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
-									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
-									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
-								</ul> -->
-                                ${
-                                    data.djs.length > 0
-                                        ? x$1`EXIST`
-                                        : T$1
-                                }
-							</div>
-						</a>
-					</li>
-				`
-			})
-		}</ul>`;
 
 	j((x$1`
         <div class="milonga p-5" role="document">
@@ -26735,7 +26723,10 @@ const hasPermitToEditMilonga = async (milongaData) => {
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
                 </header>
-				${milongaEventsBody}
+				${  milongaEventsSnap.empty
+                        ? x$1`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
+                        : milongaEventsSnap.docs.map(doc => MilongaEventItem({ id: doc.id, ...doc.data() }))
+                }
             </section>
         </div>
 	`), document.getElementById('app'));

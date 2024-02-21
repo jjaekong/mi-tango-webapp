@@ -33,40 +33,6 @@ export const Milonga = async () => {
         where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
 	)
 	const milongaEventsSnap = await getDocs(milongaEventsQuery)
-	const milongaEventsBody = milongaEventsSnap.empty
-		? html`<p class="text-slate-500">등록된 밀롱가 이벤트가 없습니다.</p>`
-		: html`<ul>${
-			milongaEventsSnap.docs.map(doc => {
-				const data = doc.data()
-				console.log('data', data)
-				return html`
-					<li>
-						<a href=#milonga_event/${doc.id} class="mt-3 flex items-center">
-							<div class="self-start">
-								${
-									data.posters?.length > 0
-										? html`<img class="block size-14 bg-slate-100 rounded-xl" src="${data.posters[0]}">`
-										: html`<div class="size-14 bg-slate-100 rounded-xl"></div>`
-								}    
-							</div>
-							<div class="px-3">
-								<h6 class="font-bold">${data.name}</h6>
-                                <time class="text-sm text-slate-500">${dayjs(data.startAt.seconds*1000).format("MMM Do dddd, a h:mm")}</time>
-								<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
-									<li class="me-1 inline-flex items-center">${ HeadphonesIcon({classList: 'size-4 me-1' }) }시스루</li>
-									<li class="me-1 inline-flex items-center">${ AtSymbolIcon({classList: 'size-4 me-1' }) }오나다</li>
-								</ul> -->
-                                ${
-                                    data.djs.length > 0
-                                        ? html`EXIST`
-                                        : nothing
-                                }
-							</div>
-						</a>
-					</li>
-				`
-			})
-		}</ul>`
 
 	render((html`
         <div class="milonga p-5" role="document">
@@ -90,7 +56,10 @@ export const Milonga = async () => {
                 <header class="mb-5 flex items-center justify-between">
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
                 </header>
-				${milongaEventsBody}
+				${  milongaEventsSnap.empty
+                        ? html`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
+                        : milongaEventsSnap.docs.map(doc => MilongaEventItem({ id: doc.id, ...doc.data() }))
+                }
             </section>
         </div>
 	`), document.getElementById('app'))

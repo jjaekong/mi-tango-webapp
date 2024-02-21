@@ -44,3 +44,7 @@ div.form-help {
 div.form-help + div.form-help {
 	@apply mt-1
 }
+
+.no-data {
+    @apply text-slate-500 text-center
+}

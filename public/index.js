@@ -27288,6 +27288,7 @@ function debounce(func, wait, options) {
 		history.back();
 		return
 	}
+
 	const milongaEventData = {
 		countryCode: localStorage.getItem('country_code'),
 		milonga: {
@@ -27333,6 +27334,22 @@ function debounce(func, wait, options) {
 			});
     }
 
+	function placeItem(data, selected = false) {
+		return x$1`
+			<div class="flex items-center mt-3">
+				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectPlace(); }}>취소</button>` : T$1 }
+                <div class="ms-2">
+                    <div class="text-sm">
+                        <span>${data.name}</span>
+                        ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
+                    </div>
+                    ${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
+                </div>
+				${ selected ? T$1 : x$1`<button type="button" class="ms-auto btn-primary !p-2 text-sm flex-none" @click=${e => { selectPlace(data); }}>선택</button>` }
+            </div>
+		`
+	}
+
     function selectPlace(data) {
         milongaEventData.place = {
             id: data.id,
@@ -27341,18 +27358,7 @@ function debounce(func, wait, options) {
             logoURL: data.logoURL || null,
             address: data.address || null,
         };
-        j(x$1`
-            <div class="flex items-center mt-3">
-                <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectPlace(); }}>취소</button>
-                <div class="ms-2">
-                    <div class="text-sm">
-                        <span>${data.name}</span>
-                        ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
-                    </div>
-                    ${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
-                </div>
-            </div>
-        `, document.getElementById('selected-place-details'));
+        j(placeItem(data, true), document.getElementById('selected-place-details'));
     }
 
     function unselectPlace() {
@@ -27361,8 +27367,8 @@ function debounce(func, wait, options) {
     }
 
 	async function searchPlace() {
+		milongaEventData.place = null;
 		j(T$1, document.getElementById('search-place-results'));
-        milongaEventData.place = null;
 		const keyword = document.getElementById('search-place-keyword');
 		if (!keyword.value) {
 			alert("검색어를 입력하세요.");
@@ -27375,64 +27381,49 @@ function debounce(func, wait, options) {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		);
 		const snap = await getDocs(q);
-		console.log(snap);
-		if (snap.empty) {
-			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+		const results = snap.docs.filter(doc => {
+			const data = { id: doc.id, ...doc.data() };
+			return data.name.indexOf(keyword.value) > -1
+		});
+		if (results.length > 0) {
+			j(results.map(result => placeItem({ id: result.id, ...result.data() }, false)), document.getElementById('search-place-results'));
 		} else {
-            const results = snap.docs.filter(doc => {
-                const data = { id: doc.id, ...doc.data() };
-                return data.name.indexOf(keyword.value) > -1
-            });
-            // console.log('results', results)
-            if (results.length > 0) {
-                j(x$1`
-                    ${
-                        results.map(result => {
-                            const data = { id: result.id, ...result.data() };
-                            return x$1`
-                                <div class="flex items-center !px-0 mt-3">
-                                    <div class="me-2">
-                                        <div class="text-sm">
-                                            <span>${data.name}</span>
-                                            ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
-                                        </div>
-                                        ${ data.address ? x$1`<div class="text-xs text-slate-500">${data.address}</div>` : T$1 }
-                                    </div>
-                                    <button type="button" class="ms-auto btn-primary !p-2 text-sm flex-none" @click=${e => { selectPlace(data); }}>선택</button>
-                                </div>
-							`
-                        })
-                    }
-                `,
-				document.getElementById('search-place-results'));
-            } else {
-                j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
-            }
+			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
 		}
 	}
 
+	function djItem(data, selected = false) {
+		return x$1`
+			<div class="flex items-center mt-3">
+				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectDJ(data.id); }}>취소</button>` : T$1 }
+				<div class="ms-2 text-sm">
+					<span>${data.name}</span>
+					${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
+				</div>
+				${ selected ? T$1 : x$1`<button type="button" class="btn-primary !p-2 text-sm ms-auto rounded-full flex-none" @click=${e => { selectDJ(data); }}>선택</button>` }
+			</div>
+		`
+	}
+
+	function unselectDJ(djId) {
+		const findIndex = milongaEventData.djs.findIndex(dj => dj.id === djId);
+		milongaEventData.djs.splice(findIndex, 1);
+		j(milongaEventData.djs.map(dj => djItem(dj, true)), document.getElementById('selected-dj-details'));
+	}
+
     function selectDJ(data) {
+		const findIndex = milongaEventData.djs.findIndex(dj => dj.id === data.id);
+		if (findIndex > -1) {
+			alert('이미 추가한 DJ입니다.');
+			return
+		}
         milongaEventData.djs.push({
             id: data.id,
             name: data.name,
             nameEn: data.nameEn || null,
             photoURL: data.photoURL || null
         });
-        j(x$1`
-            ${
-                milongaEventData.djs.map(dj => {
-                    return x$1`
-                        <div class="flex items-center mt-3">
-                            <button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectDJ(); }}>취소</button>
-                            <div class="ms-2 text-sm">
-                                <span>${dj.name}</span>
-                                ${ dj.nameEn ? x$1`<span>(${dj.nameEn})</span>` : T$1 }
-                            </div>
-                        </div>
-                    `
-                })
-            }
-        `, document.getElementById('selected-dj-details'));
+        j(milongaEventData.djs.map(dj => djItem(dj, true)) , document.getElementById('selected-dj-details'));
     }
 
 	async function searchDJ() {
@@ -27448,36 +27439,14 @@ function debounce(func, wait, options) {
 			where('nameToArray', 'array-contains-any', keyword.value.split(""))
 		);
 		const snap = await getDocs(q);
-		console.log(snap);
-		if (snap.empty) {
-			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'));
+		const results = snap.docs.filter(doc => {
+			const data = { id: doc.id, ...doc.data() };
+			return data.name.indexOf(keyword.value) > -1
+		});
+		if (results.length > 0) {
+			j(results.map(result => djItem({ id: result.id, ...result.data() }, false)), document.getElementById('search-dj-results'));
 		} else {
-            const results = snap.docs.filter(doc => {
-                const data = { id: doc.id, ...doc.data() };
-                return data.name.indexOf(keyword.value) > -1
-            });
-            // console.log('results', results)
-            if (results.length > 0) {
-                j(x$1`
-                    ${
-                        results.map(result => {
-                            const data = { id: result.id, ...result.data() };
-                            return x$1`
-                                <div class="flex items-center mt-3">
-                                    <div class="me-2 text-sm">
-                                        <span>${data.name}</span>
-                                        ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
-                                    </div>
-                                    <button type="button" class="btn-primary !p-2 text-sm ms-auto rounded-full flex-none" @click=${e => { selectDJ(data); }}>선택</button>
-                                </div>
-							`
-                        })
-                    }
-                `,
-				document.getElementById('search-dj-results'));
-            } else {
-                j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'));
-            }
+			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-dj-results'));
 		}
 	}
 

@@ -23691,13 +23691,13 @@ function setDoc(e, t, n) {
 					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
 				</ul> -->
                 ${
-                    data.djs.length > 0
+                    data.djs?.length > 0
                         ? x$1`
                             <dl class="inline-flex items-center text-sm text-slate-500 me-1">
                                 <dt class="me-1">${HeadphonesIcon({ classList: 'size-4' })}</dt>
                                 ${data.djs.map(dj => x$1`<dd class="before:content-[', ']">${dj.name}</dd>`)}
                             </dl>`
-                        : nothing
+                        : T$1
                 }
                 ${
                     data.place
@@ -23706,7 +23706,7 @@ function setDoc(e, t, n) {
                                 <dt class="me-1">${AtSymbolIcon({ classList: 'size-4' })}</dt>
                                 <dd>${ data.place.name }</dd>
                             </dl>`
-                        : nothing
+                        : T$1
                 }
             </div>
         </a>

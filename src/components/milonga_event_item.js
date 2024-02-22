@@ -1,4 +1,4 @@
-import { html } from "lit-html"
+import { html, nothing } from "lit-html"
 import { AtSymbolIcon, HashtagIcon, HeadphonesIcon } from "../icons"
 import dayjs from "dayjs/esm"
 
@@ -24,7 +24,7 @@ export const MilongaEventItem = (data) => {
 					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
 				</ul> -->
                 ${
-                    data.djs.length > 0
+                    data.djs?.length > 0
                         ? html`
                             <dl class="inline-flex items-center text-sm text-slate-500 me-1">
                                 <dt class="me-1">${HeadphonesIcon({ classList: 'size-4' })}</dt>

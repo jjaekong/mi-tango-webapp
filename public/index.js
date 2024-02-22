@@ -9128,10 +9128,6 @@ const FacebookLogoIcon = () => x$1`<svg xmlns="http://www.w3.org/2000/svg" width
 <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951"/>
 </svg>`;
 
-const HashtagIcon =  (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="${props.classList}">
-<path stroke-linecap="round" stroke-linejoin="round" d="M5.25 8.25h15m-16.5 7.5h15m-1.8-13.5-3.9 19.5m-2.1-19.5-3.9 19.5" />
-</svg>`;
-
 const CalendarDaysSolidIcon = (props = { classList: 'w-6 h-6'}) => x$1`<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" class="${props.classList}">
 <path d="M12.75 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM7.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM8.25 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM9.75 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM10.5 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM12 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM12.75 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM14.25 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 17.25a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 15.75a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5ZM15 12.75a.75.75 0 1 1-1.5 0 .75.75 0 0 1 1.5 0ZM16.5 13.5a.75.75 0 1 0 0-1.5.75.75 0 0 0 0 1.5Z" />
 <path fill-rule="evenodd" d="M6.75 2.25A.75.75 0 0 1 7.5 3v1.5h9V3A.75.75 0 0 1 18 3v1.5h.75a3 3 0 0 1 3 3v11.25a3 3 0 0 1-3 3H5.25a3 3 0 0 1-3-3V7.5a3 3 0 0 1 3-3H6V3a.75.75 0 0 1 .75-.75Zm13.5 9a1.5 1.5 0 0 0-1.5-1.5H5.25a1.5 1.5 0 0 0-1.5 1.5v7.5a1.5 1.5 0 0 0 1.5 1.5h13.5a1.5 1.5 0 0 0 1.5-1.5v-7.5Z" clip-rule="evenodd" />
@@ -23671,25 +23667,27 @@ function setDoc(e, t, n) {
     registerVersion(w, "4.4.1", "esm2017");
 }();const MilongaEventItem = (data) => {
     console.log('data => ', data);
-    const datetime = dayjs(data.startAt*1000);
+    const startTime = dayjs(data.startAt.seconds*1000);
+	const endTime = dayjs(data.endAt.seconds*1000);
     return x$1`
         <a href="#milonga_event/${data.id}" class="flex w-100 items-center">
             <div class="self-start">
-                <time class="flex flex-col lang:ko:flex-col-reverse rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-                    <span class="font-bold">
-                        ${
-                            datetime.format('m') > 0 ? datetime.format('h:m') : datetime.format('h')
-                        }
-                    </span>
-                    <span class="text-slate-400 text-xs">${datetime.locale('en').format('a').toUpperCase()}</span>
-                </time>
+				${
+					startTime < dayjs().add(-2, 'hour')
+						? x$1`
+							<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+								<span class="font-bold">${ endTime.format('m') > 0 ? endTime.format('h:m') : endTime.format('h') }</span>
+								<span class="text-slate-400 text-xs">${endTime.locale('en').format('a').toUpperCase()}</span>
+							</time>`
+						: x$1`
+							<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+								<span class="font-bold">${ startTime.format('m') > 0 ? startTime.format('h:m') : startTime.format('h') }</span>
+								<span class="text-slate-400 text-xs">${startTime.locale('en').format('a').toUpperCase()}</span>
+							</time>`
+				}
             </div>
             <div class="mx-3">
                 <h6 class="font-semibold">${data.name}</h6>
-				<!-- <ul class="inline-flex flex-wrap text-slate-500 text-sm">
-					<li class="me-1 inline-flex items-center"><span class="me-1">${ HeadphonesIcon({classList: 'size-4' }) }</span>시스루</li>
-					<li class="me-1 inline-flex items-center"><span class="">${ HashtagIcon({classList: 'size-4' }) }</span>예약가능</li>
-				</ul> -->
                 ${
                     data.djs?.length > 0
                         ? x$1`

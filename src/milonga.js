@@ -58,7 +58,12 @@ export const Milonga = async () => {
                 </header>
 				${  milongaEventsSnap.empty
                         ? html`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
-                        : milongaEventsSnap.docs.map(doc => MilongaEventItem({ id: doc.id, ...doc.data() }))
+                        : html`
+                            <ul>
+                                ${
+                                    milongaEventsSnap.docs.map(doc => html`<li class="mt-3">${ MilongaEventItem({ id: doc.id, ...doc.data() }) }</li>`)
+                                }
+                            </ul>`
                 }
             </section>
         </div>

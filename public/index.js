@@ -26723,7 +26723,12 @@ const hasPermitToEditMilonga = async (milongaData) => {
                 </header>
 				${  milongaEventsSnap.empty
                         ? x$1`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
-                        : milongaEventsSnap.docs.map(doc => MilongaEventItem({ id: doc.id, ...doc.data() }))
+                        : x$1`
+                            <ul>
+                                ${
+                                    milongaEventsSnap.docs.map(doc => x$1`<li class="mt-3">${ MilongaEventItem({ id: doc.id, ...doc.data() }) }</li>`)
+                                }
+                            </ul>`
                 }
             </section>
         </div>
@@ -27573,22 +27578,24 @@ function debounce(func, wait, options) {
 	const q = query(
 		collection(db, `${"development"}.milonga_events`),
 		where('countryCode', '==', localStorage.getItem('country_code')),
+        where('startAt', '>', dayjs().hour(6).toDate()),
 		orderBy('startAt')
 	);
 	const qSnap = await getDocs(q);
-	console.log(qSnap);
-	// qSnap.forEach(doc => {
-	// 	console.log(doc.data())
-	// })
+	// console.log(qSnap)
+	// // qSnap.forEach(doc => {
+	// // 	console.log(doc.data())
+	// // })
 	
 	j(x$1`
 		<div class="p-5">
-			<ul>${
-				qSnap.docs.map(doc => {
-					const data = doc.data();
-					return x$1`<li><a class="underline" href="#milonga_event/${doc.id}">${data.name}</a></li>`
-				})
-			}</ul>
+            <ul>
+                ${
+                    qSnap.docs.map(doc => {
+                        return x$1`<li class="bg-white mt-3 p-3 rounded-xl">${ MilongaEventItem({ id: doc.id, ...doc.data() }) }</li>`
+                    })
+                }
+            </ul>
 		</div>
 	`, document.getElementById('app'));
 };const AllDJs = async () => {

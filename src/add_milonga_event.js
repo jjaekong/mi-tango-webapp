@@ -119,7 +119,6 @@ export const AddMilongaEvent = async () => {
 		}
 
 		console.log('event data ', milongaEventData)
-		return;
 
 		const db = getFirestore()
 		addDoc(collection(db, `${process.env.MODE}.milonga_events`), milongaEventData)

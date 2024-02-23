@@ -27358,8 +27358,8 @@ function debounce(func, wait, options) {
 	function placeItem(data, selected = false) {
 		return x$1`
 			<div class="flex items-center mt-3">
-				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectPlace(); }}>취소</button>` : T$1 }
-                <div class="ms-2">
+				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none block me-2" @click=${e => { unselectPlace(); }}>취소</button>` : T$1 }
+                <div>
                     <div class="text-sm">
                         <span>${data.name}</span>
                         ${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
@@ -27554,12 +27554,12 @@ function debounce(func, wait, options) {
 							<input id="search-place-keyword" type="search" placeholder="장소명 검색" maxlength="30">
 							<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
 						</div>
-						<details id="search-place-results" class="mt-2 border bg-white rounded-lg p-3" open>
-							<summary class="text-sm">장소 검색결과</summary>
-						</details>
-						<details id="selected-place-details" class="mt-2 border bg-white rounded-lg p-3" open>
-							<summary class="text-sm">선택한 장소</summary>
-						</details>
+						<div id="search-place-results" class="mt-2 border bg-white rounded-lg p-3">
+							<h6 class="text-sm">장소 검색결과</h6>
+						</div>
+						<div id="selected-place-details" class="mt-2 border bg-white rounded-lg p-3">
+							<h6 class="text-sm">선택한 장소</h6>
+						</div>
 					</div>
 					<div id="enter-place" role="tabpanel" hidden>
 						<div class="mt-2">
@@ -27567,6 +27567,9 @@ function debounce(func, wait, options) {
 						</div>
 						<div class="mt-2">
 							<input type="text" name="place-address" placeholder="주소" autocomplete="on">
+						</div>
+						<div class="mt-2">
+							<button type="button" class="btn-secondary w-full">추가</button>
 						</div>
 					</div>
                 </div>

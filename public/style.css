@@ -849,8 +849,8 @@ select {
   margin-top: 1.25rem;
 }
 
-.me-2 {
-  margin-inline-end: 0.5rem;
+.mb-2 {
+  margin-bottom: 0.5rem;
 }
 
 .block {
@@ -1302,7 +1302,7 @@ html, body {
   color: rgb(99 102 241 / var(--tw-text-opacity));
 }
 
-label {
+label, .label {
   margin-bottom: 0.25rem;
   display: block;
   padding-left: 0.5rem;
@@ -1362,21 +1362,6 @@ div.form-help + div.form-help {
   text-align: center;
   --tw-text-opacity: 1;
   color: rgb(100 116 139 / var(--tw-text-opacity));
-}
-
-.before\:content-\[\'\*\'\]::before {
-  --tw-content: '*';
-  content: var(--tw-content);
-}
-
-.before\:content-\[\'\2c \'\]::before {
-  --tw-content: ',';
-  content: var(--tw-content);
-}
-
-.after\:content-\[\'\*\'\]::after {
-  --tw-content: '*';
-  content: var(--tw-content);
 }
 
 .empty\:mt-1:empty {
@@ -1447,4 +1432,14 @@ div.form-help + div.form-help {
 .disabled\:text-slate-900:disabled {
   --tw-text-opacity: 1;
   color: rgb(15 23 42 / var(--tw-text-opacity));
+}
+
+.aria-selected\:bg-indigo-500[aria-selected="true"] {
+  --tw-bg-opacity: 1;
+  background-color: rgb(99 102 241 / var(--tw-bg-opacity));
+}
+
+.aria-selected\:text-white[aria-selected="true"] {
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
 }

@@ -23598,20 +23598,6 @@ function setDoc(e, t, n) {
 }
 
 /**
- * Add a new document to specified `CollectionReference` with the given data,
- * assigning it a document ID automatically.
- *
- * @param reference - A reference to the collection to add this document to.
- * @param data - An Object containing the data for the new document.
- * @returns A `Promise` resolved with a `DocumentReference` pointing to the
- * newly created document after it has been written to the backend (Note that it
- * won't resolve while you're offline).
- */ function addDoc(e, t) {
-    const n = __PRIVATE_cast(e.firestore, Firestore), r = doc(e), i = __PRIVATE_applyFirestoreDataConverter(e.converter, t);
-    return executeWrite(n, [ __PRIVATE_parseSetData(__PRIVATE_newUserDataReader(e.firestore), "addDoc", r._key, i, null !== e.converter, {}).toMutation(r._key, Precondition.exists(!1)) ]).then((() => r));
-}
-
-/**
  * Locally writes `mutations` on the async queue.
  * @internal
  */ function executeWrite(e, t) {
@@ -27315,17 +27301,36 @@ function debounce(func, wait, options) {
 		milongaEventData.description = document.forms['add-milonga-event-form'].elements['description'].value;
         milongaEventData.name = document.forms['add-milonga-event-form'].elements['name'].value;
 
-		console.log('event data ', milongaEventData);
-		// return;
+		const searchPlaceType = document.querySelector('#place [role=tab][aria-selected=true]').getAttribute('aria-controls');
+		if (searchPlaceType) {
+			if (searchPlaceType == 'search-place') {
+				if (!milongaEventData.place) {
+					alert('장소를 선택해 주세요');
+					document.getElementById('search-place-keyword').focus();
+					return
+				}
+			} else if (searchPlaceType == 'enter-place') {
+				const placeName = document.forms['add-milonga-event-form'].elements['place-name'];
+				const placeAddress = document.forms['add-milonga-event-form'].elements['place-address'];
+				if (placeName.value) {
+					milongaEventData.place = {
+						name: placeName.value,
+						address: placeAddress.value
+					};
+				} else {
+					alert('장소명을 입력해 주세요');
+					placeName.focus();
+					return
+				}
+			} else {
+				return
+			}
+		} else {
+			return
+		}
 
-		const db = getFirestore();
-		addDoc(collection(db, `${"development"}.milonga_events`), milongaEventData)
-			.then(milongaEventRef => {
-				location.replace(`#milonga_event/${milongaEventRef.id}`);
-			})
-			.catch(error => {
-				console.log(error);
-			});
+		console.log('event data ', milongaEventData);
+		return;
     }
 
 	function placeItem(data, selected = false) {
@@ -27342,6 +27347,11 @@ function debounce(func, wait, options) {
 				${ selected ? T$1 : x$1`<button type="button" class="ms-auto btn-primary !p-2 text-sm flex-none" @click=${e => { selectPlace(data); }}>선택</button>` }
             </div>
 		`
+	}
+
+	function emptyPlace() {
+		document.forms['add-milonga-event-form'].elements['place-name'].value = '';
+		document.forms['add-milonga-event-form'].elements['place-address'].value = '';
 	}
 
     function selectPlace(data) {
@@ -27382,7 +27392,13 @@ function debounce(func, wait, options) {
 		if (results.length > 0) {
 			j(results.map(result => placeItem({ id: result.id, ...result.data() }, false)), document.getElementById('search-place-results'));
 		} else {
-			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('search-place-results'));
+			j(
+				x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`,
+				document.getElementById('search-place-results'),
+				{
+					renderBefore: document.getElementById('enter-place-directly')
+				}
+			);
 		}
 	}
 
@@ -27444,6 +27460,16 @@ function debounce(func, wait, options) {
 		}
 	}
 
+	function showPlaceTabPanal(e) {
+		unselectPlace();
+		emptyPlace();
+		milongaEventData.place = null;
+		document.querySelectorAll('#place [role=tab][aria-selected="true"]').forEach(tab => tab.setAttribute("aria-selected", false));
+		document.querySelectorAll('#place [role=tabpanel]:not([hidden])').forEach(tabpanel => tabpanel.hidden = true);
+		e.target.setAttribute("aria-selected", true);
+		document.getElementById(`${e.target.getAttribute("aria-controls")}`).removeAttribute('hidden');
+	}
+
 	j(x$1`
 		<div class="add-milonga-event p-5">
             <header class="flex items-center mb-5 h-10 w-full">
@@ -27495,18 +27521,32 @@ function debounce(func, wait, options) {
 						</datalist>
 					</div>
                 </div>
-				<div class="mb-3">
-					<label for="search-place-keyword">장소</label>
-					<div class="flex items-center">
-						<input id="search-place-keyword" type="search" placeholder="장소 검색" maxlength="30">
-						<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
+				<div class="mb-3" id="place">
+					<h6 class="label">장소</h6>
+					<div class="flex rounded-lg mb-2 overflow-hidden" role="tablist">
+						<button @click=${showPlaceTabPanal} type="button" role="tab" class="flex-1 p-3 bg-white text-sm text-center aria-selected:bg-indigo-500 aria-selected:text-white" aria-selected="true" aria-controls="search-place">검색/선택</button>
+						<button @click=${showPlaceTabPanal} type="button" role="tab" class="flex-1 p-3 bg-white text-sm text-center aria-selected:bg-indigo-500 aria-selected:text-white" aria-selected="false" aria-controls="enter-place">직접입력</button>
 					</div>
-					<details id="search-place-results" class="mt-2 border bg-white rounded-lg p-3" open>
-						<summary class="text-sm">장소 검색결과</summary>
-					</details>
-                    <details id="selected-place-details" class="mt-2 border border-slate-300 bg-white rounded-lg p-3" open>
-						<summary class="text-sm">선택한 장소</summary>
-					</details>
+					<div id="search-place" role="tabpanel">
+						<div class="flex items-center">
+							<input id="search-place-keyword" type="search" placeholder="장소명 검색" maxlength="30">
+							<button type="button" class="flex-none btn-secondary ms-2 !py-2" @click=${searchPlace}>검색</button>
+						</div>
+						<details id="search-place-results" class="mt-2 border bg-white rounded-lg p-3" open>
+							<summary class="text-sm">장소 검색결과</summary>
+						</details>
+						<details id="selected-place-details" class="mt-2 border bg-white rounded-lg p-3" open>
+							<summary class="text-sm">선택한 장소</summary>
+						</details>
+					</div>
+					<div id="enter-place" role="tabpanel" hidden>
+						<div class="mt-2">
+							<input type="text" name="place-name" placeholder="장소명" autocomplete="on">
+						</div>
+						<div class="mt-2">
+							<input type="text" name="place-address" placeholder="주소" autocomplete="on">
+						</div>
+					</div>
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>

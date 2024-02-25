@@ -27427,9 +27427,10 @@ function debounce(func, wait, options) {
 	function djItem(data, selected = false) {
 		return x$1`
 			<div class="flex items-center mt-3">
-				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectDJ(data.id); }}>취소</button>` : T$1 }
-				<div class="ms-2 text-sm">
-					<span>${data.name}</span>
+				${ selected ? x$1`<button type="button" class="btn-secondary !p-2 me-2 text-sm !text-red-500 !bg-gray-100 flex-none" @click=${e => { unselectDJ(data.id); }}>취소</button>` : T$1 }
+				<div class="text-sm">
+                    <span>${data.nationality}</span>
+					<span>[${data.nationality}] ${data.name}</span>
 					${ data.nameEn ? x$1`<span>(${data.nameEn})</span>` : T$1 }
 				</div>
 				${ selected ? T$1 : x$1`<button type="button" class="btn-primary !p-2 text-sm ms-auto rounded-full flex-none" @click=${e => { selectDJ(data); }}>선택</button>` }
@@ -27452,6 +27453,7 @@ function debounce(func, wait, options) {
         milongaEventData.djs.push({
             id: data.id,
             name: data.name,
+            nationality: data.nationality,
             nameEn: data.nameEn || null,
             photoURL: data.photoURL || null
         });
@@ -27557,9 +27559,6 @@ function debounce(func, wait, options) {
 						<div id="search-place-results" class="mt-2 border bg-white rounded-lg p-3">
 							<h6 class="text-sm">장소 검색결과</h6>
 						</div>
-						<div id="selected-place-details" class="mt-2 border bg-white rounded-lg p-3">
-							<h6 class="text-sm">선택한 장소</h6>
-						</div>
 					</div>
 					<div id="enter-place" role="tabpanel" hidden>
 						<div class="mt-2">
@@ -27569,9 +27568,12 @@ function debounce(func, wait, options) {
 							<input type="text" name="place-address" placeholder="주소" autocomplete="on">
 						</div>
 						<div class="mt-2">
-							<button type="button" class="btn-secondary w-full">추가</button>
+							<button type="button" class="btn-secondary w-full !py-2.5">추가</button>
 						</div>
 					</div>
+                    <div id="selected-place-details" class="mt-2 border bg-white rounded-lg p-3">
+                        <h6 class="text-sm font-semibold">선택한 장소</h6>
+                    </div>
                 </div>
                 <div class="mb-3">
 					<label for="search-dj">DJ</label>

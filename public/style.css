@@ -1158,6 +1158,11 @@ select {
   padding-bottom: 1rem;
 }
 
+.\!py-2\.5 {
+  padding-top: 0.625rem !important;
+  padding-bottom: 0.625rem !important;
+}
+
 .text-center {
   text-align: center;
 }

@@ -26775,6 +26775,8 @@ const hasPermitToEditMilonga = async (milongaData) => {
 		...milongaEventSnap.data()
 	};
 
+	milongaEventData.djs?.length > 0 ? milongaEventData.djs.join(", ") : null;
+
 	j(x$1`
 		<div class="milonga-event relative">
 			<header class="p-5 flex items-center -mb-5 h-10 w-full absolute mix-blend-difference z-[10]">
@@ -26788,12 +26790,20 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
 				${
 					milongaEventData.place
-						? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4' })}${milongaEventData.place.name}</div>`
+						? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
 						: T$1
 				}
 				${
 					milongaEventData.djs?.length > 0
-						? x$1`<div class="flex items-center">${HeadphonesIcon({ classList: 'size-4' })}${Array.prototype.join.call(milongaEventData.djs, ", ")}</div>`
+						? x$1`
+							<div class="flex items-center">
+								${HeadphonesIcon({ classList: 'size-4 me-1' })}
+								<ul class="inline-flex felx-wrap">
+									${milongaEventData.djs.map((dj, index) => {
+										return x$1`<li class="me-1">${dj.name}</li>`
+									})}
+								</ul>
+							</div>`
 						: T$1
 				}
 				<a href=#milonga/${milongaEventData.milonga.id} class="btn-secondary w-full mt-4 flex items-center">

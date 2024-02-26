@@ -23,6 +23,8 @@ export const MilongaEvent = async () => {
 		...milongaEventSnap.data()
 	}
 
+	const djs = milongaEventData.djs?.length > 0 ? milongaEventData.djs.join(", ") : null
+
 	render(html`
 		<div class="milonga-event relative">
 			<header class="p-5 flex items-center -mb-5 h-10 w-full absolute mix-blend-difference z-[10]">
@@ -36,12 +38,20 @@ export const MilongaEvent = async () => {
 				<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
 				${
 					milongaEventData.place
-						? html`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4' })}${milongaEventData.place.name}</div>`
+						? html`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
 						: nothing
 				}
 				${
 					milongaEventData.djs?.length > 0
-						? html`<div class="flex items-center">${HeadphonesIcon({ classList: 'size-4' })}${Array.prototype.join.call(milongaEventData.djs, ", ")}</div>`
+						? html`
+							<div class="flex items-center">
+								${HeadphonesIcon({ classList: 'size-4 me-1' })}
+								<ul class="inline-flex felx-wrap">
+									${milongaEventData.djs.map((dj, index) => {
+										return html`<li class="me-1">${dj.name}</li>`
+									})}
+								</ul>
+							</div>`
 						: nothing
 				}
 				<a href=#milonga/${milongaEventData.milonga.id} class="btn-secondary w-full mt-4 flex items-center">

@@ -48,3 +48,7 @@ div.form-help + div.form-help {
 .no-data {
     @apply text-slate-500 text-center
 }
+
+.card {
+	@apply shadow-2xl shadow-slate-100 rounded-xl bg-white
+}

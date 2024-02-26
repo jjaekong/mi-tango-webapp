@@ -26787,29 +26787,51 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			<div class="shadow-inner shadow-black-700 aspect-[2/1]"></div>
 			<div class="p-5">
 				<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
-				<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
-				${
-					milongaEventData.place
-						? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
-						: T$1
-				}
-				${
-					milongaEventData.djs?.length > 0
-						? x$1`
-							<div class="flex items-center">
-								${HeadphonesIcon({ classList: 'size-4 me-1' })}
-								<ul class="inline-flex felx-wrap">
-									${milongaEventData.djs.map((dj, index) => {
-										return x$1`<li class="me-1">${dj.name}</li>`
-									})}
-								</ul>
-							</div>`
-						: T$1
-				}
-				<a href=#milonga/${milongaEventData.milonga.id} class="btn-secondary w-full mt-4 flex items-center">
-					<p>${milongaEventData.milonga.name}의 정보 보기</p>
-					${ChevronRightIcon({ classList: "size-4 text-slate-500 ms-auto" })}
+				<div class="mb-4">
+					<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+					${
+						milongaEventData.place
+							? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
+							: T$1
+					}
+					${
+						milongaEventData.djs?.length > 0
+							? x$1`
+								<div class="flex items-center">
+									${HeadphonesIcon({ classList: 'size-4 me-1' })}
+									<ul class="inline-flex felx-wrap">
+										${milongaEventData.djs.map((dj, index) => {
+											return x$1`<li class="me-1">${dj.name}</li>`
+										})}
+									</ul>
+								</div>`
+							: T$1
+					}
+				</div>
+				<a href=#milonga/${milongaEventData.milonga.id} class="btn-primary w-full mb-4 flex items-center">
+					<p>${milongaEventData.milonga.name}의 모든 정보 보기</p>
+					${ChevronRightIcon({ classList: "size-4 text-white ms-auto" })}
 				</a>
+				<section class="card p-5 mb-4">
+					<header>
+						<h1 class="font-semibold">DJs</h1>
+					</header>
+				</section>
+				<section class="card p-5 mb-4">
+					<header>
+						<h1 class="font-semibold">장소</h1>
+					</header>
+				</section>
+				<section class="card p-5 mb-4">
+					<header>
+						<h1 class="font-semibold">오거나이저</h1>
+					</header>
+				</section>
+				<section class="card p-5 mb-4">
+					<header>
+						<h1 class="font-semibold">설명</h1>
+					</header>
+				</section>
 			</div>
 		</div>
 	`, document.getElementById('app'));

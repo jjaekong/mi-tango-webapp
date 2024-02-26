@@ -26784,9 +26784,21 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			</header>
 			<div class="shadow-inner shadow-black-700 aspect-[2/1]"></div>
 			<div class="p-5">
-				<h4 class="font-bold mb-4">${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</h4>
-				<a href=#milonga/${milongaEventData.milonga.id} class="block rounded-lg bg-indigo-500 text-white p-3 focus:ring focus:ring-offset-2 focus:ring-indigo-300">
-					${milongaEventData.milonga.name}의 정보 보기
+				<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
+				<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+				${
+					milongaEventData.place
+						? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4' })}${milongaEventData.place.name}</div>`
+						: T$1
+				}
+				${
+					milongaEventData.djs?.length > 0
+						? x$1`<div class="flex items-center">${HeadphonesIcon({ classList: 'size-4' })}${Array.prototype.join.call(milongaEventData.djs, ", ")}</div>`
+						: T$1
+				}
+				<a href=#milonga/${milongaEventData.milonga.id} class="btn-secondary w-full mt-4 flex items-center">
+					<p>${milongaEventData.milonga.name}의 정보 보기</p>
+					${ChevronRightIcon({ classList: "size-4 text-slate-500 ms-auto" })}
 				</a>
 			</div>
 		</div>

@@ -29,8 +29,8 @@ export const TodayMilongas = async () => {
                                 snap.docs.map(doc => html`<li class="mb-3">
                                     ${
                                         MilongaEventItem({
-                                            id: doc.id, ...doc.data()
-                                        })
+                                            id: doc.id, ...doc.data(),
+                                        }, 'today')
                                     }
                                 </li>`)
                             }

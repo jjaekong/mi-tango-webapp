@@ -23665,7 +23665,9 @@ function setDoc(e, t, n) {
     }), "PUBLIC").setMultipleInstances(!0)), registerVersion(w, "4.4.1", e), 
     // BUILD_TARGET will be replaced by values like esm5, esm2017, cjs5, etc during the compilation
     registerVersion(w, "4.4.1", "esm2017");
-}();const MilongaEventItem = (data) => {
+}();// import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
+
+const MilongaEventItem = (data, dateType = null) => {
     console.log('data => ', data);
     const startTime = dayjs(data.startAt.seconds*1000);
 	const endTime = dayjs(data.endAt.seconds*1000);
@@ -23673,17 +23675,23 @@ function setDoc(e, t, n) {
         <a href="#milonga_event/${data.id}" class="flex w-100 items-center">
             <div class="self-start">
 				${
-					startTime < dayjs().add(-2, 'hour')
-						? x$1`
-							<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-								<span class="font-bold">${ endTime.format('m') > 0 ? endTime.format('h:m') : endTime.format('h') }</span>
-								<span class="text-slate-400 text-xs">${endTime.locale('en').format('a').toUpperCase()}</span>
-							</time>`
-						: x$1`
-							<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
-								<span class="font-bold">${ startTime.format('m') > 0 ? startTime.format('h:m') : startTime.format('h') }</span>
-								<span class="text-slate-400 text-xs">${startTime.locale('en').format('a').toUpperCase()}</span>
-							</time>`
+					dateType == 'today'
+						?	startTime < dayjs().add(-2, 'hour')
+								? x$1`
+									<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+										<span class="font-bold">${ endTime.format('m') > 0 ? endTime.format('h:m') : endTime.format('h') }</span>
+										<span class="text-slate-400 text-xs">${endTime.locale('en').format('a').toUpperCase()}</span>
+									</time>`
+								: x$1`
+									<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+										<span class="font-bold">${ startTime.format('m') > 0 ? startTime.format('h:m') : startTime.format('h') }</span>
+										<span class="text-slate-400 text-xs">${startTime.locale('en').format('a').toUpperCase()}</span>
+									</time>`
+						:	x$1`
+								<time class="flex flex-col rounded-xl justify-center items-center leading-tight size-14 bg-slate-100">
+									<span class="text-xs text-slate-500">${ startTime.format('dddd') }</span>
+									<span class="font-bold text-sm">${ startTime.format('M/D') }</span>
+								</time>`
 				}
             </div>
             <div class="mx-3">
@@ -23735,8 +23743,8 @@ function setDoc(e, t, n) {
                                 snap.docs.map(doc => x$1`<li class="mb-3">
                                     ${
                                         MilongaEventItem({
-                                            id: doc.id, ...doc.data()
-                                        })
+                                            id: doc.id, ...doc.data(),
+                                        }, 'today')
                                     }
                                 </li>`)
                             }

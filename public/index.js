@@ -26785,7 +26785,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
 			<div class="shadow-inner shadow-black-700">
-				<img src="https://picsum.photos/300/400" class="aspect-[2/1] object-cover">
+				<img src="https://picsum.photos/300/400" class="aspect-[2/1] object-cover w-full h-full">
 			</div>
 			<div class="p-5">
 				<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>

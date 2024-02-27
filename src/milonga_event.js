@@ -35,6 +35,10 @@ export const MilongaEvent = async () => {
 		document.getElementById('dj-dialog').showModal()
 	}
 
+	function closeDJDialog() {
+		document.getElementById('dj-dialog').close()
+	}
+
 	render(html`
 		<div class="milonga-event relative">
 			<header class="p-5 flex items-center -mb-5 h-10 w-full absolute mix-blend-difference z-[10] text-white">
@@ -90,9 +94,29 @@ export const MilongaEvent = async () => {
 				${ hasPermitToEdit
 					? html`
 						<dialog id="dj-dialog" class="card">
-							<h1>DJ 추가</h1>
-							<div role="tablist">
-								<button role="tab">최근 선택</button>
+							<header class="flex items-center p-4">
+								<h1>DJ 추가</h1>
+								<button class="ms-auto text-slate-500" type="button" @click=${closeDJDialog}>닫기</button>
+							</header>
+							<div role="tablist" class="flex">
+								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true">최근 선택</button>
+								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false">검색 선택</button>
+								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false">직접 입력</button>
+							</div>
+							<div role="tabpanel" id="dj-tabpanel-1">
+								<form method="dialog">
+									<button class="btn-primary">선택</button>
+								</form>
+							</div>
+							<div role="tabpanel" id="dj-tabpanel-2" hidden>
+								<form method="dialog">
+									<button class="btn-primary">선택</button>
+								</form>
+							</div>
+							<div role="tabpanel" id="dj-tabpanel-3" hidden>
+								<form method="dialog">
+									<button class="btn-primary">선택</button>
+								</form>
 							</div>
 						</dialog>`
 					: nothing }

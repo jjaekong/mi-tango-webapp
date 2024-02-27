@@ -26788,10 +26788,6 @@ const hasPermitToEditMilonga = async (milongaData) => {
 
 	console.log('milongaEventData ==> ', milongaEventData);
 
-	const hasPermitToEdit = await hasPermitToEditMilonga(await getMilonga(milongaEventData.milonga.id));
-
-	console.log('hasPermitToEdit ==> ', hasPermitToEdit);
-
 	function showAddDJDialog() {
 		document.getElementById('dj-dialog').showModal();
 	}
@@ -26802,15 +26798,15 @@ const hasPermitToEditMilonga = async (milongaData) => {
 
 	j(x$1`
 		<div class="milonga-event relative">
-			<header class="p-5 flex items-center h-10 w-full absolute top-0 left-0 mix-blend-difference z-[10] text-white">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ArrowLeftIcon()}</a></div>
+			<header class="p-5 flex items-center w-full absolute top-0 left-0 mix-blend-difference z-[10] text-white">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back(); }}>${ ArrowLeftIcon() }</a></div>
 				<div class="flex-1"><h1 class="sr-only">밀롱가 이벤트</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
 			<div class="aspect-[4/3] relative">
 				<img src="https://picsum.photos/300/400" class="object-cover w-full h-full">
-				<div class="absolute bottom-0 left-0 w-full p-5 mix-blend-difference text-white bg-black/20">
-					<h1>${milongaEventData.name}</h1>
+				<div class="absolute bottom-0 left-0 w-full p-5 mix-blend-difference text-white bg-black-100/20">
+					<h1 class="font-semibold">${milongaEventData.name}</h1>
 					<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
 					${
 						milongaEventData.place
@@ -26840,11 +26836,6 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
-						${
-							hasPermitToEdit
-								? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${ showAddDJDialog }>DJ 추가</button>`
-								: T$1
-						}
 					</header>
 					${
 						milongaEventData.djs?.length > 0
@@ -26852,38 +26843,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 							: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ 정보를 입력하지 않았습니다.</p>`
 					}
 				</section>
-				${ hasPermitToEdit
-					? x$1`
-						<dialog id="dj-dialog" class="card">
-							<header class="flex items-center p-4">
-								<h1>DJ 추가</h1>
-								<button class="ms-auto text-slate-500" type="button" @click=${closeDJDialog}>닫기</button>
-							</header>
-							<div role="tablist" class="flex">
-								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true">최근 선택</button>
-								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false">검색 선택</button>
-								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false">직접 입력</button>
-							</div>
-							<div role="tabpanel" class="p-4" id="dj-tabpanel-1">
-								<form method="dialog">
-									TEST
-									<button class="btn-primary">선택</button>
-								</form>
-							</div>
-							<div role="tabpanel" class="p-4" id="dj-tabpanel-2" hidden>
-								<form method="dialog">
-									TEST
-									<button class="btn-primary">선택</button>
-								</form>
-							</div>
-							<div role="tabpanel" class="p-4" id="dj-tabpanel-3" hidden>
-								<form method="dialog">
-									TEST
-									<button class="btn-primary">선택</button>
-								</form>
-							</div>
-						</dialog>`
-					: T$1 }
+				<dialog id="dj-dialog" class="card"></dialog>
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>
@@ -26907,6 +26867,43 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			</div>
 		</div>
 	`, document.getElementById('app'));
+
+	hasPermitToEditMilonga(await getMilonga(milongaEventData.milonga.id))
+		.then(() => {
+			j(
+				x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${showAddDJDialog}>DJ 추가</button>`,
+				document.querySelector('#djs > header')
+			);
+			j(x$1`
+				<header class="flex items-center p-4">
+					<h1>DJ 추가</h1>
+					<button class="ms-auto text-slate-500" type="button" @click=${closeDJDialog}>닫기</button>
+				</header>
+				<div role="tablist" class="flex">
+					<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true">최근 선택</button>
+					<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false">검색 선택</button>
+					<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false">직접 입력</button>
+				</div>
+				<div role="tabpanel" class="p-4" id="dj-tabpanel-1">
+					<form method="dialog">
+						TEST
+						<button class="btn-primary">선택</button>
+					</form>
+				</div>
+				<div role="tabpanel" class="p-4" id="dj-tabpanel-2" hidden>
+					<form method="dialog">
+						TEST
+						<button class="btn-primary">선택</button>
+					</form>
+				</div>
+				<div role="tabpanel" class="p-4" id="dj-tabpanel-3" hidden>
+					<form method="dialog">
+						TEST
+						<button class="btn-primary">선택</button>
+					</form>
+				</div>
+			`, document.getElementById('dj-dialog'));
+		});
 };const NotFound = () => {
 	j(x$1`
 		not found

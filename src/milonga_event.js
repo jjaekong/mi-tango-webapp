@@ -44,27 +44,29 @@ export const MilongaEvent = async () => {
 			</header>
 			<div class="aspect-[4/3] relative">
 				<img src="https://picsum.photos/300/400" class="object-cover w-full h-full">
-				<div class="absolute bottom-0 left-0 w-full p-5 mix-blend-difference text-white bg-black-100/20">
-					<h1 class="font-semibold">${milongaEventData.name}</h1>
-					<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
-					${
-						milongaEventData.place
-							? html`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
-							: nothing
-					}
-					${
-						milongaEventData.djs?.length > 0
-							? html`
-								<div class="flex items-center">
-									${HeadphonesIcon({ classList: 'size-4 me-1' })}
-									<ul class="inline-flex felx-wrap">
-										${milongaEventData.djs.map((dj, index) => {
-											return html`<li class="me-1">${dj.name}</li>`
-										})}
-									</ul>
-								</div>`
-							: nothing
-					}
+				<div class="absolute bottom-0 left-0 w-full p-5 text-white bg-black/50">
+					<div class="mix-blend-difference">
+						<h1 class="font-semibold">${milongaEventData.name}</h1>
+						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+						${
+							milongaEventData.place
+								? html`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
+								: nothing
+						}
+						${
+							milongaEventData.djs?.length > 0
+								? html`
+									<div class="flex items-center">
+										${HeadphonesIcon({ classList: 'size-4 me-1' })}
+										<ul class="inline-flex felx-wrap">
+											${milongaEventData.djs.map((dj, index) => {
+												return html`<li class="me-1">${dj.name}</li>`
+											})}
+										</ul>
+									</div>`
+								: nothing
+						}
+					</div>
 				</div>
 			</div>
 			<div class="p-5">

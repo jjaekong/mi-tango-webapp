@@ -37,15 +37,15 @@ export const MilongaEvent = async () => {
 
 	render(html`
 		<div class="milonga-event relative">
-			<header class="p-5 flex items-center w-full absolute top-0 left-0 mix-blend-difference z-[10] text-white">
-				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ ArrowLeftIcon() }</a></div>
+			<header class="p-5 flex items-center w-full absolute top-0 left-0 z-[10] text-white">
+				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ ArrowLeftIcon( { classList: 'rounded-full bg-black/50 text-white size-6' }) }</a></div>
 				<div class="flex-1"><h1 class="sr-only">밀롱가 이벤트</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
 			<div class="aspect-[4/3] relative">
 				<img src="https://picsum.photos/300/400" class="object-cover w-full h-full">
-				<div class="absolute bottom-0 left-0 w-full p-5 text-white bg-black/50">
-					<div class="mix-blend-difference">
+				<div class="absolute bottom-0 left-0 w-full p-5 text-white bg-gradient-to-t from-black">
+					<div>
 						<h1 class="font-semibold">${milongaEventData.name}</h1>
 						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
 						${

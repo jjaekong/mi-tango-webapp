@@ -1,7 +1,7 @@
 import { render, html } from 'lit-html'
 
-export const Club = () => {
+export const Place = () => {
 	render(html`
-		Club
+		place
 	`, document.getElementById('app'))
 }

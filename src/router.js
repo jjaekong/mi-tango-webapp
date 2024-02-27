@@ -1,4 +1,3 @@
-import { Club } from './club.js'
 import { DJ } from './dj.js'
 import { Home } from './home.js'
 import { Login } from './login.js'
@@ -15,6 +14,7 @@ import { AllDJs } from './all_djs.js'
 import { EditMilongaSettings } from './edit_milonga_settings.js'
 import { AddEvent } from './add_event.js'
 import { Empty } from './empty.js'
+import { Place } from './place.js'
 
 export const showPageByHash = async () => {
 	console.log('showPageByHash')
@@ -46,8 +46,8 @@ export const showPageByHash = async () => {
 		DJ()
     } else if (regexMilongaEvent.test(location.hash)) {
 		MilongaEvent()
-    } else if (location.hash === '#club') {
-        Club()
+    } else if (location.hash === '#place') {
+        Place()
     } else if (location.hash === '#new_milonga') {
         NewMilonga()
     } else if (location.hash === '#all_milonga_events') {

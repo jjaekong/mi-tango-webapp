@@ -41,17 +41,15 @@ export const MilongaEvent = async () => {
 
 	render(html`
 		<div class="milonga-event relative">
-			<header class="p-5 flex items-center -mb-5 h-10 w-full absolute mix-blend-difference z-[10] text-white">
+			<header class="p-5 flex items-center h-10 w-full absolute top-0 left-0 mix-blend-difference z-[10] text-white">
 				<div class="min-w-[20%]"><a href="#" @click=${e => { e.preventDefault(); history.back() }}>${ArrowLeftIcon()}</a></div>
 				<div class="flex-1"><h1 class="sr-only">밀롱가 이벤트</h1></div>
 				<div class="min-w-[20%] flex justify-end"></div>
 			</header>
-			<div class="aspect-[4/3]">
+			<div class="aspect-[4/3] relative">
 				<img src="https://picsum.photos/300/400" class="object-cover w-full h-full">
-			</div>
-			<div class="p-5">
-				<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
-				<div class="mb-4">
+				<div class="absolute bottom-0 left-0 w-full p-5 mix-blend-difference text-white bg-black/20">
+					<h1>${milongaEventData.name}</h1>
 					<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
 					${
 						milongaEventData.place
@@ -72,16 +70,18 @@ export const MilongaEvent = async () => {
 							: nothing
 					}
 				</div>
+			</div>
+			<div class="p-5">
 				<a href=#milonga/${milongaEventData.milonga.id} class="btn-primary w-full mb-4 flex items-center">
 					<p>${milongaEventData.milonga.name}의 모든 정보 보기</p>
 					${ChevronRightIcon({ classList: "size-4 text-white ms-auto" })}
 				</a>
-				<section class="card p-5 mb-4">
+				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
 						${
 							hasPermitToEdit
-								? html`<button type="button" class="text-indigo-500 ms-auto text-sm font-semibold" @click=${ showAddDJDialog }>DJ 추가</button>`
+								? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${ showAddDJDialog }>DJ 추가</button>`
 								: nothing
 						}
 					</header>
@@ -103,34 +103,42 @@ export const MilongaEvent = async () => {
 								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false">검색 선택</button>
 								<button class="flex-1 btn-secondary" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false">직접 입력</button>
 							</div>
-							<div role="tabpanel" id="dj-tabpanel-1">
+							<div role="tabpanel" class="p-4" id="dj-tabpanel-1">
 								<form method="dialog">
+									TEST
 									<button class="btn-primary">선택</button>
 								</form>
 							</div>
-							<div role="tabpanel" id="dj-tabpanel-2" hidden>
+							<div role="tabpanel" class="p-4" id="dj-tabpanel-2" hidden>
 								<form method="dialog">
+									TEST
 									<button class="btn-primary">선택</button>
 								</form>
 							</div>
-							<div role="tabpanel" id="dj-tabpanel-3" hidden>
+							<div role="tabpanel" class="p-4" id="dj-tabpanel-3" hidden>
 								<form method="dialog">
+									TEST
 									<button class="btn-primary">선택</button>
 								</form>
 							</div>
 						</dialog>`
 					: nothing }
-				<section class="card p-5 mb-4">
+				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>
 					</header>
 				</section>
-				<section class="card p-5 mb-4">
+				<section class="card p-5 mb-4" id="organizers">
+					<header>
+						<h1 class="font-semibold">입장료</h1>
+					</header>
+				</section>
+				<section class="card p-5 mb-4" id="organizers">
 					<header>
 						<h1 class="font-semibold">오거나이저</h1>
 					</header>
 				</section>
-				<section class="card p-5 mb-4">
+				<section class="card p-5 mb-4" id="description">
 					<header>
 						<h1 class="font-semibold">설명</h1>
 					</header>

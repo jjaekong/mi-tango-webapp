@@ -23581,7 +23581,7 @@ class __PRIVATE_ExpUserDataWriter extends AbstractUserDataWriter {
  * invoke {@link getDocsFromCache} or {@link getDocsFromServer}.
  *
  * @returns A `Promise` that will be resolved with the results of the query.
- */ function getDocs(e) {
+ */ function getDocs$1(e) {
     e = __PRIVATE_cast(e, Query);
     const t = __PRIVATE_cast(e.firestore, Firestore), n = ensureFirestoreConfigured(t), r = new __PRIVATE_ExpUserDataWriter(t);
     return __PRIVATE_validateHasExplicitOrderByForLimitToLast(e._query), __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(n, e._query).then((n => new QuerySnapshot(t, r, e, n)));
@@ -23722,7 +23722,7 @@ const MilongaEventItem = (data, dateType = null) => {
 		where('countryCode', '==', countryCode),
 		where('date', '==', dayjs().add(-6, 'hour').format('YYYY-MM-DD')),
 	);
-	const snap = await getDocs(q);
+	const snap = await getDocs$1(q);
 
 	return x$1`
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
@@ -23818,7 +23818,7 @@ function getCountryName(code) {
         collection(db, `${"development"}.milongas`),
         where('countryCode', '==', localStorage.getItem('country_code') || 'KR')
     );
-	const milongasSnap = await getDocs(q);
+	const milongasSnap = await getDocs$1(q);
 	const milongas = [];
 
 	milongasSnap.forEach(doc => {
@@ -23952,7 +23952,7 @@ function getCountryName(code) {
 	localStorage.getItem('country_code');
 	const db = getFirestore();
 	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.email));
-	const qSnap = await getDocs(q);
+	const qSnap = await getDocs$1(q);
 
 	console.log(qSnap);
 
@@ -26702,7 +26702,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
         where('milonga.id', '==', milongaId),
         where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
 	);
-	const milongaEventsSnap = await getDocs(milongaEventsQuery);
+	const milongaEventsSnap = await getDocs$1(milongaEventsQuery);
 
 	j((x$1`
         <div class="milonga p-5" role="document">
@@ -26761,6 +26761,30 @@ const hasPermitToEditMilonga = async (milongaData) => {
 		document.getElementById(`${e.target.getAttribute("aria-controls")}`).removeAttribute('hidden');
 	}
 
+	async function searchDJ() {
+		const keyword = document.getElementById('dj-search-keyword');
+		if (!keyword.value) {
+			alert("검색어를 입력하세요.");
+			keyword.focus();
+			return
+		}
+		const db = getFirestore();
+		const q = query(
+			collection(db, `${"development"}.djs`),
+			where('nameToArray', 'array-contains-any', keyword.value.split(""))
+		);
+		const snap = await getDocs(q);
+		const results = snap.docs.filter(doc => {
+			const data = { id: doc.id, ...doc.data() };
+			return data.name.indexOf(keyword.value) > -1
+		});
+		if (results.length > 0) {
+			render(results.map(result => djItem({ id: result.id, ...result.data() })), document.getElementById('dj-search-results'));
+		} else {
+			render(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
+		}
+	}
+
 	return x$1`
 		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50">
 			<header class="flex items-center mb-4">
@@ -26800,7 +26824,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				<form method="dialog">
 					<div class="flex items-center">
 						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none">검색</button>
+						<button type="button" class="btn-secondary flex-none ms-2" @click="${searchDJ}">검색</button>
 					</div>
 					<div class="flex items-center mt-4" id="dj-search-results"></div>
 					<button class="btn-primary w-full">선택</button>
@@ -26877,7 +26901,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			</div>
 			<div class="p-5">
 				<a href="#milonga/${milongaEventData.milonga.id}" class="btn-primary w-full mb-4 flex items-center">
-					<p>${milongaEventData.milonga.name}의 모든 정보 보기</p>
+					<p class="text-left">${milongaEventData.milonga.name}의 모든 정보 보기</p>
 					${ChevronRightIcon({ classList: "size-4 text-white ms-auto" })}
 				</a>
 				<section class="card p-5 mb-4" id="djs">
@@ -27582,7 +27606,7 @@ function debounce(func, wait, options) {
         where('startAt', '>', dayjs().hour(6).toDate()),
 		orderBy('startAt')
 	);
-	const qSnap = await getDocs(q);
+	const qSnap = await getDocs$1(q);
 	// console.log(qSnap)
 	// // qSnap.forEach(doc => {
 	// // 	console.log(doc.data())
@@ -27731,7 +27755,7 @@ function debounce(func, wait, options) {
 			collection(db, `${"development"}.djs`),
 			where('nameArray', 'array-contains-any', keyword)
 		);
-		const snap = await getDocs(q);
+		const snap = await getDocs$1(q);
 		if (snap.empty) {
 			j(T$1, document.getElementById('list'));
 		} else {

@@ -70,7 +70,7 @@ export const MilongaEvent = async () => {
 			</div>
 			<div class="p-5">
 				<a href="#milonga/${milongaEventData.milonga.id}" class="btn-primary w-full mb-4 flex items-center">
-					<p>${milongaEventData.milonga.name}의 모든 정보 보기</p>
+					<p class="text-left">${milongaEventData.milonga.name}의 모든 정보 보기</p>
 					${ChevronRightIcon({ classList: "size-4 text-white ms-auto" })}
 				</a>
 				<section class="card p-5 mb-4" id="djs">

@@ -1,4 +1,6 @@
+import { collection, getFirestore, query, where } from "firebase/firestore"
 import { html } from "lit-html"
+import { djItem } from "./dj_item"
 import { placeItem } from "./place_item"
 
 export const AddDJDialog = () => {
@@ -8,6 +10,30 @@ export const AddDJDialog = () => {
 		document.querySelectorAll('#add-dj-dialog [role=tabpanel]:not([hidden])').forEach(tabpanel => tabpanel.hidden = true)
 		e.target.setAttribute("aria-selected", true)
 		document.getElementById(`${e.target.getAttribute("aria-controls")}`).removeAttribute('hidden')
+	}
+
+	async function searchDJ() {
+		const keyword = document.getElementById('dj-search-keyword')
+		if (!keyword.value) {
+			alert("검색어를 입력하세요.")
+			keyword.focus()
+			return
+		}
+		const db = getFirestore()
+		const q = query(
+			collection(db, `${process.env.MODE}.djs`),
+			where('nameToArray', 'array-contains-any', keyword.value.split(""))
+		)
+		const snap = await getDocs(q)
+		const results = snap.docs.filter(doc => {
+			const data = { id: doc.id, ...doc.data() }
+			return data.name.indexOf(keyword.value) > -1
+		})
+		if (results.length > 0) {
+			render(results.map(result => djItem({ id: result.id, ...result.data() }, false)), document.getElementById('dj-search-results'))
+		} else {
+			render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'))
+		}
 	}
 
 	return html`
@@ -49,7 +75,7 @@ export const AddDJDialog = () => {
 				<form method="dialog">
 					<div class="flex items-center">
 						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none">검색</button>
+						<button type="button" class="btn-secondary flex-none ms-2" @click="${searchDJ}">검색</button>
 					</div>
 					<div class="flex items-center mt-4" id="dj-search-results"></div>
 					<button class="btn-primary w-full">선택</button>

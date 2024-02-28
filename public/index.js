@@ -23581,7 +23581,7 @@ class __PRIVATE_ExpUserDataWriter extends AbstractUserDataWriter {
  * invoke {@link getDocsFromCache} or {@link getDocsFromServer}.
  *
  * @returns A `Promise` that will be resolved with the results of the query.
- */ function getDocs$1(e) {
+ */ function getDocs(e) {
     e = __PRIVATE_cast(e, Query);
     const t = __PRIVATE_cast(e.firestore, Firestore), n = ensureFirestoreConfigured(t), r = new __PRIVATE_ExpUserDataWriter(t);
     return __PRIVATE_validateHasExplicitOrderByForLimitToLast(e._query), __PRIVATE_firestoreClientGetDocumentsViaSnapshotListener(n, e._query).then((n => new QuerySnapshot(t, r, e, n)));
@@ -23722,7 +23722,7 @@ const MilongaEventItem = (data, dateType = null) => {
 		where('countryCode', '==', countryCode),
 		where('date', '==', dayjs().add(-6, 'hour').format('YYYY-MM-DD')),
 	);
-	const snap = await getDocs$1(q);
+	const snap = await getDocs(q);
 
 	return x$1`
 		<section id="today-milongas" class="mb-4 p-5 rounded-2xl bg-white shadow-xl">
@@ -23818,7 +23818,7 @@ function getCountryName(code) {
         collection(db, `${"development"}.milongas`),
         where('countryCode', '==', localStorage.getItem('country_code') || 'KR')
     );
-	const milongasSnap = await getDocs$1(q);
+	const milongasSnap = await getDocs(q);
 	const milongas = [];
 
 	milongasSnap.forEach(doc => {
@@ -23952,7 +23952,7 @@ function getCountryName(code) {
 	localStorage.getItem('country_code');
 	const db = getFirestore();
 	const q = query(collection(db, `${"development"}.milongas`), where('createdBy', '==', currentUser.email));
-	const qSnap = await getDocs$1(q);
+	const qSnap = await getDocs(q);
 
 	console.log(qSnap);
 
@@ -26667,7 +26667,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 	if (!currentUser) {
 		return false;
 	}
-	console.log('비교: ', currentUser, milongaData);
+	// console.log('비교: ', currentUser, milongaData)
 	if (milongaData?.createdBy === currentUser.email) {
 		return true
 	}
@@ -26702,7 +26702,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
         where('milonga.id', '==', milongaId),
         where("startAt", ">=", dayjs().add(-6, 'hour').hour(6).minute(0).second(0).toDate())
 	);
-	const milongaEventsSnap = await getDocs$1(milongaEventsQuery);
+	const milongaEventsSnap = await getDocs(milongaEventsQuery);
 
 	j((x$1`
         <div class="milonga p-5" role="document">
@@ -26779,9 +26779,9 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			return data.name.indexOf(keyword.value) > -1
 		});
 		if (results.length > 0) {
-			render(results.map(result => djItem({ id: result.id, ...result.data() })), document.getElementById('dj-search-results'));
+			j(results.map(result => djItem({ id: result.id, ...result.data() })), document.getElementById('dj-search-results'));
 		} else {
-			render(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
+			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
 		}
 	}
 
@@ -26796,7 +26796,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 					최근 선택
 				</button>
 				<button class="rounded-none flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectAddType}>
-					검색 선택
+					검색/선택
 				</button>
 				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
 					직접 입력
@@ -26814,20 +26814,21 @@ const hasPermitToEditMilonga = async (milongaData) => {
 								<div class="mx-3">
 									<h6 class="font-bold">에르난</h6>
 								</div>
+								<div class="ms-auto">
+									<button class="btn-primary p-2">선택</button>
+								</div>
 							</label>
 						</li>
 					</ul>
-					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-2">
 				<form method="dialog">
 					<div class="flex items-center">
 						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none ms-2" @click="${searchDJ}">검색</button>
+						<button type="button" class="btn-secondary flex-none ms-2" @click=${searchDJ}>검색</button>
 					</div>
 					<div class="flex items-center mt-4" id="dj-search-results"></div>
-					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
@@ -27606,7 +27607,7 @@ function debounce(func, wait, options) {
         where('startAt', '>', dayjs().hour(6).toDate()),
 		orderBy('startAt')
 	);
-	const qSnap = await getDocs$1(q);
+	const qSnap = await getDocs(q);
 	// console.log(qSnap)
 	// // qSnap.forEach(doc => {
 	// // 	console.log(doc.data())
@@ -27755,7 +27756,7 @@ function debounce(func, wait, options) {
 			collection(db, `${"development"}.djs`),
 			where('nameArray', 'array-contains-any', keyword)
 		);
-		const snap = await getDocs$1(q);
+		const snap = await getDocs(q);
 		if (snap.empty) {
 			j(T$1, document.getElementById('list'));
 		} else {

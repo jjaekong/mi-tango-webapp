@@ -48,7 +48,7 @@ export const hasPermitToEditMilonga = async (milongaData) => {
 	if (!currentUser) {
 		return false;
 	}
-	console.log('비교: ', currentUser, milongaData)
+	// console.log('비교: ', currentUser, milongaData)
 	if (milongaData?.createdBy === currentUser.email) {
 		return true
 	}

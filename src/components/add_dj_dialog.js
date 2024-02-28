@@ -1,5 +1,5 @@
-import { collection, getFirestore, query, where } from "firebase/firestore"
-import { html } from "lit-html"
+import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
+import { html, render } from "lit-html"
 import { djItem } from "./dj_item"
 import { placeItem } from "./place_item"
 
@@ -47,7 +47,7 @@ export const AddDJDialog = () => {
 					최근 선택
 				</button>
 				<button class="rounded-none flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectAddType}>
-					검색 선택
+					검색/선택
 				</button>
 				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
 					직접 입력
@@ -65,20 +65,21 @@ export const AddDJDialog = () => {
 								<div class="mx-3">
 									<h6 class="font-bold">에르난</h6>
 								</div>
+								<div class="ms-auto">
+									<button class="btn-primary p-2">선택</button>
+								</div>
 							</label>
 						</li>
 					</ul>
-					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-2">
 				<form method="dialog">
 					<div class="flex items-center">
 						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none ms-2" @click="${searchDJ}">검색</button>
+						<button type="button" class="btn-secondary flex-none ms-2" @click=${searchDJ}>검색</button>
 					</div>
 					<div class="flex items-center mt-4" id="dj-search-results"></div>
-					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>

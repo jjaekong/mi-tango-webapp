@@ -26836,7 +26836,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 
 	console.log('milongaEventData ==> ', milongaEventData);
 
-	const hasPermit = hasPermitToEditMilonga(milongaEventData);
+	const hasPermit = await hasPermitToEditMilonga(milongaEventData);
 
 	console.log('hasPermit: ', hasPermit);
 
@@ -26876,7 +26876,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				</div>
 			</div>
 			<div class="p-5">
-				<a href=#milonga/${milongaEventData.milonga.id} class="btn-primary w-full mb-4 flex items-center">
+				<a href="#milonga/${milongaEventData.milonga.id}" class="btn-primary w-full mb-4 flex items-center">
 					<p>${milongaEventData.milonga.name}의 모든 정보 보기</p>
 					${ChevronRightIcon({ classList: "size-4 text-white ms-auto" })}
 				</a>

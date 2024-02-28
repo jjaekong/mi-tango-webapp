@@ -26754,24 +26754,31 @@ const hasPermitToEditMilonga = async (milongaData) => {
         });
 };const AddDJDialog = () => {
 
+	function selectAddType(e) {
+		document.querySelectorAll('#add-dj-dialog [role=tab][aria-selected=true]').forEach(tab => tab.setAttribute("aria-selected", false));
+		document.querySelectorAll('#add-dj-dialog [role=tabpanel]:not([hidden])').forEach(tabpanel => tabpanel.hidden = true);
+		e.target.setAttribute("aria-selected", true);
+		document.getElementById(`${e.target.getAttribute("aria-controls")}`).removeAttribute('hidden');
+	}
+
 	return x$1`
-		<dialog id="add-dj-dialog" class="card p-4 shadow-black">
+		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50">
 			<header class="flex items-center mb-4">
 				<h1 class="font-semibold">DJ 추가</h1>
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close(); }}>닫기</button>
 			</header>
 			<div role="tablist" class="flex mb-4">
-				<button class="flex-1 btn-secondary !bg-slate-100 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true">
+				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true" @click=${selectAddType}>
 					최근 선택
 				</button>
-				<button class="flex-1 btn-secondary !bg-slate-100 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false">
+				<button class="rounded-none flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectAddType}>
 					검색 선택
 				</button>
-				<button class="flex-1 btn-secondary !bg-slate-100 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false">
+				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-1">
+			<div role="tabpanel" id="dj-tabpanel-1" hidden>
 				<form method="dialog">
 					<ul class="mb-4">
 						<li>
@@ -26781,8 +26788,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 									<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
 								</div>
 								<div class="mx-3">
-									<h6 class="font-bold">탱고클럽오초</h6>
-									<address>서울시 월드컵북로 100</address>
+									<h6 class="font-bold">에르난</h6>
 								</div>
 							</label>
 						</li>
@@ -26790,16 +26796,20 @@ const hasPermitToEditMilonga = async (milongaData) => {
 					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-2" hidden>
+			<div role="tabpanel" id="dj-tabpanel-2">
 				<form method="dialog">
-					TEST
-					<button class="btn-primary">선택</button>
+					<div class="flex items-center">
+						<input type="search" autocomplete="on" id="dj-search-keyword">
+						<button type="button" class="btn-secondary flex-none">검색</button>
+					</div>
+					<div class="flex items-center mt-4" id="dj-search-results"></div>
+					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
 				<form method="dialog">
-					TEST
-					<button class="btn-primary">선택</button>
+					<div>TAB #3</div>
+					<button class="btn-primary w-full">선택</button>
 				</form>
 			</div>
 		</dialog>
@@ -26843,6 +26853,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 					<div>
 						<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
 						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+						<div>${ dayjs(milongaEventData.startAt.seconds*1000).fromNow() }</div>
 						${
 							milongaEventData.place
 								? x$1`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
@@ -26872,7 +26883,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
-						<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>
+						${ hasPermit ? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>` : T$1 }
 					</header>
 					${
 						milongaEventData.djs?.length > 0
@@ -26880,7 +26891,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 							: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>
-				${ AddDJDialog() }
+				${ hasPermit ? AddDJDialog() : T$1 }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>
@@ -30162,9 +30173,138 @@ var u = function u(formatStr, formats) {
     });
     return oldFormat.bind(this)(result);
   };
+});var relativeTime = (function (o, c, d) {
+  o = o || {};
+  var proto = c.prototype;
+  var relObj = {
+    future: 'in %s',
+    past: '%s ago',
+    s: 'a few seconds',
+    m: 'a minute',
+    mm: '%d minutes',
+    h: 'an hour',
+    hh: '%d hours',
+    d: 'a day',
+    dd: '%d days',
+    M: 'a month',
+    MM: '%d months',
+    y: 'a year',
+    yy: '%d years'
+  };
+  d.en.relativeTime = relObj;
+
+  proto.fromToBase = function (input, withoutSuffix, instance, isFrom, postFormat) {
+    var loc = instance.$locale().relativeTime || relObj;
+    var T = o.thresholds || [{
+      l: 's',
+      r: 44,
+      d: S$2
+    }, {
+      l: 'm',
+      r: 89
+    }, {
+      l: 'mm',
+      r: 44,
+      d: MIN
+    }, {
+      l: 'h',
+      r: 89
+    }, {
+      l: 'hh',
+      r: 21,
+      d: H$1
+    }, {
+      l: 'd',
+      r: 35
+    }, {
+      l: 'dd',
+      r: 25,
+      d: D$2
+    }, {
+      l: 'M',
+      r: 45
+    }, {
+      l: 'MM',
+      r: 10,
+      d: M$1
+    }, {
+      l: 'y',
+      r: 17
+    }, {
+      l: 'yy',
+      d: Y$1
+    }];
+    var Tl = T.length;
+    var result;
+    var out;
+    var isFuture;
+
+    for (var i = 0; i < Tl; i += 1) {
+      var t = T[i];
+
+      if (t.d) {
+        result = isFrom ? d(input).diff(instance, t.d, true) : instance.diff(input, t.d, true);
+      }
+
+      var abs = (o.rounding || Math.round)(Math.abs(result));
+      isFuture = result > 0;
+
+      if (abs <= t.r || !t.r) {
+        if (abs <= 1 && i > 0) t = T[i - 1]; // 1 minutes -> a minute, 0 seconds -> 0 second
+
+        var format = loc[t.l];
+
+        if (postFormat) {
+          abs = postFormat("" + abs);
+        }
+
+        if (typeof format === 'string') {
+          out = format.replace('%d', abs);
+        } else {
+          out = format(abs, withoutSuffix, t.l, isFuture);
+        }
+
+        break;
+      }
+    }
+
+    if (withoutSuffix) return out;
+    var pastOrFuture = isFuture ? loc.future : loc.past;
+
+    if (typeof pastOrFuture === 'function') {
+      return pastOrFuture(out);
+    }
+
+    return pastOrFuture.replace('%s', out);
+  };
+
+  function fromTo(input, withoutSuffix, instance, isFrom) {
+    return proto.fromToBase(input, withoutSuffix, instance, isFrom);
+  }
+
+  proto.to = function (input, withoutSuffix) {
+    return fromTo(input, withoutSuffix, this, true);
+  };
+
+  proto.from = function (input, withoutSuffix) {
+    return fromTo(input, withoutSuffix, this);
+  };
+
+  var makeNow = function makeNow(thisDay) {
+    return thisDay.$u ? d.utc() : d();
+  };
+
+  proto.toNow = function (withoutSuffix) {
+    return this.to(makeNow(this), withoutSuffix);
+  };
+
+  proto.fromNow = function (withoutSuffix) {
+    return this.from(makeNow(this), withoutSuffix);
+  };
 });dayjs.locale('ko');
 dayjs.extend(localizedFormat);
 dayjs.extend(advancedFormat);
+dayjs.extend(relativeTime);
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')

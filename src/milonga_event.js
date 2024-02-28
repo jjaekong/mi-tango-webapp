@@ -46,6 +46,7 @@ export const MilongaEvent = async () => {
 					<div>
 						<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
 						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+						<div>${ dayjs(milongaEventData.startAt.seconds*1000).fromNow() }</div>
 						${
 							milongaEventData.place
 								? html`<div class="flex items-center">${AtSymbolIcon({ classList: 'size-4 me-1' })}${milongaEventData.place.name}</div>`
@@ -75,7 +76,7 @@ export const MilongaEvent = async () => {
 				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
-						<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>
+						${ hasPermit ? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>` : nothing }
 					</header>
 					${
 						milongaEventData.djs?.length > 0
@@ -83,7 +84,7 @@ export const MilongaEvent = async () => {
 							: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>
-				${ AddDJDialog() }
+				${ hasPermit ? AddDJDialog() : nothing }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>

@@ -8,10 +8,12 @@ import dayjs from "dayjs/esm"
 import 'dayjs/esm/locale/ko'
 import localizedFormat from 'dayjs/esm/plugin/localizedFormat'
 import advancedFormat from 'dayjs/esm/plugin/advancedFormat'
+import relativeTime from'dayjs/esm/plugin/relativeTime'
 
 dayjs.locale('ko')
 dayjs.extend(localizedFormat)
 dayjs.extend(advancedFormat)
+dayjs.extend(relativeTime)
 
 // console.log(navigator.)
 // const navi = navigator.language.split('-')

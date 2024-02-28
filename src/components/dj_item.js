@@ -1,5 +1,5 @@
 import { html } from "lit-html"
-import { AtSymbolIcon, CalendarDaysSolidIcon, ChevronRightIcon, ForwardSolidIcon } from "../icons"
+import { AtSymbolIcon, CalendarDaysSolidIcon, ChevronRightIcon } from "../icons"
 
 export const djItem = (item) => {
     return html`

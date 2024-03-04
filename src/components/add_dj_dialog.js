@@ -1,9 +1,50 @@
-import { collection, getDocs, getFirestore, query, where } from "firebase/firestore"
+import { getAuth } from "firebase/auth"
+import { arrayUnion, collection, getDocs, getFirestore, query, setDoc, where, doc } from "firebase/firestore"
 import { html, render } from "lit-html"
-import { djItem } from "./dj_item"
-import { placeItem } from "./place_item"
+import { UserCircleOutlineIcon } from "../icons"
 
-export const AddDJDialog = () => {
+export const AddDJDialog = async (milongaEventData) => {
+
+	console.log('milogna event data', milongaEventData)
+
+	const auth = getAuth()
+	await auth.authStateReady()
+	const currentUser = auth.currentUser
+
+	function selectDJ(data) {
+		const db = getFirestore()
+		const ref = doc(db, `${process.env.MODE}.milonga_events`, milongaEventData.id)
+		setDoc(ref, {
+			djs: arrayUnion(data),
+			updatedAt: new Date(),
+			updatedBy: currentUser.uid
+		}, { merge: true })
+			.then(() => {
+				alert('DJ가 추가되었습니다.')
+			})
+			.catch(error => {
+				console.log(error)
+			})
+	}
+
+	function djItemForSearch(data) {
+		console.log('djItemForSearch data', data)
+		return html`<div class="flex w-full items-center">
+				<div class="self-start">
+					${
+						data.photoURL
+							? html`<img class="block size-10 rounded-full" src="${data.photoURL}">`
+							: UserCircleOutlineIcon({ classList: 'size-12 text-slate-500' })
+					}
+				</div>
+				<div class="mx-3">
+					<h6 class="font-semibold">[${data.nationality}] ${data.name}</h6>
+				</div>
+				<div class="ms-auto">
+					<button class="btn-primary p-2" @click=${() => { selectDJ(data) }}>선택</button>
+				</div>
+			</div>`
+	}
 
 	function selectAddType(e) {
 		document.querySelectorAll('#add-dj-dialog [role=tab][aria-selected=true]').forEach(tab => tab.setAttribute("aria-selected", false))
@@ -30,7 +71,11 @@ export const AddDJDialog = () => {
 			return data.name.indexOf(keyword.value) > -1
 		})
 		if (results.length > 0) {
-			render(results.map(result => djItem({ id: result.id, ...result.data() }, false)), document.getElementById('dj-search-results'))
+			render(html`<ul>
+				${results.map(result => {
+					return html`<li class="mb-2">${ djItemForSearch({ id: result.id, ...result.data() }) }</li>`
+				})}
+			</ul>`, document.getElementById('dj-search-results'))
 		} else {
 			render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'))
 		}
@@ -54,33 +99,24 @@ export const AddDJDialog = () => {
 				</button>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-1" hidden>
-				<form method="dialog">
-					<ul class="mb-4">
-						<li>
-							<label class="!px-0 flex w-full items-center">
-								<input type="radio" class="sr-only" value="place-item">
-								<div class="self-start">
-									<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-								</div>
-								<div class="mx-3">
-									<h6 class="font-bold">에르난</h6>
-								</div>
-								<div class="ms-auto">
-									<button class="btn-primary p-2">선택</button>
-								</div>
-							</label>
-						</li>
-					</ul>
-				</form>
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+					</div>
+					<div class="mx-3">
+						<h6 class="font-semibold">에르난</h6>
+					</div>
+					<div class="ms-auto">
+						<button class="btn-primary p-2">선택</button>
+					</div>
+				</div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-2">
-				<form method="dialog">
-					<div class="flex items-center">
-						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none ms-2" @click=${searchDJ}>검색</button>
-					</div>
-					<div class="flex items-center mt-4" id="dj-search-results"></div>
-				</form>
+				<div class="flex items-center">
+					<input type="search" autocomplete="on" id="dj-search-keyword">
+					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
+				</div>
+				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
 				<form method="dialog">

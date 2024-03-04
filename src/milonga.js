@@ -1,14 +1,17 @@
 import { getAuth } from 'firebase/auth'
 import { collection, doc, getDoc, getDocs, getFirestore, query, where } from 'firebase/firestore'
-import { render, html, nothing } from 'lit-html'
+import { render, html } from 'lit-html'
 import { MilongaEventItem } from './components/milonga_event_item'
-import { ArrowLeftIcon, AtSymbolIcon, HeadphonesIcon } from './icons'
+import { ArrowLeftIcon } from './icons'
 import dayjs from 'dayjs/esm'
-import { repeat } from 'lit-html/directives/repeat.js';
 import { hasPermitToEditMilonga } from './service'
 import { goBack } from './util'
 
 export const Milonga = async () => {
+
+	const auth = getAuth()
+	await auth.authStateReady()
+    const currentUser = auth.currentUser
 
 	const milongaId = location.hash.split('/')[1]
 
@@ -57,7 +60,7 @@ export const Milonga = async () => {
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
                 </header>
 				${  milongaEventsSnap.empty
-                        ? html`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
+                        ? html`<p class="text-sm text-slate-500 mt-3">등록된 밀롱가 이벤트가 없습니다.</p>`
                         : html`
                             <ul>
                                 ${
@@ -69,17 +72,14 @@ export const Milonga = async () => {
         </div>
 	`), document.getElementById('app'))
 
-    hasPermitToEditMilonga(milongaData)
-        .then(has => {
-            if (has) {
-				render(
-					html`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?milongaId=${milongaId}">설정</a>`,
-					document.querySelector('#toolbar > div:nth-of-type(3)')
-				)
-                render(
-					html`<a class="text-blue-500 font-bold" href="#add_milonga_event?milongaId=${milongaId}">이벤트 추가</a>`,
-					document.querySelector('#upcoming-milonga-events header')
-				)
-            }
-        })
+    if (hasPermitToEditMilonga(milongaData, currentUser.email)) {
+		render(
+			html`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?milongaId=${milongaId}">설정</a>`,
+			document.querySelector('#toolbar > div:nth-of-type(3)')
+		)
+		render(
+			html`<a class="text-blue-500 font-bold" href="#add_milonga_event?milongaId=${milongaId}">이벤트 추가</a>`,
+			document.querySelector('#upcoming-milonga-events header')
+		)
+	}
 }

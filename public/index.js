@@ -26635,50 +26635,40 @@ function goBack(e) {
             </form>
         </div>
     `, document.getElementById('app'));
-};// export const hasPermitToEditMilonga = async (milongaId) => {
-// 	const auth = getAuth()
-// 	await auth.authStateReady()
-// 	const currentUser = auth.currentUser;
-// 	if (!currentUser) {
-// 		return false;
-// 	}
-// 	const db = getFirestore()
-// 	const milongaRef = doc(db, `${"development"}.milongas`, milongaId)
-// 	const milongaSnap = await getDoc(milongaRef)
-// 	if (milongaSnap.exists()) {
-// 		const milongaData = milongaSnap.data()
-// 		if (milongaData?.createdBy === currentUser.email) {
-// 			return true
-// 		}
-// 		if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
-// 			return true;
-// 		}
-// 		if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
-// 			return true;
-// 		}
-// 	}
-// 	return false;
-// }
+};const getMilonga = async (milongaId = null) => {
+	if (!milongaId) {
+		return null
+	}
 
-const hasPermitToEditMilonga = async (milongaData) => {
-	const auth = getAuth();
-	await auth.authStateReady();
-	const currentUser = auth.currentUser;
-	if (!currentUser) {
+	const db = getFirestore();
+	const milongaRef = doc(db, `${"development"}.milongas`, milongaId);
+	const milongaSnap = await getDoc(milongaRef);
+	const milongaData = milongaSnap.exists()
+		? { id: milongaId, ...milongaSnap.data() }
+		: null;
+	
+	return milongaData
+};
+
+const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
+	if (!userEmail) {
 		return false;
 	}
-	// console.log('비교: ', currentUser, milongaData)
-	if (milongaData?.createdBy === currentUser.email) {
+	if (milongaData?.createdBy === userEmail) {
 		return true
 	}
-	if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === currentUser.email) > -1) {
+	if (milongaData?.createdBy?.organizers.findIndex(organizer => organizer.email === userEmail) > -1) {
 		return true;
 	}
-	if (milongaData?.createdBy?.editors.findIndex(editor => editor === currentUser.email) > -1) {
+	if (milongaData?.createdBy?.editors.findIndex(editor => editor === userEmail) > -1) {
 		return true;
 	}
 	return false;
 };const Milonga = async () => {
+
+	const auth = getAuth();
+	await auth.authStateReady();
+    const currentUser = auth.currentUser;
 
 	const milongaId = location.hash.split('/')[1];
 
@@ -26727,7 +26717,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
                     <h4 class="font-bold text-lg">다가오는 이벤트</h4>
                 </header>
 				${  milongaEventsSnap.empty
-                        ? x$1`<p class="no-data">등록된 밀롱가 이벤트가 없습니다.</p>`
+                        ? x$1`<p class="text-sm text-slate-500 mt-3">등록된 밀롱가 이벤트가 없습니다.</p>`
                         : x$1`
                             <ul>
                                 ${
@@ -26739,20 +26729,58 @@ const hasPermitToEditMilonga = async (milongaData) => {
         </div>
 	`), document.getElementById('app'));
 
-    hasPermitToEditMilonga(milongaData)
-        .then(has => {
-            if (has) {
-				j(
-					x$1`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?milongaId=${milongaId}">설정</a>`,
-					document.querySelector('#toolbar > div:nth-of-type(3)')
-				);
-                j(
-					x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?milongaId=${milongaId}">이벤트 추가</a>`,
-					document.querySelector('#upcoming-milonga-events header')
-				);
-            }
-        });
-};const AddDJDialog = () => {
+    if (hasPermitToEditMilonga(milongaData, currentUser.email)) {
+		j(
+			x$1`<a class="text-blue-500 font-bold" href="#edit_milonga_settings?milongaId=${milongaId}">설정</a>`,
+			document.querySelector('#toolbar > div:nth-of-type(3)')
+		);
+		j(
+			x$1`<a class="text-blue-500 font-bold" href="#add_milonga_event?milongaId=${milongaId}">이벤트 추가</a>`,
+			document.querySelector('#upcoming-milonga-events header')
+		);
+	}
+};const AddDJDialog = async (milongaEventData) => {
+
+	console.log('milogna event data', milongaEventData);
+
+	const auth = getAuth();
+	await auth.authStateReady();
+	const currentUser = auth.currentUser;
+
+	function selectDJ(data) {
+		const db = getFirestore();
+		const ref = doc(db, `${"development"}.milonga_events`, milongaEventData.id);
+		setDoc(ref, {
+			djs: arrayUnion(data),
+			updatedAt: new Date(),
+			updatedBy: currentUser.uid
+		}, { merge: true })
+			.then(() => {
+				alert('DJ가 추가되었습니다.');
+			})
+			.catch(error => {
+				console.log(error);
+			});
+	}
+
+	function djItemForSearch(data) {
+		console.log('djItemForSearch data', data);
+		return x$1`<div class="flex w-full items-center">
+				<div class="self-start">
+					${
+						data.photoURL
+							? x$1`<img class="block size-10 rounded-full" src="${data.photoURL}">`
+							: UserCircleOutlineIcon({ classList: 'size-12 text-slate-500' })
+					}
+				</div>
+				<div class="mx-3">
+					<h6 class="font-semibold">[${data.nationality}] ${data.name}</h6>
+				</div>
+				<div class="ms-auto">
+					<button class="btn-primary p-2" @click=${() => { selectDJ(data); }}>선택</button>
+				</div>
+			</div>`
+	}
 
 	function selectAddType(e) {
 		document.querySelectorAll('#add-dj-dialog [role=tab][aria-selected=true]').forEach(tab => tab.setAttribute("aria-selected", false));
@@ -26779,7 +26807,11 @@ const hasPermitToEditMilonga = async (milongaData) => {
 			return data.name.indexOf(keyword.value) > -1
 		});
 		if (results.length > 0) {
-			j(results.map(result => djItem({ id: result.id, ...result.data() })), document.getElementById('dj-search-results'));
+			j(x$1`<ul>
+				${results.map(result => {
+					return x$1`<li class="mb-2">${ djItemForSearch({ id: result.id, ...result.data() }) }</li>`
+				})}
+			</ul>`, document.getElementById('dj-search-results'));
 		} else {
 			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
 		}
@@ -26803,33 +26835,24 @@ const hasPermitToEditMilonga = async (milongaData) => {
 				</button>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-1" hidden>
-				<form method="dialog">
-					<ul class="mb-4">
-						<li>
-							<label class="!px-0 flex w-full items-center">
-								<input type="radio" class="sr-only" value="place-item">
-								<div class="self-start">
-									<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-								</div>
-								<div class="mx-3">
-									<h6 class="font-bold">에르난</h6>
-								</div>
-								<div class="ms-auto">
-									<button class="btn-primary p-2">선택</button>
-								</div>
-							</label>
-						</li>
-					</ul>
-				</form>
+				<div class="flex w-full items-center">
+					<div class="self-start">
+						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+					</div>
+					<div class="mx-3">
+						<h6 class="font-semibold">에르난</h6>
+					</div>
+					<div class="ms-auto">
+						<button class="btn-primary p-2">선택</button>
+					</div>
+				</div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-2">
-				<form method="dialog">
-					<div class="flex items-center">
-						<input type="search" autocomplete="on" id="dj-search-keyword">
-						<button type="button" class="btn-secondary flex-none ms-2" @click=${searchDJ}>검색</button>
-					</div>
-					<div class="flex items-center mt-4" id="dj-search-results"></div>
-				</form>
+				<div class="flex items-center">
+					<input type="search" autocomplete="on" id="dj-search-keyword">
+					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
+				</div>
+				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
 				<form method="dialog">
@@ -26840,6 +26863,10 @@ const hasPermitToEditMilonga = async (milongaData) => {
 		</dialog>
 	`
 };const MilongaEvent = async () => {
+
+	const auth = getAuth();
+	await auth.authStateReady();
+    const currentUser = auth.currentUser;
 
 	const milongaEventId = location.hash.split('/')[1];
 
@@ -26861,7 +26888,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 
 	console.log('milongaEventData ==> ', milongaEventData);
 
-	const hasPermit = await hasPermitToEditMilonga(milongaEventData);
+	const hasPermit = hasPermitToEditMilonga(await getMilonga(milongaEventData.milonga.id), currentUser.email);
 
 	console.log('hasPermit: ', hasPermit);
 
@@ -26916,7 +26943,7 @@ const hasPermitToEditMilonga = async (milongaData) => {
 							: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>
-				${ hasPermit ? AddDJDialog() : T$1 }
+				${ hasPermit ? await AddDJDialog(milongaEventData) : T$1 }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>
@@ -27463,7 +27490,7 @@ function debounce(func, wait, options) {
     console.log("milongaId:", milongaId);
 	console.log("milongaData:", milongaData);
 
-	if (!hasPermitToEditMilonga(milongaData)) {
+	if (!hasPermitToEditMilonga(milongaData, currentUser.email)) {
 		alert('밀롱가 컨텐츠를 편집할 권한이 없습니다.');
 		history.back();
 		return

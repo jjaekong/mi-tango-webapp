@@ -52,7 +52,7 @@ export const AddMilongaEvent = async () => {
     console.log("milongaId:", milongaId)
 	console.log("milongaData:", milongaData)
 
-	if (!hasPermitToEditMilonga(milongaData)) {
+	if (!hasPermitToEditMilonga(milongaData, currentUser.email)) {
 		alert('밀롱가 컨텐츠를 편집할 권한이 없습니다.')
 		history.back()
 		return

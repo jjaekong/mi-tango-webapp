@@ -4,10 +4,15 @@ import { render, html, nothing } from 'lit-html'
 import { djItem } from './components/dj_item'
 import { ArrowLeftIcon, AtSymbolIcon, ChevronRightIcon, HeadphonesIcon } from './icons'
 import { AddDJDialog } from './components/add_dj_dialog'
-import { hasPermitToEditMilonga } from './service'
+import { getMilonga, hasPermitToEditMilonga } from './service'
 import { goBack } from './util'
+import { getAuth } from 'firebase/auth'
 
 export const MilongaEvent = async () => {
+
+	const auth = getAuth()
+	await auth.authStateReady()
+    const currentUser = auth.currentUser
 
 	const milongaEventId = location.hash.split('/')[1]
 
@@ -29,7 +34,7 @@ export const MilongaEvent = async () => {
 
 	console.log('milongaEventData ==> ', milongaEventData)
 
-	const hasPermit = await hasPermitToEditMilonga(milongaEventData)
+	const hasPermit = hasPermitToEditMilonga(await getMilonga(milongaEventData.milonga.id), currentUser.email)
 
 	console.log('hasPermit: ', hasPermit)
 
@@ -84,7 +89,7 @@ export const MilongaEvent = async () => {
 							: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>
-				${ hasPermit ? AddDJDialog() : nothing }
+				${ hasPermit ? await AddDJDialog(milongaEventData) : nothing }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>

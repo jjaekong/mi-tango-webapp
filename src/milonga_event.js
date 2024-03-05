@@ -50,7 +50,7 @@ export const MilongaEvent = async () => {
 				<div class="absolute bottom-0 left-0 w-full p-5 text-white bg-gradient-to-t from-black">
 					<div>
 						<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
-						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+						<div><time>${ dayjs(milongaEventData.startAt.seconds*1000).format('LLLL') }</time></div>
 						<div>${ dayjs(milongaEventData.startAt.seconds*1000).fromNow() }</div>
 						${
 							milongaEventData.place
@@ -61,7 +61,7 @@ export const MilongaEvent = async () => {
 							milongaEventData.djs?.length > 0
 								? html`
 									<div class="flex items-center">
-										${HeadphonesIcon({ classList: 'size-4 me-1' })}
+										${ HeadphonesIcon({ classList: 'size-4 me-1' }) }
 										<ul class="inline-flex felx-wrap">
 											${milongaEventData.djs.map((dj, index) => {
 												return html`<li class="me-1">${index == 0 ? dj.name : ', '+dj.name}</li>`
@@ -81,7 +81,9 @@ export const MilongaEvent = async () => {
 				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
-						${ hasPermit ? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>` : nothing }
+						${ hasPermit
+							? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>`
+							: nothing }
 					</header>
 					${
 						milongaEventData.djs?.length > 0

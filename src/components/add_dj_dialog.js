@@ -27,8 +27,8 @@ export const AddDJDialog = async (milongaEventData) => {
 			})
 	}
 
-	function djItemForSearch(data) {
-		console.log('djItemForSearch data', data)
+	function djItem(data) {
+		console.log('djItem data', data)
 		return html`<div class="flex w-full items-center">
 				<div class="self-start">
 					${
@@ -73,7 +73,7 @@ export const AddDJDialog = async (milongaEventData) => {
 		if (results.length > 0) {
 			render(html`<ul>
 				${results.map(result => {
-					return html`<li class="mb-2">${ djItemForSearch({ id: result.id, ...result.data() }) }</li>`
+					return html`<li class="mb-2">${ djItem({ id: result.id, ...result.data() }) }</li>`
 				})}
 			</ul>`, document.getElementById('dj-search-results'))
 		} else {
@@ -98,7 +98,7 @@ export const AddDJDialog = async (milongaEventData) => {
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-1" hidden>
+			<div role="tabpanel" id="dj-tabpanel-1">
 				<div class="flex w-full items-center">
 					<div class="self-start">
 						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
@@ -111,7 +111,7 @@ export const AddDJDialog = async (milongaEventData) => {
 					</div>
 				</div>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-2">
+			<div role="tabpanel" id="dj-tabpanel-2" hidden>
 				<div class="flex items-center">
 					<input type="search" autocomplete="on" id="dj-search-keyword">
 					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
@@ -119,10 +119,16 @@ export const AddDJDialog = async (milongaEventData) => {
 				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
-				<form method="dialog">
-					<div>TAB #3</div>
-					<button class="btn-primary w-full">선택</button>
-				</form>
+				<div class="mb-2">
+					<input type="file">
+				</div>
+				<div class="mb-2">
+					<input type="text" placeholder="국적 코드">
+				</div>
+				<div class="mb-2">
+					<input type="text" placeholder="이름 또는 닉네임">
+				</div>
+				<button type="button" class="btn-primary w-full">선택</button>
 			</div>
 		</dialog>
 	`

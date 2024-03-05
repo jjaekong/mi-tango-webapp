@@ -26763,8 +26763,8 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 			});
 	}
 
-	function djItemForSearch(data) {
-		console.log('djItemForSearch data', data);
+	function djItem(data) {
+		console.log('djItem data', data);
 		return x$1`<div class="flex w-full items-center">
 				<div class="self-start">
 					${
@@ -26809,7 +26809,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 		if (results.length > 0) {
 			j(x$1`<ul>
 				${results.map(result => {
-					return x$1`<li class="mb-2">${ djItemForSearch({ id: result.id, ...result.data() }) }</li>`
+					return x$1`<li class="mb-2">${ djItem({ id: result.id, ...result.data() }) }</li>`
 				})}
 			</ul>`, document.getElementById('dj-search-results'));
 		} else {
@@ -26834,7 +26834,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-1" hidden>
+			<div role="tabpanel" id="dj-tabpanel-1">
 				<div class="flex w-full items-center">
 					<div class="self-start">
 						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
@@ -26847,7 +26847,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					</div>
 				</div>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-2">
+			<div role="tabpanel" id="dj-tabpanel-2" hidden>
 				<div class="flex items-center">
 					<input type="search" autocomplete="on" id="dj-search-keyword">
 					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
@@ -26855,10 +26855,16 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
-				<form method="dialog">
-					<div>TAB #3</div>
-					<button class="btn-primary w-full">선택</button>
-				</form>
+				<div class="mb-2">
+					<input type="file">
+				</div>
+				<div class="mb-2">
+					<input type="text" placeholder="국적 코드">
+				</div>
+				<div class="mb-2">
+					<input type="text" placeholder="이름 또는 닉네임">
+				</div>
+				<button type="button" class="btn-primary w-full">선택</button>
 			</div>
 		</dialog>
 	`
@@ -26904,7 +26910,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<div class="absolute bottom-0 left-0 w-full p-5 text-white bg-gradient-to-t from-black">
 					<div>
 						<h1 class="font-semibold text-lg">${milongaEventData.name}</h1>
-						<div><time>${dayjs(milongaEventData.startAt.seconds*1000).format('LLLL')}</time></div>
+						<div><time>${ dayjs(milongaEventData.startAt.seconds*1000).format('LLLL') }</time></div>
 						<div>${ dayjs(milongaEventData.startAt.seconds*1000).fromNow() }</div>
 						${
 							milongaEventData.place
@@ -26915,7 +26921,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 							milongaEventData.djs?.length > 0
 								? x$1`
 									<div class="flex items-center">
-										${HeadphonesIcon({ classList: 'size-4 me-1' })}
+										${ HeadphonesIcon({ classList: 'size-4 me-1' }) }
 										<ul class="inline-flex felx-wrap">
 											${milongaEventData.djs.map((dj, index) => {
 												return x$1`<li class="me-1">${index == 0 ? dj.name : ', '+dj.name}</li>`
@@ -26935,7 +26941,9 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<section class="card p-5 mb-4" id="djs">
 					<header class="flex items-center">
 						<h1 class="font-semibold">DJs</h1>
-						${ hasPermit ? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>` : T$1 }
+						${ hasPermit
+							? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>`
+							: T$1 }
 					</header>
 					${
 						milongaEventData.djs?.length > 0

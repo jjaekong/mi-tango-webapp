@@ -9855,7 +9855,7 @@ function Yd(a,b){if(Y(b))throw Error("division by zero");if(Y(a))return new ae$1
 b.ea()));d=Math.ceil(Math.log(c)/Math.LN2);d=48>=d?1:Math.pow(2,d-48);f=U(c);for(h=f.R(b);X(h)||0<h.X(a);)c-=d,f=U(c),h=f.R(b);Y(f)&&(f=Wd);e=e.add(f);a=Zd(a,h);}return new ae$1(e,a)}k.gb=function(a){return Yd(this,a).h};k.and=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)&a.D(d);return new T(c,this.h&a.h)};k.or=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)|a.D(d);return new T(c,this.h|a.h)};
 k.xor=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)^a.D(d);return new T(c,this.h^a.h)};function be(a){for(var b=a.g.length+1,c=[],d=0;d<b;d++)c[d]=a.D(d)<<1|a.D(d-1)>>>31;return new T(c,a.h)}function Z(a,b){var c=b>>5;b%=32;for(var d=a.g.length-c,e=[],f=0;f<d;f++)e[f]=0<b?a.D(f+c)>>>b|a.D(f+c+1)<<32-b:a.D(f+c);return new T(e,a.h)}Od.prototype.createWebChannel=Od.prototype.g;Q.prototype.send=Q.prototype.u;Q.prototype.open=Q.prototype.m;Q.prototype.close=Q.prototype.close;Sb.NO_ERROR=0;Sb.TIMEOUT=8;Sb.HTTP_ERROR=6;Tb.COMPLETE="complete";Wb.EventType=Xb;Xb.OPEN="a";Xb.CLOSE="b";Xb.ERROR="c";Xb.MESSAGE="d";B.prototype.listen=B.prototype.O;P.prototype.listenOnce=P.prototype.P;P.prototype.getLastError=P.prototype.Sa;P.prototype.getLastErrorCode=P.prototype.Ia;P.prototype.getStatus=P.prototype.da;P.prototype.getResponseJson=P.prototype.Wa;
 P.prototype.getResponseText=P.prototype.ja;P.prototype.send=P.prototype.ha;P.prototype.setWithCredentials=P.prototype.Oa;S$1.prototype.digest=S$1.prototype.l;S$1.prototype.reset=S$1.prototype.reset;S$1.prototype.update=S$1.prototype.j;T.prototype.add=T.prototype.add;T.prototype.multiply=T.prototype.R;T.prototype.modulo=T.prototype.gb;T.prototype.compare=T.prototype.X;T.prototype.toNumber=T.prototype.ea;T.prototype.toString=T.prototype.toString;T.prototype.getBits=T.prototype.D;T.fromNumber=U;T.fromString=Vd;
-var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;const w = "@firebase/firestore";
+var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event$1 = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;const w = "@firebase/firestore";
 
 /**
  * @license
@@ -18739,7 +18739,7 @@ class __PRIVATE_RestConnection {
                     h = !0, P.Vo(new FirestoreError(n, i)), c.close();
                 } else __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} received:`, i), P.mo(i);
             }
-        })), __PRIVATE_unguardedEventListen(o, Event.STAT_EVENT, (t => {
+        })), __PRIVATE_unguardedEventListen(o, Event$1.STAT_EVENT, (t => {
             t.stat === Stat.PROXY ? __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} detected buffering proxy`) : t.stat === Stat.NOPROXY && __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} detected no buffering proxy`);
         })), setTimeout((() => {
             // Technically we could/should wait for the WebChannel opened event,
@@ -26429,6 +26429,17 @@ function goBack(e) {
 	} else {
 		location.href="#";
 	}
+}
+
+function saveSearchedDJ(id) {
+    console.log(id);
+    const djs = localStorage.getItem('searched_djs');
+    const parsed = djs ? JSON.parse(djs) : [];
+    const list = Array.isArray(parsed) ? parsed : [];
+    if (list.indexOf(id) < 0) {
+        list.unshift(id);
+    }
+    localStorage.setItem('searched_djs', JSON.stringify(list.splice(0, 3)));
 }const EditUserProfile = async () => {
 
     const auth = getAuth();
@@ -26761,6 +26772,9 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 		}, { merge: true })
 			.then(() => {
 				alert('DJ가 추가되었습니다.');
+                document.getElementById('add-dj-dialog').close();
+                saveSearchedDJ(data.id);
+                dispatchEvent(new Event("hashchange"));
 			})
 			.catch(error => {
 				console.log(error);
@@ -26774,14 +26788,14 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					${
 						data.photoURL
 							? x$1`<img class="block size-10 rounded-full" src="${data.photoURL}">`
-							: UserCircleOutlineIcon({ classList: 'size-12 text-slate-500' })
+							: UserCircleOutlineIcon({ classList: 'size-10 text-slate-400' })
 					}
 				</div>
-				<div class="mx-3">
+				<div class="mx-2">
 					<h6 class="font-semibold">[${data.nationality}] ${data.name}</h6>
 				</div>
 				<div class="ms-auto">
-					<button class="btn-primary p-2" @click=${() => { selectDJ(data); }}>선택</button>
+					<button class="btn-primary p-2 text-sm" @click=${() => { selectDJ(data); }}>선택</button>
 				</div>
 			</div>`
 	}
@@ -26817,7 +26831,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				})}
 			</ul>`, document.getElementById('dj-search-results'));
 		} else {
-			j(x$1`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
+			j(x$1`<p class="text-sm text-slate-500 mb-2 text-center">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'));
 		}
 	}
 
@@ -26839,7 +26853,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				</button>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-1">
-				<div class="flex w-full items-center">
+				<div class="flex w-full items-center mb-3">
 					<div class="self-start">
 						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
 					</div>

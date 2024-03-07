@@ -2,6 +2,7 @@ import { getAuth } from "firebase/auth"
 import { arrayUnion, collection, getDocs, getFirestore, query, setDoc, where, doc } from "firebase/firestore"
 import { html, render } from "lit-html"
 import { UserCircleOutlineIcon } from "../icons"
+import { saveSearchedDJ } from '../util'
 
 export const AddDJDialog = async (milongaEventData) => {
 
@@ -21,6 +22,9 @@ export const AddDJDialog = async (milongaEventData) => {
 		}, { merge: true })
 			.then(() => {
 				alert('DJ가 추가되었습니다.')
+                document.getElementById('add-dj-dialog').close()
+                saveSearchedDJ(data.id)
+                dispatchEvent(new Event("hashchange"))
 			})
 			.catch(error => {
 				console.log(error)
@@ -34,14 +38,14 @@ export const AddDJDialog = async (milongaEventData) => {
 					${
 						data.photoURL
 							? html`<img class="block size-10 rounded-full" src="${data.photoURL}">`
-							: UserCircleOutlineIcon({ classList: 'size-12 text-slate-500' })
+							: UserCircleOutlineIcon({ classList: 'size-10 text-slate-400' })
 					}
 				</div>
-				<div class="mx-3">
+				<div class="mx-2">
 					<h6 class="font-semibold">[${data.nationality}] ${data.name}</h6>
 				</div>
 				<div class="ms-auto">
-					<button class="btn-primary p-2" @click=${() => { selectDJ(data) }}>선택</button>
+					<button class="btn-primary p-2 text-sm" @click=${() => { selectDJ(data) }}>선택</button>
 				</div>
 			</div>`
 	}
@@ -77,7 +81,7 @@ export const AddDJDialog = async (milongaEventData) => {
 				})}
 			</ul>`, document.getElementById('dj-search-results'))
 		} else {
-			render(html`<p class="mt-3 text-sm text-slate-500">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'))
+			render(html`<p class="text-sm text-slate-500 mb-2 text-center">검색 결과가 없습니다.</p>`, document.getElementById('dj-search-results'))
 		}
 	}
 
@@ -99,7 +103,7 @@ export const AddDJDialog = async (milongaEventData) => {
 				</button>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-1">
-				<div class="flex w-full items-center">
+				<div class="flex w-full items-center mb-3">
 					<div class="self-start">
 						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
 					</div>

@@ -87,7 +87,27 @@ export const MilongaEvent = async () => {
 					</header>
 					${
 						milongaEventData.djs?.length > 0
-							? html`<ul>${ milongaEventData.djs.map(dj => html`<li class="mb-2">${ djItem(dj) }</li>`) }</ul>`
+							? html`
+								<ul>
+									${
+										milongaEventData.djs.map(dj => {
+											return html`
+												<li class="mt-3">
+													<a href="#dj/${dj.id}" class="flex w-full items-center">
+														<div class="self-start">
+															<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+														</div>
+														<div class="mx-3">
+															<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
+														</div>
+														<div class="ms-auto text-slate-400">
+															${ChevronRightIcon({ classList: 'size-5' })}
+														</div>
+													</a>
+												</li>`
+										})
+									}
+								</ul>`
 							: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>

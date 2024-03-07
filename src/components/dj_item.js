@@ -1,7 +1,11 @@
 import { html } from "lit-html"
 import { AtSymbolIcon, CalendarDaysSolidIcon, ChevronRightIcon } from "../icons"
 
-export const djItem = (item) => {
+export const djItem = (props = {
+		type: 'list', // list or link
+		data: null,
+		action: 'select'
+}) => {
     return html`
         <a href="#dj" class="flex w-full items-center">
             <div class="self-start">

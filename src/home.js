@@ -38,7 +38,7 @@ export const Home = async () => {
 
 			${ await TodayMilongas() }
 
-			${ await DJs() }
+			<!-- ${ await DJs() } -->
 
 			${ await LocalMilongas() }
 

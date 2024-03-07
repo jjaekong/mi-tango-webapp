@@ -82,7 +82,7 @@ export const AddDJDialog = async (milongaEventData) => {
 	}
 
 	return html`
-		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50">
+		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50 min-w-80">
 			<header class="flex items-center mb-4">
 				<h1 class="font-semibold">DJ 추가</h1>
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close() }}>닫기</button>
@@ -119,13 +119,13 @@ export const AddDJDialog = async (milongaEventData) => {
 				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="file">
 				</div>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="text" placeholder="국적 코드">
 				</div>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="text" placeholder="이름 또는 닉네임">
 				</div>
 				<button type="button" class="btn-primary w-full">선택</button>

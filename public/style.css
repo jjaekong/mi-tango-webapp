@@ -979,6 +979,10 @@ select {
   min-width: 20%;
 }
 
+.min-w-80 {
+  min-width: 20rem;
+}
+
 .flex-1 {
   flex: 1 1 0%;
 }

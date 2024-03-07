@@ -23754,7 +23754,11 @@ const MilongaEventItem = (data, dateType = null) => {
  * Copyright 2021 Google LLC
  * SPDX-License-Identifier: BSD-3-Clause
  */
-function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const djItem = (item) => {
+function*o(o,f){if(void 0!==o){let i=0;for(const t of o)yield f(t,i++);}}const djItem = (props = {
+		type: 'list', // list or link
+		data: null,
+		action: 'select'
+}) => {
     return x$1`
         <a href="#dj" class="flex w-full items-center">
             <div class="self-start">
@@ -23872,7 +23876,7 @@ function getCountryName(code) {
 
 			${ await TodayMilongas() }
 
-			${ await DJs() }
+			<!-- ${ await DJs() } -->
 
 			${ await LocalMilongas() }
 
@@ -26818,7 +26822,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 	}
 
 	return x$1`
-		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50">
+		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50 min-w-80">
 			<header class="flex items-center mb-4">
 				<h1 class="font-semibold">DJ 추가</h1>
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close(); }}>닫기</button>
@@ -26855,13 +26859,13 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<div class="mt-4" id="dj-search-results"></div>
 			</div>
 			<div role="tabpanel" id="dj-tabpanel-3" hidden>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="file">
 				</div>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="text" placeholder="국적 코드">
 				</div>
-				<div class="mb-2">
+				<div class="mb-3">
 					<input type="text" placeholder="이름 또는 닉네임">
 				</div>
 				<button type="button" class="btn-primary w-full">선택</button>
@@ -26947,7 +26951,27 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					</header>
 					${
 						milongaEventData.djs?.length > 0
-							? x$1`<ul>${ milongaEventData.djs.map(dj => x$1`<li class="mb-2">${ djItem(dj) }</li>`) }</ul>`
+							? x$1`
+								<ul>
+									${
+										milongaEventData.djs.map(dj => {
+											return x$1`
+												<li class="mt-3">
+													<a href="#dj/${dj.id}" class="flex w-full items-center">
+														<div class="self-start">
+															<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+														</div>
+														<div class="mx-3">
+															<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
+														</div>
+														<div class="ms-auto text-slate-400">
+															${ChevronRightIcon({ classList: 'size-5' })}
+														</div>
+													</a>
+												</li>`
+										})
+									}
+								</ul>`
 							: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
 					}
 				</section>

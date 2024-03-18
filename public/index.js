@@ -9855,7 +9855,7 @@ function Yd(a,b){if(Y(b))throw Error("division by zero");if(Y(a))return new ae$1
 b.ea()));d=Math.ceil(Math.log(c)/Math.LN2);d=48>=d?1:Math.pow(2,d-48);f=U(c);for(h=f.R(b);X(h)||0<h.X(a);)c-=d,f=U(c),h=f.R(b);Y(f)&&(f=Wd);e=e.add(f);a=Zd(a,h);}return new ae$1(e,a)}k.gb=function(a){return Yd(this,a).h};k.and=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)&a.D(d);return new T(c,this.h&a.h)};k.or=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)|a.D(d);return new T(c,this.h|a.h)};
 k.xor=function(a){for(var b=Math.max(this.g.length,a.g.length),c=[],d=0;d<b;d++)c[d]=this.D(d)^a.D(d);return new T(c,this.h^a.h)};function be(a){for(var b=a.g.length+1,c=[],d=0;d<b;d++)c[d]=a.D(d)<<1|a.D(d-1)>>>31;return new T(c,a.h)}function Z(a,b){var c=b>>5;b%=32;for(var d=a.g.length-c,e=[],f=0;f<d;f++)e[f]=0<b?a.D(f+c)>>>b|a.D(f+c+1)<<32-b:a.D(f+c);return new T(e,a.h)}Od.prototype.createWebChannel=Od.prototype.g;Q.prototype.send=Q.prototype.u;Q.prototype.open=Q.prototype.m;Q.prototype.close=Q.prototype.close;Sb.NO_ERROR=0;Sb.TIMEOUT=8;Sb.HTTP_ERROR=6;Tb.COMPLETE="complete";Wb.EventType=Xb;Xb.OPEN="a";Xb.CLOSE="b";Xb.ERROR="c";Xb.MESSAGE="d";B.prototype.listen=B.prototype.O;P.prototype.listenOnce=P.prototype.P;P.prototype.getLastError=P.prototype.Sa;P.prototype.getLastErrorCode=P.prototype.Ia;P.prototype.getStatus=P.prototype.da;P.prototype.getResponseJson=P.prototype.Wa;
 P.prototype.getResponseText=P.prototype.ja;P.prototype.send=P.prototype.ha;P.prototype.setWithCredentials=P.prototype.Oa;S$1.prototype.digest=S$1.prototype.l;S$1.prototype.reset=S$1.prototype.reset;S$1.prototype.update=S$1.prototype.j;T.prototype.add=T.prototype.add;T.prototype.multiply=T.prototype.R;T.prototype.modulo=T.prototype.gb;T.prototype.compare=T.prototype.X;T.prototype.toNumber=T.prototype.ea;T.prototype.toString=T.prototype.toString;T.prototype.getBits=T.prototype.D;T.fromNumber=U;T.fromString=Vd;
-var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event$1 = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;const w = "@firebase/firestore";
+var createWebChannelTransport = function(){return new Od};var getStatEventTarget = function(){return Mb()};var ErrorCode$1 = Sb;var EventType = Tb;var Event = E;var Stat = {xb:0,Ab:1,Bb:2,Ub:3,Zb:4,Wb:5,Xb:6,Vb:7,Tb:8,Yb:9,PROXY:10,NOPROXY:11,Rb:12,Nb:13,Ob:14,Mb:15,Pb:16,Qb:17,tb:18,sb:19,ub:20};var WebChannel = Wb;var XhrIo = P;var Md5 = S$1;var Integer = T;const w = "@firebase/firestore";
 
 /**
  * @license
@@ -18739,7 +18739,7 @@ class __PRIVATE_RestConnection {
                     h = !0, P.Vo(new FirestoreError(n, i)), c.close();
                 } else __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} received:`, i), P.mo(i);
             }
-        })), __PRIVATE_unguardedEventListen(o, Event$1.STAT_EVENT, (t => {
+        })), __PRIVATE_unguardedEventListen(o, Event.STAT_EVENT, (t => {
             t.stat === Stat.PROXY ? __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} detected buffering proxy`) : t.stat === Stat.NOPROXY && __PRIVATE_logDebug(Ve, `RPC '${e}' stream ${r} detected no buffering proxy`);
         })), setTimeout((() => {
             // Technically we could/should wait for the WebChannel opened event,
@@ -26429,17 +26429,6 @@ function goBack(e) {
 	} else {
 		location.href="#";
 	}
-}
-
-function saveSearchedDJ(id) {
-    console.log(id);
-    const djs = localStorage.getItem('searched_djs');
-    const parsed = djs ? JSON.parse(djs) : [];
-    const list = Array.isArray(parsed) ? parsed : [];
-    if (list.indexOf(id) < 0) {
-        list.unshift(id);
-    }
-    localStorage.setItem('searched_djs', JSON.stringify(list.splice(0, 3)));
 }const EditUserProfile = async () => {
 
     const auth = getAuth();
@@ -26754,13 +26743,33 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 			document.querySelector('#upcoming-milonga-events header')
 		);
 	}
-};const AddDJDialog = async (milongaEventData) => {
+};const AddDJDialog = async (milongaEventData, callback) => {
 
 	console.log('milogna event data', milongaEventData);
 
 	const auth = getAuth();
 	await auth.authStateReady();
 	const currentUser = auth.currentUser;
+
+	const latestAddedDJs = (async function() {
+		try {
+			const saved = localStorage.getItem('latest_added_djs');
+			const parsed = JSON.parse(saved);
+			const db = getFirestore();
+			const snap = await getDocs(
+				doc(db, `${"development"}.djs`, 'aaa'),
+				doc(db, `${"development"}.djs`, 'bbb'),
+				doc(db, `${"development"}.djs`, 'ccc')
+			);
+			cconsole.log(snap);
+			// const q = query(collection(db, `${"development"}.djs`), where(''))
+			return parsed
+		} catch (error) {
+			return []
+		}
+	})();
+
+	console.log('latestAddedDJs', latestAddedDJs);
 
 	function selectDJ(data) {
 		const db = getFirestore();
@@ -26773,8 +26782,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 			.then(() => {
 				alert('DJ가 추가되었습니다.');
                 document.getElementById('add-dj-dialog').close();
-                saveSearchedDJ(data.id);
-                dispatchEvent(new Event("hashchange"));
+				if (typeof callback === 'function') callback();
 			})
 			.catch(error => {
 				console.log(error);
@@ -26835,6 +26843,10 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 		}
 	}
 
+	function addDJ() {
+		console.log('add dj');
+	}
+
 	return x$1`
 		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50 min-w-80">
 			<header class="flex items-center mb-4">
@@ -26842,30 +26854,14 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close(); }}>닫기</button>
 			</header>
 			<div role="tablist" class="flex mb-4">
-				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true" @click=${selectAddType}>
-					최근 선택
-				</button>
-				<button class="rounded-none flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectAddType}>
+				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="true" @click=${selectAddType}>
 					검색/선택
 				</button>
 				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-1">
-				<div class="flex w-full items-center mb-3">
-					<div class="self-start">
-						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-					</div>
-					<div class="mx-3">
-						<h6 class="font-semibold">에르난</h6>
-					</div>
-					<div class="ms-auto">
-						<button class="btn-primary p-2">선택</button>
-					</div>
-				</div>
-			</div>
-			<div role="tabpanel" id="dj-tabpanel-2" hidden>
+			<div role="tabpanel" id="dj-tabpanel-2">
 				<div class="flex items-center">
 					<input type="search" autocomplete="on" id="dj-search-keyword">
 					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
@@ -26876,13 +26872,11 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 				<div class="mb-3">
 					<input type="file">
 				</div>
-				<div class="mb-3">
-					<input type="text" placeholder="국적 코드">
+				<div class="mb-3 flex items-center">
+					<input type="text" class="flex-none !w-14" placeholder="국적 코드" maxlength="2">
+					<input type="text" class="flex-1 ms-2" placeholder="이름 또는 닉네임">
 				</div>
-				<div class="mb-3">
-					<input type="text" placeholder="이름 또는 닉네임">
-				</div>
-				<button type="button" class="btn-primary w-full">선택</button>
+				<button type="button" class="btn-primary w-full" @click=${addDJ}>추가</button>
 			</div>
 		</dialog>
 	`
@@ -26915,6 +26909,32 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 	const hasPermit = hasPermitToEditMilonga(await getMilonga(milongaEventData.milonga.id), currentUser.email);
 
 	console.log('hasPermit: ', hasPermit);
+
+	function renderDJs() {
+		return milongaEventData.djs?.length > 0
+			? x$1`
+				<ul>
+					${
+						milongaEventData.djs.map(dj => {
+							return x$1`
+								<li class="mt-3">
+									<a href="#dj/${dj.id}" class="flex w-full items-center">
+										<div class="self-start">
+											<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+										</div>
+										<div class="mx-3">
+											<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
+										</div>
+										<div class="ms-auto text-slate-400">
+											${ChevronRightIcon({ classList: 'size-5' })}
+										</div>
+									</a>
+								</li>`
+						})
+					}
+				</ul>`
+			: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
+	}
 
 	j(x$1`
 		<div class="milonga-event relative">
@@ -26963,33 +26983,9 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 							? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>`
 							: T$1 }
 					</header>
-					${
-						milongaEventData.djs?.length > 0
-							? x$1`
-								<ul>
-									${
-										milongaEventData.djs.map(dj => {
-											return x$1`
-												<li class="mt-3">
-													<a href="#dj/${dj.id}" class="flex w-full items-center">
-														<div class="self-start">
-															<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-														</div>
-														<div class="mx-3">
-															<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
-														</div>
-														<div class="ms-auto text-slate-400">
-															${ChevronRightIcon({ classList: 'size-5' })}
-														</div>
-													</a>
-												</li>`
-										})
-									}
-								</ul>`
-							: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
-					}
+					${ renderDJs() }
 				</section>
-				${ hasPermit ? await AddDJDialog(milongaEventData) : T$1 }
+				${ hasPermit ? await AddDJDialog(milongaEventData, renderDJs) : T$1 }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>

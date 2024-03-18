@@ -1,16 +1,35 @@
 import { getAuth } from "firebase/auth"
-import { arrayUnion, collection, getDocs, getFirestore, query, setDoc, where, doc } from "firebase/firestore"
-import { html, render } from "lit-html"
+import { arrayUnion, collection, getDocs, getFirestore, query, setDoc, where, doc, getDoc } from "firebase/firestore"
+import { html, nothing, render } from "lit-html"
 import { UserCircleOutlineIcon } from "../icons"
-import { saveSearchedDJ } from '../util'
 
-export const AddDJDialog = async (milongaEventData) => {
+export const AddDJDialog = async (milongaEventData, callback) => {
 
 	console.log('milogna event data', milongaEventData)
 
 	const auth = getAuth()
 	await auth.authStateReady()
 	const currentUser = auth.currentUser
+
+	const latestAddedDJs = (async function() {
+		try {
+			const saved = localStorage.getItem('latest_added_djs')
+			const parsed = JSON.parse(saved)
+			const db = getFirestore()
+			const snap = await getDocs(
+				doc(db, `${process.env.MODE}.djs`, 'aaa'),
+				doc(db, `${process.env.MODE}.djs`, 'bbb'),
+				doc(db, `${process.env.MODE}.djs`, 'ccc')
+			)
+			cconsole.log(snap)
+			// const q = query(collection(db, `${process.env.MODE}.djs`), where(''))
+			return parsed
+		} catch (error) {
+			return []
+		}
+	})()
+
+	console.log('latestAddedDJs', latestAddedDJs)
 
 	function selectDJ(data) {
 		const db = getFirestore()
@@ -23,8 +42,7 @@ export const AddDJDialog = async (milongaEventData) => {
 			.then(() => {
 				alert('DJ가 추가되었습니다.')
                 document.getElementById('add-dj-dialog').close()
-                saveSearchedDJ(data.id)
-                dispatchEvent(new Event("hashchange"))
+				if (typeof callback === 'function') callback()
 			})
 			.catch(error => {
 				console.log(error)
@@ -85,6 +103,10 @@ export const AddDJDialog = async (milongaEventData) => {
 		}
 	}
 
+	function addDJ() {
+		console.log('add dj')
+	}
+
 	return html`
 		<dialog id="add-dj-dialog" class="card p-4 !shadow-black/50 min-w-80">
 			<header class="flex items-center mb-4">
@@ -92,30 +114,14 @@ export const AddDJDialog = async (milongaEventData) => {
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close() }}>닫기</button>
 			</header>
 			<div role="tablist" class="flex mb-4">
-				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true" @click=${selectAddType}>
-					최근 선택
-				</button>
-				<button class="rounded-none flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectAddType}>
+				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="true" @click=${selectAddType}>
 					검색/선택
 				</button>
 				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-1">
-				<div class="flex w-full items-center mb-3">
-					<div class="self-start">
-						<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-					</div>
-					<div class="mx-3">
-						<h6 class="font-semibold">에르난</h6>
-					</div>
-					<div class="ms-auto">
-						<button class="btn-primary p-2">선택</button>
-					</div>
-				</div>
-			</div>
-			<div role="tabpanel" id="dj-tabpanel-2" hidden>
+			<div role="tabpanel" id="dj-tabpanel-2">
 				<div class="flex items-center">
 					<input type="search" autocomplete="on" id="dj-search-keyword">
 					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
@@ -126,13 +132,11 @@ export const AddDJDialog = async (milongaEventData) => {
 				<div class="mb-3">
 					<input type="file">
 				</div>
-				<div class="mb-3">
-					<input type="text" placeholder="국적 코드">
+				<div class="mb-3 flex items-center">
+					<input type="text" class="flex-none !w-14" placeholder="국적 코드" maxlength="2">
+					<input type="text" class="flex-1 ms-2" placeholder="이름 또는 닉네임">
 				</div>
-				<div class="mb-3">
-					<input type="text" placeholder="이름 또는 닉네임">
-				</div>
-				<button type="button" class="btn-primary w-full">선택</button>
+				<button type="button" class="btn-primary w-full" @click=${addDJ}>추가</button>
 			</div>
 		</dialog>
 	`

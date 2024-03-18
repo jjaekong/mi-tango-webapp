@@ -60,14 +60,3 @@ export function goBack(e) {
 		location.href="#"
 	}
 }
-
-export function saveSearchedDJ(id) {
-    console.log(id)
-    const djs = localStorage.getItem('searched_djs')
-    const parsed = djs ? JSON.parse(djs) : []
-    const list = Array.isArray(parsed) ? parsed : []
-    if (list.indexOf(id) < 0) {
-        list.unshift(id)
-    }
-    localStorage.setItem('searched_djs', JSON.stringify(list.splice(0, 3)))
-}

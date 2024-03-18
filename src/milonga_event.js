@@ -38,6 +38,32 @@ export const MilongaEvent = async () => {
 
 	console.log('hasPermit: ', hasPermit)
 
+	function renderDJs() {
+		return milongaEventData.djs?.length > 0
+			? html`
+				<ul>
+					${
+						milongaEventData.djs.map(dj => {
+							return html`
+								<li class="mt-3">
+									<a href="#dj/${dj.id}" class="flex w-full items-center">
+										<div class="self-start">
+											<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
+										</div>
+										<div class="mx-3">
+											<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
+										</div>
+										<div class="ms-auto text-slate-400">
+											${ChevronRightIcon({ classList: 'size-5' })}
+										</div>
+									</a>
+								</li>`
+						})
+					}
+				</ul>`
+			: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
+	}
+
 	render(html`
 		<div class="milonga-event relative">
 			<header class="p-5 flex items-center w-full absolute top-0 left-0 z-[10] text-white">
@@ -85,33 +111,9 @@ export const MilongaEvent = async () => {
 							? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>`
 							: nothing }
 					</header>
-					${
-						milongaEventData.djs?.length > 0
-							? html`
-								<ul>
-									${
-										milongaEventData.djs.map(dj => {
-											return html`
-												<li class="mt-3">
-													<a href="#dj/${dj.id}" class="flex w-full items-center">
-														<div class="self-start">
-															<img class="block w-10 h-10 rounded-full" src="https://picsum.photos/100/100">
-														</div>
-														<div class="mx-3">
-															<h6 class="font-bold">[${dj.nationality}] ${dj.name}</h6>
-														</div>
-														<div class="ms-auto text-slate-400">
-															${ChevronRightIcon({ classList: 'size-5' })}
-														</div>
-													</a>
-												</li>`
-										})
-									}
-								</ul>`
-							: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
-					}
+					${ renderDJs() }
 				</section>
-				${ hasPermit ? await AddDJDialog(milongaEventData) : nothing }
+				${ hasPermit ? await AddDJDialog(milongaEventData, renderDJs) : nothing }
 				<section class="card p-5 mb-4" id="place">
 					<header>
 						<h1 class="font-semibold">장소</h1>

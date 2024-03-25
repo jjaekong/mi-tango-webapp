@@ -1,35 +1,18 @@
+import dayjs from "dayjs/esm"
 import { getAuth } from "firebase/auth"
 import { arrayUnion, collection, getDocs, getFirestore, query, setDoc, where, doc, getDoc } from "firebase/firestore"
+import { getDownloadURL, getStorage, ref as getStorageRef, uploadBytes } from "firebase/storage"
 import { html, nothing, render } from "lit-html"
 import { UserCircleOutlineIcon } from "../icons"
+import { resizeImage } from "../util"
 
 export const AddDJDialog = async (milongaEventData, callback) => {
 
-	console.log('milogna event data', milongaEventData)
+	console.log('milogna event data of AddDJDialog', milongaEventData)
 
 	const auth = getAuth()
 	await auth.authStateReady()
 	const currentUser = auth.currentUser
-
-	const latestAddedDJs = (async function() {
-		try {
-			const saved = localStorage.getItem('latest_added_djs')
-			const parsed = JSON.parse(saved)
-			const db = getFirestore()
-			const snap = await getDocs(
-				doc(db, `${process.env.MODE}.djs`, 'aaa'),
-				doc(db, `${process.env.MODE}.djs`, 'bbb'),
-				doc(db, `${process.env.MODE}.djs`, 'ccc')
-			)
-			cconsole.log(snap)
-			// const q = query(collection(db, `${process.env.MODE}.djs`), where(''))
-			return parsed
-		} catch (error) {
-			return []
-		}
-	})()
-
-	console.log('latestAddedDJs', latestAddedDJs)
 
 	function selectDJ(data) {
 		const db = getFirestore()
@@ -50,7 +33,6 @@ export const AddDJDialog = async (milongaEventData, callback) => {
 	}
 
 	function djItem(data) {
-		console.log('djItem data', data)
 		return html`<div class="flex w-full items-center">
 				<div class="self-start">
 					${
@@ -68,7 +50,7 @@ export const AddDJDialog = async (milongaEventData, callback) => {
 			</div>`
 	}
 
-	function selectAddType(e) {
+	function selectTab(e) {
 		document.querySelectorAll('#add-dj-dialog [role=tab][aria-selected=true]').forEach(tab => tab.setAttribute("aria-selected", false))
 		document.querySelectorAll('#add-dj-dialog [role=tabpanel]:not([hidden])').forEach(tabpanel => tabpanel.hidden = true)
 		e.target.setAttribute("aria-selected", true)
@@ -103,8 +85,69 @@ export const AddDJDialog = async (milongaEventData, callback) => {
 		}
 	}
 
-	function addDJ() {
-		console.log('add dj')
+	function uploadPhoto(e) {
+
+        if (e.target.files.length !== 1) return false;
+        const file = e.target.files[0]
+
+        // 이미지인지 확인
+        if (file.type.indexOf('image') !== 0) {
+            alert('이미지가 아닙니다.')
+            return
+        }
+
+        const ext = file.type.split('/').at(-1)
+		
+        resizeImage(file, 300, 300)
+            .then(data => {
+                const storage = getStorage()
+                const storageRef = getStorageRef(storage, `dj/profile/${dayjs().format('YYYYMMDD_HHmmss_SSS')}.${ext}`);
+                uploadBytes(storageRef, data)
+                    .then(() => {
+                        getDownloadURL(storageRef)
+                            .then((url) => {
+								document.querySelector('input[name=photo-url]').setAttribute('value', url)
+								render(html`<img class="block size-full rounded-full" src="${url}">`, document.querySelector('#photo-preview'))
+                            })
+                    })
+            })
+            .catch(error => {
+                console.log(error)
+            })
+            
+    }
+
+	function deletePhoto() {
+		if (!confirm("DJ의 프로필 사진을 삭제하시겠습니까?")) return
+		document.querySelector('input[name=photo-url]').setAttribute('value', "")
+		render(nothing, document.querySelector('#photo-preview'))
+	}
+
+	function addDJ(e) {
+		e.preventDefault()
+		if (!confirm("입력한 정보로 DJ를 추가하시겠습니까?")) return
+
+		const data = {
+			photoURL: document.querySelector('input[name=photo-url]').value,
+			name: document.querySelector('input[name=name]').value,
+			nationality: document.querySelector('input[name=nationality]').value
+		}
+
+		const db = getFirestore()
+		const ref = doc(db, `${process.env.MODE}.milonga_events`, milongaEventData.id)
+		setDoc(ref, {
+			djs: arrayUnion(data),
+			updatedAt: new Date(),
+			updatedBy: currentUser.uid
+		}, { merge: true })
+			.then(() => {
+				alert('DJ가 추가되었습니다.')
+                document.getElementById('add-dj-dialog').close()
+				if (typeof callback === 'function') callback()
+			})
+			.catch(error => {
+				console.log(error)
+			})
 	}
 
 	return html`
@@ -114,29 +157,41 @@ export const AddDJDialog = async (milongaEventData, callback) => {
 				<button class="ms-auto text-slate-500" type="button" @click=${e => { document.getElementById('add-dj-dialog').close() }}>닫기</button>
 			</header>
 			<div role="tablist" class="flex mb-4">
-				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="true" @click=${selectAddType}>
+				<button class="rounded-none rounded-l-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-1" aria-selected="true" @click=${selectTab}>
 					검색/선택
 				</button>
-				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-3" aria-selected="false" @click=${selectAddType}>
+				<button class="rounded-none rounded-r-lg flex-1 p-2 bg-slate-100 text-slate-500 aria-selected:bg-indigo-500 aria-selected:text-white" role="tab" aria-controls="dj-tabpanel-2" aria-selected="false" @click=${selectTab}>
 					직접 입력
 				</button>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-2">
+			<div role="tabpanel" id="dj-tabpanel-1">
 				<div class="flex items-center">
 					<input type="search" autocomplete="on" id="dj-search-keyword">
 					<button type="button" class="btn-secondary !bg-slate-100 flex-none ms-2" @click=${searchDJ}>검색</button>
 				</div>
 				<div class="mt-4" id="dj-search-results"></div>
 			</div>
-			<div role="tabpanel" id="dj-tabpanel-3" hidden>
-				<div class="mb-3">
-					<input type="file">
-				</div>
-				<div class="mb-3 flex items-center">
-					<input type="text" class="flex-none !w-14" placeholder="국적 코드" maxlength="2">
-					<input type="text" class="flex-1 ms-2" placeholder="이름 또는 닉네임">
-				</div>
-				<button type="button" class="btn-primary w-full" @click=${addDJ}>추가</button>
+			<div role="tabpanel" id="dj-tabpanel-2" hidden>
+				<form @submit=${ addDJ }>
+					<div class="mb-3">
+						<div class="rounded-full size-24 empty:bg-slate-200 block mx-auto" id="photo-preview"></div>
+					</div>
+					<div class="mb-3 flex items-center justify-center">
+						<input type="hidden" name="photo-url">
+						<button type="button" class="btn-secondary text-sm !bg-slate-100 !text-red-500" @click=${ deletePhoto }>삭제</button>
+						<label class="m-0 p-0">
+							<span class="block btn-secondary ms-2 text-sm !bg-slate-100">업로드</span>
+							<input type="file" class="sr-only" @input=${ uploadPhoto } accept="image/jpeg, image/gif, image/png, image/jpg">
+						</label>
+					</div>
+					<div class="mb-3">
+						<input name="nationality" type="text" placeholder="국적(코드, 예: KR, CN, AR, ...)" maxlength="2" pattern="[A-Z]{2}" required>
+					</div>
+					<div class="mb-3">
+						<input name="name" type="text" placeholder="이름 또는 닉네임" required>
+					</div>
+					<button type="submit" class="btn-primary w-full">추가</button>
+				</form>
 			</div>
 		</dialog>
 	`

@@ -26915,9 +26915,9 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					</div>
 					<div class="mb-3 flex items-center justify-center">
 						<input type="hidden" name="photo-url">
-						<button type="button" class="btn-secondary text-sm !bg-slate-100 !text-red-500" @click=${ deletePhoto }>삭제</button>
+						<button type="button" class="btn-secondary !bg-slate-100 !text-red-500" @click=${ deletePhoto }>삭제</button>
 						<label class="m-0 p-0">
-							<span class="block btn-secondary ms-2 text-sm !bg-slate-100">업로드</span>
+							<div class="block btn-secondary ms-2 text-base !bg-slate-100">업로드</div>
 							<input type="file" class="sr-only" @input=${ uploadPhoto } accept="image/jpeg, image/gif, image/png, image/jpg">
 						</label>
 					</div>
@@ -26963,6 +26963,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 	console.log('hasPermit: ', hasPermit);
 
 	function renderDJs() {
+		console.log('render djs of milonga event');
 		return milongaEventData.djs?.length > 0
 			? x$1`
 				<ul>

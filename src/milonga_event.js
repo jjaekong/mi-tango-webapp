@@ -39,6 +39,7 @@ export const MilongaEvent = async () => {
 	console.log('hasPermit: ', hasPermit)
 
 	function renderDJs() {
+		console.log('render djs of milonga event')
 		return milongaEventData.djs?.length > 0
 			? html`
 				<ul>

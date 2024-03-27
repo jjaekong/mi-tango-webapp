@@ -26963,8 +26963,8 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 	console.log('hasPermit: ', hasPermit);
 
 	function renderDJs() {
-		console.log('render djs of milonga event');
-		return milongaEventData.djs?.length > 0
+		console.log('render djs');
+		j(milongaEventData.djs?.length > 0
 			? x$1`
 				<ul>
 					${
@@ -26987,6 +26987,7 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 					}
 				</ul>`
 			: x$1`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
+		, document.getElementById('djs'));
 	}
 
 	j(x$1`
@@ -27036,7 +27037,6 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 							? x$1`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal(); }}>DJ 추가</button>`
 							: T$1 }
 					</header>
-					${ renderDJs() }
 				</section>
 				${ hasPermit ? await AddDJDialog(milongaEventData, renderDJs) : T$1 }
 				<section class="card p-5 mb-4" id="place">
@@ -27082,6 +27082,8 @@ const hasPermitToEditMilonga = (milongaData, userEmail = null) => {
 			</div>
 		</div>
 	`, document.getElementById('app'));
+
+	renderDJs();
 };const NotFound = () => {
 	j(x$1`
 		not found

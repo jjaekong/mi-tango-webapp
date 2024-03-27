@@ -39,8 +39,8 @@ export const MilongaEvent = async () => {
 	console.log('hasPermit: ', hasPermit)
 
 	function renderDJs() {
-		console.log('render djs of milonga event')
-		return milongaEventData.djs?.length > 0
+		console.log('render djs')
+		render(milongaEventData.djs?.length > 0
 			? html`
 				<ul>
 					${
@@ -63,6 +63,7 @@ export const MilongaEvent = async () => {
 					}
 				</ul>`
 			: html`<p class="text-slate-500 text-sm mt-3">아직 DJ를 입력하지 않았습니다.</p>`
+		, document.getElementById('djs'))
 	}
 
 	render(html`
@@ -112,7 +113,6 @@ export const MilongaEvent = async () => {
 							? html`<button type="button" class="text-indigo-500 ms-auto font-semibold" @click=${e => { document.getElementById('add-dj-dialog').showModal() }}>DJ 추가</button>`
 							: nothing }
 					</header>
-					${ renderDJs() }
 				</section>
 				${ hasPermit ? await AddDJDialog(milongaEventData, renderDJs) : nothing }
 				<section class="card p-5 mb-4" id="place">
@@ -158,4 +158,6 @@ export const MilongaEvent = async () => {
 			</div>
 		</div>
 	`, document.getElementById('app'))
+
+	renderDJs()
 }
